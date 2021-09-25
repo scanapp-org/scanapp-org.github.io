@@ -79,7 +79,8 @@ docReady(function() {
             experimentalFeatures: {
                 useBarCodeDetectorIfSupported: true
             },
-            rememberLastUsedCamera: true
+            rememberLastUsedCamera: true,
+            aspectRatio: 1.7778
         });
 	html5QrcodeScanner.render(onScanSuccess);
 });
