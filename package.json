@@ -1,0 +1,31 @@
+{
+  "name": "scanapp-org.github.io",
+  "version": "1.0.0",
+  "description": "QR Code and barcode scanner",
+  "main": "index.js",
+  "scripts": {
+    "fork": "cp node_modules/html5-qrcode/html5-qrcode.min.js assets/js/html5-qrcode.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scanapp-org/scanapp-org.github.io.git"
+  },
+  "keywords": [
+    "qrcode",
+    "barcode",
+    "barcode",
+    "1d",
+    "barcode",
+    "2d",
+    "scanner"
+  ],
+  "author": "minhazav@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scanapp-org/scanapp-org.github.io/issues"
+  },
+  "homepage": "https://github.com/scanapp-org/scanapp-org.github.io#readme",
+  "dependencies": {
+    "html5-qrcode": "^2.1.0"
+  }
+}
