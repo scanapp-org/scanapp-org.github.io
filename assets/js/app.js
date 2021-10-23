@@ -2,6 +2,48 @@ let TYPE_TEXT = "TEXT";
 let TYPE_URL = "URL";
 let TYPE_PHONE = "PHONE NUMBER";
 
+//#region banner
+function showBanner(message, isSuccessMessage) {
+    hideBanners();
+    selector = ".banner.success";
+    textId = "banner-success-message";
+    if (isSuccessMessage === false) {
+        selector = ".banner.error";
+        textId = "banner-error-message";
+    }
+
+    document.getElementById(textId).innerText = message;
+    requestAnimationFrame(() => {
+        const banner = document.querySelector(selector);
+        banner.classList.add("visible");
+    });
+};
+  
+function hideBanners(e) {
+    document
+        .querySelectorAll(".banner.visible")
+        .forEach((b) => b.classList.remove("visible"));
+};
+
+function shareResult(decodedText, decodedResultType) {
+    const shareData = {
+        title: "Scan result from Scanapp.org",
+        text: decodedText,
+    };
+
+    if (decodedResultType == TYPE_URL) {
+        shareData.url = "https://developer.mozilla.org";
+
+    }
+
+    navigator.share(shareData).then(function() {
+        showBanner("Shared successfully");
+    }).catch(function(error) {
+        showBanner("Sharing failed", false);
+    });
+}
+//#endregion
+
 //#region type detection
 function isUrl(decodedText) {
    let expression1 = /^((javascript:[\w-_]+(\([\w-_\s,.]*\))?)|(mailto:([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+@([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)|(\w+:\/\/(([\w\u00C0-\u1FFF\u2C00-\uD7FF-]+\.)*([\w\u00C0-\u1FFF\u2C00-\uD7FF-]*\.?))(:\d+)?(((\/[^\s#$%^&*?]+)+|\/)(\?[\w\u00C0-\u1FFF\u2C00-\uD7FF:;&%_,.~+=-]+)?)?(#[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)?))$/g;
@@ -40,7 +82,12 @@ function detectType(decodedText) {
 
 //#region Actions
 function copyToClipboard(decodedText) {
-    navigator.clipboard.writeText(decodedText);
+    navigator.clipboard.writeText(decodedText)
+        .then(function() {
+            showBanner("Text copied");
+        }).catch(function(error) {
+            showBanner("Failed to copy", false);
+        });
 }
 //#endregion
 
@@ -59,11 +106,26 @@ let QrResult = function(onCloseCallback) {
 
     /** ---- listeners ---- */
     scanResultClose.addEventListener("click", function() {
+        hideBanners();
         container.style.display = "none";
         if (onCloseCallback) {
             onCloseCallback();
         }
     });
+
+    actionCopyImage.addEventListener("click", function() {
+        copyToClipboard(scanResultText.innerText);
+    });
+
+    if (navigator.share) {
+        actionShareImage.addEventListener("click", function() {
+            shareResult(
+                scanResultText.innerText, scanResultCodeType.innerText);
+        });
+    } else {
+        actionShareImage.style.display = "none";
+    }
+
 
     function toFriendlyCodeType(codeType) {
         return codeType;
@@ -87,7 +149,6 @@ let QrResult = function(onCloseCallback) {
     }
 
     this.__onScanSuccess = function(decodedText, decodedResult) {
-        console.log(decodedText, decodedResult);
         scanResultCodeType.innerText
             = toFriendlyCodeType(decodedResult.result.format.formatName);
         scanResultText.innerText = decodedText;
@@ -132,7 +193,7 @@ docReady(function() {
 
     let qrResultHandler = new QrResult(function() {
         if (html5QrcodeScanner.getState() 
-            !== Html5QrcodeScannerState.PAUSED) {
+            === Html5QrcodeScannerState.PAUSED) {
             html5QrcodeScanner.resume();
         }
     });

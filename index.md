@@ -71,5 +71,23 @@ title: ScanApp - QR Code scanner for web
     </div>
 </div>
 
+
+<div class="banners-container">
+  <div class="banners">
+    <div class="banner error">
+      <div class="banner-icon"><i data-eva="alert-circle-outline" data-eva-fill="#ffffff" data-eva-height="48" data-eva-width="48"></i></div>
+      <div class="banner-message" id="banner-error-message">{}</div>
+      <div class="banner-close" onclick="hideBanners()"><i data-eva="close-outline" data-eva-fill="#ffffff"></i></div>
+    </div>
+    <div class="banner success">
+      <div class="banner-icon"><i data-eva="checkmark-circle-outline" data-eva-fill="#ffffff" data-eva-height="48" data-eva-width="48"></i></div>
+      <div class="banner-message" id="banner-success-message">{}</div>
+      <div class="banner-close" onclick="hideBanners()"><i data-eva="close-outline" data-eva-fill="#ffffff"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
 <script src="/assets/js/html5-qrcode.min.js"></script>
 <script src="/assets/js/app.js"></script>
