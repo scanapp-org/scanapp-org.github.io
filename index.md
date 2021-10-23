@@ -22,21 +22,15 @@ title: ScanApp - QR Code scanner for web
                 <div class="data">
                     <table id="result_table">
                         <tr>
-                            <td>Text</td>
-                            <td>
-                                <div id="scan-result-text">{text result here}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Parsed</td>
-                            <td>
+                            <!-- <td>Parsed</td> -->
+                            <td colspan="2">
                                 <div>
                                     <div class="badge">
                                         <div class="badge-icon">
                                             <span><b>Type</b></span>
                                         </div>
                                         <div class="badge-text">
-                                            <span id="scan-result-badge-body">Phone number</span>
+                                            <span id="scan-result-badge-body">{type}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -50,6 +44,12 @@ title: ScanApp - QR Code scanner for web
                                     src="./assets/svg/share-svgrepo-com.svg">
                                 <img class="action_image" id="action-copy" 
                                     src="./assets/svg/copy-svgrepo-com.svg">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Text</td>
+                            <td>
+                                <div id="scan-result-text">{text result here}</div>
                             </td>
                         </tr>
                     </table>

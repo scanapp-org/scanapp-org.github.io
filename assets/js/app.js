@@ -1,5 +1,51 @@
+let TYPE_TEXT = "TEXT";
+let TYPE_URL = "URL";
+let TYPE_PHONE = "PHONE NUMBER";
+
+//#region type detection
+function isUrl(decodedText) {
+   let expression1 = /^((javascript:[\w-_]+(\([\w-_\s,.]*\))?)|(mailto:([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+@([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)|(\w+:\/\/(([\w\u00C0-\u1FFF\u2C00-\uD7FF-]+\.)*([\w\u00C0-\u1FFF\u2C00-\uD7FF-]*\.?))(:\d+)?(((\/[^\s#$%^&*?]+)+|\/)(\?[\w\u00C0-\u1FFF\u2C00-\uD7FF:;&%_,.~+=-]+)?)?(#[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)?))$/g;
+   let regexExp1 = new RegExp(expression1);
+   if (decodedText.match(regexExp1)) {
+       return true;
+   }
+
+   let expression2 = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+   let regexExp2 = new RegExp(expression2);
+
+   if (decodedText.match(regexExp2)) {
+       return true;
+   }
+   return false;
+}
+
+function isPhoneNumber(decodedText) {
+    let expression = /tel:[+]*[0-9]{3,}/g;
+    let regexExp = new RegExp(expression);
+    return decodedText.match(regexExp);
+}
+
+function detectType(decodedText) {
+    if (isUrl(decodedText)) {
+        return TYPE_URL;
+    }
+
+    if (isPhoneNumber(decodedText)) {
+        return TYPE_PHONE;
+    }
+
+    return TYPE_TEXT;
+}
+//#endregion
+
+//#region Actions
+function copyToClipboard(decodedText) {
+    navigator.clipboard.writeText(decodedText);
+}
+//#endregion
+
 /** UI for the scan app results */
-let QrResult = function() {
+let QrResult = function(onCloseCallback) {
     let container = document.getElementById("new-scanned-result");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
     let scanResultImage = document.getElementById("scan-result-image");
@@ -14,14 +60,30 @@ let QrResult = function() {
     /** ---- listeners ---- */
     scanResultClose.addEventListener("click", function() {
         container.style.display = "none";
+        if (onCloseCallback) {
+            onCloseCallback();
+        }
     });
 
     function toFriendlyCodeType(codeType) {
         return codeType;
     }
 
-    function determineType(decodedText) {
-        return "URL";
+    function createParsedResult(decodedText, type) {
+        let elem = document.createElement("div");
+        if (type == TYPE_URL || type == TYPE_PHONE) {
+            let link = document.createElement("a");
+            link.href = decodedText;
+            if (type == TYPE_PHONE) {
+                decodedText = decodedText.toLowerCase().replace("tel:", "");
+            }
+            link.innerText = decodedText;
+            elem.appendChild(link);
+            return elem;
+        }
+
+        elem.innerText = decodedText;
+        return elem;
     }
 
     this.__onScanSuccess = function(decodedText, decodedResult) {
@@ -29,7 +91,10 @@ let QrResult = function() {
         scanResultCodeType.innerText
             = toFriendlyCodeType(decodedResult.result.format.formatName);
         scanResultText.innerText = decodedText;
-        scanResultBadgeBody.innerText = determineType(decodedText);
+        let codeType = detectType(decodedText);
+        scanResultBadgeBody.innerText = codeType;
+        scanResultParsed.replaceChildren();
+        scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
         container.style.display = "block";
     }
 }
@@ -50,12 +115,6 @@ function docReady(fn) {
 }
 
 docReady(function() {
-    let qrResultHandler = new QrResult();
-
-	function onScanSuccess(decodedText, decodedResult) {
-        qrResultHandler.onScanSuccess(decodedText, decodedResult);
-	}
-
 	let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", 
         { 
@@ -70,5 +129,20 @@ docReady(function() {
             rememberLastUsedCamera: true,
             aspectRatio: 1.7777778
         });
+
+    let qrResultHandler = new QrResult(function() {
+        if (html5QrcodeScanner.getState() 
+            !== Html5QrcodeScannerState.PAUSED) {
+            html5QrcodeScanner.resume();
+        }
+    });
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (html5QrcodeScanner.getState() 
+            !== Html5QrcodeScannerState.NOT_STARTED) {
+            html5QrcodeScanner.pause();
+        }
+        qrResultHandler.onScanSuccess(decodedText, decodedResult);
+    }
 	html5QrcodeScanner.render(onScanSuccess);
 });
