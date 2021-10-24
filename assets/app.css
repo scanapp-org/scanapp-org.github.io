@@ -18,9 +18,9 @@ body {
     text-align: center;
     overflow-x: hidden;
     overflow-y: scroll;
-    border: 1px solid #dadada;
     padding: 0px;
 }
+
 
 #logo {
     text-align: center;
@@ -32,6 +32,13 @@ body {
     background: #ffffff66;
     border-radius: 5px;
     padding: 0px 5px 0px 5px;
+}
+
+#scanapp-top-container {
+    min-height:100vh;
+    display:flex;
+    flex-direction:column; 
+    justify-content:space-between;
 }
 
 @media(max-width: 600px) {
@@ -140,10 +147,14 @@ div#new-scanned-result .image {
     margin-bottom: 15px;
 }
 
-div#new-scanned-result .footer {
+#footer {
     margin-top: 100px;
     border-top: 1px solid silver;
-    padding-top: 10px
+    font-size: 9pt;
+    font-weight: 400;
+    background: #8080804a;
+    padding: 50px;
+    text-align: center;
 }
 
 div#scan-result-parsed {
@@ -171,13 +182,6 @@ table#result_table {
 
 .action_image:hover {
     background: #c0c0c06e;
-}
-
-.footer {
-    font-size: 9pt;
-    font-weight: 400;
-    background: #8080804a;
-    padding: 50px;
 }
 
 #body-footer {
