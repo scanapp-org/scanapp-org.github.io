@@ -32,14 +32,13 @@ function shareResult(decodedText, decodedResultType) {
     };
 
     if (decodedResultType == TYPE_URL) {
-        shareData.url = "https://developer.mozilla.org";
-
+        shareData.url = decodedText;
     }
 
     navigator.share(shareData).then(function() {
         showBanner("Shared successfully");
     }).catch(function(error) {
-        showBanner("Sharing failed", false);
+        showBanner("Sharing cancelled or failed", false);
     });
 }
 //#endregion
@@ -103,6 +102,15 @@ let QrResult = function(onCloseCallback) {
     let actionShareImage = document.getElementById("action-share");
     let actionCopyImage = document.getElementById("action-copy");
     let scanResultClose = document.getElementById("scan-result-close");
+    let noResultContainer = document.getElementById("no-result-container");
+
+    // TODO(mebjas): fix -- scanResultImage --
+    scanResultImage.style.display = "none";
+
+    let lastScan = {
+        text: null,
+        type: null,
+    };
 
     /** ---- listeners ---- */
     scanResultClose.addEventListener("click", function() {
@@ -111,6 +119,8 @@ let QrResult = function(onCloseCallback) {
         if (onCloseCallback) {
             onCloseCallback();
         }
+
+        noResultContainer.classList.appendChild("hidden");
     });
 
     actionCopyImage.addEventListener("click", function() {
@@ -119,8 +129,7 @@ let QrResult = function(onCloseCallback) {
 
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
-            shareResult(
-                scanResultText.innerText, scanResultCodeType.innerText);
+            shareResult(lastScan.text, lastScan.type);
         });
     } else {
         actionShareImage.style.display = "none";
@@ -149,10 +158,16 @@ let QrResult = function(onCloseCallback) {
     }
 
     this.__onScanSuccess = function(decodedText, decodedResult) {
+        noResultContainer.classList.remove("hidden");
+
         scanResultCodeType.innerText
             = toFriendlyCodeType(decodedResult.result.format.formatName);
         scanResultText.innerText = decodedText;
         let codeType = detectType(decodedText);
+
+        lastScan.text = decodedText;
+        lastScan.type = codeType;
+
         scanResultBadgeBody.innerText = codeType;
         scanResultParsed.replaceChildren();
         scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
@@ -176,6 +191,7 @@ function docReady(fn) {
 }
 
 docReady(function() {
+    location.href = "#reader";
 	let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", 
         { 

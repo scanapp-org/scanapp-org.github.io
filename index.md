@@ -13,6 +13,10 @@ title: ScanApp - QR Code scanner for web
         <div id="reader"></div>
     </div>
     <div id="workspace">
+        <div id="worspace-header">
+            Scanned result & history
+        </div>
+        <div id="no-result-container hidden">Scan to get results</div>
         <div id="new-scanned-result">
             <div class="header">
                 New <span id="scan-result-code-type">{code}</span> detected!
