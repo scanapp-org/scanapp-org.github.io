@@ -117,6 +117,7 @@ let QrResult = function(onCloseCallback) {
         hideBanners();
         container.style.display = "none";
         if (onCloseCallback) {
+            ga('send', 'event', 'ScanRestart', '', scanResultClose);
             onCloseCallback();
         }
 
@@ -219,7 +220,16 @@ docReady(function() {
             !== Html5QrcodeScannerState.NOT_STARTED) {
             html5QrcodeScanner.pause();
         }
+
+        let scanType = "camera";
+        if (html5QrcodeScanner.getState() 
+            === Html5QrcodeScannerState.NOT_STARTED) {
+            scanType = "file";
+        }
         qrResultHandler.onScanSuccess(decodedText, decodedResult);
+        ga('send', 'event', 'ScanSuccess', scanType);
     }
 	html5QrcodeScanner.render(onScanSuccess);
+
+    ga('send', 'event', 'ScanStart', '');
 });
