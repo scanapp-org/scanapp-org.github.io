@@ -120,7 +120,7 @@ let QrResult = function(onCloseCallback) {
             onCloseCallback();
         }
 
-        noResultContainer.classList.appendChild("hidden");
+        noResultContainer.classList.remove("hidden");
     });
 
     actionCopyImage.addEventListener("click", function() {
@@ -158,7 +158,7 @@ let QrResult = function(onCloseCallback) {
     }
 
     this.__onScanSuccess = function(decodedText, decodedResult) {
-        noResultContainer.classList.remove("hidden");
+        noResultContainer.classList.add("hidden");
 
         scanResultCodeType.innerText
             = toFriendlyCodeType(decodedResult.result.format.formatName);

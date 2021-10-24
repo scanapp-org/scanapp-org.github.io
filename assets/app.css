@@ -77,8 +77,10 @@ body {
     }
     #workspace {
         flex: 1;
-        border-left: 1px solid silver;
-        border-bottom: 1px solid silver;
+        border: 1px solid silver;
+        /* border-bottom: 1px solid silver; */
+        margin: 20px;
+        margin-top: 60px;
     }
 
     #reader {
@@ -101,7 +103,12 @@ body {
 
     div#no-result-container {
         text-align: center;
-        padding: 100px 0px 100px 0px;
+        font-size: 14pt;
+        padding: 50px 0px 50px 0px;
+    }
+
+    div#no-result-container.hidden {
+        display: none;
     }
 }
 
