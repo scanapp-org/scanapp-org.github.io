@@ -88,14 +88,6 @@ function createUpiTypeUi(parentElem, decodedText) {
     addKeyValuePairUi(
         parentElem, "Payee address", decodeURIComponent(result[2]));
     addKeyValuePairUi(parentElem, "Payee Name", decodeURIComponent(result[3]));
-
-    var br = document.createElement("br");
-    parentElem.appendChild(br);
-    var link = document.createElement("a");
-    link.href = decodeURIComponent(decodedText);
-    link.innerText = "Click to launch payment url";
-
-    parentElem.appendChild(link);
 }
 //#endregion
 
@@ -177,6 +169,7 @@ let QrResult = function(onCloseCallback) {
 
     let actionShareImage = document.getElementById("action-share");
     let actionCopyImage = document.getElementById("action-copy");
+    let actionPaymentImage = document.getElementById("action-payment");
     let scanResultClose = document.getElementById("scan-result-close");
     let noResultContainer = document.getElementById("no-result-container");
 
@@ -201,11 +194,21 @@ let QrResult = function(onCloseCallback) {
     });
 
     actionCopyImage.addEventListener("click", function() {
+        hideBanners();
         copyToClipboard(scanResultText.innerText);
+    });
+
+    actionPaymentImage.addEventListener("click", function(event) {
+        hideBanners();
+        var upiLink = decodeURIComponent(lastScan.text);
+        location.href = upiLink;
+
+        showBanner("Payment action only works if UPI payment apps are installed.")
     });
 
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
+            hideBanners();
             shareResult(lastScan.text, lastScan.type);
         });
     } else {
@@ -218,6 +221,13 @@ let QrResult = function(onCloseCallback) {
 
     function createParsedResult(decodedText, type) {
         let parentElem = document.createElement("div");
+        // Action image changes
+        if (type == TYPE_UPI) {
+            actionPaymentImage.style.display = "inline-block";
+        } else {
+            actionPaymentImage.style.display = "none";
+        }
+
         if (type == TYPE_URL || type == TYPE_PHONE) {
             createLinkTyeUi(parentElem, decodedText, type);
             return parentElem;

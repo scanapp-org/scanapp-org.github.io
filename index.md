@@ -49,6 +49,8 @@ title: ScanApp - QR Code scanner for web
                                         src="./assets/svg/share-svgrepo-com.svg">
                                     <img class="action_image" id="action-copy" 
                                         src="./assets/svg/copy-svgrepo-com.svg">
+                                    <img class="action_image" id="action-payment" 
+                                        src="./assets/svg/coin-svgrepo-com.svg" style="display: none">
                                 </td>
                             </tr>
                             <tr>
