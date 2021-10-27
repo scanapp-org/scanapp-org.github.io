@@ -46,7 +46,7 @@ function shareResult(decodedText, decodedResultType) {
 //#endregion
 
 //#region TYPE UI
-function createLinkTyeUi(parentElem, decodedText) {
+function createLinkTyeUi(parentElem, decodedText, type) {
     var link = document.createElement("a");
     link.href = decodedText;
     if (type == TYPE_PHONE) {
@@ -219,7 +219,7 @@ let QrResult = function(onCloseCallback) {
     function createParsedResult(decodedText, type) {
         let parentElem = document.createElement("div");
         if (type == TYPE_URL || type == TYPE_PHONE) {
-            createLinkTyeUi(parentElem, decodedText);
+            createLinkTyeUi(parentElem, decodedText, type);
             return parentElem;
         }
 

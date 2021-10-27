@@ -53,7 +53,7 @@ title: ScanApp - QR Code scanner for web
                             </tr>
                             <tr>
                                 <td>Text</td>
-                                <td>
+                                <td style="word-break: break-word">
                                     <div id="scan-result-text">{text result here}</div>
                                 </td>
                             </tr>
