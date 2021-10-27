@@ -81,13 +81,22 @@ function createWifiTyeUi(parentElem, decodedText) {
 }
 
 function createUpiTypeUi(parentElem, decodedText) {
-    var expression = /upi:\/\/pay\?cu=(.*)&pa=(.*)&pn=(.*)/g;
-    var regexExp = new RegExp(expression);
-    var result = regexExp.exec(decodedText);
-    addKeyValuePairUi(parentElem, "Currency", result[1]);
+    // var expression = /upi:\/\/pay\?cu=(.*)&pa=(.*)&pn=(.*)/g;
+    // var regexExp = new RegExp(expression);
+    // var result = regexExp.exec(decodedText);
+    var upiUri = new URL(decodedText);
+    var searchParams = upiUri.searchParams;
+    var cu = searchParams.get("cu");
+    if (cu && cu != null) {
+        addKeyValuePairUi(parentElem, "Currency", cu);
+    }
     addKeyValuePairUi(
-        parentElem, "Payee address", decodeURIComponent(result[2]));
-    addKeyValuePairUi(parentElem, "Payee Name", decodeURIComponent(result[3]));
+        parentElem, "Payee address", searchParams.get("pa"));
+
+    var pn = searchParams.get("pn");
+    if (pn && pn != null) {
+        addKeyValuePairUi(parentElem, "Payee Name", pn);
+    }
 }
 //#endregion
 
@@ -121,9 +130,11 @@ function isWifi(decodedText) {
 }
 
 function isUpi(decodedText) {
-    var expression = /upi:\/\/pay\?cu=(.*)&pa=(.*)&pn=(.*)/g;
-    var regexExp = new RegExp(expression);
-    return decodedText.match(regexExp);  
+    var upiUri = new URL(decodedText);
+    if (!upiUri || upiUri == null) {
+        return false;
+    }
+    return upiUri.protocol === "upi:";
 }
 
 function detectType(decodedText) {
