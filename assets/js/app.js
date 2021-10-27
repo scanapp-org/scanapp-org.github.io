@@ -1,6 +1,8 @@
 let TYPE_TEXT = "TEXT";
 let TYPE_URL = "URL";
 let TYPE_PHONE = "PHONE NUMBER";
+let TYPE_WIFI = "WIFI";
+let TYPE_UPI = "UPI";
 
 //#region banner
 function showBanner(message, isSuccessMessage) {
@@ -43,27 +45,93 @@ function shareResult(decodedText, decodedResultType) {
 }
 //#endregion
 
+//#region TYPE UI
+function createLinkTyeUi(parentElem, decodedText) {
+    var link = document.createElement("a");
+    link.href = decodedText;
+    if (type == TYPE_PHONE) {
+        decodedText = decodedText.toLowerCase().replace("tel:", "");
+    }
+    link.innerText = decodedText;
+    parentElem.appendChild(link);
+}
+
+function addKeyValuePairUi(parentElem, key, value) {
+    var elem = document.createElement("div");
+    var keySpan = document.createElement("span");
+    keySpan.style.fontWeight = "bold";
+    keySpan.style.marginRight = "10px";
+    keySpan.innerText = key;
+    elem.appendChild(keySpan);
+
+    var valueSpan = document.createElement("span");
+    valueSpan.innerText = value;
+    elem.appendChild(valueSpan);
+
+    parentElem.appendChild(elem);
+}
+
+function createWifiTyeUi(parentElem, decodedText) {
+    var expression = /WIFI:S:(.*);T:(.*);P:(.*);H:(.*);;/g;
+    var regexExp = new RegExp(expression);
+    var result = regexExp.exec(decodedText);
+    addKeyValuePairUi(parentElem, "SSID", result[1]);
+    addKeyValuePairUi(parentElem, "Type", result[2]);
+    addKeyValuePairUi(parentElem, "Password", result[3]);
+}
+
+function createUpiTypeUi(parentElem, decodedText) {
+    var expression = /upi:\/\/pay\?cu=(.*)&pa=(.*)&pn=(.*)/g;
+    var regexExp = new RegExp(expression);
+    var result = regexExp.exec(decodedText);
+    addKeyValuePairUi(parentElem, "Currency", result[1]);
+    addKeyValuePairUi(
+        parentElem, "Payee address", decodeURIComponent(result[2]));
+    addKeyValuePairUi(parentElem, "Payee Name", decodeURIComponent(result[3]));
+
+    var br = document.createElement("br");
+    parentElem.appendChild(br);
+    var link = document.createElement("a");
+    link.href = decodeURIComponent(decodedText);
+    link.innerText = "Click to launch payment url";
+
+    parentElem.appendChild(link);
+}
+//#endregion
+
 //#region type detection
 function isUrl(decodedText) {
-   let expression1 = /^((javascript:[\w-_]+(\([\w-_\s,.]*\))?)|(mailto:([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+@([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)|(\w+:\/\/(([\w\u00C0-\u1FFF\u2C00-\uD7FF-]+\.)*([\w\u00C0-\u1FFF\u2C00-\uD7FF-]*\.?))(:\d+)?(((\/[^\s#$%^&*?]+)+|\/)(\?[\w\u00C0-\u1FFF\u2C00-\uD7FF:;&%_,.~+=-]+)?)?(#[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)?))$/g;
-   let regexExp1 = new RegExp(expression1);
-   if (decodedText.match(regexExp1)) {
+    var expression1 = /^((javascript:[\w-_]+(\([\w-_\s,.]*\))?)|(mailto:([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+@([\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+\.)*[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)|(\w+:\/\/(([\w\u00C0-\u1FFF\u2C00-\uD7FF-]+\.)*([\w\u00C0-\u1FFF\u2C00-\uD7FF-]*\.?))(:\d+)?(((\/[^\s#$%^&*?]+)+|\/)(\?[\w\u00C0-\u1FFF\u2C00-\uD7FF:;&%_,.~+=-]+)?)?(#[\w\u00C0-\u1FFF\u2C00-\uD7FF-_]+)?))$/g;
+    var regexExp1 = new RegExp(expression1);
+    if (decodedText.match(regexExp1)) {
        return true;
-   }
+    }
 
-   let expression2 = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-   let regexExp2 = new RegExp(expression2);
+    var expression2 = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    var regexExp2 = new RegExp(expression2);
 
-   if (decodedText.match(regexExp2)) {
+    if (decodedText.match(regexExp2)) {
        return true;
-   }
-   return false;
+    }
+    return false;
 }
 
 function isPhoneNumber(decodedText) {
-    let expression = /tel:[+]*[0-9]{3,}/g;
-    let regexExp = new RegExp(expression);
+    var expression = /tel:[+]*[0-9]{3,}/g;
+    var regexExp = new RegExp(expression);
     return decodedText.match(regexExp);
+}
+
+function isWifi(decodedText) {
+    var expression = /WIFI:S:(.*);T:(.*);P:(.*);H:(.*);;/g;
+    var regexExp = new RegExp(expression);
+    return decodedText.match(regexExp);  
+}
+
+function isUpi(decodedText) {
+    var expression = /upi:\/\/pay\?cu=(.*)&pa=(.*)&pn=(.*)/g;
+    var regexExp = new RegExp(expression);
+    return decodedText.match(regexExp);  
 }
 
 function detectType(decodedText) {
@@ -73,6 +141,14 @@ function detectType(decodedText) {
 
     if (isPhoneNumber(decodedText)) {
         return TYPE_PHONE;
+    }
+
+    if (isWifi(decodedText)) {
+        return TYPE_WIFI;
+    }
+
+    if (isUpi(decodedText)) {
+        return TYPE_UPI;
     }
 
     return TYPE_TEXT;
@@ -136,26 +212,29 @@ let QrResult = function(onCloseCallback) {
         actionShareImage.style.display = "none";
     }
 
-
     function toFriendlyCodeType(codeType) {
         return codeType;
     }
 
     function createParsedResult(decodedText, type) {
-        let elem = document.createElement("div");
+        let parentElem = document.createElement("div");
         if (type == TYPE_URL || type == TYPE_PHONE) {
-            let link = document.createElement("a");
-            link.href = decodedText;
-            if (type == TYPE_PHONE) {
-                decodedText = decodedText.toLowerCase().replace("tel:", "");
-            }
-            link.innerText = decodedText;
-            elem.appendChild(link);
-            return elem;
+            createLinkTyeUi(parentElem, decodedText);
+            return parentElem;
         }
 
-        elem.innerText = decodedText;
-        return elem;
+        if (type == TYPE_WIFI) {
+            createWifiTyeUi(parentElem, decodedText);
+            return parentElem;
+        }
+
+        if (type == TYPE_UPI) {
+            createUpiTypeUi(parentElem, decodedText);
+            return parentElem;
+        }
+
+        parentElem.innerText = decodedText;
+        return parentElem;
     }
 
     this.__onScanSuccess = function(decodedText, decodedResult) {
