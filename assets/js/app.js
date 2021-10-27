@@ -130,11 +130,15 @@ function isWifi(decodedText) {
 }
 
 function isUpi(decodedText) {
-    var upiUri = new URL(decodedText);
-    if (!upiUri || upiUri == null) {
+    try {
+        var upiUri = new URL(decodedText);
+        if (!upiUri || upiUri == null) {
+            return false;
+        }
+        return upiUri.protocol === "upi:";
+    } catch (err) {
         return false;
     }
-    return upiUri.protocol === "upi:";
 }
 
 function detectType(decodedText) {
@@ -316,6 +320,7 @@ docReady(function() {
     });
 
     function onScanSuccess(decodedText, decodedResult) {
+        console.log(decodedText, decodedResult);
         if (html5QrcodeScanner.getState() 
             !== Html5QrcodeScannerState.NOT_STARTED) {
             html5QrcodeScanner.pause();
