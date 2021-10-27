@@ -327,9 +327,9 @@ docReady(function() {
             scanType = "file";
         }
         qrResultHandler.onScanSuccess(decodedText, decodedResult);
-        ga('send', 'event', 'ScanSuccess', scanType);
+        ga('send', 'event', 'Scan', 'Success', scanType);
     }
 	html5QrcodeScanner.render(onScanSuccess);
 
-    ga('send', 'event', 'ScanStart', '');
+    ga('send', 'event', 'Scan', 'Start');
 });
