@@ -332,9 +332,19 @@ docReady(function() {
             scanType = "file";
         }
         qrResultHandler.onScanSuccess(decodedText, decodedResult);
-        ga('send', 'event', 'Scan', 'Success', scanType);
+        // ga('send', 'event', 'Scan', 'Success', scanType);
+        gtag('event', 'Scan', {
+            'event_category': 'Success',
+            'event_label': 'scanType',
+            'value': scanType
+          });
     }
 	html5QrcodeScanner.render(onScanSuccess);
 
-    ga('send', 'event', 'Scan', 'Start');
+    // ga('send', 'event', 'Scan', 'Start');
+    gtag('event', 'Scan', {
+        'event_category': 'Start',
+        'event_label': 'NA',
+        // 'value': scanType
+      });
 });
