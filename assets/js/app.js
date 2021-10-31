@@ -201,7 +201,12 @@ let QrResult = function(onCloseCallback) {
         hideBanners();
         container.style.display = "none";
         if (onCloseCallback) {
-            ga('send', 'event', 'ScanRestart', '', scanResultClose);
+            // ga('send', 'event', 'ScanRestart', '', scanResultClose);
+            gtag('event', 'Scan', {
+                'event_category': 'Restart',
+                // 'event_label': 'NA',
+                // 'value': scanType
+              });
             onCloseCallback();
         }
 
