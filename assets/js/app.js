@@ -201,11 +201,9 @@ let QrResult = function(onCloseCallback) {
         hideBanners();
         container.style.display = "none";
         if (onCloseCallback) {
-            // ga('send', 'event', 'ScanRestart', '', scanResultClose);
             gtag('event', 'Scan', {
                 'event_category': 'Restart',
-                // 'event_label': 'NA',
-                // 'value': scanType
+                'event_label': 'NA',
               });
             onCloseCallback();
         }
@@ -337,7 +335,6 @@ docReady(function() {
             scanType = "file";
         }
         qrResultHandler.onScanSuccess(decodedText, decodedResult);
-        // ga('send', 'event', 'Scan', 'Success', scanType);
         gtag('event', 'Scan', {
             'event_category': 'Success',
             'event_label': 'scanType',
@@ -346,10 +343,8 @@ docReady(function() {
     }
 	html5QrcodeScanner.render(onScanSuccess);
 
-    // ga('send', 'event', 'Scan', 'Start');
     gtag('event', 'Scan', {
         'event_category': 'Start',
         'event_label': 'NA',
-        // 'value': scanType
       });
 });
