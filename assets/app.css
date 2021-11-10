@@ -65,7 +65,7 @@ body {
         border: 1px solid black;
     }
 
-    div#worspace-header {
+    div.workspace-header {
         display: none;
     }
 
@@ -101,7 +101,7 @@ body {
         /* height: 100%; */
     }
 
-    div#worspace-header {
+    div.workspace-header {
         text-align: center;
         font-size: 20pt;
         font-weight: bold;
@@ -113,10 +113,10 @@ body {
         font-size: 14pt;
         padding: 50px 0px 50px 0px;
     }
+}
 
-    div#no-result-container.hidden {
-        display: none;
-    }
+#history {
+    display: none;
 }
 
 div#no-result-container.hidden {
@@ -203,9 +203,6 @@ table#result_table {
   --lock-width: 20px;
   --lock-stroke: 2.5px;
   
-}
-::selection{
-  background:
 }
 
 .badge-icon, 

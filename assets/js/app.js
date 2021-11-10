@@ -4,6 +4,50 @@ let TYPE_PHONE = "PHONE NUMBER";
 let TYPE_WIFI = "WIFI";
 let TYPE_UPI = "UPI";
 
+//#region Gtag event handler
+let Logger = {
+    logScanStart: function()  {
+        gtag('event', 'ScanStart', {
+            'event_category': 'Start',
+            'event_label': 'NA',
+        });
+    },
+
+    logScanSuccess: function(scanType, codeType) {
+        gtag('event', 'ScanSuccess', {
+            'event_category': 'codeType',
+            'event_label': 'NA',
+        });
+
+        var scanTypeEvent = `ScanSuccess_${scanType}`;
+        gtag('event', scanTypeEvent, {
+            'event_category': 'codeType',
+            'event_label': 'NA',
+        });
+    },
+
+    logScanRestart: function() {
+        gtag('event', 'Scan', {
+            'event_category': 'Restart',
+            'event_label': 'NA',
+        });
+    },
+
+    logActionCopy: function() {
+        gtag('event', 'Action-Copy', {});
+    },
+
+    logActionShare: function() {
+        gtag('event', 'Action-Share', {});
+        gtag('event', 'share', {});
+    },
+
+    logPaymentAction: function() {
+        gtag('event', 'Action-Payment', {});
+    }
+};
+//#endregion
+
 //#region banner
 function showBanner(message, isSuccessMessage) {
     hideBanners();
@@ -173,6 +217,58 @@ function copyToClipboard(decodedText) {
 }
 //#endregion
 
+//#region history
+let HistoryItem = function(
+    decodedText, decodedResult, scanType, codeType, dateTime) {
+    this._decodedText = decodedText;
+    this._decodedResult = decodedResult;
+    this._scanType = scanType;
+    this._codeType = codeType;
+    this._dateTime = dateTime;
+} 
+HistoryItem.prototype.decodedText = function() {
+    return this._decodedText;
+}
+HistoryItem.prototype.decodedResult = function() {
+    return this._decodedResult;
+}
+HistoryItem.prototype.scanType = function() {
+    return this._scanType;
+}
+HistoryItem.prototype.codeType = function() {
+    return this._codeType;
+}
+HistoryItem.prototype.dateTime = function() {
+    return this._dateTime;
+}
+HistoryItem.prototype.render = function(rootElement) {
+    // todo: render this to root elelemt.
+}
+
+let HistoryManager = function() {
+    // Load history from disk
+    this._historyList = [];
+
+    this.flushToDisk = function() {
+        // Save the serialized this._historyList to disk.
+        console.log("todo: saving history to disk")
+    }
+}
+HistoryManager.prototype.add = function(historyItem) {
+    this._historyList.push(historyItem);
+    this.flushToDisk();
+    this.render();
+}
+HistoryManager.prototype.render = function(rootElement) {
+    rootElement.innerHtml = "";
+    // render reverse.
+    for (var i = this._historyList.length - 1; i >= 0; i--) {
+        var historyItem = this._historyList[i];
+        historyItem.render(rootElement);
+    }
+}
+//#endregion
+
 /** UI for the scan app results */
 let QrResult = function(onCloseCallback) {
     let container = document.getElementById("new-scanned-result");
@@ -201,10 +297,7 @@ let QrResult = function(onCloseCallback) {
         hideBanners();
         container.style.display = "none";
         if (onCloseCallback) {
-            gtag('event', 'Scan', {
-                'event_category': 'Restart',
-                'event_label': 'NA',
-              });
+            Logger.logScanRestart();
             onCloseCallback();
         }
 
@@ -214,20 +307,22 @@ let QrResult = function(onCloseCallback) {
     actionCopyImage.addEventListener("click", function() {
         hideBanners();
         copyToClipboard(scanResultText.innerText);
+        Logger.logActionCopy();
     });
 
     actionPaymentImage.addEventListener("click", function(event) {
         hideBanners();
         var upiLink = decodeURIComponent(lastScan.text);
         location.href = upiLink;
-
-        showBanner("Payment action only works if UPI payment apps are installed.")
+        showBanner("Payment action only works if UPI payment apps are installed.");
+        Logger.logPaymentAction();
     });
 
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
             hideBanners();
             shareResult(lastScan.text, lastScan.type);
+            Logger.logActionShare();
         });
     } else {
         actionShareImage.style.display = "none";
@@ -265,7 +360,7 @@ let QrResult = function(onCloseCallback) {
         return parentElem;
     }
 
-    this.__onScanSuccess = function(decodedText, decodedResult) {
+    this.__onScanSuccess = function(decodedText, decodedResult, scanType) {
         noResultContainer.classList.add("hidden");
 
         scanResultCodeType.innerText
@@ -273,6 +368,7 @@ let QrResult = function(onCloseCallback) {
         scanResultText.innerText = decodedText;
         let codeType = detectType(decodedText);
 
+        Logger.logScanSuccess(scanType, codeType);
         lastScan.text = decodedText;
         lastScan.type = codeType;
 
@@ -283,8 +379,8 @@ let QrResult = function(onCloseCallback) {
     }
 }
 
-QrResult.prototype.onScanSuccess = function(decodedText, decodedResult) {
-    this.__onScanSuccess(decodedText, decodedResult);
+QrResult.prototype.onScanSuccess = function(decodedText, decodedResult, scanType) {
+    this.__onScanSuccess(decodedText, decodedResult, scanType);
 }
 
 /** other global functions */
@@ -334,17 +430,8 @@ docReady(function() {
             === Html5QrcodeScannerState.NOT_STARTED) {
             scanType = "file";
         }
-        qrResultHandler.onScanSuccess(decodedText, decodedResult);
-        gtag('event', 'Scan', {
-            'event_category': 'Success',
-            'event_label': 'scanType',
-            'value': scanType
-          });
+        qrResultHandler.onScanSuccess(decodedText, decodedResult, scanType);
     }
 	html5QrcodeScanner.render(onScanSuccess);
-
-    gtag('event', 'Scan', {
-        'event_category': 'Start',
-        'event_label': 'NA',
-      });
+    Logger.logScanStart();
 });
