@@ -373,7 +373,11 @@ let QrResult = function(onCloseCallback) {
         lastScan.type = codeType;
 
         scanResultBadgeBody.innerText = codeType;
-        scanResultParsed.replaceChildren();
+        if (scanResultParsed.replaceChildren) {
+            scanResultParsed.replaceChildren();
+        } else {
+            scanResultParsed.innerHTML = "";
+        }
         scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
         container.style.display = "block";
     }
