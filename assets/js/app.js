@@ -304,11 +304,19 @@ let QrResult = function(onCloseCallback) {
         noResultContainer.classList.remove("hidden");
     });
 
-    actionCopyImage.addEventListener("click", function() {
-        hideBanners();
-        copyToClipboard(scanResultText.innerText);
-        Logger.logActionCopy();
-    });
+
+    var shareOrCopySupported = false;
+    if (navigator.clipboard) {
+        actionCopyImage.addEventListener("click", function() {
+            hideBanners();
+            copyToClipboard(scanResultText.innerText);
+            Logger.logActionCopy();
+        });
+        shareOrCopySupported = true;
+    } else {
+        actionCopyImage.style.display = "none";
+    }
+
 
     actionPaymentImage.addEventListener("click", function(event) {
         hideBanners();
@@ -324,6 +332,7 @@ let QrResult = function(onCloseCallback) {
             shareResult(lastScan.text, lastScan.type);
             Logger.logActionShare();
         });
+        shareOrCopySupported = true;
     } else {
         actionShareImage.style.display = "none";
     }
