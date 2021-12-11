@@ -22,7 +22,7 @@ title: ScanApp
 email: minhazav@gmail.com
 # description: >- # this means to ignore newlines until "baseurl:"
   # One stop solution for all scanning needs
-baseurl: "https://scanapp.org" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "scanapp.org" # the base hostname & protocol for your site, e.g. http://example.com
 tagline: Free online QR Code and Barcode scanner for web
 description: Free online QR Code and Barcode scanner for web
