@@ -8,6 +8,7 @@ post-no: 1
 toc: true
 image: 'https://blog.minhazav.dev/images/post33_image1.png'
 author: Minhaz
+author_url: https://minhazav.dev
 ---
 This article has been forked from the original article by the Author at <a href="https://blog.minhazav.dev">blog.minhazav.dev</a>.
 

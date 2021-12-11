@@ -4,9 +4,19 @@ layout: blog_default
 
 <div class="post">
   <h1 class="post-title">{{ page.title }}</h1>
-  <span class="post-date">{{ page.date | date_to_string }} | by {{ page.author }}</span> 
+  <span class="post-date">{{ page.date | date_to_string }} | by <a href="{{ page.author_url }}">{{ page.author }}</a></span> 
   {{ content }}
 </div>
+
+<!-- TODO(mebjas): Add social badges here -->
+
+<script src="https://utteranc.es/client.js"
+  repo="scanapp-org/scanapp-org.github.io"
+  issue-term="url"
+  theme="github-light"
+  crossorigin="anonymous"
+  async>
+</script>
 
 {% if site.related_posts.size >= 1 %}
 <div class="related">
