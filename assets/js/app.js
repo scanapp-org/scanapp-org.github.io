@@ -435,7 +435,7 @@ docReady(function() {
         console.log(decodedText, decodedResult);
         if (html5QrcodeScanner.getState() 
             !== Html5QrcodeScannerState.NOT_STARTED) {
-            html5QrcodeScanner.pause();
+            html5QrcodeScanner.pause(/* shouldFreezeVideo= */ true);
         }
 
         let scanType = "camera";
