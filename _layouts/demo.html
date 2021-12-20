@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <title>{{ page.title }}</title>
+  <meta name="title" content="{{ page.title }} - demo by ScanApp">
+  <meta name="description" content="{{ page.description }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://scanapp.org/">
+  <meta property="og:title" content="{{ page.title }} - demo by ScanApp">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://scanapp.org/">
+  <meta property="twitter:title" content="{{ page.title }} - demo by ScanApp">
+  <meta property="twitter:description" content="{{ page.description }}">
+  <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2KZEP7DPYH');
+  </script>
+
+  <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
+  <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
+  <link rel="stylesheet" href={{ "/assets/demo.css" | relative_url }}>
+
+  <body data-instant-allow-query-string data-instant-allow-external-links>
+
+    <!-- header -->
+    <div class="demo-header">
+      <div>
+        <div class="demo-logo">
+          <a href="/">
+            <img src="/assets/svg/scanapp.svg" />
+          </a>
+        </div>
+      </div>
+      <nav class="navMenu">
+        <a href="/#">Home</a>
+        <a href="/blog">Blog</a>
+        <!-- <a href="#">Contact</a> -->
+        <div class="dot"></div>
+      </nav>
+    </div>
+
+    <div class="demo-container">
+      <h1 style="text-align: center;">{{ page.title }}</h1>
+      <div>{{ content }}</div>
+    </div>
+
+  </body>
+  
+</html>
