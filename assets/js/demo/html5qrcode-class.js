@@ -1,6 +1,7 @@
 var scanning = false;
 var scanningRequested = false;
 var html5qrcode = new Html5Qrcode("reader");
+var generatedCodeSection = document.getElementById("generated-code");
 
 function docReady(fn) {
     // see if DOM is already available
@@ -10,6 +11,33 @@ function docReady(fn) {
     } else {
         document.addEventListener("DOMContentLoaded", fn);
     }
+}
+
+function generateCode(facing) {
+    return "<html>\n"
+        + "<body>\n"
+        + "<div id=\"reader\"></div>\n"
+        + "<script>\n"
+        + "\tvar html5qrcode = new Html5Qrcode(\"reader\");\n"
+        + "\tfunction onScanSuccess(qrCodeMessage) {\n"
+        + "\t\t/* success condition here... *./\n"
+        + "\t}\n"
+        + "\n"
+        + "\thtml5qrcode.start(\n"
+        + "\t\t{ facingMode: \"" + facing +"\" },\n"
+        + "\t\t{ fps: 10, qrbox: 250 }\n"
+        + "\t\tonScanSuccess);\n"
+        + "\n"
+        + "</script>\n"
+        + "</body>\n"
+        + "</html>\n";
+}
+
+function renderCode(facing) {
+    generatedCodeSection.innerHTML = "";
+    var preElement = document.createElement("pre");
+    preElement.innerText = generateCode(facing);
+    generatedCodeSection.appendChild(preElement);
 }
 
 function startScanning(facingMode) {
@@ -24,6 +52,8 @@ function startScanning(facingMode) {
 			results.innerHTML += `<div>[${codesFound}] - ${qrCodeMessage}</div>`;
 		}
 	}
+
+    renderCode(facingMode);
     return html5qrcode.start(
         { facingMode: facingMode },
         { fps: 10, qrbox: 250 },

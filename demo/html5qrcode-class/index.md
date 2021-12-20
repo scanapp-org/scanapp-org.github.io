@@ -23,8 +23,8 @@ description: How to use Html5Qrcode class
 </style>
 <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
-<div>
-    This is work in progress demo using <code>Html5Qrcode</code>.
+<div style="text-align: center; font-size: 24pt">
+   Demo using <code style="font-size: 24pt">Html5Qrcode</code>.
 </div>
 <div class="container">
 	<div class="row">
@@ -38,6 +38,15 @@ description: How to use Html5Qrcode class
                     <option value="environment">environment</option>
                 </select>
                 <button id="start">Start Scanning</button>
+            </div>
+            <br />
+            <div>Select a camera facing mode from the menu above and press "Start Scanning".</div>
+            <div>
+                <strong>Important Note:</strong>
+                This demo only works as expected on mobile devices
+            </div>
+            <div id="generated-code" style="border: 1px solid silver; padding: 10px; margin-top: 20px; text-align: left">
+                Generated code will come here...
             </div>
 		</div>
 	</div>
