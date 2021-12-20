@@ -434,7 +434,7 @@ function showAntiEmbedWindow() {
         naviateToScanAppButton.removeEventListener("click", navigateToScanapp);
         naviateToScanAppButton.disabled = true;
         Logger.logAntiEmbedActionNavigateToScanApp(function() {
-            window.location.href = "https://scanapp.org#referral=anti-embed";
+            window.parent.location.href = "https://scanapp.org#referral=anti-embed";
         })
     }
     naviateToScanAppButton.addEventListener("click", navigateToScanapp);
