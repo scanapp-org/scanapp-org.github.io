@@ -1,6 +1,5 @@
 var scanning = false;
 var scanningRequested = false;
-var html5qrcode = new Html5Qrcode("reader");
 var generatedCodeSection = document.getElementById("generated-code");
 
 function docReady(fn) {
@@ -40,7 +39,7 @@ function renderCode(facing) {
     generatedCodeSection.appendChild(preElement);
 }
 
-function startScanning(facingMode) {
+function startScanning(html5qrcode, facingMode) {
     console.log(facingMode)
     var results = document.getElementById('scanned-result');
 	var lastMessage;
@@ -54,24 +53,37 @@ function startScanning(facingMode) {
 	}
 
     renderCode(facingMode);
+    var scanConfig = {
+        fps: 10,
+        qrbox: 250
+    }
+
     return html5qrcode.start(
         { facingMode: facingMode },
-        { fps: 10, qrbox: 250 },
+        scanConfig,
         onScanSuccess);
 }
 
-function stopScanning() {
+function stopScanning(html5qrcode) {
     return html5qrcode.stop();
 }
 
 docReady(function() {
     var button = document.getElementById('start');
     var facingModeSelect = document.getElementById('facingMode');
+    document.getElementById("reader").style.width = "700px";
+    var html5qrcodeConfig = {
+        experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true 
+         }
+    };
+    var html5qrcode = new Html5Qrcode("reader", html5qrcodeConfig);
+
     button.addEventListener('click', function() {
         if (!scanning) {
             button.disabled = true;
             facingModeSelect.disabled = true;
-            startScanning(facingModeSelect.value)
+            startScanning(html5qrcode, facingModeSelect.value)
             .then(_ => {
                 scanning = true;
                 button.disabled = false;
@@ -84,7 +96,7 @@ docReady(function() {
             })
         } else {
             button.disabled = true;
-            stopScanning()
+            stopScanning(html5qrcode)
             .then(_ => {
                 scanning = false;
                 button.disabled = false;

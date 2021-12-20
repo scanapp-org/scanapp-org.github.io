@@ -6,7 +6,7 @@ description: How to use Html5Qrcode class
 ---
 
 <style>
-#reader {
+/* #reader {
     width: 640px;
 }
 
@@ -14,7 +14,7 @@ description: How to use Html5Qrcode class
 	#reader {
 		width: 300px;
 	}
-}
+} */
 .empty {
     display: block;
     width: 100%;
@@ -24,7 +24,7 @@ description: How to use Html5Qrcode class
 <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
 <div style="text-align: center; font-size: 24pt">
-   Demo using <code style="font-size: 24pt">Html5Qrcode</code>.
+   QR code scanning demo using <code style="font-size: 24pt">Html5Qrcode</code> class.
 </div>
 <div class="container">
 	<div class="row">

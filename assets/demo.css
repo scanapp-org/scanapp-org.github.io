@@ -32,7 +32,7 @@
 .navMenu .dot {
     width: 6px;
     height: 6px;
-    background: #fddb3a;
+    background: #000000;
     border-radius: 50%;
     opacity: 0;
     -webkit-transform: translateX(50px);
@@ -42,7 +42,7 @@
 }
 
 .navMenu a:hover {
-    color: #fddb3a;
+    color: #000000;
 }
 
 .navMenu a:nth-child(1):hover ~ .dot {
