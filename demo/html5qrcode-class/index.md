@@ -6,7 +6,7 @@ description: How to use Html5Qrcode class
 ---
 
 <style>
-/* #reader {
+#reader {
     width: 640px;
 }
 
@@ -14,7 +14,7 @@ description: How to use Html5Qrcode class
 	#reader {
 		width: 300px;
 	}
-} */
+}
 .empty {
     display: block;
     width: 100%;

@@ -334,3 +334,39 @@ table#result_table {
     text-transform: uppercase;
     margin: 0.25rem;
 }
+
+/** iframe guard */
+#iframe-alert {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    background: rgb(242 242 242 / 98%);
+    border: 1px solid #727272;
+    box-shadow: -4px -4px 10px 1px #00000061;
+}
+
+div#iframe-alert-image {
+    text-align: center;
+    margin: 20px;
+}
+
+div#iframe-alert-subimage {
+    text-align: center;
+}
+
+div#iframe-alert-subimage img {
+    max-width: 60%;
+}
+
+div#iframe-alert-section {
+    font-weight: bold;
+    margin: 50px 10px 10px 10px;
+    text-align: center;
+    font-size: 16pt;
+}
+
+div#iframe-alert-actions {
+    text-align: center;
+}

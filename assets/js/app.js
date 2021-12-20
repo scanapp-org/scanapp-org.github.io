@@ -6,29 +6,29 @@ let TYPE_UPI = "UPI";
 
 //#region Gtag event handler
 let Logger = {
-    logScanStart: function()  {
+    logScanStart: function(isEmbeddedInIframe)  {
         gtag('event', 'ScanStart', {
             'event_category': 'Start',
+            'event_label': `embed=${isEmbeddedInIframe}`,
+        });
+    },
+
+    logScanRestart: function() {
+        gtag('event', 'ScanStart', {
+            'event_category': 'Restart',
             'event_label': 'NA',
         });
     },
 
     logScanSuccess: function(scanType, codeType) {
         gtag('event', 'ScanSuccess', {
-            'event_category': 'codeType',
-            'event_label': 'NA',
+            'event_category': scanType,
+            'event_label': codeType,
         });
 
         var scanTypeEvent = `ScanSuccess_${scanType}`;
         gtag('event', scanTypeEvent, {
             'event_category': 'codeType',
-            'event_label': 'NA',
-        });
-    },
-
-    logScanRestart: function() {
-        gtag('event', 'Scan', {
-            'event_category': 'Restart',
             'event_label': 'NA',
         });
     },
@@ -44,6 +44,28 @@ let Logger = {
 
     logPaymentAction: function() {
         gtag('event', 'Action-Payment', {});
+    },
+
+    logAntiEmbedWindowShown: function() {
+        gtag('event', 'Anti-Embed-Window', {});
+    },
+
+    logAntiEmbedActionNavigateToScanApp: function(callback) {
+        gtag('event', 'Anti-Embed-Action', {
+            'event_category': 'NavigateToScanapp',
+            'event_callback': function() {
+                callback();
+            }
+        });
+    },
+
+    logAntiEmbedActionContinueHere: function(callback) {
+        gtag('event', 'Anti-Embed-Action', {
+            'event_category': 'Continue',
+            'event_callback': function() {
+                callback();
+            }
+        });
     }
 };
 //#endregion
@@ -397,6 +419,50 @@ QrResult.prototype.onScanSuccess = function(decodedText, decodedResult, scanType
 }
 
 /** other global functions */
+function isEmbeddedInIframe() {
+    return (window !== window.parent);
+}
+
+function showAntiEmbedWindow() {
+    document.getElementById("iframe-alert").style.display = "block";
+    Logger.logAntiEmbedWindowShown();
+
+    var naviateToScanAppButton = document.getElementById("iframe-alert-actions-navigate");
+    var continueHereButton = document.getElementById("iframe-alert-actions-continue");
+
+    function navigateToScanapp() {
+        naviateToScanAppButton.removeEventListener("click", navigateToScanapp);
+        naviateToScanAppButton.disabled = true;
+        Logger.logAntiEmbedActionNavigateToScanApp(function() {
+            location.href = "https://scanapp.org#referral=anti-embed";
+        })
+    }
+    naviateToScanAppButton.addEventListener("click", navigateToScanapp);
+
+    var continueHereTimeLeft = 6;
+    continueHereButton.disabled = true;
+    function updateTimer() {
+        continueHereTimeLeft--;
+        continueHereButton.innerText = `Continue here (${continueHereTimeLeft})`;
+        if (continueHereTimeLeft > 0) {
+            setTimeout(updateTimer, 1000);
+        } else {
+            continueHereButton.innerText = `Continue using here`;
+            continueHereButton.disabled = false;
+        }
+    }
+    updateTimer();
+
+    function continueHere() {
+        continueHereButton.disabled = true;
+        continueHereButton.removeEventListener("click", continueHere);
+        Logger.logAntiEmbedActionContinueHere(function() {
+            document.getElementById("iframe-alert").style.display = "none";
+        });
+    }
+    continueHereButton.addEventListener("click", continueHere);
+}
+
 function docReady(fn) {
     // see if DOM is already available
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -408,6 +474,11 @@ function docReady(fn) {
 }
 
 docReady(function() {
+   var isInIframe = isEmbeddedInIframe();
+   if (isInIframe) {
+        showAntiEmbedWindow();
+   }
+
     location.href = "#reader";
 	let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", 
@@ -446,5 +517,5 @@ docReady(function() {
         qrResultHandler.onScanSuccess(decodedText, decodedResult, scanType);
     }
 	html5QrcodeScanner.render(onScanSuccess);
-    Logger.logScanStart();
+    Logger.logScanStart(isInIframe);
 });
