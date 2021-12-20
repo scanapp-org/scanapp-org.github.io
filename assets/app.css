@@ -345,6 +345,7 @@ table#result_table {
     background: rgb(242 242 242 / 98%);
     border: 1px solid #727272;
     box-shadow: -4px -4px 10px 1px #00000061;
+    z-index: 10;
 }
 
 div#iframe-alert-image {
