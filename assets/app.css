@@ -370,3 +370,10 @@ div#iframe-alert-section {
 div#iframe-alert-actions {
     text-align: center;
 }
+
+div#iframe-ad {
+    text-align: center;
+    margin: 20px;
+    position: absolute;
+    bottom: 0px;
+}
