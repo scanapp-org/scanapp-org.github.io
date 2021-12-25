@@ -1,0 +1,20 @@
+{
+    "short_name": "ScanApp",
+    "name": "ScanApp",
+    "icons": [
+        {
+            "src": "/assets/svg/log_sq-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/assets/svg/log_sq-144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "theme_color": "#ffffff"
+}

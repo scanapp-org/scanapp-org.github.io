@@ -25,6 +25,19 @@
   <meta property="twitter:description" content="Free online barcode and qrcode scanner - scan directly on your web browser using camera or images saved on your device. Works well on smart phones as well as PC or Mac.">
   <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
   
+  <!-- PWA -->
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="/assets/manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/assets/js/sw.js').then(function(reg) {
+        console.log("Awesome, SW registered", reg);
+      }).catch(function(err) {
+        console.warn("Falied to install sw", err)
+      });
+    }
+  </script>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
   <script>
