@@ -1,6 +1,7 @@
 {
     "short_name": "ScanApp",
     "name": "ScanApp",
+    "description": "Free barcode and QR code scanner",
     "icons": [
         {
             "src": "/assets/svg/log_sq-512.png",
@@ -13,8 +14,7 @@
             "sizes": "144x144"
         }
     ],
-    "start_url": "https://scanapp.org",
-    "scope": "https://scanapp.org",
+    "start_url": "/",
     "background_color": "#ffffff",
     "display": "standalone",
     "theme_color": "#ffffff"

@@ -2,9 +2,10 @@
  * Service worker for scanapp PWA.
  */
 
+var cacheName = 'v1:static';
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open('sw-cache').then(function(cache) {
+        caches.open(cacheName).then(function(cache) {
             return cache.addAll([
                 '/assets/app.css',
                 '/assets/main.css',
@@ -12,6 +13,8 @@ self.addEventListener('install', function(event) {
                 '/assets/js/app.js',
                 '/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.woff2',
             ]);
+        }).then(function() {
+            self.skipWaiting();
         })
     );
 });
