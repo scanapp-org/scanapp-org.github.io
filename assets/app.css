@@ -378,3 +378,8 @@ div#iframe-ad {
     position: absolute;
     bottom: 0px;
 }
+
+a, a:visited {
+    color: black;
+    text-decoration: underline;
+}
