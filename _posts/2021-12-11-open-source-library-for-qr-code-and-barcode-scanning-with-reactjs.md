@@ -1,8 +1,7 @@
 ---
 layout: blog_post
 title:  Open source library for QR Code and barcode scanning with ReactJs
-date:   2021-09-24 16:13:10 +0530
-# categories: [ReactJs, QRCode, barcode, scanner, opensource]
+date:   2021-12-11 16:13:10 +0800
 description: "<a href='https://github.com/mebjas/html5-qrcode'>mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. In this article, I'll be explaining how to use html5-qrcode with React so it's easier for developers using popular React framework to these functionalities with ease."
 post-no: 1
 toc: true
