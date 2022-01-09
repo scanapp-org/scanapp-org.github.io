@@ -2,7 +2,7 @@
  * Service worker for scanapp PWA.
  */
 
-var cacheName = 'v1:static';
+var cacheName = 'v2:static';
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(cacheName).then(function(cache) {
@@ -26,6 +26,7 @@ self.addEventListener('fetch', function(event) {
         caches.match(event.request).then(function(response) {
             // return it if there is a response or else fetch again.
             return response || fetch(event.request);
+            // return fetch(event.request);
         })
     );
 });
