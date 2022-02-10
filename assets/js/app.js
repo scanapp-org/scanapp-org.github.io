@@ -505,7 +505,7 @@ docReady(function() {
         "reader", 
         { 
             fps: 10,
-            qrbox: { width: 250, height: 250 },
+            qrbox: qrboxFunction,
             // Important notice: this is experimental feature, use it at your
             // own risk. See documentation in
             // mebjas@/html5-qrcode/src/experimental-features.ts

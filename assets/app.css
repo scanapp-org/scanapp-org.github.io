@@ -163,6 +163,7 @@ div#scan-result-parsed {
     border: 1px solid #b3b3b333;
     padding: 5px;
     font-family: consolas;
+    word-break: break-word;
 }
 
 table#result_table {

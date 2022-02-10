@@ -481,10 +481,9 @@ docReady(function() {
 
     location.href = "#reader";
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
-        console.log(viewfinderWidth, viewfinderHeight);
         // Square QR Box, with size = 80% of the min edge.
         var minEdgeSizeThreshold = 250;
-        var edgeSizePercentage = 0.75;
+        var edgeSizePercentage = 0.8;
 
         var minEdgeSize = (viewfinderWidth > viewfinderHeight) ?
             viewfinderHeight : viewfinderWidth;
@@ -511,7 +510,8 @@ docReady(function() {
             // own risk. See documentation in
             // mebjas@/html5-qrcode/src/experimental-features.ts
             experimentalFeatures: {
-                useBarCodeDetectorIfSupported: true
+                useBarCodeDetectorIfSupported: true,
+                runHighResolutionVideo: true
             },
             rememberLastUsedCamera: true,
             aspectRatio: 1.7777778
