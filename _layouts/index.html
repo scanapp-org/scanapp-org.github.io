@@ -11,58 +11,61 @@ layout: empty
             <div class="empty"></div>
         </div>
         <div id="workspace">
-            <div class="workspace-header">Scanned result</div>
-            <div id="no-result-container">Scan to get results</div>
-            <div id="new-scanned-result">
-                <div class="header">
-                    New <span id="scan-result-code-type">{code}</span> detected!
-                </div>
-                <div class="section">
-                    <div class="image" id="scan-result-image"></div>
-                    <div class="data">
-                        <table id="result_table">
-                            <tr>
-                                <!-- <td>Parsed</td> -->
-                                <td colspan="2">
-                                    <div>
-                                        <div class="badge">
-                                            <div class="badge-icon">
-                                                <span><b>Type</b></span>
-                                            </div>
-                                            <div class="badge-text">
-                                                <span id="scan-result-badge-body">{type}</span>
+            <div id="result">
+                <div class="workspace-header">Scanned result</div>
+                <div id="no-result-container">Scan to get results</div>
+                <div id="new-scanned-result">
+                    <div class="header">
+                        New <span id="scan-result-code-type">{code}</span> detected!
+                    </div>
+                    <div class="section">
+                        <div class="image" id="scan-result-image"></div>
+                        <div class="data">
+                            <table id="result_table">
+                                <tr>
+                                    <!-- <td>Parsed</td> -->
+                                    <td colspan="2">
+                                        <div>
+                                            <div class="badge">
+                                                <div class="badge-icon">
+                                                    <span><b>Type</b></span>
+                                                </div>
+                                                <div class="badge-text">
+                                                    <span id="scan-result-badge-body">{type}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="scan-result-parsed">{parsed result here}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Actions</td>
-                                <td>
-                                    <img class="action_image" id="action-share" 
-                                        src="./assets/svg/share-svgrepo-com.svg">
-                                    <img class="action_image" id="action-copy" 
-                                        src="./assets/svg/copy-svgrepo-com.svg">
-                                    <img class="action_image" id="action-payment" 
-                                        src="./assets/svg/coin-svgrepo-com.svg" style="display: none">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Text</td>
-                                <td style="word-break: break-word">
-                                    <div id="scan-result-text">{text result here}</div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div id="body-footer">
-                            <button id="scan-result-close">Close and scan another</button>
+                                        <div id="scan-result-parsed">{parsed result here}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Actions</td>
+                                    <td>
+                                        <img class="action_image" id="action-share" 
+                                            src="./assets/svg/share-svgrepo-com.svg">
+                                        <img class="action_image" id="action-copy" 
+                                            src="./assets/svg/copy-svgrepo-com.svg">
+                                        <img class="action_image" id="action-payment" 
+                                            src="./assets/svg/coin-svgrepo-com.svg" style="display: none">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Text</td>
+                                    <td style="word-break: break-word">
+                                        <div id="scan-result-text">{text result here}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="body-footer">
+                                <button id="scan-result-close">Close and scan another</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="history">
                 <div class="workspace-header">Scan History</div>
+                <div id="no-result-container">No scans in history</div>
                 <div id="history-list"></div>
             </div>
         </div>
