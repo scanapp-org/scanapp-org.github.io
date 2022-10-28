@@ -265,34 +265,87 @@ HistoryItem.prototype.dateTime = function() {
 }
 HistoryItem.prototype.render = function(rootElement) {
     // todo: render this to root elelemt.
+    var div = document.createElement("div");
+    div.innerHTML = this._decodedText;
+    div.style.padding = "10px";
+    div.style.border = "1px solid silver";
+    rootElement.appendChild(div);
 }
 
 let HistoryManager = function() {
-    // Load history from disk
-    this._historyList = [];
+    // Load history from disk    
+    this._historyList = this.retrieve();
 
     this.flushToDisk = function() {
         // Save the serialized this._historyList to disk.
-        console.log("todo: saving history to disk")
+        console.log("todo: saving history to disk");
+        localStorage.setItem("historyList", JSON.stringify(this._historyList));
     }
+    this.checkIfHistoryExists();
 }
-HistoryManager.prototype.add = function(historyItem) {
-    this._historyList.push(historyItem);
+
+HistoryManager.prototype.retrieve = function() {
+    let historyArrayFromStorage = localStorage.getItem("historyList") ? JSON.parse(localStorage.getItem("historyList")) : [];
+    let historyList = [];
+    for (var i = 0; i < historyArrayFromStorage.length; i++) {
+        var item = historyArrayFromStorage[i];
+        var historyItem = new HistoryItem(
+            item._decodedText, item._decodedResult, item._scanType, item._codeType, item._dateTime);
+        historyList.push(historyItem);
+    }
+    return historyList;
+}
+
+HistoryManager.prototype.add = function(historyItem, rootElement) {
+    this.checkDuplicate(historyItem);
     this.flushToDisk();
-    this.render();
+    this.render(rootElement);
 }
+
+HistoryManager.prototype.checkDuplicate = function(historyItem) {
+    // function added to avoid adding duplicate items to history.
+    for (var i = 0; i < this._historyList.length; i++) {
+        if (this._historyList[i].decodedText() === historyItem.decodedText()) {
+            return;
+        }
+    }
+    this._historyList.push(historyItem);
+}
+
 HistoryManager.prototype.render = function(rootElement) {
     rootElement.innerHtml = "";
+    if (rootElement.childElementCount > 0) {
+        rootElement.replaceChildren();  
+    }
     // render reverse.
     for (var i = this._historyList.length - 1; i >= 0; i--) {
         var historyItem = this._historyList[i];
         historyItem.render(rootElement);
     }
 }
+
+HistoryManager.prototype.checkIfHistoryExists = function () {
+    let ifHistoryExists = localStorage.getItem("historyList") ? true : false;
+    let noHistoryContainer = document.getElementById("no-history-container");
+    let historyContainer = document.getElementById("history-section");
+    let historyListContainer = document.getElementById("history-list");
+    let historyFooter = document.getElementById("history-footer");
+
+    if (ifHistoryExists) {
+        noHistoryContainer.classList.add("hidden");
+        historyContainer.style.display = "block";
+        this.render(historyListContainer);
+        historyFooter.classList.remove("hidden");
+    }
+    else {
+        noHistoryContainer.classList.remove("hidden");
+        historyContainer.style.display = "none";
+    }
+}
 //#endregion
 
 /** UI for the scan app results */
-let QrResult = function(onCloseCallback) {
+let QrResult = function(onCloseCallback, historyManager) {
     let container = document.getElementById("new-scanned-result");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
     let scanResultImage = document.getElementById("scan-result-image");
@@ -306,6 +359,14 @@ let QrResult = function(onCloseCallback) {
     let scanResultClose = document.getElementById("scan-result-close");
     let noResultContainer = document.getElementById("no-result-container");
 
+    let clearHistory = document.getElementById("clear-history");
+    let noHistoryContainer = document.getElementById("no-history-container");
+    let historyContainer = document.getElementById("history-section");
+    let historyListContainer = document.getElementById("history-list");
+    let historyFooter = document.getElementById("history-footer");
+
+    this.historyManager = historyManager;
+
     // TODO(mebjas): fix -- scanResultImage --
     scanResultImage.style.display = "none";
 
@@ -315,6 +376,14 @@ let QrResult = function(onCloseCallback) {
     };
 
     /** ---- listeners ---- */
+    clearHistory.addEventListener("click", function() {
+        historyFooter.classList.add("hidden");
+        historyManager._historyList = [];
+        localStorage.clear();
+        historyListContainer.innerHTML = "";
+        noHistoryContainer.classList.remove("hidden");        
+    });
+
     scanResultClose.addEventListener("click", function() {
         hideBanners();
         container.style.display = "none";
@@ -325,7 +394,6 @@ let QrResult = function(onCloseCallback) {
 
         noResultContainer.classList.remove("hidden");
     });
-
 
     var shareOrCopySupported = false;
     if (navigator.clipboard) {
@@ -359,6 +427,8 @@ let QrResult = function(onCloseCallback) {
         actionShareImage.style.display = "none";
     }
 
+    
+
     function toFriendlyCodeType(codeType) {
         return codeType;
     }
@@ -391,8 +461,11 @@ let QrResult = function(onCloseCallback) {
         return parentElem;
     }
 
+
     this.__onScanSuccess = function(decodedText, decodedResult, scanType) {
         noResultContainer.classList.add("hidden");
+        noHistoryContainer.classList.add("hidden");
+        historyFooter.classList.remove("hidden");
 
         scanResultCodeType.innerText
             = toFriendlyCodeType(decodedResult.result.format.formatName);
@@ -411,6 +484,11 @@ let QrResult = function(onCloseCallback) {
         }
         scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
         container.style.display = "block";
+        historyContainer.style.display = "block";
+
+        var historyItem = new HistoryItem(
+            decodedText, decodedResult, scanType, codeType, null);
+        historyManager.add(historyItem, historyListContainer);
     }
 }
 
@@ -479,6 +557,8 @@ docReady(function() {
         showAntiEmbedWindow();
     }
 
+    var historyManager = new HistoryManager();
+
     location.href = "#reader";
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
         // Square QR Box, with size = 80% of the min edge.
@@ -521,7 +601,7 @@ docReady(function() {
             === Html5QrcodeScannerState.PAUSED) {
             html5QrcodeScanner.resume();
         }
-    });
+    }, historyManager);
 
     function onScanSuccess(decodedText, decodedResult) {
         console.log(decodedText, decodedResult);
