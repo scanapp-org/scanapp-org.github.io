@@ -65,9 +65,15 @@ layout: empty
             </div>
             <div id="history">
                 <div class="workspace-header">Scan History</div>
-                <div id="no-result-container">No scans in history</div>
-                <div id="history-list"></div>
+                <div id="no-history-container">No scans in history</div>
+                <div id="history-section">
+                    <div id="history-list"></div>
+                    <div id="history-footer">
+                        <button style="margin:auto;" id="clear-history">Clear history</button>
+                    </div>
+                </div>
             </div>
+                
         </div>
     </div>
     <div id="footer">
@@ -132,5 +138,5 @@ layout: empty
 
 <script src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
 <script src="/assets/js/html5-qrcode.min.v2.2.4.js"></script>
-<script src="/assets/js/app.min.js"></script>
-<!-- <script src="/assets/js/app.js"></script> -->
+<!-- <script src="/assets/js/app.min.js"></script> -->
+<script src="/assets/js/app.js"></script>
