@@ -247,6 +247,7 @@ let HistoryItem = function(
     this._scanType = scanType;
     this._codeType = codeType;
     this._dateTime = dateTime;
+    this._uid = Math.random().toString(16).slice(2);
 } 
 HistoryItem.prototype.decodedText = function() {
     return this._decodedText;
@@ -263,12 +264,22 @@ HistoryItem.prototype.codeType = function() {
 HistoryItem.prototype.dateTime = function() {
     return this._dateTime;
 }
+//Todo: remove uid part 
+HistoryItem.prototype.uid = function() {
+    return this._uid;
+}
+
 HistoryItem.prototype.render = function(rootElement) {
     // todo: render this to root elelemt.
     var div = document.createElement("div");
-    div.innerHTML = this._decodedText;
     div.style.padding = "10px";
     div.style.border = "1px solid silver";
+    var a = document.createElement('a');
+    a.innerHTML = this._decodedText;
+    a.style.textDecoration = "none";
+    a.href = "#";
+    a.className = "history-item";
+    div.appendChild(a);
     rootElement.appendChild(div);
 }
 
@@ -290,7 +301,7 @@ HistoryManager.prototype.retrieve = function() {
     for (var i = 0; i < historyArrayFromStorage.length; i++) {
         var item = historyArrayFromStorage[i];
         var historyItem = new HistoryItem(
-            item._decodedText, item._decodedResult, item._scanType, item._codeType, item._dateTime);
+            item._decodedText, item._decodedResult, item._scanType, item._codeType, item._dateTime, item._uid);
         historyList.push(historyItem);
     }
     return historyList;
@@ -309,6 +320,7 @@ HistoryManager.prototype.checkDuplicate = function(historyItem) {
             return;
         }
     }
+    // add the new history item to the list.
     this._historyList.push(historyItem);
 }
 
@@ -321,6 +333,14 @@ HistoryManager.prototype.render = function(rootElement) {
     for (var i = this._historyList.length - 1; i >= 0; i--) {
         var historyItem = this._historyList[i];
         historyItem.render(rootElement);
+    }
+
+    let historyLinks = document.getElementsByClassName("history-item");
+    for(var i = 0; i < historyLinks.length; i++) {
+        let historyLink = historyLinks[i];
+        historyLink.addEventListener("click", function() {
+            // alert(historyLink.innerHTML);
+        });
     }
 }
 
@@ -364,6 +384,7 @@ let QrResult = function(onCloseCallback, historyManager) {
     let historyContainer = document.getElementById("history-section");
     let historyListContainer = document.getElementById("history-list");
     let historyFooter = document.getElementById("history-footer");
+    let historyLink = document.getElementsByClassName("history-link");
 
     this.historyManager = historyManager;
 
