@@ -4,6 +4,10 @@ let TYPE_PHONE = "PHONE NUMBER";
 let TYPE_WIFI = "WIFI";
 let TYPE_UPI = "UPI";
 
+let QR_RESULT_HEADER_FROM_SCAN = "Scanned result";
+// TODO(mohsinaav): Use this as title when result is loaded from history.
+let QR_RESULT_HEADER_FROM_HISTORY = "Scan result from History";
+
 //#region Gtag event handler
 let Logger = {
     logScanStart: function(isEmbeddedInIframe)  {
@@ -240,6 +244,7 @@ function copyToClipboard(decodedText) {
 //#endregion
 
 //#region history
+// TODO(mohsinaav): Replace with ScanResult.
 let HistoryItem = function(
     decodedText, decodedResult, scanType, codeType, dateTime) {
     this._decodedText = decodedText;
@@ -262,9 +267,6 @@ HistoryItem.prototype.codeType = function() {
 }
 HistoryItem.prototype.dateTime = function() {
     return this._dateTime;
-}
-HistoryItem.prototype.render = function(rootElement) {
-    // todo: render this to root elelemt.
 }
 
 let HistoryManager = function() {
@@ -291,9 +293,52 @@ HistoryManager.prototype.render = function(rootElement) {
 }
 //#endregion
 
+//#region UI rendering
+let ScanResult = function(
+    decodedText, decodedResult, scanType, codeType, dateTime) {
+    this._decodedText = decodedText;
+    this._decodedResult = decodedResult;
+    this._scanType = scanType;
+    this._codeType = codeType;
+    this._dateTime = dateTime;
+} 
+ScanResult.prototype.decodedText = function() {
+    return this._decodedText;
+}
+ScanResult.prototype.decodedResult = function() {
+    return this._decodedResult;
+}
+ScanResult.prototype.scanType = function() {
+    return this._scanType;
+}
+ScanResult.prototype.codeType = function() {
+    return this._codeType;
+}
+ScanResult.prototype.dateTime = function() {
+    return this._dateTime;
+}
+
+// Factory methods to create {@link ScanResult}.
+function createScanResult(decodedText, decodedResult, scanType) {
+    let codeType = decodedResult.result.format.formatName;
+    let dateTime = new Date();
+    return new ScanResult(
+        decodedText,
+        decodedResult,
+        scanType,
+        codeType,
+        dateTime);
+}
+//#endregion
+
 /** UI for the scan app results */
-let QrResult = function(onCloseCallback) {
+
+/** Class for rendering result of QR scanning. */
+let QrResultViewer = function() {
+    let __this = this;
+
     let container = document.getElementById("new-scanned-result");
+    let header = document.getElementById("qr-result-viewer-header");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
     let scanResultImage = document.getElementById("scan-result-image");
     let scanResultText = document.getElementById("scan-result-text");
@@ -305,11 +350,12 @@ let QrResult = function(onCloseCallback) {
     let actionPaymentImage = document.getElementById("action-payment");
     let scanResultClose = document.getElementById("scan-result-close");
     let noResultContainer = document.getElementById("no-result-container");
+    let scanResultFooter = document.getElementById("body-footer");
 
     // TODO(mebjas): fix -- scanResultImage --
     scanResultImage.style.display = "none";
 
-    let lastScan = {
+    let lastRenderedResult = {
         text: null,
         type: null,
     };
@@ -318,14 +364,15 @@ let QrResult = function(onCloseCallback) {
     scanResultClose.addEventListener("click", function() {
         hideBanners();
         container.style.display = "none";
-        if (onCloseCallback) {
+        if (__this.onCloseCallback) {
             Logger.logScanRestart();
-            onCloseCallback();
+            if (__this.onCloseCallback) {
+                __this.onCloseCallback();
+            }
         }
 
         noResultContainer.classList.remove("hidden");
     });
-
 
     var shareOrCopySupported = false;
     if (navigator.clipboard) {
@@ -339,10 +386,9 @@ let QrResult = function(onCloseCallback) {
         actionCopyImage.style.display = "none";
     }
 
-
     actionPaymentImage.addEventListener("click", function(event) {
         hideBanners();
-        var upiLink = decodeURIComponent(lastScan.text);
+        var upiLink = decodeURIComponent(lastRenderedResult.text);
         location.href = upiLink;
         showBanner("Payment action only works if UPI payment apps are installed.");
         Logger.logPaymentAction();
@@ -351,16 +397,12 @@ let QrResult = function(onCloseCallback) {
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
             hideBanners();
-            shareResult(lastScan.text, lastScan.type);
+            shareResult(lastRenderedResult.text, lastRenderedResult.type);
             Logger.logActionShare();
         });
         shareOrCopySupported = true;
     } else {
         actionShareImage.style.display = "none";
-    }
-
-    function toFriendlyCodeType(codeType) {
-        return codeType;
     }
 
     function createParsedResult(decodedText, type) {
@@ -391,17 +433,18 @@ let QrResult = function(onCloseCallback) {
         return parentElem;
     }
 
-    this.__onScanSuccess = function(decodedText, decodedResult, scanType) {
+    this.__render = function (viewerTitle, scanResult, onCloseCallback) {
+        __this.onCloseCallback = onCloseCallback;
+        header.innerText = viewerTitle;
         noResultContainer.classList.add("hidden");
 
-        scanResultCodeType.innerText
-            = toFriendlyCodeType(decodedResult.result.format.formatName);
-        scanResultText.innerText = decodedText;
-        let codeType = detectType(decodedText);
+        scanResultCodeType.innerText = scanResult.codeType();
+        scanResultText.innerText = scanResult.decodedText();
+        let codeType = detectType(scanResult.decodedText());
 
-        Logger.logScanSuccess(scanType, codeType);
-        lastScan.text = decodedText;
-        lastScan.type = codeType;
+        Logger.logScanSuccess(scanResult.scanType(), codeType);
+        lastRenderedResult.text = scanResult.decodedText();
+        lastRenderedResult.type = codeType;
 
         scanResultBadgeBody.innerText = codeType;
         if (scanResultParsed.replaceChildren) {
@@ -409,13 +452,27 @@ let QrResult = function(onCloseCallback) {
         } else {
             scanResultParsed.innerHTML = "";
         }
-        scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
+        scanResultParsed.appendChild(createParsedResult(
+            scanResult.decodedText(), codeType));
+
+        // Show / hide views.
+        scanResultFooter.style.display = (onCloseCallback)
+            ? "block" : "none";
         container.style.display = "block";
     }
 }
 
-QrResult.prototype.onScanSuccess = function(decodedText, decodedResult, scanType) {
-    this.__onScanSuccess(decodedText, decodedResult, scanType);
+/**
+ * Renders the scan result.
+ * 
+ * @param {String} viewerTitle - title of the container.
+ * @param {ScanResult} scanResult - result of scanning.
+ * @param {Function} onCloseCallback - callback to be called when "close and scan
+ *    another" button is clicked.
+ */
+QrResultViewer.prototype.render = function(
+    viewerTitle, scanResult, onCloseCallback) {
+    this.__render(viewerTitle, scanResult, onCloseCallback);
 }
 
 /** other global functions */
@@ -479,6 +536,10 @@ docReady(function() {
         showAntiEmbedWindow();
     }
 
+    // Global viewer object, to be used for showing scan result as well as
+    // history.
+    let qrResultViewer = new QrResultViewer();
+
     location.href = "#reader";
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
         // Square QR Box, with size = 80% of the min edge.
@@ -516,12 +577,12 @@ docReady(function() {
             aspectRatio: 1.7777778
         });
 
-    let qrResultHandler = new QrResult(function() {
+    let onScanResultCloseButtonClickCallback = function() {
         if (html5QrcodeScanner.getState() 
             === Html5QrcodeScannerState.PAUSED) {
             html5QrcodeScanner.resume();
         }
-    });
+    }
 
     function onScanSuccess(decodedText, decodedResult) {
         console.log(decodedText, decodedResult);
@@ -535,7 +596,12 @@ docReady(function() {
             === Html5QrcodeScannerState.NOT_STARTED) {
             scanType = "file";
         }
-        qrResultHandler.onScanSuccess(decodedText, decodedResult, scanType);
+        let scanResult = createScanResult(decodedText, decodedResult, scanType);
+        qrResultViewer.render(
+            QR_RESULT_HEADER_FROM_SCAN,
+            scanResult,
+            onScanResultCloseButtonClickCallback);
+        // TODO(mohsinav): Save scanResult to history manager.
     }
 	html5QrcodeScanner.render(onScanSuccess);
     Logger.logScanStart(isInIframe);
