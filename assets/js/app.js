@@ -463,7 +463,7 @@ let QrResultViewer = function() {
 }
 
 /**
- * Renders the scan result.
+ * Renders data to the view.
  * 
  * @param {String} viewerTitle - title of the container.
  * @param {ScanResult} scanResult - result of scanning.
@@ -574,7 +574,8 @@ docReady(function() {
                 useBarCodeDetectorIfSupported: true
             },
             rememberLastUsedCamera: true,
-            aspectRatio: 1.7777778
+            aspectRatio: 1.7777778,
+            showTorchButtonIfSupported: true
         });
 
     let onScanResultCloseButtonClickCallback = function() {
