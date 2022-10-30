@@ -13,8 +13,8 @@ author_url: https://minhazav.dev
 
 [html5-qrcode](https://github.com/mebjas/html5-qrcode) is a fairly used open source library for implementing QR Code or barcode scanner in a web application. It has 400K+ downloads on Github and going around [31K downloads/week on npm](https://www.npmjs.com/package/html5-qrcode).
 
-I authored this library in my university days and have been maintaining this project since 2014 (If I remember correctly).
-
+> I authored this library in my university days and have been maintaining this project since 2014 (If I remember correctly).
+>
 > Enough bragging, coming back to the topic ...
 
 Almost all smartphones today come with camera which is coupled with a flash light. It's also used as a torch while recording videos. Most QR scanning applications that are available on Android or IOS have support for enabling torch while scanning. This seems useful when scanning a code in low light conditions.
@@ -37,9 +37,13 @@ It looks something like this
     <img src="/assets/images/blog/post3/im1.jpeg" alt="Screenshot of implementation">
 </div>
 
-You can try it on [scanapp.org](https://scanapp.org). So far I have verified it to work on Android devices on browsers like Google Chrome and Samsung's default internet browser. I have verified it to work on Pixel 6 Pro, Samsung Flip 4 devices and One Plus 10 Pro.
+You can try it on [scanapp.org](https://scanapp.org).
 
-I have also verified it to not work on Chrome or Safari on IOS (on Iphone 13). Why? More on this later.
+So far I have verified it to work on Android devices on browsers like Google Chrome and Samsung's default internet browser. I have verified it to work on Pixel 6 Pro, Samsung Flip 4 devices and One Plus 10 Pro.
+
+I have also verified it to not work on Chrome or Safari on IOS (on Iphone 13).
+
+> Why? Likely not supported in the implementation - need to verify!
 
 The support was added with [PR#570](https://github.com/mebjas/html5-qrcode/pull/570). It's been published under `version 2.2.6`.
 
@@ -66,8 +70,9 @@ is supported depends on the device, browser as well as the selected camera (ofte
 
 The idea is to see if `torch` is available on [MediaTrackConstraints](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_image_tracks) of the running video track. When the camera scan is running you can call [getRunningTrackSettings()](https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L798) to verify if `torch` is supported.
 
-```js
-function isTorchSupported() {
+```ts
+/** Returns {@code true} if torch is supported. */
+function isTorchSupported(html5Qrcode: Html5Qrcode): boolean {
     let settings = html5Qrcode.getRunningTrackSettings();
     return "torch" in settings;
 }
@@ -75,7 +80,7 @@ function isTorchSupported() {
 
 If `torch` is indeed supported, the next step is to enable it. You can use [applyVideoConstraints(..)](https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L826) API to request turning on `torch`.
 
-```js
+```ts
 let constraints: MediaTrackConstraints = {
     "torch": true,
     "advanced": [{ "torch": true }]
@@ -101,7 +106,7 @@ In a similar fashion, you can request turning off `torch` with the same API.
 For backwards compatibility sake!
 
 ## Browser and device support
-As shared before this feature seems to be supported on Android devices. I have verified this on at least three devices on Google Chrome and Samsung's default browser.
+As shared before this feature seems to be supported on Android devices. I have verified this on at least three Android devices and one IOS device.
 
 Here's summary:
 -   Support verified on several Android devices.
@@ -115,7 +120,7 @@ Here's summary:
     -    Duck Duck Go Browser
 -   Verified lack of support on following browsers in Android
     -    Mozilla Firefox
--   Verified lack of support on Chrome and Safari on IOS (Iphone 14)
+-   Verified lack of support on Chrome and Safari on IOS (Iphone 13)
 
 In case you get a chance to test on more devices using [scanapp.org](https://scanapp.org), please add information in comments. I'll update this article accordingly.
 
