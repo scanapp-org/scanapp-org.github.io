@@ -4,6 +4,9 @@ let TYPE_PHONE = "PHONE NUMBER";
 let TYPE_WIFI = "WIFI";
 let TYPE_UPI = "UPI";
 
+let QR_RESULT_HEADER_FROM_SCAN = "Scanned result";
+let QR_RESULT_HEADER_FROM_HISTORY = "Scan result from History";
+
 //#region Gtag event handler
 let Logger = {
     logScanStart: function(isEmbeddedInIframe)  {
@@ -240,59 +243,27 @@ function copyToClipboard(decodedText) {
 //#endregion
 
 //#region history
-let HistoryItem = function(
-    decodedText, decodedResult, scanType, codeType, dateTime) {
-    this._decodedText = decodedText;
-    this._decodedResult = decodedResult;
-    this._scanType = scanType;
-    this._codeType = codeType;
-    this._dateTime = dateTime;
-    this._uid = Math.random().toString(16).slice(2);
-} 
-HistoryItem.prototype.decodedText = function() {
-    return this._decodedText;
-}
-HistoryItem.prototype.decodedResult = function() {
-    return this._decodedResult;
-}
-HistoryItem.prototype.scanType = function() {
-    return this._scanType;
-}
-HistoryItem.prototype.codeType = function() {
-    return this._codeType;
-}
-HistoryItem.prototype.dateTime = function() {
-    return this._dateTime;
-}
-//Todo: remove uid part 
-HistoryItem.prototype.uid = function() {
-    return this._uid;
-}
-
-HistoryItem.prototype.render = function(rootElement) {
-    // todo: render this to root elelemt.
-    var div = document.createElement("div");
-    div.style.padding = "10px";
-    div.style.border = "1px solid silver";
-    var a = document.createElement('a');
-    a.innerHTML = this._decodedText;
-    a.style.textDecoration = "none";
-    a.href = "#";
-    a.className = "history-item";
-    div.appendChild(a);
-    rootElement.appendChild(div);
-}
-
 let HistoryManager = function() {
     // Load history from disk    
     this._historyList = this.retrieve();
+    let historyFooter = document.getElementById("history-footer");
+    let historyListContainer = document.getElementById("history-list");
+    let noHistoryContainer = document.getElementById("no-history-container");
+    let clearHistory = document.getElementById("clear-history");
 
     this.flushToDisk = function() {
-        // Save the serialized this._historyList to disk.
-        console.log("todo: saving history to disk");
         localStorage.setItem("historyList", JSON.stringify(this._historyList));
     }
+
     this.checkIfHistoryExists();
+
+    clearHistory.addEventListener("click", function() {
+        historyFooter.classList.add("hidden");
+        localStorage.clear();
+        this._historyList = [];
+        historyListContainer.innerHTML = "";
+        noHistoryContainer.classList.remove("hidden");        
+    });
 }
 
 HistoryManager.prototype.retrieve = function() {
@@ -300,7 +271,7 @@ HistoryManager.prototype.retrieve = function() {
     let historyList = [];
     for (var i = 0; i < historyArrayFromStorage.length; i++) {
         var item = historyArrayFromStorage[i];
-        var historyItem = new HistoryItem(
+        var historyItem = new ScanResult(
             item._decodedText, item._decodedResult, item._scanType, item._codeType, item._dateTime, item._uid);
         historyList.push(historyItem);
     }
@@ -316,7 +287,8 @@ HistoryManager.prototype.add = function(historyItem, rootElement) {
 HistoryManager.prototype.checkDuplicate = function(historyItem) {
     // function added to avoid adding duplicate items to history.
     for (var i = 0; i < this._historyList.length; i++) {
-        if (this._historyList[i].decodedText() === historyItem.decodedText()) {
+        if (this._historyList[i].decodedText() === historyItem.decodedText() &&
+        this._historyList[i].uid === historyItem.uid) {
             return;
         }
     }
@@ -331,17 +303,54 @@ HistoryManager.prototype.render = function(rootElement) {
     }
     // render reverse.
     for (var i = this._historyList.length - 1; i >= 0; i--) {
-        var historyItem = this._historyList[i];
-        historyItem.render(rootElement);
+        var historyItem = createScanResult(
+            this._historyList[i].decodedText(),
+            this._historyList[i].decodedResult(),
+            this._historyList[i].scanType(),
+            this._historyList[i].uid()) ;
+        this.renderEachItem(historyItem, rootElement);
     }
 
+    // adding click event to ecah history item.
     let historyLinks = document.getElementsByClassName("history-item");
     for(var i = 0; i < historyLinks.length; i++) {
         let historyLink = historyLinks[i];
+        let scanResult = this.getScanResult(historyLink.innerHTML, historyLink.id.split('-')[3]);
         historyLink.addEventListener("click", function() {
-            // alert(historyLink.innerHTML);
+            let qrResultViewer = new QrResultViewer();
+            qrResultViewer.render(QR_RESULT_HEADER_FROM_HISTORY, scanResult, false);
         });
+    } 
+}
+
+// to get the scan result from the html element
+HistoryManager.prototype.getScanResult = function(decodedText, uid) {
+    for (var i = 0; i < this._historyList.length; i++) {
+        if (this._historyList[i].decodedText() === decodedText || 
+        this._historyList[i].uid() === uid) {
+            let scanResult = createScanResult(
+                this._historyList[i].decodedText(),
+                this._historyList[i].decodedResult(),
+                this._historyList[i].scanType(),
+                this._historyList[i].uid());
+            return scanResult;
+        }
     }
+    return null;
+}
+
+HistoryManager.prototype.renderEachItem = function(historyItem, rootElement) {
+    var div = document.createElement("div");
+    div.style.padding = "10px";
+    div.style.border = "1px solid silver";
+    var a = document.createElement('a');
+    a.innerHTML = historyItem.decodedText();
+    a.style.textDecoration = "none";
+    a.href = "#";
+    a.className = "history-item";
+    a.id = "history-item-id-" + historyItem.uid();
+    div.appendChild(a);
+    rootElement.appendChild(div);
 }
 
 HistoryManager.prototype.checkIfHistoryExists = function () {
@@ -364,9 +373,56 @@ HistoryManager.prototype.checkIfHistoryExists = function () {
 }
 //#endregion
 
+//#region UI rendering
+let ScanResult = function(
+    decodedText, decodedResult, scanType, codeType, dateTime, uid) {
+    this._decodedText = decodedText;
+    this._decodedResult = decodedResult;
+    this._scanType = scanType;
+    this._codeType = codeType ? codeType : decodedResult.result.format.formatName;
+    this._dateTime = dateTime ? dateTime : new Date();
+    this._uid = uid ? uid : Math.random().toString(16).slice(2);
+} 
+ScanResult.prototype.decodedText = function() {
+    return this._decodedText;
+}
+ScanResult.prototype.decodedResult = function() {
+    return this._decodedResult;
+}
+ScanResult.prototype.scanType = function() {
+    return this._scanType;
+}
+ScanResult.prototype.codeType = function() {
+    return this._codeType;
+}
+ScanResult.prototype.dateTime = function() {
+    return this._dateTime;
+}
+ScanResult.prototype.uid = function() {
+    return this._uid;
+}
+
+// Factory methods to create {@link ScanResult}.
+function createScanResult(decodedText, decodedResult, scanType, uid) {
+    let codeType = decodedResult.result.format.formatName;
+    let dateTime = new Date();
+    return new ScanResult(
+        decodedText,
+        decodedResult,
+        scanType,
+        codeType,
+        dateTime,
+        uid);
+}
+//#endregion
+
 /** UI for the scan app results */
-let QrResult = function(onCloseCallback, historyManager) {
+let QrResultViewer = function() {
+    let __this = this; 
+    
     let container = document.getElementById("new-scanned-result");
+    let header = document.getElementById("qr-result-viewer-header");
+    let subHeader = document.getElementById("qr-result-viewer-subheader");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
     let scanResultImage = document.getElementById("scan-result-image");
     let scanResultText = document.getElementById("scan-result-text");
@@ -377,40 +433,31 @@ let QrResult = function(onCloseCallback, historyManager) {
     let actionCopyImage = document.getElementById("action-copy");
     let actionPaymentImage = document.getElementById("action-payment");
     let scanResultClose = document.getElementById("scan-result-close");
+    let scanResultFooter = document.getElementById("body-footer");
     let noResultContainer = document.getElementById("no-result-container");
 
-    let clearHistory = document.getElementById("clear-history");
     let noHistoryContainer = document.getElementById("no-history-container");
     let historyContainer = document.getElementById("history-section");
-    let historyListContainer = document.getElementById("history-list");
     let historyFooter = document.getElementById("history-footer");
-    let historyLink = document.getElementsByClassName("history-link");
-
-    this.historyManager = historyManager;
 
     // TODO(mebjas): fix -- scanResultImage --
     scanResultImage.style.display = "none";
 
-    let lastScan = {
+    let lastRenderedResult = {
         text: null,
         type: null,
     };
 
     /** ---- listeners ---- */
-    clearHistory.addEventListener("click", function() {
-        historyFooter.classList.add("hidden");
-        historyManager._historyList = [];
-        localStorage.clear();
-        historyListContainer.innerHTML = "";
-        noHistoryContainer.classList.remove("hidden");        
-    });
-
+    // Todo: edit this part
     scanResultClose.addEventListener("click", function() {
         hideBanners();
         container.style.display = "none";
-        if (onCloseCallback) {
+        if (__this.onCloseCallback) {
             Logger.logScanRestart();
-            onCloseCallback();
+            if(__this.onCloseCallback) {
+                __this.onCloseCallback();
+            }
         }
 
         noResultContainer.classList.remove("hidden");
@@ -431,7 +478,7 @@ let QrResult = function(onCloseCallback, historyManager) {
 
     actionPaymentImage.addEventListener("click", function(event) {
         hideBanners();
-        var upiLink = decodeURIComponent(lastScan.text);
+        var upiLink = decodeURIComponent(lastRenderedResult.text);
         location.href = upiLink;
         showBanner("Payment action only works if UPI payment apps are installed.");
         Logger.logPaymentAction();
@@ -440,18 +487,12 @@ let QrResult = function(onCloseCallback, historyManager) {
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
             hideBanners();
-            shareResult(lastScan.text, lastScan.type);
+            shareResult(lastRenderedResult.text, lastRenderedResult.type);
             Logger.logActionShare();
         });
         shareOrCopySupported = true;
     } else {
         actionShareImage.style.display = "none";
-    }
-
-    
-
-    function toFriendlyCodeType(codeType) {
-        return codeType;
     }
 
     function createParsedResult(decodedText, type) {
@@ -483,19 +524,28 @@ let QrResult = function(onCloseCallback, historyManager) {
     }
 
 
-    this.__onScanSuccess = function(decodedText, decodedResult, scanType) {
+    this.__render = function(viewerTitle, scanResult, onCloseCallback) {
+        __this.onCloseCallback = onCloseCallback;
+        header.innerText = viewerTitle;
+
         noResultContainer.classList.add("hidden");
         noHistoryContainer.classList.add("hidden");
         historyFooter.classList.remove("hidden");
 
-        scanResultCodeType.innerText
-            = toFriendlyCodeType(decodedResult.result.format.formatName);
-        scanResultText.innerText = decodedText;
-        let codeType = detectType(decodedText);
+        if (viewerTitle == QR_RESULT_HEADER_FROM_SCAN){
+            scanResultCodeType.innerText = "New " + scanResult.codeType() + " detected!";
+        }
+        else if (viewerTitle == QR_RESULT_HEADER_FROM_HISTORY){
+            scanResultCodeType.innerText = "Retrieved " + scanResult.codeType() + " !";
+        }
 
-        Logger.logScanSuccess(scanType, codeType);
-        lastScan.text = decodedText;
-        lastScan.type = codeType;
+        // scanResultCodeType.innerText = scanResult.codeType();
+        scanResultText.innerText = scanResult.decodedText();
+        let codeType = detectType(scanResult.decodedText());
+
+        Logger.logScanSuccess(scanResult.scanType(), codeType);
+        lastRenderedResult.text = scanResult.decodedText();
+        lastRenderedResult.type = codeType;
 
         scanResultBadgeBody.innerText = codeType;
         if (scanResultParsed.replaceChildren) {
@@ -503,18 +553,22 @@ let QrResult = function(onCloseCallback, historyManager) {
         } else {
             scanResultParsed.innerHTML = "";
         }
-        scanResultParsed.appendChild(createParsedResult(decodedText, codeType));
+        scanResultParsed.appendChild(createParsedResult(scanResult.decodedText(), codeType));
         container.style.display = "block";
         historyContainer.style.display = "block";
-
-        var historyItem = new HistoryItem(
-            decodedText, decodedResult, scanType, codeType, null);
-        historyManager.add(historyItem, historyListContainer);
+        scanResultFooter.style.display = (onCloseCallback) ? "block" : "none";
     }
 }
 
-QrResult.prototype.onScanSuccess = function(decodedText, decodedResult, scanType) {
-    this.__onScanSuccess(decodedText, decodedResult, scanType);
+/** 
+ * Renders the scan result.
+ * 
+ * @param {String} viewerTitle - title of the container.
+ * @param {scanResult} scanResult - result of scanning object.
+ * @param {Function} onCloseCallback - callback to be called when "close and scan another" button is closed.
+ */
+QrResultViewer.prototype.render = function(viewerTitle, scanResult, onCloseCallback) {
+    this.__render(viewerTitle, scanResult, onCloseCallback);
 }
 
 /** other global functions */
@@ -578,7 +632,10 @@ docReady(function() {
         showAntiEmbedWindow();
     }
 
+    // Global viwer object, to be used for showing scan results as well as history.
+    var qrResultViewer = new QrResultViewer();
     var historyManager = new HistoryManager();
+    let historyListContainer = document.getElementById("history-list");
 
     location.href = "#reader";
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
@@ -616,13 +673,12 @@ docReady(function() {
             rememberLastUsedCamera: true,
             aspectRatio: 1.7777778
         });
-
-    let qrResultHandler = new QrResult(function() {
-        if (html5QrcodeScanner.getState() 
-            === Html5QrcodeScannerState.PAUSED) {
+    
+    let onScanResultCloseButtonClickCallback = function(){
+        if(html5QrcodeScanner.getState() == Html5QrcodeScannerState.PAUSED){
             html5QrcodeScanner.resume();
         }
-    }, historyManager);
+    }
 
     function onScanSuccess(decodedText, decodedResult) {
         console.log(decodedText, decodedResult);
@@ -636,8 +692,17 @@ docReady(function() {
             === Html5QrcodeScannerState.NOT_STARTED) {
             scanType = "file";
         }
-        qrResultHandler.onScanSuccess(decodedText, decodedResult, scanType);
+
+        let scanResult = new ScanResult(decodedText, decodedResult, scanType);
+        qrResultViewer.render(
+            QR_RESULT_HEADER_FROM_SCAN,
+            scanResult,
+            onScanResultCloseButtonClickCallback
+        );
+        // Todo: save scanResult to HistoryManager
+        historyManager.add(scanResult, historyListContainer);
     }
+
 	html5QrcodeScanner.render(onScanSuccess);
     Logger.logScanStart(isInIframe);
 });

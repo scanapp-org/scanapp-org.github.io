@@ -12,11 +12,11 @@ layout: empty
         </div>
         <div id="workspace">
             <div id="result">
-                <div class="workspace-header">Scanned result</div>
+                <div class="workspace-header" id="qr-result-viewer-header"></div>
                 <div id="no-result-container">Scan to get results</div>
                 <div id="new-scanned-result">
-                    <div class="header">
-                        New <span id="scan-result-code-type">{code}</span> detected!
+                    <div id="qr-result-viewer-subheader" class="header">
+                        <span id="scan-result-code-type"></span>
                     </div>
                     <div class="section">
                         <div class="image" id="scan-result-image"></div>
