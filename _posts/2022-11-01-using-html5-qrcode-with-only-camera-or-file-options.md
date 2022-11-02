@@ -66,12 +66,12 @@ let html5QrcodeScanner = new Html5QrcodeScanner(
 
 **Note that**
 ```ts
-
-supportedScanTypes: [
-    Html5QrcodeScanType.SCAN_TYPE_FILE, 
-    Html5QrcodeScanType.SCAN_TYPE_CAMERA
-],
-
+{
+    supportedScanTypes: [
+        Html5QrcodeScanType.SCAN_TYPE_FILE, 
+        Html5QrcodeScanType.SCAN_TYPE_CAMERA
+    ]
+}
 ```
 
 Is this the relevant configuration here. Here's example of different scenarios.
@@ -95,7 +95,9 @@ This will render the QR Scanner something like this
 ### [2] User only needs the file based scanning.
 Here set the `supportedScanTypes` value like this.
 ```ts
-supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_FILE],
+{
+    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_FILE]
+}
 ```
 
 This will render the QR Scanner something like this
@@ -120,10 +122,12 @@ A bonus addition to the feature was that -  the order of the config is also hono
 If you want to support both file and camera based scanning options but want to define file based option as the default you can just configure `supportedScanTypes` like this
 
 ```ts
-supportedScanTypes: [
-    Html5QrcodeScanType.SCAN_TYPE_FILE, 
-    Html5QrcodeScanType.SCAN_TYPE_CAMERA
-],
+{
+    supportedScanTypes: [
+        Html5QrcodeScanType.SCAN_TYPE_FILE, 
+        Html5QrcodeScanType.SCAN_TYPE_CAMERA
+    ]
+}
 ```
 
 This will render the QR Scanner something like this
@@ -141,10 +145,12 @@ This will render the QR Scanner something like this
 > This happens to be the default scenario as well. So if you do nothing explicitly, library will behave in this fashion only.
 
 ```ts
-supportedScanTypes: [
-    Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-    Html5QrcodeScanType.SCAN_TYPE_FILE
-],
+{
+    supportedScanTypes: [
+        Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+        Html5QrcodeScanType.SCAN_TYPE_FILE
+    ]
+}
 ```
 
 ### If you pass arbitrary values, library will throw error!
