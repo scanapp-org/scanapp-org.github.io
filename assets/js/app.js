@@ -497,6 +497,9 @@ function showAntiEmbedWindow() {
     document.getElementById("iframe-alert").style.display = "block";
     Logger.logAntiEmbedWindowShown();
 
+    // Trigger Ads
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
     var naviateToScanAppButton = document.getElementById("iframe-alert-actions-navigate");
     var continueHereButton = document.getElementById("iframe-alert-actions-continue");
 
@@ -559,7 +562,7 @@ docReady(function() {
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
         // Square QR Box, with size = 80% of the min edge.
         var minEdgeSizeThreshold = 250;
-        var edgeSizePercentage = 0.8;
+        var edgeSizePercentage = 0.75;
 
         var minEdgeSize = (viewfinderWidth > viewfinderHeight) ?
             viewfinderHeight : viewfinderWidth;
