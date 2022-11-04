@@ -540,7 +540,9 @@ docReady(function() {
     // history.
     let qrResultViewer = new QrResultViewer();
 
-    location.href = "#reader";
+    // Code snippet to navigate the user to #reader directly.
+    // Makes sense when aspect ratio is 16/9
+    // location.href = "#reader";
     var qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
         // Square QR Box, with size = 80% of the min edge.
         var minEdgeSizeThreshold = 250;
@@ -567,14 +569,9 @@ docReady(function() {
         { 
             fps: 10,
             qrbox: qrboxFunction,
-            // Important notice: this is experimental feature, use it at your
-            // own risk. See documentation in
-            // mebjas@/html5-qrcode/src/experimental-features.ts
-            experimentalFeatures: {
-                useBarCodeDetectorIfSupported: true
-            },
+            useBarCodeDetectorIfSupported: true,
             rememberLastUsedCamera: true,
-            aspectRatio: 1.7777778,
+            aspectRatio: 4/3,
             showTorchButtonIfSupported: true
         });
 
