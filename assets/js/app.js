@@ -337,6 +337,7 @@ function createScanResult(decodedText, decodedResult, scanType) {
 let QrResultViewer = function() {
     let __this = this;
 
+    let parentContainer = document.getElementById("result");
     let container = document.getElementById("new-scanned-result");
     let header = document.getElementById("qr-result-viewer-header");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
@@ -352,6 +353,18 @@ let QrResultViewer = function() {
     let noResultContainer = document.getElementById("no-result-container");
     let scanResultFooter = document.getElementById("body-footer");
 
+    let showResultContainer = () => {
+        header.style.display = "block";
+        container.style.display = "block";
+        parentContainer.style.border = "1px solid silver";
+    };
+
+    let hideResultContainer = () => {
+        header.style.display = "none";
+        container.style.display = "none";
+        parentContainer.style.border = "1px solid #ffffff00";
+    };
+
     // TODO(mebjas): fix -- scanResultImage --
     scanResultImage.style.display = "none";
 
@@ -363,7 +376,7 @@ let QrResultViewer = function() {
     /** ---- listeners ---- */
     scanResultClose.addEventListener("click", function() {
         hideBanners();
-        container.style.display = "none";
+        hideResultContainer();
         if (__this.onCloseCallback) {
             Logger.logScanRestart();
             if (__this.onCloseCallback) {
@@ -458,7 +471,7 @@ let QrResultViewer = function() {
         // Show / hide views.
         scanResultFooter.style.display = (onCloseCallback)
             ? "block" : "none";
-        container.style.display = "block";
+        showResultContainer();
     }
 }
 

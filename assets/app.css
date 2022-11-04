@@ -92,10 +92,6 @@ body {
         margin-top: 60px;
     }
 
-    #workspace #result {
-        border: 1px solid silver;
-    }
-
     #reader {
         width: 80%;
         margin: auto;
@@ -112,12 +108,19 @@ body {
         font-size: 20pt;
         font-weight: bold;
         background: #dadada;
+        display: none;
     }
 
     div#no-result-container {
         text-align: center;
         font-size: 14pt;
         padding: 50px 0px 50px 0px;
+    }
+
+    .no-result-container-text {
+        margin-top: 10px;
+        font-weight: 400;
+        font-size: 25px;
     }
 }
 
