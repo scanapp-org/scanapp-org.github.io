@@ -7,6 +7,8 @@ let TYPE_UPI = "UPI";
 let QR_RESULT_HEADER_FROM_SCAN = "Scanned result";
 let QR_RESULT_HEADER_FROM_HISTORY = "Scan result from History";
 
+let QR_HISTORY_CLOSE_BUTTON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAQgAAAEIBarqQRAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAE1SURBVDiNfdI7S0NBEAXgLya1otFgpbYSbISAgpXYi6CmiH9KCAiChaVga6OiWPgfRDQ+0itaGVNosXtluWwcuMzePfM4M3sq8lbHBubwg1dc4m1E/J/N4ghDPOIsfk/4xiEao5KX0McFljN4C9d4QTPXuY99jP3DsIoDPGM6BY5i5yI5R7O4q+ImFkJY2DCh3cAH2klyB+9J1xUMMAG7eCh1a+Mr+k48b5diXrFVwwLuS+BJ9MfR7+G0FHOHhTHhnXNWS87VDF4pcnfQK4Ep7XScNLmPTZgURNKKYENYWDpzW1BhscS1WHS8CDgURFJQrWcoF3c13KKbgg1BYQfy8xZWEzTTw1QZbAoKu8FqJnktdu5hcVSHmchiILzzuaDQvjBzV2m8yohCE1jHfPx/xhU+y4G/D75ELlRJsSYAAAAASUVORK5CYII="
+
 //#region Gtag event handler
 let Logger = {
     logScanStart: function(isEmbeddedInIframe)  {
@@ -251,7 +253,8 @@ let HistoryManager = function() {
     let noHistoryContainer = document.getElementById("no-history-container");
     let clearHistory = document.getElementById("clear-history");
 
-    this.flushToDisk = function() {
+    // this.flushToDisk();
+    this.flushToDisk = function(){
         localStorage.setItem("historyList", JSON.stringify(this._historyList));
     }
 
@@ -259,10 +262,10 @@ let HistoryManager = function() {
 
     clearHistory.addEventListener("click", function() {
         historyFooter.classList.add("hidden");
-        localStorage.clear();
-        this._historyList = [];
+        localStorage.removeItem("historyList");
         historyListContainer.innerHTML = "";
-        noHistoryContainer.classList.remove("hidden");        
+        noHistoryContainer.classList.remove("hidden");     
+        window.location.reload();   
     });
 }
 
@@ -311,14 +314,18 @@ HistoryManager.prototype.render = function(rootElement) {
         this.renderEachItem(historyItem, rootElement);
     }
 
-    // adding click event to ecah history item.
-    let historyLinks = document.getElementsByClassName("history-item");
-    for(var i = 0; i < historyLinks.length; i++) {
-        let historyLink = historyLinks[i];
+    let historyParent = document.getElementsByClassName("history-item-parent");    
+    for(var i = 0; i < historyParent.length; i++) {
+        let historyLink = historyParent[i].children[0];
         let scanResult = this.getScanResult(historyLink.innerHTML, historyLink.id.split('-')[3]);
         historyLink.addEventListener("click", function() {
             let qrResultViewer = new QrResultViewer();
             qrResultViewer.render(QR_RESULT_HEADER_FROM_HISTORY, scanResult, false);
+        });
+
+        let historyDeleteImage = historyParent[i].children[1];
+        historyDeleteImage.addEventListener("click", function() {
+            deleteSingleHistoryItem(scanResult.decodedText(), scanResult.uid());   
         });
     } 
 }
@@ -343,33 +350,58 @@ HistoryManager.prototype.renderEachItem = function(historyItem, rootElement) {
     var div = document.createElement("div");
     div.style.padding = "10px";
     div.style.border = "1px solid silver";
+    div.className = "history-item-parent";
+
     var a = document.createElement('a');
     a.innerHTML = historyItem.decodedText();
     a.style.textDecoration = "none";
     a.href = "#";
     a.className = "history-item";
     a.id = "history-item-id-" + historyItem.uid();
+
+    var del_img = document.createElement('img');
+    del_img.id = "del-img-" + historyItem.uid();
+    del_img.className = "history-item-delete-button";
+    del_img.src = QR_HISTORY_CLOSE_BUTTON_SRC;
+
     div.appendChild(a);
+    div.appendChild(del_img);
     rootElement.appendChild(div);
 }
 
 HistoryManager.prototype.checkIfHistoryExists = function () {
     let ifHistoryExists = localStorage.getItem("historyList") ? true : false;
     let noHistoryContainer = document.getElementById("no-history-container");
-    let historyContainer = document.getElementById("history-section");
+    let historySectionContainer = document.getElementById("history-section");
     let historyListContainer = document.getElementById("history-list");
     let historyFooter = document.getElementById("history-footer");
 
     if (ifHistoryExists) {
         noHistoryContainer.classList.add("hidden");
-        historyContainer.style.display = "block";
+        historySectionContainer.style.display = "block";
         this.render(historyListContainer);
         historyFooter.classList.remove("hidden");
     }
     else {
         noHistoryContainer.classList.remove("hidden");
-        historyContainer.style.display = "none";
+        // noHistoryContainer.style.display = "block";
+        historySectionContainer.style.display = "none";
+        historyFooter.classList.add("hidden");
     }
+}
+
+function deleteSingleHistoryItem(decodedText, uid) {
+    let historyArrayFromStorage = JSON.parse(localStorage.getItem("historyList"));
+    for (var i = 0; i < historyArrayFromStorage.length; i++) {
+        if (historyArrayFromStorage[i]._decodedText === decodedText || 
+        historyArrayFromStorage[i]._uid === uid) {
+            historyArrayFromStorage.splice(i, 1);
+            localStorage.setItem("historyList", JSON.stringify(historyArrayFromStorage));
+            // Confirm if this is fine.
+            window.location.reload();
+        }
+    }
+    //if localStorage is empty
 }
 //#endregion
 
@@ -422,7 +454,6 @@ let QrResultViewer = function() {
     
     let container = document.getElementById("new-scanned-result");
     let header = document.getElementById("qr-result-viewer-header");
-    let subHeader = document.getElementById("qr-result-viewer-subheader");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
     let scanResultImage = document.getElementById("scan-result-image");
     let scanResultText = document.getElementById("scan-result-text");
@@ -659,7 +690,7 @@ docReady(function() {
         return {width: qrboxEdgeSize, height: qrboxEdgeSize};
     }
 
-	let html5QrcodeScanner = new Html5QrcodeScanner(
+    let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", 
         { 
             fps: 10,
@@ -703,6 +734,6 @@ docReady(function() {
         historyManager.add(scanResult, historyListContainer);
     }
 
-	html5QrcodeScanner.render(onScanSuccess);
+    html5QrcodeScanner.render(onScanSuccess);
     Logger.logScanStart(isInIframe);
 });

@@ -41,6 +41,12 @@ body {
     justify-content:space-between;
 }
 
+.history-item-parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 @media(max-width: 600px) {
     /* Mobile phone display. */
     #scanapp-container {
@@ -162,10 +168,6 @@ div#no-history-container.hidden {
     display: none;
 }
 
-div#history-footer.hidden {
-    display: none;
-}
-
 #new-scanned-result {
     width: 100%;
     background: white;
@@ -245,6 +247,10 @@ table#result_table {
     border-top: silver solid 1px;
     padding: 10px;
     display: grid;
+}
+
+div#history-footer.hidden {
+    display: none;
 }
 
 /** Badge **/
