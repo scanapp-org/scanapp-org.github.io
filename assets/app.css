@@ -160,11 +160,12 @@ div#new-scanned-result .image {
 }
 
 #footer {
+    color: #202124;
     margin-top: 100px;
-    border-top: 1px solid silver;
+    border-top: 1px solid #dadce0;
     font-size: 9pt;
     font-weight: 400;
-    background: #8080804a;
+    background: #f2f2f2;
     padding: 50px;
     text-align: center;
 }
