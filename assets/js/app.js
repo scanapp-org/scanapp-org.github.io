@@ -6,7 +6,6 @@ let TYPE_UPI = "UPI";
 
 let QR_RESULT_HEADER_FROM_SCAN = "Scanned result";
 let QR_RESULT_HEADER_FROM_HISTORY = "Scan result from History";
-
 let QR_HISTORY_CLOSE_BUTTON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAQgAAAEIBarqQRAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAE1SURBVDiNfdI7S0NBEAXgLya1otFgpbYSbISAgpXYi6CmiH9KCAiChaVga6OiWPgfRDQ+0itaGVNosXtluWwcuMzePfM4M3sq8lbHBubwg1dc4m1E/J/N4ghDPOIsfk/4xiEao5KX0McFljN4C9d4QTPXuY99jP3DsIoDPGM6BY5i5yI5R7O4q+ImFkJY2DCh3cAH2klyB+9J1xUMMAG7eCh1a+Mr+k48b5diXrFVwwLuS+BJ9MfR7+G0FHOHhTHhnXNWS87VDF4pcnfQK4Ep7XScNLmPTZgURNKKYENYWDpzW1BhscS1WHS8CDgURFJQrWcoF3c13KKbgg1BYQfy8xZWEzTTw1QZbAoKu8FqJnktdu5hcVSHmchiILzzuaDQvjBzV2m8yohCE1jHfPx/xhU+y4G/D75ELlRJsSYAAAAASUVORK5CYII="
 
 //#region Gtag event handler
@@ -253,7 +252,6 @@ let HistoryManager = function() {
     let noHistoryContainer = document.getElementById("no-history-container");
     let clearHistory = document.getElementById("clear-history");
 
-    // this.flushToDisk();
     this.flushToDisk = function(){
         localStorage.setItem("historyList", JSON.stringify(this._historyList));
     }
@@ -448,10 +446,9 @@ function createScanResult(decodedText, decodedResult, scanType, uid) {
 }
 //#endregion
 
-/** UI for the scan app results */
+/** Class for rendering result of QR scanning. */
 let QrResultViewer = function() {
-    let __this = this; 
-    
+    let __this = this;
     let container = document.getElementById("new-scanned-result");
     let header = document.getElementById("qr-result-viewer-header");
     let scanResultCodeType = document.getElementById("scan-result-code-type");
@@ -466,6 +463,7 @@ let QrResultViewer = function() {
     let scanResultClose = document.getElementById("scan-result-close");
     let scanResultFooter = document.getElementById("body-footer");
     let noResultContainer = document.getElementById("no-result-container");
+    let scanResultFooter = document.getElementById("body-footer");
 
     let noHistoryContainer = document.getElementById("no-history-container");
     let historyContainer = document.getElementById("history-section");
@@ -480,13 +478,12 @@ let QrResultViewer = function() {
     };
 
     /** ---- listeners ---- */
-    // Todo: edit this part
     scanResultClose.addEventListener("click", function() {
         hideBanners();
         container.style.display = "none";
         if (__this.onCloseCallback) {
             Logger.logScanRestart();
-            if(__this.onCloseCallback) {
+            if (__this.onCloseCallback) {
                 __this.onCloseCallback();
             }
         }
@@ -505,7 +502,6 @@ let QrResultViewer = function() {
     } else {
         actionCopyImage.style.display = "none";
     }
-
 
     actionPaymentImage.addEventListener("click", function(event) {
         hideBanners();
@@ -554,11 +550,9 @@ let QrResultViewer = function() {
         return parentElem;
     }
 
-
-    this.__render = function(viewerTitle, scanResult, onCloseCallback) {
+    this.__render = function (viewerTitle, scanResult, onCloseCallback) {
         __this.onCloseCallback = onCloseCallback;
         header.innerText = viewerTitle;
-
         noResultContainer.classList.add("hidden");
         noHistoryContainer.classList.add("hidden");
         historyFooter.classList.remove("hidden");
@@ -570,7 +564,6 @@ let QrResultViewer = function() {
             scanResultCodeType.innerText = "Retrieved " + scanResult.codeType() + " !";
         }
 
-        // scanResultCodeType.innerText = scanResult.codeType();
         scanResultText.innerText = scanResult.decodedText();
         let codeType = detectType(scanResult.decodedText());
 
@@ -584,21 +577,27 @@ let QrResultViewer = function() {
         } else {
             scanResultParsed.innerHTML = "";
         }
-        scanResultParsed.appendChild(createParsedResult(scanResult.decodedText(), codeType));
+      
+        scanResultParsed.appendChild(createParsedResult(
+            scanResult.decodedText(), codeType));
+
         container.style.display = "block";
         historyContainer.style.display = "block";
-        scanResultFooter.style.display = (onCloseCallback) ? "block" : "none";
+        scanResultFooter.style.display = (onCloseCallback) 
+          ? "block" : "none";
     }
 }
 
-/** 
- * Renders the scan result.
+/**
+ * Renders data to the view.
  * 
  * @param {String} viewerTitle - title of the container.
- * @param {scanResult} scanResult - result of scanning object.
- * @param {Function} onCloseCallback - callback to be called when "close and scan another" button is closed.
+ * @param {ScanResult} scanResult - result of scanning.
+ * @param {Function} onCloseCallback - callback to be called when "close and scan
+ *    another" button is clicked.
  */
-QrResultViewer.prototype.render = function(viewerTitle, scanResult, onCloseCallback) {
+QrResultViewer.prototype.render = function(
+    viewerTitle, scanResult, onCloseCallback) {
     this.__render(viewerTitle, scanResult, onCloseCallback);
 }
 
@@ -662,7 +661,6 @@ docReady(function() {
     if (isInIframe) {
         showAntiEmbedWindow();
     }
-
     // Global viwer object, to be used for showing scan results as well as history.
     var qrResultViewer = new QrResultViewer();
     var historyManager = new HistoryManager();
@@ -695,18 +693,15 @@ docReady(function() {
         { 
             fps: 10,
             qrbox: qrboxFunction,
-            // Important notice: this is experimental feature, use it at your
-            // own risk. See documentation in
-            // mebjas@/html5-qrcode/src/experimental-features.ts
-            experimentalFeatures: {
-                useBarCodeDetectorIfSupported: true
-            },
+            useBarCodeDetectorIfSupported: true,
             rememberLastUsedCamera: true,
-            aspectRatio: 1.7777778
+            aspectRatio: 4/3,
+            showTorchButtonIfSupported: true
         });
-    
-    let onScanResultCloseButtonClickCallback = function(){
-        if(html5QrcodeScanner.getState() == Html5QrcodeScannerState.PAUSED){
+
+    let onScanResultCloseButtonClickCallback = function() {
+        if (html5QrcodeScanner.getState() 
+            === Html5QrcodeScannerState.PAUSED) {
             html5QrcodeScanner.resume();
         }
     }
@@ -730,7 +725,6 @@ docReady(function() {
             scanResult,
             onScanResultCloseButtonClickCallback
         );
-        // Todo: save scanResult to HistoryManager
         historyManager.add(scanResult, historyListContainer);
     }
 
