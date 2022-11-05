@@ -10,15 +10,20 @@ let QR_RESULT_HEADER_FROM_HISTORY = "Scan result from History";
 
 //#region Gtag event handler
 let Logger = {
-    logScanStart: function(isEmbeddedInIframe)  {
+    logScanStart: function(isEmbeddedInIframe, scanType)  {
         gtag('event', 'ScanStart', {
-            'event_category': 'Start',
+            'event_category': scanType,
             'event_label': `embed=${isEmbeddedInIframe}`,
         });
     },
 
     logScanRestart: function() {
         gtag('event', 'ScanStart', {
+            'event_category': 'Restart',
+            'event_label': 'NA',
+        });
+
+        gtag('event', 'ScanRestart', {
             'event_category': 'Restart',
             'event_label': 'NA',
         });
@@ -30,11 +35,10 @@ let Logger = {
             'event_label': codeType,
         });
 
+        // TODO(minhazav): Remove this if the custom events in gtag can handle
+        // this.
         var scanTypeEvent = `ScanSuccess_${scanType}`;
-        gtag('event', scanTypeEvent, {
-            'event_category': 'codeType',
-            'event_label': 'NA',
-        });
+        gtag('event', scanTypeEvent, {});
     },
 
     logActionCopy: function() {
@@ -618,5 +622,5 @@ docReady(function() {
         // TODO(mohsinav): Save scanResult to history manager.
     }
 	html5QrcodeScanner.render(onScanSuccess);
-    Logger.logScanStart(isInIframe);
+    Logger.logScanStart(isInIframe, "camera");
 });
