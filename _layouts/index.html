@@ -1,7 +1,7 @@
 ---
 layout: empty
 ---
-<link rel="stylesheet" href="/assets/css/index.v2.2.7.css">
+<link rel="stylesheet" href="/assets/css/index.v2.2.8.css">
 <div id="scanapp-top-container">
     <div id="scanapp-container">
         <div id="scanner">
@@ -59,6 +59,8 @@ layout: empty
                                             src="./assets/svg/copy-svgrepo-com.svg">
                                         <img class="action_image" id="action-payment" 
                                             src="./assets/svg/coin-svgrepo-com.svg" style="display: none">
+                                        <img class="action_image" id="action-url" 
+                                            src="./assets/svg/link2.svg" style="display: none;">
                                     </td>
                                 </tr>
                                 <tr>
@@ -68,8 +70,22 @@ layout: empty
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+                    </div>
+                    <div id="body-footer" class="footer">
+                        <button id="scan-result-close" class="scanapp-button">Close and scan another</button>
+                    </div>
+                </div>
+                <div id="a2hs-container" style="display: none;">
+                    <div class="header">
+                        Add to home screen
+                    </div>
+                    <div class="section">
+                        <div class="image" id="scan-result-image"></div>
+                        <div class="data">
                             <div id="body-footer" style="text-align: center;">
-                                <button id="scan-result-close">Close and scan another</button>
+                                <button id="a2hs-add">Add to home screen</button>
+                                <button id="a2hs-cancel">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -141,5 +157,5 @@ layout: empty
 
 <script src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
 <script src="/assets/js/html5-qrcode.min.v2.2.8.js"></script>
-<script src="/assets/js/app.min.v2.2.8.js"></script>
+<script src="/assets/js/app.min.v2.2.8.1.js"></script>
 <!-- <script src="/assets/js/app.js"></script> -->

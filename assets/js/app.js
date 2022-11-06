@@ -3,6 +3,7 @@ let TYPE_URL = "URL";
 let TYPE_PHONE = "PHONE NUMBER";
 let TYPE_WIFI = "WIFI";
 let TYPE_UPI = "UPI";
+let IS_DEBUG = location.host.indexOf("127.0.0.1") !== -1;
 
 let QR_RESULT_HEADER_FROM_SCAN = "Scanned result";
 // TODO(mohsinaav): Use this as title when result is loaded from history.
@@ -38,7 +39,10 @@ let Logger = {
         // TODO(minhazav): Remove this if the custom events in gtag can handle
         // this.
         var scanTypeEvent = `ScanSuccess_${scanType}`;
-        gtag('event', scanTypeEvent, {});
+        gtag('event', scanTypeEvent, {
+            'event_category': 'codeType',
+            'event_label': 'NA',
+        });
     },
 
     logActionCopy: function() {
@@ -52,6 +56,14 @@ let Logger = {
 
     logPaymentAction: function() {
         gtag('event', 'Action-Payment', {});
+    },
+
+    logUrlAction: function(callback) {
+        gtag('event', 'Action-Url', {
+            'event_callback': function() {
+                callback();
+            }
+        });
     },
 
     logAntiEmbedWindowShown: function() {
@@ -74,6 +86,10 @@ let Logger = {
                 callback();
             }
         });
+    },
+
+    logDisplayMode: function(displayMode) {
+        gtag("event", `DisplayMode_${displayMode}`, {});
     }
 };
 //#endregion
@@ -353,13 +369,14 @@ let QrResultViewer = function() {
     let actionShareImage = document.getElementById("action-share");
     let actionCopyImage = document.getElementById("action-copy");
     let actionPaymentImage = document.getElementById("action-payment");
+    let actionUrlImage = document.getElementById("action-url");
     let scanResultClose = document.getElementById("scan-result-close");
     let noResultContainer = document.getElementById("no-result-container");
     let scanResultFooter = document.getElementById("body-footer");
 
     let showResultContainer = () => {
         header.style.display = "block";
-        container.style.display = "block";
+        container.style.display = "flex";
         parentContainer.style.border = "1px solid silver";
     };
 
@@ -411,6 +428,12 @@ let QrResultViewer = function() {
         Logger.logPaymentAction();
     });
 
+    actionUrlImage.addEventListener("click", function() {
+        Logger.logUrlAction(function() {
+            location.href = lastRenderedResult.text;
+        });
+    });
+
     if (navigator.share) {
         actionShareImage.addEventListener("click", function() {
             hideBanners();
@@ -425,11 +448,10 @@ let QrResultViewer = function() {
     function createParsedResult(decodedText, type) {
         let parentElem = document.createElement("div");
         // Action image changes
-        if (type == TYPE_UPI) {
-            actionPaymentImage.style.display = "inline-block";
-        } else {
-            actionPaymentImage.style.display = "none";
-        }
+        actionPaymentImage.style.display = (type == TYPE_UPI) ?
+            "inline-block" : "none";
+        actionUrlImage.style.display = (type == TYPE_URL) ?
+            "inline-block" : "none";
 
         if (type == TYPE_URL || type == TYPE_PHONE) {
             createLinkTyeUi(parentElem, decodedText, type);
@@ -624,3 +646,72 @@ docReady(function() {
 	html5QrcodeScanner.render(onScanSuccess);
     Logger.logScanStart(isInIframe, "camera");
 });
+
+
+//#region PWA
+
+////////////////////////////////////////////////////////////////////////////////
+//    Register Service Worker for PWA.
+////////////////////////////////////////////////////////////////////////////////
+let PWA_ENABLED = false;
+if (PWA_ENABLED) {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(() => {
+            if (IS_DEBUG) {
+                console.log('Service Worker Registered');
+            }
+        });
+    }
+}
+
+// let deferredPrompt;
+// window.addEventListener('beforeinstallprompt', (e) => {
+//     // Prevent Chrome 67 and earlier from automatically showing the prompt
+//     e.preventDefault();
+//     deferredPrompt = e;
+//     let button = document.getElementById("a2hs");
+//     if (!button) {
+//         return;
+//     }
+//     button.style.display = 'block';
+
+//     console.log("Deferred installation prompt.");
+
+//     button.addEventListener('click', () => {
+//         // hide our user interface that shows our A2HS button
+//         button.style.display = 'none';
+//         // Show the prompt
+//         deferredPrompt.prompt();
+//         // Wait for the user to respond to the prompt
+//         deferredPrompt.userChoice.then((choiceResult) => {
+//           if (choiceResult.outcome === 'accepted') {
+//             console.log('User accepted the A2HS prompt');
+//           } else {
+//             console.log('User dismissed the A2HS prompt');
+//           }
+//           deferredPrompt = null;
+//         });
+//       });
+// });
+
+//#endregion
+
+////////////////////////////////////////////////////////////////////////////////
+//    Tracking weather app is being loaded on web on PWA
+////////////////////////////////////////////////////////////////////////////////
+
+window.addEventListener('DOMContentLoaded', () => {
+    let displayMode = 'Browser_tab';
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      displayMode = 'PWA_standalone';
+    }
+    if (IS_DEBUG) {
+        // Log launch display mode to analytics
+        console.log('DISPLAY_MODE_LAUNCH:', displayMode);
+    } else {
+        logDisplayMode(displayMode);
+    }
+});
+//#endregion

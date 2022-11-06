@@ -2,21 +2,42 @@
  * Service worker for scanapp PWA.
  */
 
-var cacheName = 'v4:static';
+var cacheName = 'v2.2.8.3:static';
 self.addEventListener('install', function(event) {
+    // prevents the waiting, meaning the service worker activates
+    // as soon as it's finished installing
+    // NOTE: don't use this if you don't want your sw to control pages
+    // that were loaded with an older version
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(cacheName).then(function(cache) {
             return cache.addAll([
-                '/assets/app.css',
+                '/assets/app.v2.2.8.1.css',
+                '/assets/js/app.min.v2.2.8.1.js',
+                '/assets/js/html5-qrcode.min.v2.2.8.js',
                 '/assets/main.css',
-                // '/assets/js/html5-qrcode.min.js',
-                // '/assets/js/app.js',
+                '/assets/css/index.v2.2.8.css',
                 '/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.woff2',
             ]);
         }).then(function() {
             self.skipWaiting();
         })
     );
+});
+
+// Remove old cache if any.
+self.addEventListener('activate', (event) => {
+    event.waitUntil((function(e) {
+        return caches.keys().then(function(cacheNames) {
+            return Promise.all(cacheNames.map(function(cacheName) {
+                if (self.cacheName !== cacheName) {
+                    return caches.delete(cacheName);
+                }
+            }))
+        });
+
+    })());
 });
 
 // With request network
@@ -26,7 +47,6 @@ self.addEventListener('fetch', function(event) {
         caches.match(event.request).then(function(response) {
             // return it if there is a response or else fetch again.
             return response || fetch(event.request);
-            // return fetch(event.request);
         })
     );
 });

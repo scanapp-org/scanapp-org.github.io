@@ -1,7 +1,7 @@
 {
     "short_name": "ScanApp",
-    "name": "ScanApp",
-    "description": "Free barcode and QR code scanner",
+    "name": "ScanApp - QR Scanner",
+    "description": "QR Code Scanner - Scan QR Code with webcam or files",
     "icons": [
         {
             "src": "/assets/svg/log_sq-512.png",
