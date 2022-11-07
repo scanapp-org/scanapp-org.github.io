@@ -13,11 +13,11 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(cacheName).then(function(cache) {
             return cache.addAll([
-                '/assets/app.v2.2.8.1.css',
+                '/assets/app.v2.2.8.2.css',
                 '/assets/js/app.min.v2.2.8.1.js',
                 '/assets/js/html5-qrcode.min.v2.2.8.js',
                 '/assets/main.css',
-                '/assets/css/index.v2.2.8.css',
+                '/assets/css/index.v2.2.8.1.css',
                 '/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.woff2',
             ]);
         }).then(function() {

@@ -90,7 +90,37 @@ let Logger = {
 
     logDisplayMode: function(displayMode) {
         gtag("event", `DisplayMode_${displayMode}`, {});
-    }
+    },
+
+    logA2hsPopupShown: function() {
+        gtag("event", "A2hs-popup-shown", {});
+    },
+
+    logA2hsAddButtonClicked: function(isShowNeverCheckboxChecked) {
+        gtag("event", "A2hs-add-button-clicked", {
+            'event_label': isShowNeverCheckboxChecked === true
+                ? "true" : "false"
+        });
+    },
+
+    logA2hsCancelButtonClicked: function(isShowNeverCheckboxChecked) {
+        gtag("event", "A2hs-cancel-button-clicked", {
+            'event_label': isShowNeverCheckboxChecked === true
+                ? "true" : "false"
+        });
+    },
+
+    logA2hsBrowserPromptShown: function() {
+        gtag("event", "A2hs-browser-prompt-shown", {});
+    },
+
+    logA2hsDone: function() {
+        gtag("event", "A2hs-done", {});
+    },
+
+    logA2hsBrowserPromptCancelled: function() {
+        gtag("event", "A2hs-browser-prompt-cancelled", {});
+    },
 };
 //#endregion
 
@@ -313,6 +343,120 @@ HistoryManager.prototype.render = function(rootElement) {
 }
 //#endregion
 
+//#region PWA Prompt & UI
+//#region PwaHistoryManager
+let PwaHistoryManager = function() {
+    let KEY = "PWA-DO-NOT-SHOW-RPOMPT";
+    this.doNotShowPwaPrompt = localStorage.getItem(KEY);
+
+    this.__setNeverShowPrompt = function() {
+        localStorage.setItem(KEY, "true");
+    }
+}
+
+PwaHistoryManager.prototype.shouldShowPrompt = function() {
+    return this.doNotShowPwaPrompt === "true";
+}
+
+PwaHistoryManager.prototype.setNeverShowPrompt = function() {
+    this.__setNeverShowPrompt();
+}
+//#endregion
+
+let PwaPromptManager = function() {
+    // Locals.
+    let container = document.getElementById("a2hs-container");
+    let addButton = document.getElementById("a2hs-add");
+    let cancelButton = document.getElementById("a2hs-cancel");
+    let showNeverCheckbox = document.getElementById("a2hs-add-never");
+    let sectionInfoMore = document.getElementById("section-info-more");
+    let pwaHistoryManager = new PwaHistoryManager();
+    let deferredPrompt;
+    let countShownInSession = 0;
+
+    let showPrompt = function() {
+        // container.style.display = "flex";
+        container.style.top = "calc(25%)";
+        ++countShownInSession;
+        Logger.logA2hsPopupShown();
+    }
+
+    let hidePrompt = function() {
+        container.style.top = "calc(105%)";
+        // container.style.display = "none";
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log("Deferred installation prompt.");
+
+        addButton.addEventListener("click", function() {
+            let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
+            Logger.logA2hsAddButtonClicked(isShowNeverCheckboxChecked);
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                Logger.logA2hsBrowserPromptShown();
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                    Logger.logA2hsDone();
+                    sectionInfoMore.innerHTML
+                        = "Thanks for adding ScanApp to home screen.";
+                    setTimeout(function() {
+                        hidePrompt();
+                    }, 500);
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                    Logger.logA2hsBrowserPromptCancelled();
+                    sectionInfoMore.innerHTML
+                        = "Click on \"Install\" to add ScanApp to home screen.";
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        cancelButton.addEventListener("click", function() {
+            let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
+            Logger.logA2hsCancelButtonClicked(isShowNeverCheckboxChecked);
+            // TODO: Update pwaHistoryManager.
+            if (isShowNeverCheckboxChecked) {
+                pwaHistoryManager.setNeverShowPrompt();
+            }
+            hidePrompt();
+        });
+    });
+
+    this.__optionallyShowPrompt = function() {
+        if (countShownInSession > 0) {
+            // Skipping showing prompt as already shown once in session.
+            return;
+        }
+
+        if (!deferredPrompt) {
+            // No deferred prompt, ignore.
+            // Does this mean already installed?
+            return
+        }
+
+        if (pwaHistoryManager.shouldShowPrompt()) {
+            // Never show prompt set.
+            return;
+        }
+
+        let timeout = setTimeout(function() {
+            showPrompt();
+        }, 2000);
+        return timeout;
+    }
+}
+
+PwaPromptManager.prototype.optionallyShowPrompt = function() {
+    return this.__optionallyShowPrompt();
+}
+//#endregion
+
 //#region UI rendering
 let ScanResult = function(
     decodedText, decodedResult, scanType, codeType, dateTime) {
@@ -377,6 +521,7 @@ let QrResultViewer = function() {
     let showResultContainer = () => {
         header.style.display = "block";
         container.style.display = "flex";
+        container.style.borderTop = "1px solid black";
         parentContainer.style.border = "1px solid silver";
     };
 
@@ -581,6 +726,7 @@ docReady(function() {
     // Global viewer object, to be used for showing scan result as well as
     // history.
     let qrResultViewer = new QrResultViewer();
+    let pwaPromptManagerGlobal = new PwaPromptManager();
 
     // Code snippet to navigate the user to #reader directly.
     // Makes sense when aspect ratio is 16/9
@@ -617,14 +763,22 @@ docReady(function() {
             showTorchButtonIfSupported: true
         });
 
+    let pwaTimeout;
     let onScanResultCloseButtonClickCallback = function() {
         if (html5QrcodeScanner.getState() 
             === Html5QrcodeScannerState.PAUSED) {
             html5QrcodeScanner.resume();
         }
+
+        pwaTimeout = pwaPromptManagerGlobal.optionallyShowPrompt();
     }
 
     function onScanSuccess(decodedText, decodedResult) {
+        if (pwaTimeout) {
+            clearTimeout(pwaTimeout);
+            pwaTimeout= undefined;
+        }
+
         console.log(decodedText, decodedResult);
         if (html5QrcodeScanner.getState() 
             !== Html5QrcodeScannerState.NOT_STARTED) {
@@ -653,7 +807,7 @@ docReady(function() {
 ////////////////////////////////////////////////////////////////////////////////
 //    Register Service Worker for PWA.
 ////////////////////////////////////////////////////////////////////////////////
-let PWA_ENABLED = false;
+let PWA_ENABLED = true;
 if (PWA_ENABLED) {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -665,36 +819,6 @@ if (PWA_ENABLED) {
         });
     }
 }
-
-// let deferredPrompt;
-// window.addEventListener('beforeinstallprompt', (e) => {
-//     // Prevent Chrome 67 and earlier from automatically showing the prompt
-//     e.preventDefault();
-//     deferredPrompt = e;
-//     let button = document.getElementById("a2hs");
-//     if (!button) {
-//         return;
-//     }
-//     button.style.display = 'block';
-
-//     console.log("Deferred installation prompt.");
-
-//     button.addEventListener('click', () => {
-//         // hide our user interface that shows our A2HS button
-//         button.style.display = 'none';
-//         // Show the prompt
-//         deferredPrompt.prompt();
-//         // Wait for the user to respond to the prompt
-//         deferredPrompt.userChoice.then((choiceResult) => {
-//           if (choiceResult.outcome === 'accepted') {
-//             console.log('User accepted the A2HS prompt');
-//           } else {
-//             console.log('User dismissed the A2HS prompt');
-//           }
-//           deferredPrompt = null;
-//         });
-//       });
-// });
 
 //#endregion
 

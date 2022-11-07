@@ -1,7 +1,7 @@
 ---
 layout: empty
 ---
-<link rel="stylesheet" href="/assets/css/index.v2.2.8.css">
+<link rel="stylesheet" href="/assets/css/index.v2.2.8.1.css">
 <div id="scanapp-top-container">
     <div id="scanapp-container">
         <div id="scanner">
@@ -26,7 +26,7 @@ layout: empty
                     </div>
                     <div class="no-result-container-text">Scan to get results</div>
                 </div>
-                <div id="new-scanned-result">
+                <div id="new-scanned-result" class="pop-up-banner">
                     <div class="header">
                         New <span id="scan-result-code-type">{code}</span> detected!
                     </div>
@@ -73,21 +73,46 @@ layout: empty
                         </div>
                     </div>
                     <div id="body-footer" class="footer">
-                        <button id="scan-result-close" class="scanapp-button">Close and scan another</button>
+                        <button id="scan-result-close" class="scanapp-button">
+                            Close and scan another
+                        </button>
                     </div>
                 </div>
-                <div id="a2hs-container" style="display: none;">
+                <!-- Change to display: flex-->
+                <div id="a2hs-container" class="pop-up-banner">
                     <div class="header">
-                        Add to home screen
+                        Add ScanApp to home screen
                     </div>
                     <div class="section">
-                        <div class="image" id="scan-result-image"></div>
-                        <div class="data">
-                            <div id="body-footer" style="text-align: center;">
-                                <button id="a2hs-add">Add to home screen</button>
-                                <button id="a2hs-cancel">Cancel</button>
-                            </div>
+                        <div class="section-image">
+                            <img src="/assets/svg/log_sq-512.png"
+                                alt="scanapp logo"
+                                style="max-width: 150px;">
                         </div>
+                        <div class="section-info">
+                            ScanApp is a free a QR code and bar code scanner.
+                            
+                            Add ScanApp to homescreen to use it any time any where even without internet.
+                            <br>
+                            <br>
+                            <div id="section-info-more">
+                                <ul>
+                                    <li>Runs directly on your browser</li>
+                                    <li>Use camera directly or select image from disk</li>
+                                    <!-- <li>Lightweight and easy to use</li> -->
+                                </ul>
+                            </div>
+                            <!-- No need to install another QR Scanner on your device ever. -->
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <button id="a2hs-cancel" class="scanapp-button">Cancel</button>
+                        <button id="a2hs-add" class="scanapp-button">Install on device</button>
+                        <br>
+                        <label for="a2hs-add-never">
+                            <input type="checkbox" id="a2hs-add-never">
+                            Don't show this dialog again.
+                        </label>
                     </div>
                 </div>
             </div>
@@ -156,6 +181,6 @@ layout: empty
 </div>
 
 <script src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
-<script src="/assets/js/html5-qrcode.min.v2.2.8.js"></script>
-<script src="/assets/js/app.min.v2.2.8.1.js"></script>
+<script src="/assets/js/html5-qrcode.min.v2.2.9.js"></script>
+<script src="/assets/js/app.min.v2.2.8.2.js"></script>
 <!-- <script src="/assets/js/app.js"></script> -->
