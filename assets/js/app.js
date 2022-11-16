@@ -760,7 +760,7 @@ docReady(function() {
             useBarCodeDetectorIfSupported: true,
             rememberLastUsedCamera: true,
             aspectRatio: 4/3,
-            showTorchButtonIfSupported: true
+            showTorchButtonIfSupported: true,
         });
 
     let pwaTimeout;
@@ -835,7 +835,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Log launch display mode to analytics
         console.log('DISPLAY_MODE_LAUNCH:', displayMode);
     } else {
-        logDisplayMode(displayMode);
+        Logger.logDisplayMode(displayMode);
     }
 });
 //#endregion

@@ -14,7 +14,7 @@ self.addEventListener('install', function(event) {
         caches.open(cacheName).then(function(cache) {
             return cache.addAll([
                 '/assets/app.v2.2.8.2.css',
-                '/assets/js/app.min.v2.2.8.1.js',
+                '/assets/js/app.min.v2.3.1.js',
                 '/assets/js/html5-qrcode.min.v2.3.1.js',
                 '/assets/main.css',
                 '/assets/css/index.v2.2.8.1.css',
