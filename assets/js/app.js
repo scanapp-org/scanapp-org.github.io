@@ -362,7 +362,7 @@ PwaHistoryManager.prototype.setNeverShowPrompt = function() {
     this.__setNeverShowPrompt();
 }
 //#endregion
-
+let A2HS_SUPPORTED = false;
 let PwaPromptManager = function() {
     // Locals.
     let container = document.getElementById("a2hs-container");
@@ -429,6 +429,9 @@ let PwaPromptManager = function() {
     });
 
     this.__optionallyShowPrompt = function() {
+        if (!A2HS_SUPPORTED) {
+            return;
+        }
         if (countShownInSession > 0) {
             // Skipping showing prompt as already shown once in session.
             return;
