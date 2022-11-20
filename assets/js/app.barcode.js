@@ -720,6 +720,7 @@ function docReady(fn) {
     }
 }
 
+let html5QrcodeScanner;
 docReady(function() {
     var isInIframe = isEmbeddedInIframe();
     if (isInIframe) {
@@ -779,7 +780,7 @@ docReady(function() {
         Html5QrcodeSupportedFormats.UPC_E,
         Html5QrcodeSupportedFormats.UPC_EAN_EXTENSION,
     ];
-	let html5QrcodeScanner = new Html5QrcodeScanner(
+	html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", 
         { 
             fps: 10,
@@ -788,7 +789,9 @@ docReady(function() {
             rememberLastUsedCamera: true,
             aspectRatio: 4/3,
             showTorchButtonIfSupported: true,
-            formatsToSupport: formatsToSupport
+            formatsToSupport: formatsToSupport,
+            showZoomSliderIfSupported: true,
+            defaultZoomValueIfSupported: 2
         });
 
     let pwaTimeout;
