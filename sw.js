@@ -3,7 +3,7 @@
  */
 
 // On new version, change this name.
-var cacheName = 'v2.3.2:static';
+var cacheName = 'v2.3.2.4:static';
 self.addEventListener('install', function(event) {
     // prevents the waiting, meaning the service worker activates
     // as soon as it's finished installing
@@ -16,8 +16,8 @@ self.addEventListener('install', function(event) {
             return cache.addAll([
                 // As new files are added, update this.
                 '/assets/app.v2.2.8.2.css',
-                '/assets/js/app.min.v2.3.1.1.js',
-                '/assets/js/html5-qrcode.min.v2.3.2.js',
+                '/assets/js/app.min.v2.3.2.3.js',
+                '/assets/js/html5-qrcode.min.v2.3.2.3.js',
                 '/assets/main.css',
                 '/assets/css/index.v2.2.8.1.css',
                 '/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.woff2',

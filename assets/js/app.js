@@ -764,6 +764,8 @@ docReady(function() {
             rememberLastUsedCamera: true,
             aspectRatio: 4/3,
             showTorchButtonIfSupported: true,
+            showZoomSliderIfSupported: true,
+            defaultZoomValueIfSupported: 1.5
         });
 
     let pwaTimeout;
