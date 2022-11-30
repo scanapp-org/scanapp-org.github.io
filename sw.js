@@ -16,7 +16,7 @@ self.addEventListener('install', function(event) {
             return cache.addAll([
                 // As new files are added, update this.
                 '/assets/app.v2.2.8.2.css',
-                '/assets/js/app.min.v2.3.2.3.js',
+                '/assets/js/app.min.v2.3.3.js',
                 '/assets/js/html5-qrcode.min.v2.3.4.js',
                 '/assets/main.css',
                 '/assets/css/index.v2.2.8.1.css',

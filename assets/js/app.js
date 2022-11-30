@@ -362,7 +362,7 @@ PwaHistoryManager.prototype.setNeverShowPrompt = function() {
     this.__setNeverShowPrompt();
 }
 //#endregion
-let A2HS_SUPPORTED = false;
+let A2HS_SUPPORTED = true;
 let PwaPromptManager = function() {
     // Locals.
     let container = document.getElementById("a2hs-container");
@@ -374,15 +374,46 @@ let PwaPromptManager = function() {
     let deferredPrompt;
     let countShownInSession = 0;
 
+    let showPWAInstallPrompt = function() {
+        if (!deferredPrompt) {
+            // TODO: log this.
+            return;
+        }
+        countShownInSession++;
+
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            Logger.logA2hsBrowserPromptShown();
+            if (choiceResult.outcome === 'accepted') {
+                // console.log('User accepted the A2HS prompt');
+                Logger.logA2hsDone();
+                // sectionInfoMore.innerHTML
+                //     = "Thanks for adding ScanApp to home screen.";
+                // setTimeout(function() {
+                //     hidePrompt();
+                // }, 500);
+            } else {
+                // console.log('User dismissed the A2HS prompt');
+                Logger.logA2hsBrowserPromptCancelled();
+                // sectionInfoMore.innerHTML
+                //     = "Click on \"Install\" to add ScanApp to home screen.";
+            }
+            deferredPrompt = undefined;
+        });
+    };
+
     let showPrompt = function() {
         // container.style.display = "flex";
-        container.style.top = "calc(25%)";
-        ++countShownInSession;
-        Logger.logA2hsPopupShown();
+        // container.style.top = "calc(25%)";
+        // ++countShownInSession;
+        // Logger.logA2hsPopupShown();
+
+        showPWAInstallPrompt();
     }
 
     let hidePrompt = function() {
-        container.style.top = "calc(105%)";
+        // container.style.top = "calc(105%)";
         // container.style.display = "none";
     }
 
@@ -392,40 +423,21 @@ let PwaPromptManager = function() {
         deferredPrompt = e;
         console.log("Deferred installation prompt.");
 
-        addButton.addEventListener("click", function() {
-            let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
-            Logger.logA2hsAddButtonClicked(isShowNeverCheckboxChecked);
-            deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            deferredPrompt.userChoice.then((choiceResult) => {
-                Logger.logA2hsBrowserPromptShown();
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                    Logger.logA2hsDone();
-                    sectionInfoMore.innerHTML
-                        = "Thanks for adding ScanApp to home screen.";
-                    setTimeout(function() {
-                        hidePrompt();
-                    }, 500);
-                } else {
-                    console.log('User dismissed the A2HS prompt');
-                    Logger.logA2hsBrowserPromptCancelled();
-                    sectionInfoMore.innerHTML
-                        = "Click on \"Install\" to add ScanApp to home screen.";
-                }
-                deferredPrompt = null;
-            });
-        });
+        // addButton.addEventListener("click", function() {
+        //     let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
+        //     Logger.logA2hsAddButtonClicked(isShowNeverCheckboxChecked);
+        //     showPWAInstallPrompt();
+        // });
 
-        cancelButton.addEventListener("click", function() {
-            let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
-            Logger.logA2hsCancelButtonClicked(isShowNeverCheckboxChecked);
-            // TODO: Update pwaHistoryManager.
-            if (isShowNeverCheckboxChecked) {
-                pwaHistoryManager.setNeverShowPrompt();
-            }
-            hidePrompt();
-        });
+        // cancelButton.addEventListener("click", function() {
+        //     let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
+        //     Logger.logA2hsCancelButtonClicked(isShowNeverCheckboxChecked);
+        //     // TODO: Update pwaHistoryManager.
+        //     if (isShowNeverCheckboxChecked) {
+        //         pwaHistoryManager.setNeverShowPrompt();
+        //     }
+        //     hidePrompt();
+        // });
     });
 
     this.__optionallyShowPrompt = function() {
@@ -448,9 +460,10 @@ let PwaPromptManager = function() {
             return;
         }
 
+        const TIMEOUT_MS = 1000;
         let timeout = setTimeout(function() {
             showPrompt();
-        }, 2000);
+        }, TIMEOUT_MS);
         return timeout;
     }
 }
