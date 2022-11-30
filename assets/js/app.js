@@ -765,7 +765,11 @@ docReady(function() {
             aspectRatio: 4/3,
             showTorchButtonIfSupported: true,
             showZoomSliderIfSupported: true,
-            defaultZoomValueIfSupported: 1.5
+            defaultZoomValueIfSupported: 1.5,
+            // supportedScanTypes: [
+            //     Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+            //     Html5QrcodeScanType.SCAN_TYPE_FILE,
+            // ]
         });
 
     let pwaTimeout;
