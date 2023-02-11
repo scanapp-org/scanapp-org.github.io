@@ -77,6 +77,7 @@ GEM
     wdm (0.1.1)
 
 PLATFORMS
+  arm64-darwin-22
   universal-darwin-20
   universal-darwin-21
   x64-mingw32
@@ -92,4 +93,4 @@ DEPENDENCIES
   wdm (~> 0.1.1)
 
 BUNDLED WITH
-   2.2.33
+   2.4.6
