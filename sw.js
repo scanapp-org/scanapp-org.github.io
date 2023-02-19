@@ -3,7 +3,7 @@
  */
 
 // On new version, change this name.
-var cacheName = 'v2.3.7:static';
+var cacheName = 'v2.3.7.3:static';
 self.addEventListener('install', function(event) {
     // prevents the waiting, meaning the service worker activates
     // as soon as it's finished installing
@@ -15,8 +15,8 @@ self.addEventListener('install', function(event) {
         caches.open(cacheName).then(function(cache) {
             return cache.addAll([
                 // As new files are added, update this.
-                '/assets/app.v2.2.8.2.css',
-                '/assets/js/app.min.v2.3.3.js',
+                '/assets/app.v2.3.7.css',
+                '/assets/js/app.min.v2.3.7.js',
                 '/assets/js/html5-qrcode.min.v2.3.7.js',
                 '/assets/main.css',
                 '/assets/css/index.v2.2.8.1.css',

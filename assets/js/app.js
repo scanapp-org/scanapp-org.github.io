@@ -121,6 +121,14 @@ let Logger = {
     logA2hsBrowserPromptCancelled: function() {
         gtag("event", "A2hs-browser-prompt-cancelled", {});
     },
+
+    logFtpBacklinkClick: function(callback) {
+        gtag('event', 'Ftp-Backlink-Action', {
+            'event_callback': function() {
+                callback();
+            }
+        });
+    } 
 };
 //#endregion
 
@@ -821,8 +829,17 @@ docReady(function() {
     }
 	html5QrcodeScanner.render(onScanSuccess);
     Logger.logScanStart(isInIframe, "camera");
-});
 
+    let ftpBacklink = document.getElementById("ftp-backlink");
+    ftpBacklink.addEventListener("click", function(event) {
+        event.preventDefault();
+        let hyperLink = event.currentTarget.href;
+        Logger.logFtpBacklinkClick(function() {
+            location.href = hyperLink;
+        });
+        return false;
+    })
+});
 
 //#region PWA
 
