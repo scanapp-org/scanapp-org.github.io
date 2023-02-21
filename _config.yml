@@ -43,6 +43,7 @@ plugins:
 webrick:
   headers:
     X-Frame-Options: SAMEORIGIN
+    
 
 github:
   org: https://github.com/scanapp-org

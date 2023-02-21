@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+
+  <head>
+    <link href="https://minhazav.dev" rel="profile">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+        Using Html5-qrcode with only Camera or File options &middot; ScanApp
+        
+    </title>
+
+    
+    <link rel="canonical" href="http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html">
+    
+
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/public/apple-touch-icon-precomposed.png"> -->
+    <!-- <link rel="shortcut icon" href="http://localhost:4000/public/favicon.ico"> -->
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/atom.xml">
+</head>
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-item">
+    <p>Free online QR Code and Barcode scanner for web</p>
+</div>
+
+<nav class="sidebar-nav">
+    <a class="sidebar-nav-item"  href="/">ScanApp - Home</a>
+
+    
+
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+
+    <!-- <a class="sidebar-nav-item" href="/archive/v.zip">Download</a> -->
+    <a class="sidebar-nav-item" href="/blog/">Blog</a>
+    <a class="sidebar-nav-item" href="https://github.com/scanapp-org">GitHub project</a>
+    <!-- <span class="sidebar-nav-item">Currently v</span> -->
+</nav>
+
+<div class="sidebar-item">
+    <p>
+    &copy; 2023. All rights reserved.
+    </p>
+</div>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            Blog by <a href="/" title="Home">ScanApp</a>
+            <small>Free online QR Code and Barcode scanner for web</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Using Html5-qrcode with only Camera or File options</h1>
+  <span class="post-date">
+    01 Nov 2022
+    | Authored by <a href="https://mohsinaav.github.io/">Mohsina</a>
+    
+    | Editted by <a href="https://minhazav.dev">Minhaz</a>
+    
+  </span> 
+  <p><a href="https://github.com/mebjas/html5-qrcode">Html5-qrcode</a> is a light-weight library to easily integrate QR code scanning functionality 
+to any web application. You can find out more about the project and it’s implementation details on the project page on <a href="https://github.com/mebjas/html5-qrcode">Github</a>.</p>
+
+<p><a href="https://scanapp.org">ScanApp</a> is the end to end implementation of the library by the same author.</p>
+
+<p>By default, the library allows two type of scanning options</p>
+
+<ul>
+  <li>Camera based scan</li>
+  <li>File based scan (Allows users to select any file on their device)</li>
+</ul>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/default_config.png" alt="Screenshot of default config" />
+    </div>
+    <i>Screenshot of the app with default configuraion, before my pull request.</i>
+</div>
+
+<p>Earlier, there was no option to change this default configuration i.e. developers who wanted to use the library had to show both camera and file scan options even if their use-case was limited to one of them. There were feature request to open this up as a configuration.</p>
+
+<h2 id="the-feature-request">The feature request</h2>
+<p><a href="https://github.com/mebjas/html5-qrcode/issues/405">This feature request</a> was raised seeking the support for controlling what all scan type should be rendered when using the library.</p>
+
+<blockquote>
+  <p>This seemed like an impactful item for me to start contributing to this project.</p>
+</blockquote>
+
+<h2 id="i-added-a-configuration-in-html5qrcodescanner-to-support-this">I added a configuration in <code class="highlighter-rouge">Html5QrcodeScanner</code> to support this</h2>
+<p>I was able to add a new configuration option, such that the user can</p>
+
+<ul>
+  <li>Either use only Camera based scan</li>
+  <li>Or only File based scan</li>
+  <li>Or use both of them, this happens to be the default option as well.</li>
+</ul>
+
+<p>To configure the feature with <code class="highlighter-rouge">Html5QrcodeScanner</code>, one need to simply set <code class="highlighter-rouge">supportedScanTypes</code> 
+options like this.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span> 
+    <span class="p">{</span> 
+        <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="na">qrbox</span><span class="p">:</span> <span class="nx">qrboxFunction</span><span class="p">,</span>
+        <span class="na">experimentalFeatures</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">useBarCodeDetectorIfSupported</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="na">rememberLastUsedCamera</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+            <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+            <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+        <span class="p">],</span>
+        <span class="na">aspectRatio</span><span class="p">:</span> <span class="mf">1.7777778</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p><strong>Note that</strong></p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Is this the relevant configuration here. Here’s example of different scenarios.</p>
+
+<h3 id="1-user-only-needs-the-camera-based-scanning">[1] User only needs the camera based scanning.</h3>
+<p>In this case, set the <code class="highlighter-rouge">supportedScanTypes</code> value like this.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span> <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span> <span class="p">],</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/camera_only.png" alt="Screenshot of camera only config" />
+    </div>
+    <i>Screenshot of app with camera only config.</i>
+</div>
+
+<h3 id="2-user-only-needs-the-file-based-scanning">[2] User only needs the file based scanning.</h3>
+<p>Here set the <code class="highlighter-rouge">supportedScanTypes</code> value like this.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span><span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/file_only.png" alt="Screenshot of file only config" />
+    </div>
+    <i>Screenshot of app with file only config.</i>
+</div>
+
+<h3 id="3-user-wants-to-support-both-camera-and-file-based-option">[3] User wants to support both camera and file based option</h3>
+<blockquote>
+  <p>This is the default option! And unless you have specific need to disable one
+of the two, I recommend you to use this.</p>
+</blockquote>
+
+<p>If we don’t set any value for <code class="highlighter-rouge">supportedScanTypes</code>, the library will support
+both scanning types by default.</p>
+
+<h4 id="bonus-set-file-based-scanning-as-default-option-while-supporting-both">Bonus: Set file based scanning as default option while supporting both</h4>
+<p>A bonus addition to the feature was that -  the order of the config is also honoured by the library.
+If you want to support both file and camera based scanning options but want to define file based option as the default you can just configure <code class="highlighter-rouge">supportedScanTypes</code> like this</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/file_first.png" alt="Screenshot of file first config" />
+    </div>
+    <i>Screenshot of app with file first config.</i>
+</div>
+
+<blockquote>
+  <p>Otherwise, by default the library renders camera based option as the default one.</p>
+</blockquote>
+
+<h4 id="similarly-you-can-define-camera-based-option-to-be-the-default-one">Similarly, you can define camera based option to be the default one</h4>
+<blockquote>
+  <p>This happens to be the default scenario as well. So if you do nothing explicitly, library will behave in this fashion only.</p>
+</blockquote>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span><span class="p">,</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="if-you-pass-arbitrary-values-library-will-throw-error">If you pass arbitrary values, library will throw error!</h3>
+<p>I suppose this goes without saying!</p>
+
+<blockquote>
+  <p>If you provide values other than the supported ones - the library will throw error.</p>
+</blockquote>
+
+<h2 id="summary">Summary</h2>
+
+<p>Developers can now modify the type of scanning method when using the <code class="highlighter-rouge">Html5QrcodeScanner</code> library.</p>
+
+<ul>
+  <li>Developers can choose to render only Camera support.</li>
+  <li>Developers can choose to render only File selection support.</li>
+  <li>Developers can choose to support both but select file or camera as the default option.</li>
+</ul>
+
+<p>If you have any feedbacks, please share in comment section. For any bug report or feature request please report it to the <a href="https://github.com/mebjas/html5-qrcode">html5-qrcode library</a> directly.</p>
+
+</div>
+
+<!-- TODO(mebjas): Add social badges here -->
+
+<script src="https://utteranc.es/client.js"
+  repo="scanapp-org/scanapp-org.github.io"
+  issue-term="url"
+  theme="github-light"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+<div class="related">
+  <h2>Related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html">
+            Using Flash or Torch with Html5-Qrcode
+            <small>30 Oct 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html">
+            Setting dynamic QR box size in Html5-qrcode
+            <small>09 Jan 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html">
+            Open source library for QR Code and barcode scanning with ReactJs
+            <small>11 Dec 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src='https://scanapp.org/assets/js/blog.script.js'></script>
+  </body>
+</html>

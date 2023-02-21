@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+
+  <head>
+    <link href="https://minhazav.dev" rel="profile">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+        Blog by ScanApp - QR Code scanner for web &middot; ScanApp
+        
+    </title>
+
+    
+    <link rel="canonical" href="http://localhost:4000/blog/">
+    
+
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/public/apple-touch-icon-precomposed.png"> -->
+    <!-- <link rel="shortcut icon" href="http://localhost:4000/public/favicon.ico"> -->
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/atom.xml">
+</head>
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-item">
+    <p>Free online QR Code and Barcode scanner for web</p>
+</div>
+
+<nav class="sidebar-nav">
+    <a class="sidebar-nav-item"  href="/">ScanApp - Home</a>
+
+    
+
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+
+    <!-- <a class="sidebar-nav-item" href="/archive/v.zip">Download</a> -->
+    <a class="sidebar-nav-item" href="/blog/">Blog</a>
+    <a class="sidebar-nav-item" href="https://github.com/scanapp-org">GitHub project</a>
+    <!-- <span class="sidebar-nav-item">Currently v</span> -->
+</nav>
+
+<div class="sidebar-item">
+    <p>
+    &copy; 2023. All rights reserved.
+    </p>
+</div>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            Blog by <a href="/" title="Home">ScanApp</a>
+            <small>Free online QR Code and Barcode scanner for web</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="posts">
+    
+    <div class="post">
+        <h1 class="post-title">
+        <a href="/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html">
+            Using Html5-qrcode with only Camera or File options
+        </a>
+        </h1>
+
+        <span class="post-date">01 Nov 2022 by <a href="https://mohsinaav.github.io/">Mohsina</a></span>
+
+        <p><a href="https://github.com/mebjas/html5-qrcode">Html5-qrcode</a> is a light-weight library to easily integrate QR code scanning functionality 
+to any web application. You can find out more about the project and it’s implementation details on the project page on <a href="https://github.com/mebjas/html5-qrcode">Github</a>.</p>
+
+<p><a href="https://scanapp.org">ScanApp</a> is the end to end implementation of the library by the same author.</p>
+
+<p>By default, the library allows two type of scanning options</p>
+
+<ul>
+  <li>Camera based scan</li>
+  <li>File based scan (Allows users to select any file on their device)</li>
+</ul>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/default_config.png" alt="Screenshot of default config" />
+    </div>
+    <i>Screenshot of the app with default configuraion, before my pull request.</i>
+</div>
+
+<p>Earlier, there was no option to change this default configuration i.e. developers who wanted to use the library had to show both camera and file scan options even if their use-case was limited to one of them. There were feature request to open this up as a configuration.</p>
+
+<h2 id="the-feature-request">The feature request</h2>
+<p><a href="https://github.com/mebjas/html5-qrcode/issues/405">This feature request</a> was raised seeking the support for controlling what all scan type should be rendered when using the library.</p>
+
+<blockquote>
+  <p>This seemed like an impactful item for me to start contributing to this project.</p>
+</blockquote>
+
+<h2 id="i-added-a-configuration-in-html5qrcodescanner-to-support-this">I added a configuration in <code class="highlighter-rouge">Html5QrcodeScanner</code> to support this</h2>
+<p>I was able to add a new configuration option, such that the user can</p>
+
+<ul>
+  <li>Either use only Camera based scan</li>
+  <li>Or only File based scan</li>
+  <li>Or use both of them, this happens to be the default option as well.</li>
+</ul>
+
+<p>To configure the feature with <code class="highlighter-rouge">Html5QrcodeScanner</code>, one need to simply set <code class="highlighter-rouge">supportedScanTypes</code> 
+options like this.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span> 
+    <span class="p">{</span> 
+        <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="na">qrbox</span><span class="p">:</span> <span class="nx">qrboxFunction</span><span class="p">,</span>
+        <span class="na">experimentalFeatures</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">useBarCodeDetectorIfSupported</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="na">rememberLastUsedCamera</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+            <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+            <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+        <span class="p">],</span>
+        <span class="na">aspectRatio</span><span class="p">:</span> <span class="mf">1.7777778</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p><strong>Note that</strong></p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Is this the relevant configuration here. Here’s example of different scenarios.</p>
+
+<h3 id="1-user-only-needs-the-camera-based-scanning">[1] User only needs the camera based scanning.</h3>
+<p>In this case, set the <code class="highlighter-rouge">supportedScanTypes</code> value like this.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span> <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span> <span class="p">],</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/camera_only.png" alt="Screenshot of camera only config" />
+    </div>
+    <i>Screenshot of app with camera only config.</i>
+</div>
+
+<h3 id="2-user-only-needs-the-file-based-scanning">[2] User only needs the file based scanning.</h3>
+<p>Here set the <code class="highlighter-rouge">supportedScanTypes</code> value like this.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span><span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/file_only.png" alt="Screenshot of file only config" />
+    </div>
+    <i>Screenshot of app with file only config.</i>
+</div>
+
+<h3 id="3-user-wants-to-support-both-camera-and-file-based-option">[3] User wants to support both camera and file based option</h3>
+<blockquote>
+  <p>This is the default option! And unless you have specific need to disable one
+of the two, I recommend you to use this.</p>
+</blockquote>
+
+<p>If we don’t set any value for <code class="highlighter-rouge">supportedScanTypes</code>, the library will support
+both scanning types by default.</p>
+
+<h4 id="bonus-set-file-based-scanning-as-default-option-while-supporting-both">Bonus: Set file based scanning as default option while supporting both</h4>
+<p>A bonus addition to the feature was that -  the order of the config is also honoured by the library.
+If you want to support both file and camera based scanning options but want to define file based option as the default you can just configure <code class="highlighter-rouge">supportedScanTypes</code> like this</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span><span class="p">,</span> 
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will render the QR Scanner something like this</p>
+
+<div style="text-align: center; margin-bottom: 20px">
+    <div style="display: flex; justify-content: center;">
+        <img src="/assets/images/blog/post4/file_first.png" alt="Screenshot of file first config" />
+    </div>
+    <i>Screenshot of app with file first config.</i>
+</div>
+
+<blockquote>
+  <p>Otherwise, by default the library renders camera based option as the default one.</p>
+</blockquote>
+
+<h4 id="similarly-you-can-define-camera-based-option-to-be-the-default-one">Similarly, you can define camera based option to be the default one</h4>
+<blockquote>
+  <p>This happens to be the default scenario as well. So if you do nothing explicitly, library will behave in this fashion only.</p>
+</blockquote>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="nl">supportedScanTypes</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_CAMERA</span><span class="p">,</span>
+        <span class="nx">Html5QrcodeScanType</span><span class="p">.</span><span class="nx">SCAN_TYPE_FILE</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="if-you-pass-arbitrary-values-library-will-throw-error">If you pass arbitrary values, library will throw error!</h3>
+<p>I suppose this goes without saying!</p>
+
+<blockquote>
+  <p>If you provide values other than the supported ones - the library will throw error.</p>
+</blockquote>
+
+<h2 id="summary">Summary</h2>
+
+<p>Developers can now modify the type of scanning method when using the <code class="highlighter-rouge">Html5QrcodeScanner</code> library.</p>
+
+<ul>
+  <li>Developers can choose to render only Camera support.</li>
+  <li>Developers can choose to render only File selection support.</li>
+  <li>Developers can choose to support both but select file or camera as the default option.</li>
+</ul>
+
+<p>If you have any feedbacks, please share in comment section. For any bug report or feature request please report it to the <a href="https://github.com/mebjas/html5-qrcode">html5-qrcode library</a> directly.</p>
+
+    </div>
+    
+    <div class="post">
+        <h1 class="post-title">
+        <a href="/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html">
+            Using Flash or Torch with Html5-Qrcode
+        </a>
+        </h1>
+
+        <span class="post-date">30 Oct 2022 by <a href="https://minhazav.dev">Minhaz</a></span>
+
+        <p><img src="/assets/images/blog/post3/pexels-gift-habeshaw-3348724.jpg" alt="Screenshot of implementation" /></p>
+
+<p><a href="https://github.com/mebjas/html5-qrcode">html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application. It has 400K+ downloads on Github and going around <a href="https://www.npmjs.com/package/html5-qrcode">31K downloads/week on npm</a>.</p>
+
+<blockquote>
+  <p>I authored this library in my university days and have been maintaining this project since 2014 (If I remember correctly).</p>
+
+  <p>Enough bragging, coming back to the topic …</p>
+</blockquote>
+
+<p>Almost all smartphones today come with camera which is coupled with a flash light. It’s also used as a torch while recording videos. Most QR scanning applications that are available on Android or IOS have support for enabling torch while scanning. This seems useful when scanning a code in low light conditions.</p>
+
+<h2 id="the-feature-request">The feature request</h2>
+<p>There was a <a href="https://github.com/mebjas/html5-qrcode/issues/129">feature request</a> on the project Github tracker for adding the same functionality to <a href="https://github.com/mebjas/html5-qrcode">html5-qrcode</a> library.</p>
+
+<blockquote>
+  <p>This is very interesting usecase - as it shows the power of web around controlling low level hardware on smartphones.</p>
+</blockquote>
+
+<h2 id="support-added-for-html5qrcodescanner">Support added for <code class="highlighter-rouge">Html5QrcodeScanner</code></h2>
+<p>Considering the value add for end users, I have added the support for using torch (when supported) to the end to end library (i.e. <a href="https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode-scanner.ts#L135">Html5QrcodeScanner</a>).</p>
+
+<p>The feature is added as yet another button which shows up if</p>
+<ol>
+  <li>The feature is enabled from config (off by default).</li>
+  <li>Torch control is supported on the given browser + device.</li>
+</ol>
+
+<p>It looks something like this</p>
+
+<div style="text-align: center">
+    <img src="/assets/images/blog/post3/im1.jpeg" alt="Screenshot of implementation" />
+</div>
+
+<p>You can try it on <a href="https://scanapp.org">scanapp.org</a>.</p>
+
+<p>So far I have verified it to work on Android devices on browsers like Google Chrome and Samsung’s default internet browser. I have verified it to work on Pixel 6 Pro, Samsung Flip 4 devices and One Plus 10 Pro.</p>
+
+<p>I have also verified it to not work on Chrome or Safari on IOS (on Iphone 13).</p>
+
+<blockquote>
+  <p>Why? Likely not supported in the implementation - need to verify!</p>
+</blockquote>
+
+<p>The support was added with <a href="https://github.com/mebjas/html5-qrcode/pull/570">PR#570</a>. It’s been published under <code class="highlighter-rouge">version 2.2.6</code>.</p>
+
+<p>To enable the feature with <code class="highlighter-rouge">Html5QrcodeScanner</code> one simply need to set <code class="highlighter-rouge">showTorchButtonIfSupported</code> to <code class="highlighter-rouge">true</code>.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="na">qrbox</span><span class="p">:</span> <span class="p">{</span><span class="na">width</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">250</span><span class="p">},</span>
+        <span class="na">rememberLastUsedCamera</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">aspectRatio</span><span class="p">:</span> <span class="mf">1.7777778</span><span class="p">,</span>
+        <span class="na">showTorchButtonIfSupported</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+
+</code></pre></div></div>
+
+<h2 id="how-it-works">How it works?</h2>
+<blockquote>
+  <p>And how to set flash or torch with <code class="highlighter-rouge">Html5Qrcode</code> library.</p>
+</blockquote>
+
+<p>First this you need to check is if <code class="highlighter-rouge">torch</code> is supported. Weather or not <code class="highlighter-rouge">torch</code>
+is supported depends on the device, browser as well as the selected camera (often only back camera supports torch).</p>
+
+<p>The idea is to see if <code class="highlighter-rouge">torch</code> is available on <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_image_tracks">MediaTrackConstraints</a> of the running video track. When the camera scan is running you can call <a href="https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L798">getRunningTrackSettings()</a> to verify if <code class="highlighter-rouge">torch</code> is supported.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Returns {@code true} if torch is supported. */</span>
+<span class="kd">function</span> <span class="nx">isTorchSupported</span><span class="p">(</span><span class="nx">html5Qrcode</span><span class="p">:</span> <span class="nx">Html5Qrcode</span><span class="p">):</span> <span class="nx">boolean</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">settings</span> <span class="o">=</span> <span class="nx">html5Qrcode</span><span class="p">.</span><span class="nx">getRunningTrackSettings</span><span class="p">();</span>
+    <span class="k">return</span> <span class="dl">"</span><span class="s2">torch</span><span class="dl">"</span> <span class="k">in</span> <span class="nx">settings</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If <code class="highlighter-rouge">torch</code> is indeed supported, the next step is to enable it. You can use <a href="https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L826">applyVideoConstraints(..)</a> API to request turning on <code class="highlighter-rouge">torch</code>.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">constraints</span><span class="p">:</span> <span class="nx">MediaTrackConstraints</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">torch</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">advanced</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="dl">"</span><span class="s2">torch</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}]</span>
+<span class="p">};</span>
+<span class="k">await</span> <span class="nx">html5Qrcode</span><span class="p">.</span><span class="nx">applyVideoConstraints</span><span class="p">(</span><span class="nx">constraints</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">settings</span> <span class="o">=</span> <span class="nx">html5Qrcode</span><span class="p">.</span><span class="nx">getRunningTrackSettings</span><span class="p">();</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">torch</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Torch was indeed enabled, succeess.</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// Failure.</span>
+    <span class="c1">// Failed to set torch, why?</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In a similar fashion, you can request turning off <code class="highlighter-rouge">torch</code> with the same API.</p>
+
+<h3 id="why-set-twice">Why set twice?</h3>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">advanced</span><span class="dl">"</span><span class="p">:</span> <span class="p">[{</span> <span class="dl">"</span><span class="s2">torch</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}]</span>
+</code></pre></div></div>
+
+<p>For backwards compatibility sake!</p>
+
+<h2 id="browser-and-device-support">Browser and device support</h2>
+<p>As shared before this feature seems to be supported on Android devices. I have verified this on at least three Android devices and one IOS device.</p>
+
+<p>Here’s summary:</p>
+<ul>
+  <li>
+    <p>Support verified on several Android devices.</p>
+  </li>
+  <li>Support verified on following browsers in Android
+    <ul>
+      <li>Google Chrome</li>
+      <li>Samsung Internet Browser</li>
+      <li>Opera</li>
+      <li>Microsoft Edge</li>
+      <li>Brave Browser</li>
+      <li>Duck Duck Go Browser</li>
+    </ul>
+  </li>
+  <li>Verified lack of support on following browsers in Android
+    <ul>
+      <li>Mozilla Firefox</li>
+    </ul>
+  </li>
+  <li>Verified lack of support on Chrome and Safari on IOS (Iphone 13)</li>
+</ul>
+
+<p>In case you get a chance to test on more devices using <a href="https://scanapp.org">scanapp.org</a>, please add information in comments. I’ll update this article accordingly.</p>
+
+<h2 id="photo-credits">Photo credits</h2>
+<ul>
+  <li>Special thanks to photo by <a href="https://www.pexels.com/@lovetosmile/">Gift Habeshaw</a> on <a href="https://www.pexels.com">Pexels</a>.</li>
+</ul>
+
+<h2 id="like-this-article">Like this article?</h2>
+<p>If you like this article, you can find more of my articles on Medium. If you are already on Medium you can <a href="https://minhazav.medium.com/">follow me</a> and <a href="https://medium.com/membership/@minhazav">subscribe to my articles</a>.</p>
+
+<p>If you are not on Medium, you can <a href="https://medium.com/membership/@minhazav">join with my link</a>. Medium will pay me a peice and that’d be helpful for me to write more such articles. Medium has articles from several awesome authors.</p>
+
+    </div>
+    
+    <div class="post">
+        <h1 class="post-title">
+        <a href="/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html">
+            Setting dynamic QR box size in Html5-qrcode
+        </a>
+        </h1>
+
+        <span class="post-date">09 Jan 2022 by <a href="https://minhazav.dev">Minhaz</a></span>
+
+        <p><a href="https://github.com/mebjas/html5-qrcode">mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application.</p>
+
+<p><img src="/assets/images/blog/post2/im1.png" alt="" />
+<em>Figure: User interface for Html5-qrcode using <code class="highlighter-rouge">Html5QrcodeScanner</code> class</em></p>
+
+<p>The library provides two approaches for integrating QR code / bar code scanning with any web applications.</p>
+<ol>
+  <li>Core library called <code class="highlighter-rouge">Html5Qrcode</code> which provide APIs for web developers to build the user interface upon and abstracts camera / permissions / QR code or barcode decoding.</li>
+  <li>End to end UI for code scanning as well local image based scanning using <code class="highlighter-rouge">Html5QrcodeScanner</code> class.</li>
+</ol>
+
+<p>One can simply setup a QR code scanning with following lines of code.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- html --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"reader"</span> <span class="na">width=</span><span class="s">"600px"</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/html5-qrcode"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Javascript code.</span>
+
+<span class="kd">function</span> <span class="nx">onScanSuccess</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// handle the scanned code as you like, for example:</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Code matched = </span><span class="p">${</span><span class="nx">decodedText</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span> <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">qrbox</span><span class="p">:</span> <span class="p">{</span><span class="na">width</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">250</span><span class="p">}</span> <span class="p">};</span>
+<span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="cm">/* verbose= */</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">onScanSuccess</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">qrbox</code> config lets developers define the portion of the viewfinder that will be used for scanning. It’s supported both in <code class="highlighter-rouge">Html5Qrcode</code> as well as <code class="highlighter-rouge">Html5QrcodeScanner</code> class. Based on this value the library renders a box with shaded regions around it, allowing end-users to compose the scanning device around the QR code or barcodes.</p>
+
+<h2 id="qrbox-configuration"><code class="highlighter-rouge">qrbox</code> configuration</h2>
+<p>Based on the <a href="https://github.com/mebjas/html5-qrcode#documentation">developer documentation</a> you can either pass a dimension of type <code class="highlighter-rouge">QrDimensions</code> as value for this config.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Defines dimension for QR Code Scanner. */</span>
+<span class="kr">interface</span> <span class="nx">QrDimensions</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So this means for a barcode scanning usecase you can pass a non square configuration like <code class="highlighter-rouge">{width: 400, height: 100}</code> to render scanner like this - likely ideal for scanning rectangual barcodes.</p>
+
+<p><img src="/assets/images/blog/post2/im2.png" alt="" /></p>
+
+<h2 id="dynamically-setting-qrbox-configuration">Dynamically setting <code class="highlighter-rouge">qrbox</code> configuration</h2>
+<p>With <code class="highlighter-rouge">version 2.2.0</code> onwards the library now also supports passing in a function of type <code class="highlighter-rouge">QrDimensionFunction</code> as a value for this configuration.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * A function that takes in the width and height of the video stream 
+ * and returns QrDimensions.
+ * 
+ * Viewfinder refers to the video showing camera stream.
+ */</span>
+<span class="kd">type</span> <span class="nx">QrDimensionFunction</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">QrDimensions</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The function takes in the dimensions of the viewfinder (the video stream with camera feed) and is expected to return <code class="highlighter-rouge">QrDimensions</code>.</p>
+
+<p>This is great, with this you can now set a custom function to determine the QR box dimensions based on run time properties of the video stream that works across form factors.</p>
+
+<p>Here’s an example:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">onScanSuccess</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// handle the scanned code as you like, for example:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Code matched = </span><span class="p">${</span><span class="nx">decodedText</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Square QR box with edge size = 70% of the smaller edge of the viewfinder.</span>
+<span class="kd">let</span> <span class="nx">qrboxFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">minEdgePercentage</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">;</span> <span class="c1">// 70%</span>
+    <span class="kd">let</span> <span class="nx">minEdgeSize</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">qrboxSize</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">minEdgeSize</span> <span class="o">*</span> <span class="nx">minEdgePercentage</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">width</span><span class="p">:</span> <span class="nx">qrboxSize</span><span class="p">,</span>
+        <span class="na">height</span><span class="p">:</span> <span class="nx">qrboxSize</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">{</span> <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">qrbox</span><span class="p">:</span> <span class="nx">qrboxFunction</span> <span class="p">},</span>
+    <span class="cm">/* verbose= */</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">onScanSuccess</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>With this you can set the QR box dimensions to always be <code class="highlighter-rouge">70%</code> of the smaller edge of the video stream so it works on both mobile and PC platforms.</p>
+
+    </div>
+    
+    <div class="post">
+        <h1 class="post-title">
+        <a href="/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html">
+            Open source library for QR Code and barcode scanning with ReactJs
+        </a>
+        </h1>
+
+        <span class="post-date">11 Dec 2021 by <a href="https://minhazav.dev">Minhaz</a></span>
+
+        <p>This article has been forked from the original article by the Author at <a href="https://blog.minhazav.dev">blog.minhazav.dev</a>.</p>
+
+<div class="post-info" style="border: 1px solid #cfcfcf73; padding: 10px; margin: 10px;">
+    <h3 class="post-header"><a class="post-link" href="https://blog.minhazav.dev/Qr-code-and-barcode-scanner-in-react/">QR and barcode scanner in React</a></h3>
+     <span class="post-description">
+       <img src="https://blog.minhazav.dev/images/post33_image1.png" style="max-width: 30%; float: left; margin: 0px 15px 10px 0px;" alt="different 1D and 2D codes" /> <a href="https://github.com/mebjas/html5-qrcode">mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application. There are several developers who have been using it under web-view for android projects as well. In this article I’ll be explaining how to use html5-qrcode with React so it’s easier for developers using popular React framework to these functionalities with ease.
+     </span>
+     <br />
+     <span class="read-more"><a href="https://blog.minhazav.dev/Qr-code-and-barcode-scanner-in-react/">[&nbsp;Read&nbsp;more&nbsp;]</a></span>
+</div>
+
+<hr />
+
+<h2 id="introduction">Introduction</h2>
+
+<p>I don’t think <a href="https://reactjs.org/">ReactJs</a> needs any explanation here and throughout this article I’ll assume the readers have familiarity with <code class="highlighter-rouge">React</code>, <code class="highlighter-rouge">Components</code>, <code class="highlighter-rouge">state</code>, <code class="highlighter-rouge">props</code> etc.</p>
+
+<p>If you are just interested in implementing QR code or barcode scanning on web without react, I recommend you read this article</p>
+
+<div class="post-info" style="border: 1px solid #cfcfcf73; padding: 10px; margin: 10px;">
+    <h3 class="post-header"><a class="post-link" href="https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/">QR and barcode scanner using HTML and JavaScript</a></h3>
+     <span class="post-description">
+       <img src="https://blog.minhazav.dev/images/post24_image1.jpeg" style="max-width: 10%; float: left; margin: 0px 15px 10px 0px;" alt="different 1D and 2D codes" />
+       This article is a guide on integrating QR code or barcode scanner on any web applications with a couple of lines of code with ease using <a href="https://github.com/mebjas/html5-qrcode">mebjas/html5-qrcode</a>.
+     </span>
+     <br />
+     <span class="read-more"><a href="https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/">[&nbsp;Read&nbsp;more&nbsp;]</a></span>
+</div>
+
+<h2 id="install-the-library-using-npm">Install the library using npm</h2>
+<p>First, install the latest version of the library in your React project, using <code class="highlighter-rouge">npm</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i html5-qrcode
+</code></pre></div></div>
+
+<h2 id="create-a-react-component">Create a React component</h2>
+
+<p>Next step is to create a React that abstracts most of the scanner implementation.
+Let say we create a new file called <code class="highlighter-rouge">Html5QrcodePlugin.jsx</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1">// Html5QrcodePlugin.jsx</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Html5QrcodeScanner</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">html5-qrcode</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">qrcodeRegionId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">html5qr-code-full-region</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">Html5QrcodePlugin</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="p">{</span><span class="nx">qrcodeRegionId</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">;
+</span>    <span class="p">}</span>
+
+    <span class="nx">componentWillUnmount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO(mebjas): See if there is a better way to handle</span>
+        <span class="c1">//  promise in `componentWillUnmount`.</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">clear</span><span class="p">().</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Failed to clear html5QrcodeScanner. </span><span class="dl">"</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Creates the configuration object for Html5QrcodeScanner.</span>
+        <span class="kd">function</span> <span class="nx">createConfig</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">fps</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">config</span><span class="p">.</span><span class="nx">fps</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">fps</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">qrbox</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">config</span><span class="p">.</span><span class="nx">qrbox</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">qrbox</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">aspectRatio</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">config</span><span class="p">.</span><span class="nx">aspectRatio</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">aspectRatio</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">disableFlip</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">config</span><span class="p">.</span><span class="nx">disableFlip</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">disableFlip</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="nx">config</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">createConfig</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">verbose</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">verbose</span> <span class="o">===</span> <span class="kc">true</span><span class="p">;</span>
+
+        <span class="c1">// Suceess callback is required.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">qrCodeSuccessCallback</span> <span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="dl">"</span><span class="s2">qrCodeSuccessCallback is required callback.</span><span class="dl">"</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+            <span class="nx">qrcodeRegionId</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="nx">verbose</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">qrCodeSuccessCallback</span><span class="p">,</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">qrCodeErrorCallback</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Html5QrcodePlugin</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Important note:</strong> html5-qrcode is an actively developed library. It’s advisable to subscribe to updates at <a href="https://github.com/mebjas/html5-qrcode">mebjas/html5-qrcode</a> so you can keep the React library up to date.</p>
+</blockquote>
+
+<h2 id="use-this-plugin-in-your-react-app">Use this plugin in your React App</h2>
+<p>I’ll assume you have an <code class="highlighter-rouge">App.js</code> that is the source component. You can add the new <code class="highlighter-rouge">Component</code> we just created.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">App</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+
+        <span class="c1">// This binding is necessary to make `this` work in the callback.</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onNewScanResult</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">onNewScanResult</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Html5Qrcode</span> <span class="nx">React</span> <span class="nx">example</span><span class="o">!&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">Html5QrcodePlugin</span> 
+                <span class="nx">fps</span><span class="o">=</span><span class="p">{</span><span class="mi">10</span><span class="p">}</span>
+                <span class="nx">qrbox</span><span class="o">=</span><span class="p">{</span><span class="mi">250</span><span class="p">}</span>
+                <span class="nx">disableFlip</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span>
+                <span class="nx">qrCodeSuccessCallback</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onNewScanResult</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="se">)</span><span class="err">;
+</span>    <span class="p">}</span>
+
+    <span class="nx">onNewScanResult</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Handle the result here.</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="passing-around-the-callback">Passing around the callback</h2>
+<p>You might have seen the callback defined in the above section</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ... rest of the code </span>
+
+    <span class="nx">onNewScanResult</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Handle the result here.</span>
+    <span class="p">}</span>
+
+<span class="c1">// ... rest of the code </span>
+</code></pre></div></div>
+
+<p>Use this callback to define rest of your business logic. Let say your use-case is to pass the newly scanned result and print in on a <code class="highlighter-rouge">&lt;table&gt;</code>, you’d want to pass around the data to a different component. You can find an example of this at <a href="https://github.com/scanapp-org/html5-qrcode-react/blob/main/src/ResultContainerPlugin.jsx">scanapp-org/html5-qrcode-react</a>.</p>
+
+<h2 id="full-code-reference">Full code reference</h2>
+<p>The full example has been created at <a href="https://github.com/scanapp-org/html5-qrcode-react">scanapp-org/html5-qrcode-react</a> - you can use that as a good reference.</p>
+
+<h2 id="credits">Credits</h2>
+<div id="scanapp_ad" style="margin: 10px">
+    <div class="alert alert-success" style="display: flex;">
+        <div style="max-width: 100px; display: inline-block;">
+            <a href="https://scanapp.org"><img src="https://blog.minhazav.dev/assets/img/scanapp-logo-removebg-preview.png" style="width: 100px;" /></a>
+        </div>
+        <div style="display: inline-block; margin-left: 10px">
+            <strong>ScanApp - Free QR code and barcode scanner for web</strong>
+            <br />
+            <a href="https://scanapp.org">scanapp.org</a> is a free online QR code and barcode reader for web built using this library - <a href="https://scanapp.org">try it out</a>.
+            <br />
+        </div>
+    </div>
+</div>
+
+<h2 id="closing-note">Closing note</h2>
+<p>I have to admit, I am not React savvy, if you see errors or know of better way to do things please suggest it using the comments or send a pull request to <a href="https://github.com/scanapp-org/html5-qrcode-react">scanapp-org/html5-qrcode-react</a>.</p>
+
+    </div>
+    
+</div>
+
+<div class="pagination">
+    
+        <span class="pagination-item older">Older</span>
+    
+    
+        <span class="pagination-item newer">Newer</span>
+    
+</div>
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src='https://scanapp.org/assets/js/blog.script.js'></script>
+  </body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+
+  <head>
+    <link href="https://minhazav.dev" rel="profile">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+        Setting dynamic QR box size in Html5-qrcode &middot; ScanApp
+        
+    </title>
+
+    
+    <link rel="canonical" href="http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html">
+    
+
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.css">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/public/apple-touch-icon-precomposed.png"> -->
+    <!-- <link rel="shortcut icon" href="http://localhost:4000/public/favicon.ico"> -->
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/atom.xml">
+</head>
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-item">
+    <p>Free online QR Code and Barcode scanner for web</p>
+</div>
+
+<nav class="sidebar-nav">
+    <a class="sidebar-nav-item"  href="/">ScanApp - Home</a>
+
+    
+
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    
+        
+    
+    
+
+    <!-- <a class="sidebar-nav-item" href="/archive/v.zip">Download</a> -->
+    <a class="sidebar-nav-item" href="/blog/">Blog</a>
+    <a class="sidebar-nav-item" href="https://github.com/scanapp-org">GitHub project</a>
+    <!-- <span class="sidebar-nav-item">Currently v</span> -->
+</nav>
+
+<div class="sidebar-item">
+    <p>
+    &copy; 2023. All rights reserved.
+    </p>
+</div>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            Blog by <a href="/" title="Home">ScanApp</a>
+            <small>Free online QR Code and Barcode scanner for web</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Setting dynamic QR box size in Html5-qrcode</h1>
+  <span class="post-date">
+    09 Jan 2022
+    | Authored by <a href="https://minhazav.dev">Minhaz</a>
+    
+  </span> 
+  <p><a href="https://github.com/mebjas/html5-qrcode">mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application.</p>
+
+<p><img src="/assets/images/blog/post2/im1.png" alt="" />
+<em>Figure: User interface for Html5-qrcode using <code class="highlighter-rouge">Html5QrcodeScanner</code> class</em></p>
+
+<p>The library provides two approaches for integrating QR code / bar code scanning with any web applications.</p>
+<ol>
+  <li>Core library called <code class="highlighter-rouge">Html5Qrcode</code> which provide APIs for web developers to build the user interface upon and abstracts camera / permissions / QR code or barcode decoding.</li>
+  <li>End to end UI for code scanning as well local image based scanning using <code class="highlighter-rouge">Html5QrcodeScanner</code> class.</li>
+</ol>
+
+<p>One can simply setup a QR code scanning with following lines of code.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- html --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"reader"</span> <span class="na">width=</span><span class="s">"600px"</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/html5-qrcode"</span> <span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Javascript code.</span>
+
+<span class="kd">function</span> <span class="nx">onScanSuccess</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// handle the scanned code as you like, for example:</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Code matched = </span><span class="p">${</span><span class="nx">decodedText</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span> <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">qrbox</span><span class="p">:</span> <span class="p">{</span><span class="na">width</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="mi">250</span><span class="p">}</span> <span class="p">};</span>
+<span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="cm">/* verbose= */</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">onScanSuccess</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">qrbox</code> config lets developers define the portion of the viewfinder that will be used for scanning. It’s supported both in <code class="highlighter-rouge">Html5Qrcode</code> as well as <code class="highlighter-rouge">Html5QrcodeScanner</code> class. Based on this value the library renders a box with shaded regions around it, allowing end-users to compose the scanning device around the QR code or barcodes.</p>
+
+<h2 id="qrbox-configuration"><code class="highlighter-rouge">qrbox</code> configuration</h2>
+<p>Based on the <a href="https://github.com/mebjas/html5-qrcode#documentation">developer documentation</a> you can either pass a dimension of type <code class="highlighter-rouge">QrDimensions</code> as value for this config.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Defines dimension for QR Code Scanner. */</span>
+<span class="kr">interface</span> <span class="nx">QrDimensions</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So this means for a barcode scanning usecase you can pass a non square configuration like <code class="highlighter-rouge">{width: 400, height: 100}</code> to render scanner like this - likely ideal for scanning rectangual barcodes.</p>
+
+<p><img src="/assets/images/blog/post2/im2.png" alt="" /></p>
+
+<h2 id="dynamically-setting-qrbox-configuration">Dynamically setting <code class="highlighter-rouge">qrbox</code> configuration</h2>
+<p>With <code class="highlighter-rouge">version 2.2.0</code> onwards the library now also supports passing in a function of type <code class="highlighter-rouge">QrDimensionFunction</code> as a value for this configuration.</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * A function that takes in the width and height of the video stream 
+ * and returns QrDimensions.
+ * 
+ * Viewfinder refers to the video showing camera stream.
+ */</span>
+<span class="kd">type</span> <span class="nx">QrDimensionFunction</span> <span class="o">=</span>
+    <span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">:</span> <span class="kr">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">QrDimensions</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The function takes in the dimensions of the viewfinder (the video stream with camera feed) and is expected to return <code class="highlighter-rouge">QrDimensions</code>.</p>
+
+<p>This is great, with this you can now set a custom function to determine the QR box dimensions based on run time properties of the video stream that works across form factors.</p>
+
+<p>Here’s an example:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">onScanSuccess</span><span class="p">(</span><span class="nx">decodedText</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// handle the scanned code as you like, for example:</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Code matched = </span><span class="p">${</span><span class="nx">decodedText</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span> <span class="nx">decodedResult</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Square QR box with edge size = 70% of the smaller edge of the viewfinder.</span>
+<span class="kd">let</span> <span class="nx">qrboxFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">minEdgePercentage</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">;</span> <span class="c1">// 70%</span>
+    <span class="kd">let</span> <span class="nx">minEdgeSize</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">viewfinderWidth</span><span class="p">,</span> <span class="nx">viewfinderHeight</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">qrboxSize</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">minEdgeSize</span> <span class="o">*</span> <span class="nx">minEdgePercentage</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">width</span><span class="p">:</span> <span class="nx">qrboxSize</span><span class="p">,</span>
+        <span class="na">height</span><span class="p">:</span> <span class="nx">qrboxSize</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">html5QrcodeScanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Html5QrcodeScanner</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">reader</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">{</span> <span class="na">fps</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="na">qrbox</span><span class="p">:</span> <span class="nx">qrboxFunction</span> <span class="p">},</span>
+    <span class="cm">/* verbose= */</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nx">html5QrcodeScanner</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">onScanSuccess</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>With this you can set the QR box dimensions to always be <code class="highlighter-rouge">70%</code> of the smaller edge of the video stream so it works on both mobile and PC platforms.</p>
+
+</div>
+
+<!-- TODO(mebjas): Add social badges here -->
+
+<script src="https://utteranc.es/client.js"
+  repo="scanapp-org/scanapp-org.github.io"
+  issue-term="url"
+  theme="github-light"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+<div class="related">
+  <h2>Related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html">
+            Using Html5-qrcode with only Camera or File options
+            <small>01 Nov 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html">
+            Using Flash or Torch with Html5-Qrcode
+            <small>30 Oct 2022</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html">
+            Open source library for QR Code and barcode scanning with ReactJs
+            <small>11 Dec 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src='https://scanapp.org/assets/js/blog.script.js'></script>
+  </body>
+</html>

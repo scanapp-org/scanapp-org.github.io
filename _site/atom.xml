@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>Free online QR Code and Barcode scanner for web</description>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Using Html5-qrcode with only Camera or File options</title>
+        <description>In this article, I'll share how to use different scan types - camera based and file based, depending upon the scenario.</description>
+        <pubDate>Tue, 01 Nov 2022 00:00:00 +0530</pubDate>
+        <link>http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html</guid>
+      </item>
+    
+      <item>
+        <title>Using Flash or Torch with Html5-Qrcode</title>
+        <description>&lt;a href='https://github.com/mebjas/html5-qrcode'&gt;mebjas/html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application. There has been ask supporting torch or flash feature with the scanner. This feature is usually very well supported on native scanner apps that are available on Android or IOS. In this article I'll share how to add torch support with both end to end library (Html5QrcodeScanner) as well as the low level library  (Html5Qrcode).</description>
+        <pubDate>Sun, 30 Oct 2022 00:00:00 +0530</pubDate>
+        <link>http://localhost:4000/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html</guid>
+      </item>
+    
+      <item>
+        <title>Setting dynamic QR box size in Html5-qrcode</title>
+        <description>&lt;a href='https://github.com/mebjas/html5-qrcode'&gt;mebjas/html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. This article explains how to set the dimensions of QR box dynamically based on video width or height</description>
+        <pubDate>Sun, 09 Jan 2022 00:00:00 +0530</pubDate>
+        <link>http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html</guid>
+      </item>
+    
+      <item>
+        <title>Open source library for QR Code and barcode scanning with ReactJs</title>
+        <description>&lt;a href='https://github.com/mebjas/html5-qrcode'&gt;mebjas/html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. In this article, I'll be explaining how to use html5-qrcode with React so it's easier for developers using popular React framework to these functionalities with ease.</description>
+        <pubDate>Sat, 11 Dec 2021 13:43:10 +0530</pubDate>
+        <link>http://localhost:4000/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html</guid>
+      </item>
+    
+  </channel>
+</rss>

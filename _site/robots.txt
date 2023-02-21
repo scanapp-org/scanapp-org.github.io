@@ -1,0 +1,7 @@
+User-agent: Googlebot
+Disallow: /staging
+
+User-agent: *
+Allow: /
+
+Sitemap: https://scanapp.org/atom.xml

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-02-21T08:00:13+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">ScanApp</title><subtitle>Free online QR Code and Barcode scanner for web</subtitle><entry><title type="html">Using Html5-qrcode with only Camera or File options</title><link href="http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html" rel="alternate" type="text/html" title="Using Html5-qrcode with only Camera or File options" /><published>2022-11-01T00:00:00+05:30</published><updated>2022-11-01T00:00:00+05:30</updated><id>http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options</id><content type="html" xml:base="http://localhost:4000/blog/2022/11/01/using-html5-qrcode-with-only-camera-or-file-options.html">&lt;p&gt;&lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;Html5-qrcode&lt;/a&gt; is a light-weight library to easily integrate QR code scanning functionality 
+to any web application. You can find out more about the project and it’s implementation details on the project page on &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://scanapp.org&quot;&gt;ScanApp&lt;/a&gt; is the end to end implementation of the library by the same author.&lt;/p&gt;
+
+&lt;p&gt;By default, the library allows two type of scanning options&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Camera based scan&lt;/li&gt;
+  &lt;li&gt;File based scan (Allows users to select any file on their device)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div style=&quot;text-align: center; margin-bottom: 20px&quot;&gt;
+    &lt;div style=&quot;display: flex; justify-content: center;&quot;&gt;
+        &lt;img src=&quot;/assets/images/blog/post4/default_config.png&quot; alt=&quot;Screenshot of default config&quot; /&gt;
+    &lt;/div&gt;
+    &lt;i&gt;Screenshot of the app with default configuraion, before my pull request.&lt;/i&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Earlier, there was no option to change this default configuration i.e. developers who wanted to use the library had to show both camera and file scan options even if their use-case was limited to one of them. There were feature request to open this up as a configuration.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-feature-request&quot;&gt;The feature request&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/mebjas/html5-qrcode/issues/405&quot;&gt;This feature request&lt;/a&gt; was raised seeking the support for controlling what all scan type should be rendered when using the library.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This seemed like an impactful item for me to start contributing to this project.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;i-added-a-configuration-in-html5qrcodescanner-to-support-this&quot;&gt;I added a configuration in &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; to support this&lt;/h2&gt;
+&lt;p&gt;I was able to add a new configuration option, such that the user can&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Either use only Camera based scan&lt;/li&gt;
+  &lt;li&gt;Or only File based scan&lt;/li&gt;
+  &lt;li&gt;Or use both of them, this happens to be the default option as well.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To configure the feature with &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt;, one need to simply set &lt;code class=&quot;highlighter-rouge&quot;&gt;supportedScanTypes&lt;/code&gt; 
+options like this.&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;reader&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;experimentalFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;useBarCodeDetectorIfSupported&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;rememberLastUsedCamera&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_FILE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+            &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_CAMERA&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;aspectRatio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.7777778&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note that&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_FILE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_CAMERA&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Is this the relevant configuration here. Here’s example of different scenarios.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-user-only-needs-the-camera-based-scanning&quot;&gt;[1] User only needs the camera based scanning.&lt;/h3&gt;
+&lt;p&gt;In this case, set the &lt;code class=&quot;highlighter-rouge&quot;&gt;supportedScanTypes&lt;/code&gt; value like this.&lt;/p&gt;
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_CAMERA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will render the QR Scanner something like this&lt;/p&gt;
+
+&lt;div style=&quot;text-align: center; margin-bottom: 20px&quot;&gt;
+    &lt;div style=&quot;display: flex; justify-content: center;&quot;&gt;
+        &lt;img src=&quot;/assets/images/blog/post4/camera_only.png&quot; alt=&quot;Screenshot of camera only config&quot; /&gt;
+    &lt;/div&gt;
+    &lt;i&gt;Screenshot of app with camera only config.&lt;/i&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;2-user-only-needs-the-file-based-scanning&quot;&gt;[2] User only needs the file based scanning.&lt;/h3&gt;
+&lt;p&gt;Here set the &lt;code class=&quot;highlighter-rouge&quot;&gt;supportedScanTypes&lt;/code&gt; value like this.&lt;/p&gt;
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_FILE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will render the QR Scanner something like this&lt;/p&gt;
+
+&lt;div style=&quot;text-align: center; margin-bottom: 20px&quot;&gt;
+    &lt;div style=&quot;display: flex; justify-content: center;&quot;&gt;
+        &lt;img src=&quot;/assets/images/blog/post4/file_only.png&quot; alt=&quot;Screenshot of file only config&quot; /&gt;
+    &lt;/div&gt;
+    &lt;i&gt;Screenshot of app with file only config.&lt;/i&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;3-user-wants-to-support-both-camera-and-file-based-option&quot;&gt;[3] User wants to support both camera and file based option&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;This is the default option! And unless you have specific need to disable one
+of the two, I recommend you to use this.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If we don’t set any value for &lt;code class=&quot;highlighter-rouge&quot;&gt;supportedScanTypes&lt;/code&gt;, the library will support
+both scanning types by default.&lt;/p&gt;
+
+&lt;h4 id=&quot;bonus-set-file-based-scanning-as-default-option-while-supporting-both&quot;&gt;Bonus: Set file based scanning as default option while supporting both&lt;/h4&gt;
+&lt;p&gt;A bonus addition to the feature was that -  the order of the config is also honoured by the library.
+If you want to support both file and camera based scanning options but want to define file based option as the default you can just configure &lt;code class=&quot;highlighter-rouge&quot;&gt;supportedScanTypes&lt;/code&gt; like this&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_FILE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_CAMERA&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will render the QR Scanner something like this&lt;/p&gt;
+
+&lt;div style=&quot;text-align: center; margin-bottom: 20px&quot;&gt;
+    &lt;div style=&quot;display: flex; justify-content: center;&quot;&gt;
+        &lt;img src=&quot;/assets/images/blog/post4/file_first.png&quot; alt=&quot;Screenshot of file first config&quot; /&gt;
+    &lt;/div&gt;
+    &lt;i&gt;Screenshot of app with file first config.&lt;/i&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Otherwise, by default the library renders camera based option as the default one.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;similarly-you-can-define-camera-based-option-to-be-the-default-one&quot;&gt;Similarly, you can define camera based option to be the default one&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;This happens to be the default scenario as well. So if you do nothing explicitly, library will behave in this fashion only.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;supportedScanTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_CAMERA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SCAN_TYPE_FILE&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;if-you-pass-arbitrary-values-library-will-throw-error&quot;&gt;If you pass arbitrary values, library will throw error!&lt;/h3&gt;
+&lt;p&gt;I suppose this goes without saying!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If you provide values other than the supported ones - the library will throw error.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Developers can now modify the type of scanning method when using the &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; library.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Developers can choose to render only Camera support.&lt;/li&gt;
+  &lt;li&gt;Developers can choose to render only File selection support.&lt;/li&gt;
+  &lt;li&gt;Developers can choose to support both but select file or camera as the default option.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you have any feedbacks, please share in comment section. For any bug report or feature request please report it to the &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;html5-qrcode library&lt;/a&gt; directly.&lt;/p&gt;</content><author><name>Mohsina</name></author><summary type="html">Html5-qrcode is a light-weight library to easily integrate QR code scanning functionality to any web application. You can find out more about the project and it’s implementation details on the project page on Github.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/blog/post4/default_config.png" /><media:content medium="image" url="http://localhost:4000/assets/images/blog/post4/default_config.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Using Flash or Torch with Html5-Qrcode</title><link href="http://localhost:4000/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html" rel="alternate" type="text/html" title="Using Flash or Torch with Html5-Qrcode" /><published>2022-10-30T00:00:00+05:30</published><updated>2022-10-30T00:00:00+05:30</updated><id>http://localhost:4000/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode</id><content type="html" xml:base="http://localhost:4000/blog/2022/10/30/using-flash-or-torch-with-html5-qrcode.html">&lt;p&gt;&lt;img src=&quot;/assets/images/blog/post3/pexels-gift-habeshaw-3348724.jpg&quot; alt=&quot;Screenshot of implementation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application. It has 400K+ downloads on Github and going around &lt;a href=&quot;https://www.npmjs.com/package/html5-qrcode&quot;&gt;31K downloads/week on npm&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I authored this library in my university days and have been maintaining this project since 2014 (If I remember correctly).&lt;/p&gt;
+
+  &lt;p&gt;Enough bragging, coming back to the topic …&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Almost all smartphones today come with camera which is coupled with a flash light. It’s also used as a torch while recording videos. Most QR scanning applications that are available on Android or IOS have support for enabling torch while scanning. This seems useful when scanning a code in low light conditions.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-feature-request&quot;&gt;The feature request&lt;/h2&gt;
+&lt;p&gt;There was a &lt;a href=&quot;https://github.com/mebjas/html5-qrcode/issues/129&quot;&gt;feature request&lt;/a&gt; on the project Github tracker for adding the same functionality to &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;html5-qrcode&lt;/a&gt; library.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This is very interesting usecase - as it shows the power of web around controlling low level hardware on smartphones.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;support-added-for-html5qrcodescanner&quot;&gt;Support added for &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Considering the value add for end users, I have added the support for using torch (when supported) to the end to end library (i.e. &lt;a href=&quot;https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode-scanner.ts#L135&quot;&gt;Html5QrcodeScanner&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;The feature is added as yet another button which shows up if&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;The feature is enabled from config (off by default).&lt;/li&gt;
+  &lt;li&gt;Torch control is supported on the given browser + device.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It looks something like this&lt;/p&gt;
+
+&lt;div style=&quot;text-align: center&quot;&gt;
+    &lt;img src=&quot;/assets/images/blog/post3/im1.jpeg&quot; alt=&quot;Screenshot of implementation&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can try it on &lt;a href=&quot;https://scanapp.org&quot;&gt;scanapp.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So far I have verified it to work on Android devices on browsers like Google Chrome and Samsung’s default internet browser. I have verified it to work on Pixel 6 Pro, Samsung Flip 4 devices and One Plus 10 Pro.&lt;/p&gt;
+
+&lt;p&gt;I have also verified it to not work on Chrome or Safari on IOS (on Iphone 13).&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Why? Likely not supported in the implementation - need to verify!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The support was added with &lt;a href=&quot;https://github.com/mebjas/html5-qrcode/pull/570&quot;&gt;PR#570&lt;/a&gt;. It’s been published under &lt;code class=&quot;highlighter-rouge&quot;&gt;version 2.2.6&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To enable the feature with &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; one simply need to set &lt;code class=&quot;highlighter-rouge&quot;&gt;showTorchButtonIfSupported&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;reader&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;rememberLastUsedCamera&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;aspectRatio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.7777778&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;showTorchButtonIfSupported&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;how-it-works&quot;&gt;How it works?&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;And how to set flash or torch with &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5Qrcode&lt;/code&gt; library.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;First this you need to check is if &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt; is supported. Weather or not &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt;
+is supported depends on the device, browser as well as the selected camera (often only back camera supports torch).&lt;/p&gt;
+
+&lt;p&gt;The idea is to see if &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt; is available on &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#instance_properties_of_image_tracks&quot;&gt;MediaTrackConstraints&lt;/a&gt; of the running video track. When the camera scan is running you can call &lt;a href=&quot;https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L798&quot;&gt;getRunningTrackSettings()&lt;/a&gt; to verify if &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt; is supported.&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/** Returns {@code true} if torch is supported. */&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isTorchSupported&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html5Qrcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5Qrcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;settings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5Qrcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getRunningTrackSettings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt; is indeed supported, the next step is to enable it. You can use &lt;a href=&quot;https://github.com/mebjas/html5-qrcode/blob/master/src/html5-qrcode.ts#L826&quot;&gt;applyVideoConstraints(..)&lt;/a&gt; API to request turning on &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;constraints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MediaTrackConstraints&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;advanced&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5Qrcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;applyVideoConstraints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;constraints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;settings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5Qrcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getRunningTrackSettings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;torch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Torch was indeed enabled, succeess.&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Failure.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Failed to set torch, why?&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In a similar fashion, you can request turning off &lt;code class=&quot;highlighter-rouge&quot;&gt;torch&lt;/code&gt; with the same API.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-set-twice&quot;&gt;Why set twice?&lt;/h3&gt;
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;advanced&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For backwards compatibility sake!&lt;/p&gt;
+
+&lt;h2 id=&quot;browser-and-device-support&quot;&gt;Browser and device support&lt;/h2&gt;
+&lt;p&gt;As shared before this feature seems to be supported on Android devices. I have verified this on at least three Android devices and one IOS device.&lt;/p&gt;
+
+&lt;p&gt;Here’s summary:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Support verified on several Android devices.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Support verified on following browsers in Android
+    &lt;ul&gt;
+      &lt;li&gt;Google Chrome&lt;/li&gt;
+      &lt;li&gt;Samsung Internet Browser&lt;/li&gt;
+      &lt;li&gt;Opera&lt;/li&gt;
+      &lt;li&gt;Microsoft Edge&lt;/li&gt;
+      &lt;li&gt;Brave Browser&lt;/li&gt;
+      &lt;li&gt;Duck Duck Go Browser&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Verified lack of support on following browsers in Android
+    &lt;ul&gt;
+      &lt;li&gt;Mozilla Firefox&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Verified lack of support on Chrome and Safari on IOS (Iphone 13)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In case you get a chance to test on more devices using &lt;a href=&quot;https://scanapp.org&quot;&gt;scanapp.org&lt;/a&gt;, please add information in comments. I’ll update this article accordingly.&lt;/p&gt;
+
+&lt;h2 id=&quot;photo-credits&quot;&gt;Photo credits&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Special thanks to photo by &lt;a href=&quot;https://www.pexels.com/@lovetosmile/&quot;&gt;Gift Habeshaw&lt;/a&gt; on &lt;a href=&quot;https://www.pexels.com&quot;&gt;Pexels&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;like-this-article&quot;&gt;Like this article?&lt;/h2&gt;
+&lt;p&gt;If you like this article, you can find more of my articles on Medium. If you are already on Medium you can &lt;a href=&quot;https://minhazav.medium.com/&quot;&gt;follow me&lt;/a&gt; and &lt;a href=&quot;https://medium.com/membership/@minhazav&quot;&gt;subscribe to my articles&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are not on Medium, you can &lt;a href=&quot;https://medium.com/membership/@minhazav&quot;&gt;join with my link&lt;/a&gt;. Medium will pay me a peice and that’d be helpful for me to write more such articles. Medium has articles from several awesome authors.&lt;/p&gt;</content><author><name>Minhaz</name></author><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/blog/post3/im1.jpeg" /><media:content medium="image" url="http://localhost:4000/assets/images/blog/post3/im1.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting dynamic QR box size in Html5-qrcode</title><link href="http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html" rel="alternate" type="text/html" title="Setting dynamic QR box size in Html5-qrcode" /><published>2022-01-09T00:00:00+05:30</published><updated>2022-01-09T00:00:00+05:30</updated><id>http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode</id><content type="html" xml:base="http://localhost:4000/blog/2022/01/09/setting-dynamic-qr-box-size-in-html5-qrcode.html">&lt;p&gt;&lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;mebjas/html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/blog/post2/im1.png&quot; alt=&quot;&quot; /&gt;
+&lt;em&gt;Figure: User interface for Html5-qrcode using &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; class&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The library provides two approaches for integrating QR code / bar code scanning with any web applications.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Core library called &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5Qrcode&lt;/code&gt; which provide APIs for web developers to build the user interface upon and abstracts camera / permissions / QR code or barcode decoding.&lt;/li&gt;
+  &lt;li&gt;End to end UI for code scanning as well local image based scanning using &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; class.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;One can simply setup a QR code scanning with following lines of code.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- html --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;reader&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;600px&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://unpkg.com/html5-qrcode&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Javascript code.&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onScanSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// handle the scanned code as you like, for example:&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`Code matched = &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;reader&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* verbose= */&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onScanSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;qrbox&lt;/code&gt; config lets developers define the portion of the viewfinder that will be used for scanning. It’s supported both in &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5Qrcode&lt;/code&gt; as well as &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodeScanner&lt;/code&gt; class. Based on this value the library renders a box with shaded regions around it, allowing end-users to compose the scanning device around the QR code or barcodes.&lt;/p&gt;
+
+&lt;h2 id=&quot;qrbox-configuration&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;qrbox&lt;/code&gt; configuration&lt;/h2&gt;
+&lt;p&gt;Based on the &lt;a href=&quot;https://github.com/mebjas/html5-qrcode#documentation&quot;&gt;developer documentation&lt;/a&gt; you can either pass a dimension of type &lt;code class=&quot;highlighter-rouge&quot;&gt;QrDimensions&lt;/code&gt; as value for this config.&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/** Defines dimension for QR Code Scanner. */&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;QrDimensions&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So this means for a barcode scanning usecase you can pass a non square configuration like &lt;code class=&quot;highlighter-rouge&quot;&gt;{width: 400, height: 100}&lt;/code&gt; to render scanner like this - likely ideal for scanning rectangual barcodes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/blog/post2/im2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;dynamically-setting-qrbox-configuration&quot;&gt;Dynamically setting &lt;code class=&quot;highlighter-rouge&quot;&gt;qrbox&lt;/code&gt; configuration&lt;/h2&gt;
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;version 2.2.0&lt;/code&gt; onwards the library now also supports passing in a function of type &lt;code class=&quot;highlighter-rouge&quot;&gt;QrDimensionFunction&lt;/code&gt; as a value for this configuration.&lt;/p&gt;
+
+&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
+ * A function that takes in the width and height of the video stream 
+ * and returns QrDimensions.
+ * 
+ * Viewfinder refers to the video showing camera stream.
+ */&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;QrDimensionFunction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;viewfinderWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;viewfinderHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;QrDimensions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The function takes in the dimensions of the viewfinder (the video stream with camera feed) and is expected to return &lt;code class=&quot;highlighter-rouge&quot;&gt;QrDimensions&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is great, with this you can now set a custom function to determine the QR box dimensions based on run time properties of the video stream that works across form factors.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example:&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onScanSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// handle the scanned code as you like, for example:&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`Code matched = &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Square QR box with edge size = 70% of the smaller edge of the viewfinder.&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxFunction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;viewfinderWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;viewfinderHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;minEdgePercentage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 70%&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;minEdgeSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;viewfinderWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;viewfinderHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;minEdgeSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;minEdgePercentage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxSize&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;reader&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrboxFunction&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;cm&quot;&gt;/* verbose= */&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onScanSuccess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With this you can set the QR box dimensions to always be &lt;code class=&quot;highlighter-rouge&quot;&gt;70%&lt;/code&gt; of the smaller edge of the video stream so it works on both mobile and PC platforms.&lt;/p&gt;</content><author><name>Minhaz</name></author><summary type="html">mebjas/html5-qrcode is a fairly used open source library for implementing QR Code or barcode scanner in a web application.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.minhazav.dev/images/post33_image1.png" /><media:content medium="image" url="https://blog.minhazav.dev/images/post33_image1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Open source library for QR Code and barcode scanning with ReactJs</title><link href="http://localhost:4000/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html" rel="alternate" type="text/html" title="Open source library for QR Code and barcode scanning with ReactJs" /><published>2021-12-11T13:43:10+05:30</published><updated>2021-12-11T13:43:10+05:30</updated><id>http://localhost:4000/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs</id><content type="html" xml:base="http://localhost:4000/blog/2021/12/11/open-source-library-for-qr-code-and-barcode-scanning-with-reactjs.html">&lt;p&gt;This article has been forked from the original article by the Author at &lt;a href=&quot;https://blog.minhazav.dev&quot;&gt;blog.minhazav.dev&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;post-info&quot; style=&quot;border: 1px solid #cfcfcf73; padding: 10px; margin: 10px;&quot;&gt;
+    &lt;h3 class=&quot;post-header&quot;&gt;&lt;a class=&quot;post-link&quot; href=&quot;https://blog.minhazav.dev/Qr-code-and-barcode-scanner-in-react/&quot;&gt;QR and barcode scanner in React&lt;/a&gt;&lt;/h3&gt;
+     &lt;span class=&quot;post-description&quot;&gt;
+       &lt;img src=&quot;https://blog.minhazav.dev/images/post33_image1.png&quot; style=&quot;max-width: 30%; float: left; margin: 0px 15px 10px 0px;&quot; alt=&quot;different 1D and 2D codes&quot; /&gt; &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;mebjas/html5-qrcode&lt;/a&gt; is a fairly used open source library for implementing QR Code or barcode scanner in a web application. There are several developers who have been using it under web-view for android projects as well. In this article I’ll be explaining how to use html5-qrcode with React so it’s easier for developers using popular React framework to these functionalities with ease.
+     &lt;/span&gt;
+     &lt;br /&gt;
+     &lt;span class=&quot;read-more&quot;&gt;&lt;a href=&quot;https://blog.minhazav.dev/Qr-code-and-barcode-scanner-in-react/&quot;&gt;[&amp;nbsp;Read&amp;nbsp;more&amp;nbsp;]&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;I don’t think &lt;a href=&quot;https://reactjs.org/&quot;&gt;ReactJs&lt;/a&gt; needs any explanation here and throughout this article I’ll assume the readers have familiarity with &lt;code class=&quot;highlighter-rouge&quot;&gt;React&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Components&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;props&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;If you are just interested in implementing QR code or barcode scanning on web without react, I recommend you read this article&lt;/p&gt;
+
+&lt;div class=&quot;post-info&quot; style=&quot;border: 1px solid #cfcfcf73; padding: 10px; margin: 10px;&quot;&gt;
+    &lt;h3 class=&quot;post-header&quot;&gt;&lt;a class=&quot;post-link&quot; href=&quot;https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/&quot;&gt;QR and barcode scanner using HTML and JavaScript&lt;/a&gt;&lt;/h3&gt;
+     &lt;span class=&quot;post-description&quot;&gt;
+       &lt;img src=&quot;https://blog.minhazav.dev/images/post24_image1.jpeg&quot; style=&quot;max-width: 10%; float: left; margin: 0px 15px 10px 0px;&quot; alt=&quot;different 1D and 2D codes&quot; /&gt;
+       This article is a guide on integrating QR code or barcode scanner on any web applications with a couple of lines of code with ease using &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;mebjas/html5-qrcode&lt;/a&gt;.
+     &lt;/span&gt;
+     &lt;br /&gt;
+     &lt;span class=&quot;read-more&quot;&gt;&lt;a href=&quot;https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/&quot;&gt;[&amp;nbsp;Read&amp;nbsp;more&amp;nbsp;]&lt;/a&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;install-the-library-using-npm&quot;&gt;Install the library using npm&lt;/h2&gt;
+&lt;p&gt;First, install the latest version of the library in your React project, using &lt;code class=&quot;highlighter-rouge&quot;&gt;npm&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm i html5-qrcode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;create-a-react-component&quot;&gt;Create a React component&lt;/h2&gt;
+
+&lt;p&gt;Next step is to create a React that abstracts most of the scanner implementation.
+Let say we create a new file called &lt;code class=&quot;highlighter-rouge&quot;&gt;Html5QrcodePlugin.jsx&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;c1&quot;&gt;// Html5QrcodePlugin.jsx&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;html5-qrcode&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;react&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;qrcodeRegionId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;html5qr-code-full-region&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodePlugin&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrcodeRegionId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;componentWillUnmount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// TODO(mebjas): See if there is a better way to handle&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//  promise in `componentWillUnmount`.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Failed to clear html5QrcodeScanner. &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;componentDidMount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Creates the configuration object for Html5QrcodeScanner.&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrbox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aspectRatio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aspectRatio&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aspectRatio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;disableFlip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;disableFlip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;disableFlip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// Suceess callback is required.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrCodeSuccessCallback&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;qrCodeSuccessCallback is required callback.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;qrcodeRegionId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html5QrcodeScanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrCodeSuccessCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;qrCodeErrorCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Html5QrcodePlugin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Important note:&lt;/strong&gt; html5-qrcode is an actively developed library. It’s advisable to subscribe to updates at &lt;a href=&quot;https://github.com/mebjas/html5-qrcode&quot;&gt;mebjas/html5-qrcode&lt;/a&gt; so you can keep the React library up to date.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;use-this-plugin-in-your-react-app&quot;&gt;Use this plugin in your React App&lt;/h2&gt;
+&lt;p&gt;I’ll assume you have an &lt;code class=&quot;highlighter-rouge&quot;&gt;App.js&lt;/code&gt; that is the source component. You can add the new &lt;code class=&quot;highlighter-rouge&quot;&gt;Component&lt;/code&gt; we just created.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;constructor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// This binding is necessary to make `this` work in the callback.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onNewScanResult&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onNewScanResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Html5Qrcode&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/h1&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Html5QrcodePlugin&lt;/span&gt; 
+                &lt;span class=&quot;nx&quot;&gt;fps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;qrbox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;disableFlip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;qrCodeSuccessCallback&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onNewScanResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;onNewScanResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Handle the result here.&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;passing-around-the-callback&quot;&gt;Passing around the callback&lt;/h2&gt;
+&lt;p&gt;You might have seen the callback defined in the above section&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// ... rest of the code &lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;onNewScanResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decodedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;decodedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Handle the result here.&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// ... rest of the code &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Use this callback to define rest of your business logic. Let say your use-case is to pass the newly scanned result and print in on a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;table&amp;gt;&lt;/code&gt;, you’d want to pass around the data to a different component. You can find an example of this at &lt;a href=&quot;https://github.com/scanapp-org/html5-qrcode-react/blob/main/src/ResultContainerPlugin.jsx&quot;&gt;scanapp-org/html5-qrcode-react&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;full-code-reference&quot;&gt;Full code reference&lt;/h2&gt;
+&lt;p&gt;The full example has been created at &lt;a href=&quot;https://github.com/scanapp-org/html5-qrcode-react&quot;&gt;scanapp-org/html5-qrcode-react&lt;/a&gt; - you can use that as a good reference.&lt;/p&gt;
+
+&lt;h2 id=&quot;credits&quot;&gt;Credits&lt;/h2&gt;
+&lt;div id=&quot;scanapp_ad&quot; style=&quot;margin: 10px&quot;&gt;
+    &lt;div class=&quot;alert alert-success&quot; style=&quot;display: flex;&quot;&gt;
+        &lt;div style=&quot;max-width: 100px; display: inline-block;&quot;&gt;
+            &lt;a href=&quot;https://scanapp.org&quot;&gt;&lt;img src=&quot;https://blog.minhazav.dev/assets/img/scanapp-logo-removebg-preview.png&quot; style=&quot;width: 100px;&quot; /&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;display: inline-block; margin-left: 10px&quot;&gt;
+            &lt;strong&gt;ScanApp - Free QR code and barcode scanner for web&lt;/strong&gt;
+            &lt;br /&gt;
+            &lt;a href=&quot;https://scanapp.org&quot;&gt;scanapp.org&lt;/a&gt; is a free online QR code and barcode reader for web built using this library - &lt;a href=&quot;https://scanapp.org&quot;&gt;try it out&lt;/a&gt;.
+            &lt;br /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;closing-note&quot;&gt;Closing note&lt;/h2&gt;
+&lt;p&gt;I have to admit, I am not React savvy, if you see errors or know of better way to do things please suggest it using the comments or send a pull request to &lt;a href=&quot;https://github.com/scanapp-org/html5-qrcode-react&quot;&gt;scanapp-org/html5-qrcode-react&lt;/a&gt;.&lt;/p&gt;</content><author><name>Minhaz</name></author><summary type="html">This article has been forked from the original article by the Author at blog.minhazav.dev.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.minhazav.dev/images/post33_image1.png" /><media:content medium="image" url="https://blog.minhazav.dev/images/post33_image1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
