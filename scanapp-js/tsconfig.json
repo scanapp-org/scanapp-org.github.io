@@ -33,5 +33,6 @@
         "@scanapp/html5-qrcode/*": [
             "./dist/*"
         ]
-    }
+    },
+    "types": ["@types/gtag.js",]
 }
