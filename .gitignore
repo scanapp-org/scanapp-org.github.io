@@ -4,6 +4,7 @@ _site/*
 .jekyll-cache
 .jekyll-metadata
 vendor
+node_modules/
 assets/.DS_Store
 scanapp-js/.DS_Store
 scanapp-js/node_modules/
@@ -13,3 +14,4 @@ scanapp-js/dist/
 scanapp-js/src/*.d.ts
 scanapp-js/src/*/*.d.ts
 scanapp-js/src/*/*/*.d.ts
+package-lock.json

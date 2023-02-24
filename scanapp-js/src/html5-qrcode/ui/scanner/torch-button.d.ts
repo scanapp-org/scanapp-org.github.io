@@ -1,5 +1,5 @@
 import { BooleanCameraCapability } from "../../camera/core";
-export declare type OnTorchActionFailureCallback = (failureMessage: string) => void;
+export type OnTorchActionFailureCallback = (failureMessage: string) => void;
 interface TorchButtonController {
     disable(): void;
     enable(): void;

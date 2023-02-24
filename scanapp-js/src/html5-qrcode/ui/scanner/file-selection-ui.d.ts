@@ -1,4 +1,4 @@
-export declare type OnFileSelected = (file: File) => void;
+export type OnFileSelected = (file: File) => void;
 export declare class FileSelectionUi {
     private readonly fileBasedScanRegion;
     private readonly fileScanInput;

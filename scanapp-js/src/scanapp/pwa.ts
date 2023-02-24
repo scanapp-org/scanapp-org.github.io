@@ -108,7 +108,7 @@ export class PwaPromptManager {
         // container.style.display = "none";
     }
 
-    public optionallyShowPrompt(): number | undefined {
+    public optionallyShowPrompt(): any {
         let $this = this;
         if (!A2HS_SUPPORTED) {
             return;
@@ -130,7 +130,7 @@ export class PwaPromptManager {
         }
 
         const TIMEOUT_MS = 1000;
-        let timeout: number = setTimeout(function() {
+        let timeout: any = setTimeout(function() {
             $this.showPrompt();
         }, TIMEOUT_MS);
 

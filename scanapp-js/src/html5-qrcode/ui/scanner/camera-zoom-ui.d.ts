@@ -1,4 +1,4 @@
-export declare type OnCameraZoomValueChangeCallback = (zoomValue: number) => void;
+export type OnCameraZoomValueChangeCallback = (zoomValue: number) => void;
 export declare class CameraZoomUi {
     private zoomElementContainer;
     private rangeInput;
