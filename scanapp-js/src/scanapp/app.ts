@@ -64,7 +64,9 @@ export class ScanApp {
     private render() {
         // TODO(minhazav): Make this optional from API.
         let qrCodeErrorCallback = undefined;
-        this.html5QrcodeScanner.render(this.onScanSuccess, qrCodeErrorCallback);
+        this.html5QrcodeScanner.render((decodedText: string, decodedResult: Html5QrcodeResult) => {
+            this.onScanSuccess(decodedText, decodedResult);
+        }, qrCodeErrorCallback);
         Logger.logScanStart(this.isInIframe, "camera");
     }
 
