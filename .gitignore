@@ -5,6 +5,11 @@ _site/*
 .jekyll-metadata
 vendor
 assets/.DS_Store
-assets/.DS_Store
-assets/.DS_Store
-assets/.DS_Store
+scanapp-js/.DS_Store
+scanapp-js/node_modules/
+scanapp-js/package-lock.json
+scanapp-js/.vscode/
+scanapp-js/dist/
+scanapp-js/src/*.d.ts
+scanapp-js/src/*/*.d.ts
+scanapp-js/src/*/*/*.d.ts
