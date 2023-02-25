@@ -7,8 +7,8 @@
 
 import { copyToClipboard } from "./actions";
 import {
-    CodeType,
-    codeTypeToString,
+    CodeCategory,
+    codeCategoryToString,
     scanTypeToString
 } from "./constants";
 import { Logger } from "./logger";
@@ -27,7 +27,7 @@ import {
 
 interface LastRenderedResult {
     text: string;
-    type: CodeType;
+    type: CodeCategory;
 };
 
 type OnCloseCallback = () => void;
@@ -148,25 +148,25 @@ export class QrResultViewer {
         this.parentContainer!.style.border = "1px solid #ffffff00";    
     }
 
-    private createParsedResult(decodedText: string, codeType: CodeType): HTMLElement {
+    private createParsedResult(decodedText: string, codeType: CodeCategory): HTMLElement {
         let parentElem = document.createElement("div");
         // Action image changes
-        this.actionPaymentImage!.style.display = (codeType === CodeType.TYPE_UPI) ?
+        this.actionPaymentImage!.style.display = (codeType === CodeCategory.TYPE_UPI) ?
             "inline-block" : "none";
-        this.actionUrlImage!.style.display = (codeType === CodeType.TYPE_URL) ?
+        this.actionUrlImage!.style.display = (codeType === CodeCategory.TYPE_URL) ?
             "inline-block" : "none";
 
-        if (codeType === CodeType.TYPE_URL || codeType === CodeType.TYPE_PHONE) {
+        if (codeType === CodeCategory.TYPE_URL || codeType === CodeCategory.TYPE_PHONE) {
             createLinkTyeUi(parentElem, decodedText, codeType);
             return parentElem;
         }
 
-        if (codeType === CodeType.TYPE_WIFI) {
+        if (codeType === CodeCategory.TYPE_WIFI) {
             createWifiTyeUi(parentElem, decodedText);
             return parentElem;
         }
 
-        if (codeType === CodeType.TYPE_UPI) {
+        if (codeType === CodeCategory.TYPE_UPI) {
             createUpiTypeUi(parentElem, decodedText);
             return parentElem;
         }
@@ -189,19 +189,20 @@ export class QrResultViewer {
         this.header!.innerText = viewerTitle;
         this.noResultContainer!.classList.add("hidden");
 
-        let codeTypeName = codeTypeToString(scanResult.codeType);
-        this.scanResultCodeType!.innerText = codeTypeName;
+        let codeFormatName = scanResult.codeFormatName;
+        this.scanResultCodeType!.innerText = codeFormatName;
         this.scanResultText!.innerText = scanResult.decodedText;
-        let codeType = detectType(scanResult.decodedText);
-        codeTypeName = codeTypeToString(codeType);
-        Logger.logScanSuccess(codeTypeName, codeTypeName);
+        let codeCategory = detectType(scanResult.decodedText);
+        let codeCategoryName = codeCategoryToString(codeCategory);
+        let scanTypeName = scanTypeToString(scanResult.scanType);
+        Logger.logScanSuccess(scanTypeName, codeCategoryName);
         
         this.lastRenderedResult = {
             text: scanResult.decodedText,
-            type: codeType
+            type: codeCategory
         };
 
-        this.scanResultBadgeBody!.innerText = codeTypeName;
+        this.scanResultBadgeBody!.innerText = codeCategoryName;
         // if (this.scanResultParsed!.replaceChildren) {
         // let container: ParentNode = this.scanResultParsed;
         // container.replaceChildren();
@@ -209,7 +210,7 @@ export class QrResultViewer {
         this.scanResultParsed!.innerHTML = "";
         // }
         this.scanResultParsed!.appendChild(
-            this.createParsedResult(scanResult.decodedText, codeType));
+            this.createParsedResult(scanResult.decodedText, codeCategory));
 
         // Show / hide views.
         this.scanResultFooter!.style.display = (onCloseCallback)

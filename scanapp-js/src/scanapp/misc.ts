@@ -5,7 +5,7 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
-import { CodeType } from "./constants";
+import { CodeCategory } from "./constants";
 import { Logger } from "./logger";
 
 export function showBanner(message: string, isSuccessMessage?: boolean): void {
@@ -36,13 +36,13 @@ export function hideBanners(): void {
         .forEach((b) => b.classList.remove("visible"));
 };
 
-export function shareResult(decodedText: string, codeType?: CodeType) {
+export function shareResult(decodedText: string, codeType?: CodeCategory) {
     const shareData: ShareData = {
         title: "Scan result from Scanapp.org",
         text: decodedText,
     };
 
-    if (codeType && codeType === CodeType.TYPE_URL) {
+    if (codeType && codeType === CodeCategory.TYPE_URL) {
         shareData.url = decodedText;
     }
 
@@ -98,24 +98,24 @@ function isUpi(decodedText: string): boolean {
 }
 
 // TODO(minhazav): Add logging for the detected type.
-export function detectType(decodedText: string): CodeType {
+export function detectType(decodedText: string): CodeCategory {
     if (isUrl(decodedText)) {
-        return CodeType.TYPE_URL;
+        return CodeCategory.TYPE_URL;
     }
 
     if (isPhoneNumber(decodedText)) {
-        return CodeType.TYPE_PHONE;
+        return CodeCategory.TYPE_PHONE;
     }
 
     if (isWifi(decodedText)) {
-        return CodeType.TYPE_WIFI;
+        return CodeCategory.TYPE_WIFI;
     }
 
     if (isUpi(decodedText)) {
-        return CodeType.TYPE_UPI;
+        return CodeCategory.TYPE_UPI;
     }
 
-    return CodeType.TYPE_TEXT;
+    return CodeCategory.TYPE_TEXT;
 }
 
 export function isEmbeddedInIframe() {

@@ -5,7 +5,7 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
-export enum CodeType {
+export enum CodeCategory {
     TYPE_TEXT = 1,
     TYPE_URL = 2,
     TYPE_PHONE = 3,
@@ -13,17 +13,17 @@ export enum CodeType {
     TYPE_UPI = 5
 }
 
-export function codeTypeToString(codeType: CodeType): string {
-    switch(codeType) {
-        case CodeType.TYPE_TEXT:
+export function codeCategoryToString(codeCategory: CodeCategory): string {
+    switch(codeCategory) {
+        case CodeCategory.TYPE_TEXT:
             return "Text";
-        case CodeType.TYPE_URL:
+        case CodeCategory.TYPE_URL:
             return "Url";
-        case CodeType.TYPE_PHONE:
+        case CodeCategory.TYPE_PHONE:
             return "Phone";
-        case CodeType.TYPE_WIFI:
+        case CodeCategory.TYPE_WIFI:
             return "Wifi";
-        case CodeType.TYPE_UPI:
+        case CodeCategory.TYPE_UPI:
             return "Upi";
     }
 }

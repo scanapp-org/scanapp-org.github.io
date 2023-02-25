@@ -5,42 +5,43 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
-import {
-    CodeType,
-    ScanType
-} from "./constants";
+import { ScanType } from "./constants";
+import { Html5QrcodeResult } from "../html5-qrcode/core";
 
 export class ScanResult {
     public readonly decodedText: string;
-    public readonly decodedResult: any; // TODO: fix
+    public readonly decodedResult: Html5QrcodeResult;
     public readonly scanType: ScanType;
-    public readonly codeType: CodeType;
+    public readonly codeFormatName: string;
     public readonly dateTime: Date;
 
     public constructor(
         decodedText: string,
-        decodedResult: any,
+        decodedResult: Html5QrcodeResult,
         scanType: ScanType,
-        codeType: CodeType,
+        codeFormatName: string,
         dateTime: Date) {
         this.decodedText = decodedText;
         this.decodedResult = decodedResult;
         this.scanType = scanType;
-        this.codeType = codeType;
+        this.codeFormatName = codeFormatName;
         this.dateTime = dateTime;
     }
 
     public static create(
         decodedText: string,
-        decodedResult: any,  // TODO: fix
+        decodedResult: Html5QrcodeResult,
         scanType: ScanType): ScanResult {
-        let codeType = decodedResult.result.format.formatName;
+        if (!decodedResult.result.format) {
+            throw "format is undefined";
+        }
+        let codeFormatName = decodedResult.result.format.formatName;
         let dateTime = new Date();
         return new ScanResult(
             decodedText,
             decodedResult,
             scanType,
-            codeType,
+            codeFormatName,
             dateTime);
     }
 }

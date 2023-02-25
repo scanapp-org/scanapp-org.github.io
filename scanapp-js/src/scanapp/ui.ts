@@ -5,13 +5,13 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
-import { CodeType } from "./constants";
+import { CodeCategory } from "./constants";
 
 export function createLinkTyeUi(
-    parentElem: HTMLElement, decodedText: string, codeType: CodeType) {
+    parentElem: HTMLElement, decodedText: string, codeType: CodeCategory) {
     var link = document.createElement("a");
     link.href = decodedText;
-    if (codeType === CodeType.TYPE_PHONE) {
+    if (codeType === CodeCategory.TYPE_PHONE) {
         decodedText = decodedText.toLowerCase().replace("tel:", "");
     }
     link.innerText = decodedText;
