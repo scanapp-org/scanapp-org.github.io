@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+  <!-- Primary Meta Tags -->
+  <title>QR Code Scanner - ScanApp</title>
+  <meta name="title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
+  <meta name="description" content="QR Code Scanner and Bar Code scanner - scan directly on your web browser using camera or images saved on your device. Works well on smart phones as well as PC or Mac. Totally free to use and no sign ups requried.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://scanapp.org/">
+  <meta property="og:title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
+  <meta property="og:description" content="QR Code Scanner and Bar Code scanner - scan directly on your web browser using camera or images saved on your device. Works well on smart phones as well as PC or Mac. Totally free to use and no sign ups requried.">
+  <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://scanapp.org/">
+  <meta property="twitter:title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
+  <meta property="twitter:description" content="QR Code Scanner and Bar Code scanner - scan directly on your web browser using camera or images saved on your device. Works well on smart phones as well as PC or Mac. Totally free to use and no sign ups requried.">
+  <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+  
+  <!-- PWA -->
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="/assets/manifest.json" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2KZEP7DPYH');
+  </script>
+
+  <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
+  <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
+
+  <link rel="canonical" href="https://scanapp.org"/>
+  <link rel="preload" href={{ "/assets/app.v2.3.8.beta.css" | relative_url }} as="style">
+  <link rel="stylesheet" href="/assets/app.v2.3.8.beta.css">
+  <base target="_parent">
+</head>
+<body data-instant-allow-query-string data-instant-allow-external-links>
+    <div> {{ content }} </div>
+</body>
+</html>

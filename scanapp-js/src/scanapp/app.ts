@@ -15,6 +15,7 @@ import {
 } from "./misc";
 import { QrResultViewer } from "./result-viewer"
 import { PwaPromptManager } from "./pwa";
+import { MinimisablePanels } from "./minimisable-panels";
 import { Html5QrcodeScanner } from "../html5-qrcode/html5-qrcode-scanner";
 import { Html5QrcodeScannerState } from "../html5-qrcode/state-manager";
 import { Html5QrcodeResult } from "../html5-qrcode/core";
@@ -54,15 +55,18 @@ export class ScanApp {
                 showTorchButtonIfSupported: true,
                 showZoomSliderIfSupported: true,
                 defaultZoomValueIfSupported: 1.5,
-                supportedScanTypes: [
-                    Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                // supportedScanTypes: [
+                    // Html5QrcodeScanType.SCAN_TYPE_CAMERA,
                     // Html5QrcodeScanType.SCAN_TYPE_FILE,
-                ]
+                // ]
             },
             /* verbose= */ false);
     }
 
     private render() {
+        // Render the rest of UI first.
+        this.setupMinimizeButtons();
+
         // TODO(minhazav): Make this optional from API.
         let qrCodeErrorCallback = undefined;
         this.html5QrcodeScanner.render((decodedText: string, decodedResult: Html5QrcodeResult) => {
@@ -77,7 +81,7 @@ export class ScanApp {
             this.pwaTimeout = undefined;
         }
 
-        console.log(decodedText, decodedResult);
+        // console.log(decodedText, decodedResult);
         if (this.html5QrcodeScanner.getState() !== Html5QrcodeScannerState.NOT_STARTED) {
             this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
         }
@@ -88,7 +92,7 @@ export class ScanApp {
         }
         let scanResult = ScanResult.create(decodedText, decodedResult, scanType);
         this.qrResultViewer.render(
-            QR_RESULT_HEADER_FROM_SCAN,
+            // QR_RESULT_HEADER_FROM_SCAN,
             scanResult,
             () => this.onScanResultCloseButtonClickCallback());
         // TODO(mohsinav): Save scanResult to history manager.
@@ -124,6 +128,30 @@ export class ScanApp {
             }
         }
         return {width: qrboxEdgeSize, height: qrboxEdgeSize};
+    }
+
+    private setupMinimizeButtons() {
+        // Result container.
+        var resultContainerMinimizeActionDiv = document.getElementById("result-panel-minimize-action")! as HTMLDivElement;
+        var resultContaineBody = document.getElementById("result-panel-body-id")! as HTMLDivElement;
+
+        console.assert(resultContainerMinimizeActionDiv != null);
+        console.assert(resultContaineBody != null);
+        
+        var resultContainerMinimizablePanel = new MinimisablePanels(
+            resultContainerMinimizeActionDiv, resultContaineBody);
+        resultContainerMinimizablePanel.setup();
+
+        // History container
+        var historyContainerMinimizeActionDiv = document.getElementById("history-panel-minimize-action")! as HTMLDivElement;
+        var historyContaineBody = document.getElementById("history-panel-body-id")! as HTMLDivElement;
+
+        console.assert(historyContainerMinimizeActionDiv != null);
+        console.assert(historyContaineBody != null);
+        
+        var historyContainerMinimizablePanel = new MinimisablePanels(
+            historyContainerMinimizeActionDiv, historyContaineBody);
+        historyContainerMinimizablePanel.setup();
     }
 
 }

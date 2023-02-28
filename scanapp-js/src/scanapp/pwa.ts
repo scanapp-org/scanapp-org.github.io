@@ -31,11 +31,6 @@ class PwaHistoryManager {
 }
 
 export class PwaPromptManager {
-    // private readonly container = document.getElementById("a2hs-container");
-    // private readonly addButton = document.getElementById("a2hs-add");
-    // private readonly cancelButton = document.getElementById("a2hs-cancel");
-    // private readonly showNeverCheckbox = document.getElementById("a2hs-add-never");
-    // private readonly sectionInfoMore = document.getElementById("section-info-more");
     private readonly pwaHistoryManager = new PwaHistoryManager();
     
     private deferredPrompt?: any; // TODO: Add strong typing.
@@ -47,22 +42,6 @@ export class PwaPromptManager {
             event.preventDefault();
             this.deferredPrompt = event;
             console.log("Deferred installation prompt.");
-    
-            // addButton.addEventListener("click", function() {
-            //     let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
-            //     Logger.logA2hsAddButtonClicked(isShowNeverCheckboxChecked);
-            //     showPWAInstallPrompt();
-            // });
-    
-            // cancelButton.addEventListener("click", function() {
-            //     let isShowNeverCheckboxChecked = showNeverCheckbox.checked;
-            //     Logger.logA2hsCancelButtonClicked(isShowNeverCheckboxChecked);
-            //     // TODO: Update pwaHistoryManager.
-            //     if (isShowNeverCheckboxChecked) {
-            //         pwaHistoryManager.setNeverShowPrompt();
-            //     }
-            //     hidePrompt();
-            // });
         });
     }
 
@@ -80,32 +59,15 @@ export class PwaPromptManager {
             if (choiceResult.outcome === 'accepted') {
                 // console.log('User accepted the A2HS prompt');
                 Logger.logA2hsDone();
-                // sectionInfoMore.innerHTML
-                //     = "Thanks for adding ScanApp to home screen.";
-                // setTimeout(function() {
-                //     hidePrompt();
-                // }, 500);
             } else {
-                // console.log('User dismissed the A2HS prompt');
                 Logger.logA2hsBrowserPromptCancelled();
-                // sectionInfoMore.innerHTML
-                //     = "Click on \"Install\" to add ScanApp to home screen.";
             }
             this.deferredPrompt = undefined;
         });
     }
 
     private showPrompt() {
-        // container.style.display = "flex";
-        // container.style.top = "calc(25%)";
-        // ++countShownInSession;
-        // Logger.logA2hsPopupShown();
         this.showPWAInstallPrompt();
-    }
-
-    private hidePrompt() {
-        // container.style.top = "calc(105%)";
-        // container.style.display = "none";
     }
 
     public optionallyShowPrompt(): any {

@@ -463,7 +463,10 @@ export class Html5QrcodeScanner {
     private createBasicLayout(parent: HTMLElement) {
         parent.style.position = "relative";
         parent.style.padding = "0px";
-        parent.style.border = "1px solid silver";
+        // @ScanApp specific change start
+        // parent.style.border = "1px solid silver";
+        // @ScanApp specific change end
+
         this.createHeader(parent);
 
         const qrCodeScanRegion = document.createElement("div");
@@ -507,8 +510,11 @@ export class Html5QrcodeScanner {
         header.style.margin = "0px";
         dashboard.appendChild(header);
 
-        let libraryInfo = new LibraryInfoContainer();
-        libraryInfo.renderInto(header);
+        // @ScanApp specific change start
+        // Don't render library info in scanapp.org.
+        // let libraryInfo = new LibraryInfoContainer();
+        // libraryInfo.renderInto(header);
+        // @ScanApp specific change end
 
         const headerMessageContainer = document.createElement("div");
         headerMessageContainer.id = this.getHeaderMessageContainerId();
@@ -636,7 +642,6 @@ export class Html5QrcodeScanner {
     }
 
     private createSectionControlPanel() {
-        const $this = this;
         const section = document.getElementById(this.getDashboardSectionId())!;
         const sectionControlPanel = document.createElement("div");
         section.appendChild(sectionControlPanel);
@@ -646,6 +651,7 @@ export class Html5QrcodeScanner {
             = ScanTypeSelector.isCameraScanType(this.currentScanType)
             ? "block" : "none";
         sectionControlPanel.appendChild(scpCameraScanRegion);
+        scpCameraScanRegion.style.marginBottom = "20px";
 
         // Web browsers require the users to grant explicit permissions before
         // giving camera access. We need to render a button to request user

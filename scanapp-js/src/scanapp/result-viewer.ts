@@ -34,21 +34,21 @@ type OnCloseCallback = () => void;
 
 /** Class for rendering result of QR scanning. */
 export class QrResultViewer {
-    private readonly parentContainer = document.getElementById("result");
-    private readonly container = document.getElementById("new-scanned-result");
-    private readonly header = document.getElementById("qr-result-viewer-header");
+    private readonly placeHolderContainer = document.getElementById("result-panel-placeholder")!;
+
+    private readonly parentContainer = document.getElementById("result-panel-container")!;
     private readonly scanResultCodeType = document.getElementById("scan-result-code-type");
     private readonly scanResultImage = document.getElementById("scan-result-image");
     private readonly scanResultText = document.getElementById("scan-result-text");
     private readonly scanResultBadgeBody = document.getElementById("scan-result-badge-body");
-    private readonly scanResultParsed: HTMLDivElement = document.getElementById("scan-result-parsed") as HTMLDivElement;
+    private readonly scanResultParsed: HTMLDivElement = document.getElementById("scan-result-parsed")! as HTMLDivElement;
 
     private readonly actionShareImage = document.getElementById("action-share");
     private readonly actionCopyImage = document.getElementById("action-copy");
     private readonly actionPaymentImage = document.getElementById("action-payment");
     private readonly actionUrlImage = document.getElementById("action-url");
     private readonly scanResultClose = document.getElementById("scan-result-close");
-    private readonly noResultContainer = document.getElementById("no-result-container");
+    // private readonly noResultContainer = document.getElementById("no-result-container");
     private readonly scanResultFooter = document.getElementById("body-footer");
 
     private shareOrCopySupported: boolean = false;
@@ -75,8 +75,8 @@ export class QrResultViewer {
                 Logger.logScanRestart();
                 $this.onCloseCallback();
             }
-    
-            $this.noResultContainer!.classList.remove("hidden");
+
+            $this.placeHolderContainer.style.display = "block";
         });
 
         // Clipboard.
@@ -118,34 +118,36 @@ export class QrResultViewer {
         });
 
         // Share button.
-        // if (navigator.share) {
-        this.actionShareImage!.addEventListener("click", function() {
-            hideBanners();
-            if ($this.lastRenderedResult) {
-                shareResult($this.lastRenderedResult.text, $this.lastRenderedResult.type);
-                Logger.logActionShare();
-            } else {
-                // TODO(minhazav): Take action when last result doesn't have value.
-                console.error("Share action without lastRenderedResult.");
-            }
-        });
-        this.shareOrCopySupported = true;
-        // } else {
-        //     this.actionShareImage!.style.display = "none";
-        // }
+        let navigatorCopy: any = navigator;
+        // For some reason typescript think share is always supported.
+        if (navigatorCopy.share) {
+            this.actionShareImage!.addEventListener("click", function() {
+                hideBanners();
+                if ($this.lastRenderedResult) {
+                    shareResult($this.lastRenderedResult.text, $this.lastRenderedResult.type);
+                    Logger.logActionShare();
+                } else {
+                    // TODO(minhazav): Take action when last result doesn't have value.
+                    console.error("Share action without lastRenderedResult.");
+                }
+                $this.shareOrCopySupported = true;
+            });
+        } else {
+            this.actionShareImage!.style.display = "none";
+            $this.shareOrCopySupported = false;
+        }
     }
 
     private showResultContainer() {
-        this.header!.style.display = "block";
-        this.container!.style.display = "flex";
-        this.container!.style.borderTop = "1px solid black";
-        this.parentContainer!.style.border = "1px solid silver";
+        this.placeHolderContainer.style.display = "none";
+        this.parentContainer.style.display = "block";
+        // this.container!.style.borderTop = "1px solid black";
+        // this.parentContainer!.style.border = "1px solid silver";
     }
 
     private hideResultContainer() {
-        this.header!.style.display = "none";
-        this.container!.style.display = "none";
-        this.parentContainer!.style.border = "1px solid #ffffff00";    
+        this.parentContainer.style.display = "none";
+        // this.parentContainer!.style.border = "1px solid #ffffff00";    
     }
 
     private createParsedResult(decodedText: string, codeType: CodeCategory): HTMLElement {
@@ -184,10 +186,9 @@ export class QrResultViewer {
      *    another" button is clicked.
      */
     public render(
-        viewerTitle: string, scanResult: ScanResult, onCloseCallback: OnCloseCallback) {
+        scanResult: ScanResult, onCloseCallback: OnCloseCallback) {
+        console.log("render() called.");
         this.onCloseCallback = onCloseCallback;
-        this.header!.innerText = viewerTitle;
-        this.noResultContainer!.classList.add("hidden");
 
         let codeFormatName = scanResult.codeFormatName;
         this.scanResultCodeType!.innerText = codeFormatName;
@@ -203,18 +204,12 @@ export class QrResultViewer {
         };
 
         this.scanResultBadgeBody!.innerText = codeCategoryName;
-        // if (this.scanResultParsed!.replaceChildren) {
-        // let container: ParentNode = this.scanResultParsed;
-        // container.replaceChildren();
-        // } else {
-        this.scanResultParsed!.innerHTML = "";
-        // }
-        this.scanResultParsed!.appendChild(
+        this.scanResultParsed.innerHTML = "";
+        this.scanResultParsed.appendChild(
             this.createParsedResult(scanResult.decodedText, codeCategory));
 
         // Show / hide views.
-        this.scanResultFooter!.style.display = (onCloseCallback)
-            ? "block" : "none";
+        this.scanResultFooter!.style.display = (onCloseCallback) ? "block" : "none";
         this.showResultContainer();
     }
 }

@@ -1,6 +1,7 @@
 /** Common CSS for all buttons & selector. */
 
 /* CSS by Github. Source: https://getcssscan.com/css-buttons-examples */
+/* region */
 button.html5-qrcode-element,
 select.html5-qrcode-element,
 button.scanapp-button {
@@ -102,24 +103,3 @@ button.scanapp-button.enticing:disabled
   -webkit-filter: saturate(0.2) opacity(0.5);
   cursor: not-allowed;
 }
-
-/** Mobile Beta UI **/
-@media(max-width: 600px) {
-  /* Mobile phone display. */
-
-  #logo {
-    display: none;
-  }
-
-  /** TODO: Move this under the settings */
-  #footer {
-    display: none;
-  }
-}
-
-
-/**
-
-
-
-*/
