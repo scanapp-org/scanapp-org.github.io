@@ -10,6 +10,7 @@ import {
     ScanType
 } from "./constants";
 import {
+    hideBanners,
     isEmbeddedInIframe,
     showAntiEmbedWindow
 } from "./misc";
@@ -51,7 +52,7 @@ export class ScanApp {
                 qrbox: this.qrboxFunction,
                 useBarCodeDetectorIfSupported: true,
                 rememberLastUsedCamera: true,
-                aspectRatio: 4/3,
+                aspectRatio: 16/9,
                 showTorchButtonIfSupported: true,
                 showZoomSliderIfSupported: true,
                 defaultZoomValueIfSupported: 1.5,
@@ -66,6 +67,7 @@ export class ScanApp {
     private render() {
         // Render the rest of UI first.
         this.setupMinimizeButtons();
+        this.setupBannerListeners();
 
         // TODO(minhazav): Make this optional from API.
         let qrCodeErrorCallback = undefined;
@@ -152,6 +154,14 @@ export class ScanApp {
         var historyContainerMinimizablePanel = new MinimisablePanels(
             historyContainerMinimizeActionDiv, historyContaineBody);
         historyContainerMinimizablePanel.setup();
+    }
+
+    private setupBannerListeners() {
+        document.querySelectorAll(".banner-close").forEach(closeButton => {
+            closeButton.addEventListener("click", () => {
+                hideBanners();
+            });
+        });
     }
 
 }

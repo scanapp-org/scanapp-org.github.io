@@ -243,10 +243,72 @@ a:hover {
         color: #6D6D6D;
     }
 
+    #reader-container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
     #reader {
         width: 80%;
         margin: auto;
         padding: 0px;
+    }
+
+    .mobile-bottom-navbar {
+        display: none;
+    }
+}
+
+@media(max-width: 600px) {
+    /** Mobile mode **/
+
+    .desktop-header-area, .desktop-footer-area {
+        display: none;
+    }
+
+    .scanapp-top-container {
+        /* background-color: #000000; */
+    }
+
+    .scanapp-top-container,
+    .scanapp-top-container-row,
+    #desktop-scanapp-left-container {
+        width: 100%;
+        height: 100vh;
+    }
+
+    #scanapp-left-container-parent {
+        /* display: flex; */
+        width: 100%;
+        height: 100vh;
+        justify-content: center;
+    }
+
+    .desktop-render-area {
+        width: 100%;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .mobile-bottom-navbar {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        width: calc(100% - 30px);
+        height: 50px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        background-color: #EEEEEE;
+        border: 1px solid #DBDBDB;
+        border-radius: 10px;
+    }
+
+
+    #desktop-scanapp-right-container {
+        display: none;
     }
 }
 

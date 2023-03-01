@@ -187,7 +187,6 @@ export class QrResultViewer {
      */
     public render(
         scanResult: ScanResult, onCloseCallback: OnCloseCallback) {
-        console.log("render() called.");
         this.onCloseCallback = onCloseCallback;
 
         let codeFormatName = scanResult.codeFormatName;
