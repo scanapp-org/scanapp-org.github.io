@@ -8,6 +8,14 @@ html, body {
     height: 100%;
 }
 
+#under-development {
+    margin: 0px;
+    padding: 2px;
+    text-align: center;
+    background-color: #000000;
+    color: #ffffff;
+}
+
 .debug {
     background-color: #bdbdbd; 
     border: 1px dashed #000000ad;
