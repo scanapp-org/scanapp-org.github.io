@@ -218,7 +218,8 @@ a:hover {
         margin-left: 5px;
     }
 
-    .desktop-result-panel-body-actual {
+    .desktop-result-panel-body-actual,
+    #result-panel-container {
         display: none;
     }
 
@@ -784,5 +785,3 @@ div#iframe-ad {
     position: absolute;
     bottom: 0px;
 }
-
-

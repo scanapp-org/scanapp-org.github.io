@@ -24,6 +24,12 @@ export class MobileHistoryContainer {
         onOpenListener: Callback,
         onCloseListener: Callback) {
         this.iconContainer.addEventListener("click", () => {
+            if (this.bannerContainer.classList.contains("expanded")) {
+                this.isExpanded = true;
+            } else {
+                this.isExpanded = false;
+            }
+            
             if (!this.isExpanded) {
                 // expand the banner.
                 hideAllMobilePopupBanners();
