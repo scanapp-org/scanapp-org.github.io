@@ -281,7 +281,10 @@ a:hover {
         padding: 0px;
     }
 
-    .mobile-bottom-navbar {
+    /** Mobile specific UI components */
+    .mobile-bottom-navbar,
+    #mobile-about-panel,
+    #mobile-history-panel {
         display: none;
     }
 }
@@ -335,15 +338,18 @@ a:hover {
         -moz-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
         box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
         opacity: 0;
+        z-index: -1;
     }
 
     /* The animation code */
     @keyframes result-panel-container-expansion {
         from {
             opacity: 0;
+            z-index: -1;
         }
         to {
             opacity: 1;
+            z-index: 10;
         }
     }
 
@@ -398,6 +404,7 @@ a:hover {
         background-color: #EEEEEE;
         border: 1px solid #DBDBDB;
         border-radius: 10px;
+        overflow-y: auto;
     }
 
     /* The animation code */
@@ -459,6 +466,47 @@ a:hover {
         height: 40px;
         margin: auto;
     }
+
+    /** About section in mobile. */
+    .mobile-about-logo {
+        text-align: center;
+    }
+
+    .mobile-about-text-panel {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        font-weight: 400;
+    }
+
+    .mobile-about-built-with-love {
+        margin-bottom: 10px;
+    }
+
+    .mobile-about-links-panel {
+        display: flex;
+        font-size: 11pt;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .mobile-about-links-col {
+        margin: 30px;
+    }
+
+    /** Mobile history section temporary */
+    .mobile-history-panel-header-text {
+        text-align: center;
+    }
+
+    .mobile-history-panel-text {
+        text-align: center;
+        font-weight: 400;
+    }
+    
+    .mobile-history-panel-text div {
+        margin-top: 20px
+    }
 }
 
 #logo img {
@@ -469,29 +517,31 @@ a:hover {
 }
 
 /** Scan result container CSS -- common for web and mobile. */
-#new-scanned-result {
+.mobile-popup-banner {
     flex-direction: column;
     margin: 0;
+    display: flex;
+    justify-content: space-between;
 }
 
-#new-scanned-result .header{
+.mobile-popup-banner .header{
     margin: 10px;
     font-size: 18pt;
     font-weight: bold;
 }
 
-#new-scanned-result .section{
+.mobile-popup-banner .section{
     width: 100%;
     flex-grow: 1;
     flex-shrink: 0;
 }
 
-#new-scanned-result .section .section-info {
+.mobile-popup-banner .section .section-info {
     text-align: left;
     padding: 10px;
 }
 
-#new-scanned-result .footer {
+.mobile-popup-banner .footer {
     width: 100%;
     text-align: center;
     padding: 20px 0 20px 0;
@@ -499,7 +549,7 @@ a:hover {
     border-top: silver solid 1px;
 }
 
-div#new-scanned-result .image {
+.mobile-popup-banner .image {
     display: none;
     width: 200px;
     height: 100px;

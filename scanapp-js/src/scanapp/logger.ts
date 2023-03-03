@@ -128,4 +128,28 @@ export class Logger {
             }
         });
     } 
+
+    public static logAboutMenuButtonOpenClick() {
+        gtag('event', 'MobileNavBar_MenuButton_OpenClick', {});
+    }
+
+    public static logAboutMenuButtonCloseClick() {
+        gtag('event', 'MobileNavBar_MenuButton_CloseClick', {});
+    }
+
+    public static logAboutMenuCloseButtonClick() {
+        gtag('event', 'MobileNavBar_MenuClose_Click', {});
+    }
+
+    public static logHistoryMenuButtonOpenClick() {
+        gtag('event', 'MobileNavBar_HistoryButton_OpenClick', {});
+    }
+
+    public static logHistoryMenuButtonCloseClick() {
+        gtag('event', 'MobileNavBar_HistoryButton_CloseClick', {});
+    }
+
+    public static logHistoryMenuCloseButtonClick() {
+        gtag('event', 'MobileNavBar_HistoryClose_Click', {});
+    }
 }

@@ -43,6 +43,13 @@ export function hideAllMobilePopupBanners(): void {
         })
 }
 
+export function resetActiveFromAllMobileIcons(): void {
+    document.querySelectorAll(".mobile-bottom-navbar-option .menu-icons")
+        .forEach(element => {
+            element.classList.remove("active");
+        });
+    }
+
 export function shareResult(decodedText: string, codeType?: CodeCategory) {
     const shareData: ShareData = {
         title: "Scan result from Scanapp.org",

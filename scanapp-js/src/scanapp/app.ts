@@ -14,6 +14,8 @@ import {
     isEmbeddedInIframe,
     showAntiEmbedWindow
 } from "./misc";
+import { MobileAboutContainer } from "./about-container";
+import { MobileHistoryContainer } from "./history-container";
 import { QrResultViewer } from "./result-viewer"
 import { PwaPromptManager } from "./pwa";
 import { MinimisablePanels } from "./minimisable-panels";
@@ -90,9 +92,15 @@ export class ScanApp {
         this.isFormFactorMobile);
         Logger.logScanStart(this.isInIframe, "camera");
 
-        // let vh = window.innerHeight * 0.01;
-        // Then we set the value in the --vh custom property to the root of the document
-        // document.documentElement.style.setProperty('--vh', `${vh}px`);
+        // About section
+        const onOpenListener = () => {
+            this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
+        };
+        const onCloseListener = () => {
+            this.html5QrcodeScanner.resume();
+        }
+        MobileAboutContainer.setup(onOpenListener, onCloseListener);
+        MobileHistoryContainer.setup(onOpenListener, onCloseListener);
     }
 
     private onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {

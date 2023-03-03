@@ -15,6 +15,7 @@ import { Logger } from "./logger";
 import { 
     hideAllMobilePopupBanners,
     hideBanners,
+    resetActiveFromAllMobileIcons,
     showBanner,
     shareResult,
     detectType
@@ -170,10 +171,7 @@ export class QrResultViewer {
             this.mobileNavBar.classList.add("expanded");
             this.parentContainer.classList.add("expanded");
 
-            document.querySelectorAll(".mobile-bottom-navbar-option .menu-icons")
-                .forEach(element => {
-                    element.classList.remove("active");
-                });
+            resetActiveFromAllMobileIcons();
             this.mobileNavBarQrIcon.classList.remove("inactive");
             this.mobileNavBarQrIcon.classList.add("active");
         } else {
