@@ -47,17 +47,17 @@ export class QrResultViewer {
     private readonly scanResultBadgeBody = document.getElementById("scan-result-badge-body");
     private readonly scanResultParsed: HTMLDivElement = document.getElementById("scan-result-parsed")! as HTMLDivElement;
 
-    private readonly actionShareImage = document.getElementById("action-share");
-    private readonly actionCopyImage = document.getElementById("action-copy");
-    private readonly actionPaymentImage = document.getElementById("action-payment");
-    private readonly actionUrlImage = document.getElementById("action-url");
+    private readonly actionShareImage = document.getElementById("action-share")!;
+    private readonly actionCopyImage = document.getElementById("action-copy")!;
+    private readonly actionPaymentImage = document.getElementById("action-payment")!;
+    private readonly actionUrlImage = document.getElementById("action-url")!;
+    private readonly actionDownload = document.getElementById("action-download")!;
     private readonly scanResultClose = document.getElementById("scan-result-close");
     private readonly scanResultFooter = document.getElementById("body-footer");
     private readonly mobileNavBarQrIcon = document.getElementById("navbar-menu-icon-qr")! as HTMLDivElement;
 
     private readonly isFormFactorMobile: boolean = false;
 
-    private shareOrCopySupported: boolean = false;
     private lastRenderedResult?: LastRenderedResult;
     private onCloseCallback?: OnCloseCallback;
 
@@ -106,18 +106,17 @@ export class QrResultViewer {
 
         // Clipboard.
         if (navigator.clipboard) {
-            this.actionCopyImage!.addEventListener("click", function() {
+            this.actionCopyImage.addEventListener("click", function() {
                 hideBanners();
                 copyToClipboard($this.scanResultText!.innerText);
                 Logger.logActionCopy();
             });
-            $this.shareOrCopySupported = true;
         } else {
             this.actionCopyImage!.style.display = "none";
         }
 
         // Payment button.
-        this.actionPaymentImage!.addEventListener("click", (_) => {
+        this.actionPaymentImage.addEventListener("click", (_) => {
             hideBanners();
             if ($this.lastRenderedResult) {
                 var upiLink = decodeURIComponent($this.lastRenderedResult.text);
@@ -131,10 +130,13 @@ export class QrResultViewer {
         });
 
         // Url action
-        this.actionUrlImage!.addEventListener("click", function() {
+        this.actionUrlImage.addEventListener("click", function() {
             Logger.logUrlAction(function() {
                 if ($this.lastRenderedResult) {
-                    location.href = $this.lastRenderedResult.text;
+                    let link = document.createElement("a");
+                    link.setAttribute("href", $this.lastRenderedResult.text);
+                    link.setAttribute("target", "blank_");
+                    link.click();
                 } else {
                     // TODO(minhazav): Take action when last result doesn't have value.
                     console.error("URL action without lastRenderedResult.");
@@ -146,7 +148,7 @@ export class QrResultViewer {
         let navigatorCopy: any = navigator;
         // For some reason typescript think share is always supported.
         if (navigatorCopy.share) {
-            this.actionShareImage!.addEventListener("click", function() {
+            this.actionShareImage.addEventListener("click", function() {
                 hideBanners();
                 if ($this.lastRenderedResult) {
                     shareResult($this.lastRenderedResult.text, $this.lastRenderedResult.type);
@@ -155,12 +157,28 @@ export class QrResultViewer {
                     // TODO(minhazav): Take action when last result doesn't have value.
                     console.error("Share action without lastRenderedResult.");
                 }
-                $this.shareOrCopySupported = true;
             });
         } else {
-            this.actionShareImage!.style.display = "none";
-            $this.shareOrCopySupported = false;
+            this.actionShareImage.style.display = "none";
         }
+
+        // Download button.
+        this.actionDownload.addEventListener("click", () => {
+            if (!this.lastRenderedResult) {
+                return;
+            }
+
+            Logger.logActionDownload();
+            const mimeType = "text/plain";
+            const fileName = "scanapp_download.txt";
+            const link = document.createElement("a");
+            const blob = new Blob([this.lastRenderedResult.text], {type: mimeType});
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", fileName);
+            link.click();
+        });
+        
     }
 
     private showResultContainer() {

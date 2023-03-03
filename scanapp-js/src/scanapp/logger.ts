@@ -53,6 +53,10 @@ export class Logger {
         gtag('event', 'share', {});
     }
 
+    public static logActionDownload() {
+        gtag('event', 'Action-Download', {});
+    }
+
     public static logPaymentAction() {
         gtag('event', 'Action-Payment', {});
     }
