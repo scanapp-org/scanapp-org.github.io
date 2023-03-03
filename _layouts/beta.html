@@ -196,10 +196,17 @@ layout: empty_beta
 <!-- Mobile specific containers-->
 <div class="mobile-bottom-navbar" id="mobile-bottom-navbar-id">
     <div class="mobile-bottom-navbar-option">
+        <div class="menu-icons" id="navbar-menu-icon-sponsor">
+            <img src="./assets/images/icons/coffee.svg" alt="sponsor" height="36px" />
+        </div>
+    </div>
+    <!--
+    <div class="mobile-bottom-navbar-option">
         <div class="menu-icons" id="navbar-menu-icon-history">
             <img src="./assets/images/icons/history.svg" alt="history" height="36px" />
         </div>
     </div>
+    -->
     <div class="mobile-bottom-navbar-option">
         <div class="menu-icons inactive" id="navbar-menu-icon-qr">
             <img src="./assets/images/icons/qr.svg" alt="QR" height="36px" />
@@ -210,6 +217,13 @@ layout: empty_beta
             <img src="./assets/images/icons/menu.svg" alt="menu" height="36px" />
         </div>
     </div>
+    <!--
+    <div class="mobile-bottom-navbar-option" style="opacity: 0">
+        <div class="menu-icons">
+            <img src="./assets/images/icons/menu.svg" alt="menu" height="36px" />
+        </div>
+    </div>
+    -->
 </div>
 
 <div class="mobile-popup-banner" id="mobile-about-panel">
@@ -267,6 +281,20 @@ layout: empty_beta
     </div>
     <div class="footer">
         <button id="scan-about-close" class="scanapp-button">Close</button>
+    </div>
+</div>
+
+<div class="mobile-popup-banner" id="mobile-sponsor-panel">
+    <div>
+        <div class="header">
+            <div class="mobile-history-panel-header-text">Support ScanApp</div>
+        </div>
+        <div class="body">
+            <iframe id='kofiframe' src='https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='712' title='minhazav'></iframe>
+        </div>
+    </div>
+    <div class="footer">
+        <button id="scan-sponsor-close" class="scanapp-button">Close</button>
     </div>
 </div>
 

@@ -16,6 +16,7 @@ import {
 } from "./misc";
 import { MobileAboutContainer } from "./about-container";
 import { MobileHistoryContainer } from "./history-container";
+import { MobileSponsorContainer } from "./sponsor-container";
 import { QrResultViewer } from "./result-viewer"
 import { PwaPromptManager } from "./pwa";
 import { MinimisablePanels } from "./minimisable-panels";
@@ -100,7 +101,8 @@ export class ScanApp {
             this.html5QrcodeScanner.resume();
         }
         MobileAboutContainer.setup(onOpenListener, onCloseListener);
-        MobileHistoryContainer.setup(onOpenListener, onCloseListener);
+        // MobileHistoryContainer.setup(onOpenListener, onCloseListener);
+        MobileSponsorContainer.setup(onOpenListener, onCloseListener);
     }
 
     private onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {

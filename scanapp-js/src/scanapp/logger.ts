@@ -156,4 +156,16 @@ export class Logger {
     public static logHistoryMenuCloseButtonClick() {
         gtag('event', 'MobileNavBar_HistoryClose_Click', {});
     }
+
+    public static logSponsorMenuButtonOpenClick() {
+        gtag('event', 'MobileNavBar_SponsorButton_OpenClick', {});
+    }
+
+    public static logSponsorMenuButtonCloseClick() {
+        gtag('event', 'MobileNavBar_SponsorButton_CloseClick', {});
+    }
+
+    public static logSponsorMenuCloseButtonClick() {
+        gtag('event', 'MobileNavBar_SponsorClose_Click', {});
+    }
 }
