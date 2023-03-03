@@ -465,7 +465,7 @@ export class Html5QrcodeScanner {
         // HACK @MINHAZAV
         // parent.style.paddingTop = "100px";
         // parent.style.paddingBottom = "100px";
-        parent.style.background = "#000000";
+        // parent.style.background = "#000000";
         // if (this.isFormFactorMobile) {
         // }
         // @ScanApp specific change start
@@ -488,7 +488,6 @@ export class Html5QrcodeScanner {
         }
 
         const qrCodeDashboard = document.createElement("div");
-        qrCodeDashboard.style.display = "none";
         const dashboardId = this.getDashboardId();
         qrCodeDashboard.id = dashboardId;
         qrCodeDashboard.style.width = "100%";

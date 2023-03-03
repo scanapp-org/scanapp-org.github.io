@@ -309,21 +309,21 @@ a:hover {
 
     .desktop-render-area {
         width: 100%;
-        margin: auto;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        /* margin: auto; */
+        /* position: absolute; */
+        /* top: 50%; */
+        /* transform: translateY(-50%); */
     }
 
     .desktop-right-container-top-panel {
         display: none;
     }
 
-    #result-panel-container {
+    .mobile-popup-banner {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         position: absolute;
-        bottom: calc(-65%);
+        bottom: -1200px;
         width: 100%;
         background-color: white;
         height: 60%;
@@ -339,14 +339,14 @@ a:hover {
     /* The animation code */
     @keyframes result-panel-container-expansion {
         from {
-            bottom: calc(-65%);
+            bottom: -1200px;
         }
         to {
             bottom: 72px;
         }
     }
 
-    #result-panel-container.expanded {
+    .mobile-popup-banner.expanded {
         animation: result-panel-container-expansion 0.5s forwards;
     }
 
@@ -467,29 +467,30 @@ a:hover {
     padding: 0px 5px 0px 5px;
 }
 
-.pop-up-banner {
+/** Scan result container CSS -- common for web and mobile. */
+#new-scanned-result {
     flex-direction: column;
     margin: 0;
 }
 
-.pop-up-banner .header{
+#new-scanned-result .header{
     margin: 10px;
     font-size: 18pt;
     font-weight: bold;
 }
 
-.pop-up-banner .section{
+#new-scanned-result .section{
     width: 100%;
     flex-grow: 1;
     flex-shrink: 0;
 }
 
-.pop-up-banner .section .section-info {
+#new-scanned-result .section .section-info {
     text-align: left;
     padding: 10px;
 }
 
-.pop-up-banner .footer {
+#new-scanned-result .footer {
     width: 100%;
     text-align: center;
     padding: 20px 0 20px 0;

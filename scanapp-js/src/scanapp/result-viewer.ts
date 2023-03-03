@@ -13,6 +13,7 @@ import {
 } from "./constants";
 import { Logger } from "./logger";
 import { 
+    hideAllMobilePopupBanners,
     hideBanners,
     showBanner,
     shareResult,
@@ -165,6 +166,7 @@ export class QrResultViewer {
         this.placeHolderContainer.style.display = "none";
         
         if (this.isFormFactorMobile) {
+            hideAllMobilePopupBanners();
             this.mobileNavBar.classList.add("expanded");
             this.parentContainer.classList.add("expanded");
 
@@ -181,7 +183,8 @@ export class QrResultViewer {
 
     private hideResultContainer() {
         if (this.isFormFactorMobile) {
-            this.parentContainer.classList.remove("expanded");
+            hideAllMobilePopupBanners();
+
             this.mobileNavBar.classList.remove("expanded");
             this.mobileNavBarQrIcon.classList.remove("active");
             this.mobileNavBarQrIcon.classList.add("inactive");

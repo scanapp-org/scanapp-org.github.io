@@ -36,6 +36,13 @@ export function hideBanners(): void {
         .forEach((b) => b.classList.remove("visible"));
 };
 
+export function hideAllMobilePopupBanners(): void {
+    document.querySelectorAll(".mobile-popup-banner")
+        .forEach(banner => {
+            banner.classList.remove("expanded");
+        })
+}
+
 export function shareResult(decodedText: string, codeType?: CodeCategory) {
     const shareData: ShareData = {
         title: "Scan result from Scanapp.org",
