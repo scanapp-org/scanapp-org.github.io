@@ -323,7 +323,7 @@ a:hover {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         position: absolute;
-        bottom: -1200px;
+        bottom: 72px;
         width: 100%;
         background-color: white;
         height: 60%;
@@ -334,20 +334,21 @@ a:hover {
         -webkit-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
         -moz-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
         box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
+        opacity: 0;
     }
 
     /* The animation code */
     @keyframes result-panel-container-expansion {
         from {
-            bottom: -1200px;
+            opacity: 0;
         }
         to {
-            bottom: 72px;
+            opacity: 1;
         }
     }
 
     .mobile-popup-banner.expanded {
-        animation: result-panel-container-expansion 0.5s forwards;
+        animation: result-panel-container-expansion 0.25s forwards;
     }
 
     .desktop-result-panel-header {
