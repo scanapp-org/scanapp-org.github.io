@@ -6,6 +6,8 @@
  */
 
 import {
+    dockMobileNavBar,
+    floatMobileNavBar,
     hideAllMobilePopupBanners,
     resetActiveFromAllMobileIcons
 } from "./misc";
@@ -29,19 +31,21 @@ export class MobileHistoryContainer {
             } else {
                 this.isExpanded = false;
             }
-            
+
             if (!this.isExpanded) {
                 // expand the banner.
                 hideAllMobilePopupBanners();
                 resetActiveFromAllMobileIcons();
                 this.bannerContainer.classList.add("expanded");
                 this.iconContainer.classList.add("active");
-                
+                dockMobileNavBar();
+
                 Logger.logHistoryMenuButtonOpenClick();
                 onOpenListener();
             } else {
                 this.bannerContainer.classList.remove("expanded");
                 this.iconContainer.classList.remove("active");
+                floatMobileNavBar();
                 
                 Logger.logHistoryMenuButtonCloseClick();
                 onCloseListener();

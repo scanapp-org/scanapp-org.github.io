@@ -6,6 +6,8 @@
  */
 
 import {
+    dockMobileNavBar,
+    floatMobileNavBar,
     hideAllMobilePopupBanners,
     resetActiveFromAllMobileIcons
 } from "./misc";
@@ -36,12 +38,14 @@ export class MobileAboutContainer {
                 resetActiveFromAllMobileIcons();
                 this.bannerContainer.classList.add("expanded");
                 this.iconContainer.classList.add("active");
+                dockMobileNavBar();
                 
                 Logger.logAboutMenuButtonOpenClick();
                 onOpenListener();
             } else {
                 this.bannerContainer.classList.remove("expanded");
                 this.iconContainer.classList.remove("active");
+                floatMobileNavBar();
                 
                 Logger.logAboutMenuButtonCloseClick();
                 onCloseListener();

@@ -13,6 +13,8 @@ import {
 } from "./constants";
 import { Logger } from "./logger";
 import { 
+    dockMobileNavBar,
+    floatMobileNavBar,
     hideAllMobilePopupBanners,
     hideBanners,
     resetActiveFromAllMobileIcons,
@@ -51,8 +53,6 @@ export class QrResultViewer {
     private readonly actionUrlImage = document.getElementById("action-url");
     private readonly scanResultClose = document.getElementById("scan-result-close");
     private readonly scanResultFooter = document.getElementById("body-footer");
-
-    private readonly mobileNavBar = document.getElementById("mobile-bottom-navbar-id")! as HTMLDivElement;
     private readonly mobileNavBarQrIcon = document.getElementById("navbar-menu-icon-qr")! as HTMLDivElement;
 
     private readonly isFormFactorMobile: boolean = false;
@@ -168,7 +168,7 @@ export class QrResultViewer {
         
         if (this.isFormFactorMobile) {
             hideAllMobilePopupBanners();
-            this.mobileNavBar.classList.add("expanded");
+            dockMobileNavBar();
             this.parentContainer.classList.add("expanded");
 
             resetActiveFromAllMobileIcons();
@@ -183,7 +183,7 @@ export class QrResultViewer {
         if (this.isFormFactorMobile) {
             hideAllMobilePopupBanners();
 
-            this.mobileNavBar.classList.remove("expanded");
+            floatMobileNavBar();
             this.mobileNavBarQrIcon.classList.remove("active");
             this.mobileNavBarQrIcon.classList.add("inactive");
         } else {

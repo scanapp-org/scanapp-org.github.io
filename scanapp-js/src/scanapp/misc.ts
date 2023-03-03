@@ -48,7 +48,17 @@ export function resetActiveFromAllMobileIcons(): void {
         .forEach(element => {
             element.classList.remove("active");
         });
-    }
+}
+
+export function dockMobileNavBar(): void {
+    const mobileNavBar = document.getElementById("mobile-bottom-navbar-id")! as HTMLDivElement;
+    mobileNavBar.classList.add("expanded");
+}
+
+export function floatMobileNavBar(): void {
+    const mobileNavBar = document.getElementById("mobile-bottom-navbar-id")! as HTMLDivElement;
+    mobileNavBar.classList.remove("expanded");
+}
 
 export function shareResult(decodedText: string, codeType?: CodeCategory) {
     const shareData: ShareData = {
