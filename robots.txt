@@ -1,5 +1,6 @@
 User-agent: Googlebot
 Disallow: /staging
+Disallow: /beta
 
 User-agent: *
 Allow: /
