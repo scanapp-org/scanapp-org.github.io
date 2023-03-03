@@ -81,15 +81,18 @@ layout: empty_beta
                     </div>
                 </div>
             </div>
-            <div class="desktop-right-container-panel desktop-right-container-result-panel ">
+            <div class="desktop-right-container-panel desktop-right-container-result-panel">
                 <div class="desktop-result-panel-header">
                     <div class="desktop-result-panel-header-title">
-                        <!-- <div class="desktop-result-panel-header-title-icon">
-                            <img src="./assets/images/icons/qr.svg" alt="qr" height="24px" />
-                        </div> -->
+                        <!--
+                            <div class="desktop-result-panel-header-title-icon">
+                                <img src="./assets/images/icons/qr.svg" alt="qr" height="24px" />
+                            </div>
+                        -->
                         <div class="desktop-result-panel-header-title-text">Scan Result</div>
                     </div>
                     <div class="desktop-result-panel-header-actions">
+                        <!-- TODO: Make this dynamic -- expand less for phone is opposite -->
                         <div class="action-icons" id="result-panel-minimize-action">
                             <img src="./assets/images/icons/expand_less.svg" alt="minimize" width="48px" height="48px" />
                         </div>
@@ -102,7 +105,7 @@ layout: empty_beta
                         </div>
                         <div>Scan to get results</div>
                     </div>
-                    <div class="desktop-result-panel-body-actual hidden-initially" id="result-panel-container">
+                    <div class="desktop-result-panel-body-actual" id="result-panel-container">
                         <div id="new-scanned-result" class="pop-up-banner">
                             <div class="header">
                                 New <span id="scan-result-code-type">{code}</span> detected!
@@ -184,7 +187,24 @@ layout: empty_beta
             </div>
         </div>
     </div>
-    <div class="mobile-bottom-navbar"></div>
+
+    <div class="mobile-bottom-navbar" id="mobile-bottom-navbar-id">
+        <div class="mobile-bottom-navbar-option">
+            <div class="menu-icons" id="navbar-menu-icon-history">
+                <img src="./assets/images/icons/history.svg" alt="history" height="36px" />
+            </div>
+        </div>
+        <div class="mobile-bottom-navbar-option">
+            <div class="menu-icons inactive" id="navbar-menu-icon-qr">
+                <img src="./assets/images/icons/qr.svg" alt="QR" height="36px" />
+            </div>
+        </div>
+        <div class="mobile-bottom-navbar-option">
+            <div class="menu-icons" id="navbar-menu-icon-menu">
+                <img src="./assets/images/icons/menu.svg" alt="menu" height="36px" />
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="banners-container">

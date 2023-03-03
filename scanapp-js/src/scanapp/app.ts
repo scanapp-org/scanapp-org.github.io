@@ -20,26 +20,30 @@ import { MinimisablePanels } from "./minimisable-panels";
 import { Html5QrcodeScanner } from "../html5-qrcode/html5-qrcode-scanner";
 import { Html5QrcodeScannerState } from "../html5-qrcode/state-manager";
 import { Html5QrcodeResult } from "../html5-qrcode/core";
-import { Html5QrcodeScanType } from "../html5-qrcode/core";
 import { ScanResult } from "./scan-result";
 import { Logger } from "./logger";
 
 export class ScanApp {
     // Global viewer object, to be used for showing scan result as well as
     // history.
-    private readonly qrResultViewer = new QrResultViewer();
+    private readonly qrResultViewer: QrResultViewer;
     private readonly pwaPromptManagerGlobal = new PwaPromptManager();
     
+    private isFormFactorMobile: boolean;
     private isInIframe: boolean;
     private html5QrcodeScanner: Html5QrcodeScanner;
     private pwaTimeout?: number;
 
     public static createAndRender() {
-        let scanApp = new ScanApp();
+        let isFormFactorMobile = screen.availWidth < 600;
+        let scanApp = new ScanApp(isFormFactorMobile);
         scanApp.render();
     }
 
-    private constructor() {
+    private constructor(isFormFactorMobile: boolean) {
+        this.isFormFactorMobile = isFormFactorMobile;
+        this.qrResultViewer = new QrResultViewer(isFormFactorMobile);
+
         this.isInIframe = isEmbeddedInIframe();
         if (this.isInIframe) {
             showAntiEmbedWindow();
@@ -52,7 +56,7 @@ export class ScanApp {
                 qrbox: this.qrboxFunction,
                 useBarCodeDetectorIfSupported: true,
                 rememberLastUsedCamera: true,
-                aspectRatio: 16/9,
+                aspectRatio: this.getAspectRatio(),
                 showTorchButtonIfSupported: true,
                 showZoomSliderIfSupported: true,
                 defaultZoomValueIfSupported: 1.5,
@@ -64,6 +68,14 @@ export class ScanApp {
             /* verbose= */ false);
     }
 
+    private getAspectRatio() {
+        const FOR_MOBILE_ASPECT_RATIO = 4/3;
+        // const FOR_MOBILE_ASPECT_RATIO = 16/9;
+        const FOR_DESKTOP_ASPECT_RATIO = 4/3;
+
+        return this.isFormFactorMobile ? FOR_MOBILE_ASPECT_RATIO : FOR_DESKTOP_ASPECT_RATIO;
+    }
+
     private render() {
         // Render the rest of UI first.
         this.setupMinimizeButtons();
@@ -73,8 +85,14 @@ export class ScanApp {
         let qrCodeErrorCallback = undefined;
         this.html5QrcodeScanner.render((decodedText: string, decodedResult: Html5QrcodeResult) => {
             this.onScanSuccess(decodedText, decodedResult);
-        }, qrCodeErrorCallback);
+        },
+        qrCodeErrorCallback,
+        this.isFormFactorMobile);
         Logger.logScanStart(this.isInIframe, "camera");
+
+        // let vh = window.innerHeight * 0.01;
+        // Then we set the value in the --vh custom property to the root of the document
+        // document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
 
     private onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {

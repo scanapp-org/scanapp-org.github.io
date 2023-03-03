@@ -47,10 +47,6 @@ import {
 } from "./storage";
 
 import {
-    LibraryInfoContainer
-} from "./ui";
-
-import {
   CameraPermissions
 } from "./camera/permissions";
 
@@ -187,6 +183,7 @@ export class Html5QrcodeScanner {
     private cameraScanImage: HTMLImageElement | null = null;
     private fileScanImage: HTMLImageElement | null = null;
     private fileSelectionUi: FileSelectionUi | null = null;
+    private isFormFactorMobile: boolean = false;
     //#endregion
 
     /**
@@ -231,8 +228,10 @@ export class Html5QrcodeScanner {
      */
     public render(
         qrCodeSuccessCallback: QrcodeSuccessCallback,
-        qrCodeErrorCallback: QrcodeErrorCallback | undefined) {
+        qrCodeErrorCallback: QrcodeErrorCallback | undefined,
+        isFormFactorMobile: boolean | undefined) {
         this.lastMatchFound = null;
+        this.isFormFactorMobile = isFormFactorMobile === true;
 
         // Add wrapper to success callback.
         this.qrCodeSuccessCallback
@@ -463,6 +462,12 @@ export class Html5QrcodeScanner {
     private createBasicLayout(parent: HTMLElement) {
         parent.style.position = "relative";
         parent.style.padding = "0px";
+        // HACK @MINHAZAV
+        // parent.style.paddingTop = "100px";
+        // parent.style.paddingBottom = "100px";
+        parent.style.background = "#000000";
+        // if (this.isFormFactorMobile) {
+        // }
         // @ScanApp specific change start
         // parent.style.border = "1px solid silver";
         // @ScanApp specific change end
@@ -483,6 +488,7 @@ export class Html5QrcodeScanner {
         }
 
         const qrCodeDashboard = document.createElement("div");
+        qrCodeDashboard.style.display = "none";
         const dashboardId = this.getDashboardId();
         qrCodeDashboard.id = dashboardId;
         qrCodeDashboard.style.width = "100%";
@@ -496,7 +502,6 @@ export class Html5QrcodeScanner {
     }
 
     private setupInitialDashboard(dashboard: HTMLElement) {
-        const $this = this;
         this.createSection(dashboard);
         this.createSectionControlPanel();
         if (this.scanTypeSelector.hasMoreThanOneScanType()) {

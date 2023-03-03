@@ -1,3 +1,18 @@
+html {
+    height: 100%; /* Fallback CSS for IE 4-6 and older browsers. Note: Without this setting, body below cannot achieve 100% height. */
+    height: 100vh;/* Overrides 100% height in modern HTML5 browsers and uses the viewport's height. Only works in modern HTML5 browsers */
+}
+
+body {
+    height: auto; /* Allows content to grow beyond the page without overflow */
+    width: auto; /* Allows content to grow beyond the page without overflow */
+    min-height: 100%; /* Starts web page with 100% height. Fallback for IE 4-6 and older browsers */
+    min-height: 100vh;/* Starts web page with 100% height. Uses the viewport's height. Only works in modern HTML5 browsers */
+    overflow-y: scroll;/* Optional: Adds an empty scrollbar to the right margin in case content grows vertically, creating a scrollbar.  Allows for better width calculations, as the browser pre-calculates width before scrollbar appears, avoiding page content shifting.*/
+    margin: 0;
+    padding: 0;
+}
+
 html, body {
     padding: 0px;
     margin: 0px;
@@ -5,7 +20,6 @@ html, body {
     font-family: roboto;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: 100%;
 }
 
 #under-development {
@@ -14,6 +28,10 @@ html, body {
     text-align: center;
     background-color: #000000;
     color: #ffffff;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    display: none;
 }
 
 .debug {
@@ -83,6 +101,10 @@ a:hover {
         margin-right: 1%;
     }
 
+    #scanapp-left-container-parent {
+        overflow-y: auto;
+    }
+
     #desktop-scanapp-right-container {
         width: 30%;
         margin-left: 1%;
@@ -121,12 +143,13 @@ a:hover {
 
     .desktop-footer-area {
         font-weight: 400;
+        margin-top: 20px;
     }
 
     .desktop-footer-area-top-panel {
         display: block;
         width: 100%;
-        padding: 10px;
+        /* padding: 10px; */
         text-align: center;
     }
 
@@ -191,12 +214,12 @@ a:hover {
         justify-content:space-between;
     }
 
-    /* .desktop-result-panel-header-title-icon {
-        margin-right: 5px;
-    } */
-
     .desktop-result-panel-header-title-text {
         margin-left: 5px;
+    }
+
+    .desktop-result-panel-body-actual {
+        display: none;
     }
 
     .action-icons {
@@ -220,10 +243,6 @@ a:hover {
     .action-icons img {
         margin: auto;
         display: block;
-    }
-
-    .desktop-result-panel-body {
-        /* padding: 5px; */
     }
 
     .desktop-result-panel-body-placeholder {
@@ -274,10 +293,6 @@ a:hover {
         display: none;
     }
 
-    .scanapp-top-container {
-        /* background-color: #000000; */
-    }
-
     .scanapp-top-container,
     .scanapp-top-container-row,
     #desktop-scanapp-left-container {
@@ -300,10 +315,80 @@ a:hover {
         transform: translateY(-50%);
     }
 
+    .desktop-right-container-top-panel {
+        display: none;
+    }
+
+    #result-panel-container {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        position: absolute;
+        bottom: calc(-65%);
+        width: 100%;
+        background-color: white;
+        height: 60%;
+        min-height: 400px;
+        overflow-y: scroll;
+        border-top: 1px solid #000000;
+        padding-top: 20px;
+        -webkit-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
+        -moz-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
+        box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
+    }
+
+    /* The animation code */
+    @keyframes result-panel-container-expansion {
+        from {
+            bottom: calc(-65%);
+        }
+        to {
+            bottom: 72px;
+        }
+    }
+
+    #result-panel-container.expanded {
+        animation: result-panel-container-expansion 0.5s forwards;
+    }
+
+    .desktop-result-panel-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .desktop-result-panel-header {
+        display: none;
+    }
+
+    .desktop-result-panel-body,
+    #result-panel-body-id {
+        height: 100%;
+    }
+
+    .desktop-result-panel-body-placeholder {
+        display: none;
+    }
+
+    #reader {
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #new-scanned-result {
+        /* display: none; */
+        border-radius: 30px 30px 0px 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        height: 100%;
+    }
+
     .mobile-bottom-navbar {
         position: fixed;
         bottom: 10px;
-        left: 10px;
+        left: 7px;
         width: calc(100% - 30px);
         height: 50px;
         padding: 5px;
@@ -314,9 +399,64 @@ a:hover {
         border-radius: 10px;
     }
 
+    /* The animation code */
+    @keyframes mobile-bottom-navbar-expansion {
+        from {
+            width: calc(100% - 30px);
+            height: 50px;
+            border-radius: 10px;
+        }
+        to {
+            width: 100%;
+            height: 60px;
+            border-radius: 0px;
+            padding-left: 0px;
+            bottom: 0px;
+            left: 0px;
+        }
+    }
 
-    #desktop-scanapp-right-container {
-        display: none;
+    .mobile-bottom-navbar.expanded {
+        animation: mobile-bottom-navbar-expansion 0.5s forwards;
+    }
+
+    .mobile-bottom-navbar .mobile-bottom-navbar-option {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .mobile-bottom-navbar.expanded  .mobile-bottom-navbar-option:nth-child(1) {
+        margin-left: 1px;
+        margin-right: 5px;
+    } 
+    
+    .mobile-bottom-navbar .menu-icons {
+        display: flex;
+        width: 48px;
+        height: 48px;
+        background: #d0d0d07d;
+        border: 1px solid #DBDBDB;
+        border-radius: 10px;
+        justify-content: center;
+    }
+
+    .mobile-bottom-navbar .menu-icons:hover,
+    .mobile-bottom-navbar .menu-icons.active {
+        background: #BABABA;
+        border: 1px solid #DBDBDB;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .mobile-bottom-navbar .menu-icons.inactive {
+        background: none;
+        border: none;
+    }
+
+    .mobile-bottom-navbar .menu-icons img {
+        width: 40px;
+        height: 40px;
+        margin: auto;
     }
 }
 
@@ -401,57 +541,6 @@ table#result_table {
 
 .action_image:hover {
     background: #c0c0c06e;
-}
-
-@media(max-width: 600px) {
-    /* Mobile phone display. */
-    #scanapp-container {
-        display: block;
-    }
-
-    #scanner, #workspace {
-        display: 100px;
-    }
-
-    #reader {
-        width: 100%;
-        margin: 0px;
-        padding: 0px;
-    }
-
-    #new-scanned-result {
-        display: none;
-        position: fixed;
-        top: calc(25%);
-        border-radius: 30px 30px 0px 0px;
-        height: calc(75%);
-        /* border: 1px solid black; */
-    }
-
-    div.workspace-header {
-        display: none;
-    }
-
-    div#no-result-container {
-        display: none;
-    }
-
-    #a2hs-container {
-        display: flex;
-        position: fixed;
-        /* top: calc(25%); */
-        top: calc(105%);
-        border-radius: 30px 30px 0px 0px;
-        height: calc(75%);
-        width: 100%;
-        background: white;
-        text-align: center;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        border-top: 1px solid black;
-        z-index:10;
-        transition: top 0.5s;
-    }
 }
 
 /** Badge **/

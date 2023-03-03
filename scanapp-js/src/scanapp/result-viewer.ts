@@ -48,14 +48,20 @@ export class QrResultViewer {
     private readonly actionPaymentImage = document.getElementById("action-payment");
     private readonly actionUrlImage = document.getElementById("action-url");
     private readonly scanResultClose = document.getElementById("scan-result-close");
-    // private readonly noResultContainer = document.getElementById("no-result-container");
     private readonly scanResultFooter = document.getElementById("body-footer");
+
+    private readonly mobileNavBar = document.getElementById("mobile-bottom-navbar-id")! as HTMLDivElement;
+    private readonly mobileNavBarQrIcon = document.getElementById("navbar-menu-icon-qr")! as HTMLDivElement;
+
+    private readonly isFormFactorMobile: boolean = false;
 
     private shareOrCopySupported: boolean = false;
     private lastRenderedResult?: LastRenderedResult;
     private onCloseCallback?: OnCloseCallback;
 
-    public constructor() {
+    public constructor(isFormFactorMobile: boolean) {
+        this.isFormFactorMobile = isFormFactorMobile;
+
         this.renderInternal();
         this.addListeners();
     }
@@ -64,19 +70,36 @@ export class QrResultViewer {
         this.scanResultImage!.style.display = "none";
     }
 
+    private hideResultViewerDesktop() {
+        this.hideResultViewerCommon();
+        this.hideResultContainer();
+        this.placeHolderContainer.style.display = "block";
+    }
+
+    private hideResultViewerMobile() {
+        this.hideResultViewerCommon();
+        this.hideResultContainer();
+        // Don't show the placeholder for mobile version.
+    }
+
+    private hideResultViewerCommon() {
+        hideBanners();
+        if (this.onCloseCallback) {
+            Logger.logScanRestart();
+            this.onCloseCallback();
+        }
+    }
+
     private addListeners() {
         let $this = this;
 
         // Close button.
         this.scanResultClose!.addEventListener("click", function() {
-            hideBanners();
-            $this.hideResultContainer();
-            if ($this.onCloseCallback) {
-                Logger.logScanRestart();
-                $this.onCloseCallback();
+            if ($this.isFormFactorMobile) {
+                $this.hideResultViewerMobile();
+            } else {
+                $this.hideResultViewerDesktop();
             }
-
-            $this.placeHolderContainer.style.display = "block";
         });
 
         // Clipboard.
@@ -140,14 +163,31 @@ export class QrResultViewer {
 
     private showResultContainer() {
         this.placeHolderContainer.style.display = "none";
-        this.parentContainer.style.display = "block";
-        // this.container!.style.borderTop = "1px solid black";
-        // this.parentContainer!.style.border = "1px solid silver";
+        
+        if (this.isFormFactorMobile) {
+            this.mobileNavBar.classList.add("expanded");
+            this.parentContainer.classList.add("expanded");
+
+            document.querySelectorAll(".mobile-bottom-navbar-option .menu-icons")
+                .forEach(element => {
+                    element.classList.remove("active");
+                });
+            this.mobileNavBarQrIcon.classList.remove("inactive");
+            this.mobileNavBarQrIcon.classList.add("active");
+        } else {
+            this.parentContainer.style.display = "block";
+        }
     }
 
     private hideResultContainer() {
-        this.parentContainer.style.display = "none";
-        // this.parentContainer!.style.border = "1px solid #ffffff00";    
+        if (this.isFormFactorMobile) {
+            this.parentContainer.classList.remove("expanded");
+            this.mobileNavBar.classList.remove("expanded");
+            this.mobileNavBarQrIcon.classList.remove("active");
+            this.mobileNavBarQrIcon.classList.add("inactive");
+        } else {
+            this.parentContainer.style.display = "none";
+        }
     }
 
     private createParsedResult(decodedText: string, codeType: CodeCategory): HTMLElement {
