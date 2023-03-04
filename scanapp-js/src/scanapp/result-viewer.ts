@@ -11,6 +11,7 @@ import {
     codeCategoryToString,
     scanTypeToString
 } from "./constants";
+import { HidableUiComponent } from "./core";
 import { Logger } from "./logger";
 import { 
     dockMobileNavBar,
@@ -37,7 +38,7 @@ interface LastRenderedResult {
 type OnCloseCallback = () => void;
 
 /** Class for rendering result of QR scanning. */
-export class QrResultViewer {
+export class QrResultViewer implements HidableUiComponent {
     private readonly placeHolderContainer = document.getElementById("result-panel-placeholder")!;
 
     private readonly parentContainer = document.getElementById("result-panel-container")!;
@@ -93,22 +94,16 @@ export class QrResultViewer {
     }
 
     private addListeners() {
-        let $this = this;
-
         // Close button.
-        this.scanResultClose!.addEventListener("click", function() {
-            if ($this.isFormFactorMobile) {
-                $this.hideResultViewerMobile();
-            } else {
-                $this.hideResultViewerDesktop();
-            }
+        this.scanResultClose!.addEventListener("click", () => {
+            this.hide();            
         });
 
         // Clipboard.
         if (navigator.clipboard) {
-            this.actionCopyImage.addEventListener("click", function() {
+            this.actionCopyImage.addEventListener("click", () => {
                 hideBanners();
-                copyToClipboard($this.scanResultText!.innerText);
+                copyToClipboard(this.scanResultText!.innerText);
                 Logger.logActionCopy();
             });
         } else {
@@ -118,8 +113,8 @@ export class QrResultViewer {
         // Payment button.
         this.actionPaymentImage.addEventListener("click", (_) => {
             hideBanners();
-            if ($this.lastRenderedResult) {
-                var upiLink = decodeURIComponent($this.lastRenderedResult.text);
+            if (this.lastRenderedResult) {
+                var upiLink = decodeURIComponent(this.lastRenderedResult.text);
                 location.href = upiLink;
                 showBanner("Payment action only works if UPI payment apps are installed.");
                 Logger.logPaymentAction();
@@ -130,11 +125,11 @@ export class QrResultViewer {
         });
 
         // Url action
-        this.actionUrlImage.addEventListener("click", function() {
-            Logger.logUrlAction(function() {
-                if ($this.lastRenderedResult) {
+        this.actionUrlImage.addEventListener("click", () => {
+            Logger.logUrlAction(() => {
+                if (this.lastRenderedResult) {
                     let link = document.createElement("a");
-                    link.setAttribute("href", $this.lastRenderedResult.text);
+                    link.setAttribute("href", this.lastRenderedResult.text);
                     link.setAttribute("target", "blank_");
                     link.click();
                 } else {
@@ -148,10 +143,10 @@ export class QrResultViewer {
         let navigatorCopy: any = navigator;
         // For some reason typescript think share is always supported.
         if (navigatorCopy.share) {
-            this.actionShareImage.addEventListener("click", function() {
+            this.actionShareImage.addEventListener("click", () => {
                 hideBanners();
-                if ($this.lastRenderedResult) {
-                    shareResult($this.lastRenderedResult.text, $this.lastRenderedResult.type);
+                if (this.lastRenderedResult) {
+                    shareResult(this.lastRenderedResult.text, this.lastRenderedResult.type);
                     Logger.logActionShare();
                 } else {
                     // TODO(minhazav): Take action when last result doesn't have value.
@@ -206,6 +201,14 @@ export class QrResultViewer {
             this.mobileNavBarQrIcon.classList.add("inactive");
         } else {
             this.parentContainer.style.display = "none";
+        }
+    }
+
+    public hide(): void {
+        if (this.isFormFactorMobile) {
+            this.hideResultViewerMobile();
+        } else {
+            this.hideResultViewerDesktop();
         }
     }
 

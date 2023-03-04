@@ -5,18 +5,17 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
-import {
-    QR_RESULT_HEADER_FROM_SCAN,
-    ScanType
-} from "./constants";
+import { ScanType } from "./constants";
+import { HidableUiComponent } from "./core";
 import {
     hideBanners,
     isEmbeddedInIframe,
     showAntiEmbedWindow
 } from "./misc";
-import { MobileAboutContainer } from "./about-container";
-import { MobileHistoryContainer } from "./history-container";
-import { MobileSponsorContainer } from "./sponsor-container";
+import { MobileAboutBottomSheet } from "./about-bottom-sheet";
+import { MobileHistoryBottomSheet } from "./history-bottom-sheet";
+import { MobileSponsorBottomSheet } from "./sponsor-bottom-sheet";
+import { MobileScrimController } from "./mobile-scrim";
 import { QrResultViewer } from "./result-viewer"
 import { PwaPromptManager } from "./pwa";
 import { MinimisablePanels } from "./minimisable-panels";
@@ -31,6 +30,8 @@ export class ScanApp {
     // history.
     private readonly qrResultViewer: QrResultViewer;
     private readonly pwaPromptManagerGlobal = new PwaPromptManager();
+    private readonly listOfHidableUiComponents: Array<HidableUiComponent> = [];
+    private readonly scrimController: MobileScrimController;
     
     private isFormFactorMobile: boolean;
     private isInIframe: boolean;
@@ -46,6 +47,10 @@ export class ScanApp {
     private constructor(isFormFactorMobile: boolean) {
         this.isFormFactorMobile = isFormFactorMobile;
         this.qrResultViewer = new QrResultViewer(isFormFactorMobile);
+        this.listOfHidableUiComponents.push(this.qrResultViewer);
+        this.scrimController = MobileScrimController.setup(() => {
+            this.onScrimClick();
+        });
 
         this.isInIframe = isEmbeddedInIframe();
         if (this.isInIframe) {
@@ -100,9 +105,17 @@ export class ScanApp {
         const onCloseListener = () => {
             this.html5QrcodeScanner.resume();
         }
-        MobileAboutContainer.setup(onOpenListener, onCloseListener);
-        // MobileHistoryContainer.setup(onOpenListener, onCloseListener);
-        MobileSponsorContainer.setup(onOpenListener, onCloseListener);
+
+        this.listOfHidableUiComponents.push(
+            MobileAboutBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
+        this.listOfHidableUiComponents.push(
+            MobileSponsorBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
+    }
+
+    private onScrimClick() {
+        for (const uiElement of this.listOfHidableUiComponents) {
+            uiElement.hide();
+        }
     }
 
     private onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {
@@ -111,10 +124,11 @@ export class ScanApp {
             this.pwaTimeout = undefined;
         }
 
-        // console.log(decodedText, decodedResult);
         if (this.html5QrcodeScanner.getState() !== Html5QrcodeScannerState.NOT_STARTED) {
             this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
         }
+
+        this.scrimController.show();
 
         let scanType = ScanType.SCAN_TYPE_CAMERA;
         if (this.html5QrcodeScanner.getState() === Html5QrcodeScannerState.NOT_STARTED) {
@@ -122,7 +136,6 @@ export class ScanApp {
         }
         let scanResult = ScanResult.create(decodedText, decodedResult, scanType);
         this.qrResultViewer.render(
-            // QR_RESULT_HEADER_FROM_SCAN,
             scanResult,
             () => this.onScanResultCloseButtonClickCallback());
         // TODO(mohsinav): Save scanResult to history manager.

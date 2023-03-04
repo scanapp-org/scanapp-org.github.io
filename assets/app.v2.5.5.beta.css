@@ -285,7 +285,8 @@ a:hover {
     /** Mobile specific UI components */
     .mobile-bottom-navbar,
     #mobile-about-panel,
-    #mobile-history-panel {
+    #mobile-history-panel,
+    #mobile-popup-scrim {
         display: none;
     }
 }
@@ -327,7 +328,7 @@ a:hover {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         position: absolute;
-        bottom: 72px;
+        bottom: 71px;
         width: 100%;
         background-color: white;
         height: 60%;
@@ -335,9 +336,6 @@ a:hover {
         overflow-y: scroll;
         border-top: 1px solid #000000;
         padding-top: 20px;
-        -webkit-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
-        -moz-box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
-        box-shadow: 2px -7px 16px -7px rgba(158,158,158,1);
         opacity: 0;
         z-index: -1;
     }
@@ -391,6 +389,16 @@ a:hover {
         justify-content: space-between;
 
         height: 100%;
+    }
+
+    #mobile-popup-scrim {
+        position: absolute;
+        height: 100vh;
+        width: 100%;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0, 0, 0, 0.513);
+        display: none;
     }
 
     .mobile-bottom-navbar {

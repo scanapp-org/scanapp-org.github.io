@@ -134,15 +134,19 @@ export class Logger {
     } 
 
     public static logAboutMenuButtonOpenClick() {
-        gtag('event', 'MobileNavBar_MenuButton_OpenClick', {});
+        gtag('event', 'MobileNavBar_AboutButton_OpenClick', {});
     }
 
     public static logAboutMenuButtonCloseClick() {
-        gtag('event', 'MobileNavBar_MenuButton_CloseClick', {});
+        gtag('event', 'MobileNavBar_AboutButton_CloseClick', {});
     }
 
-    public static logAboutMenuCloseButtonClick() {
-        gtag('event', 'MobileNavBar_MenuClose_Click', {});
+    public static logAboutBottomSheetButtonCloseClick() {
+        gtag('event', 'MobileNavBar_AboutBottomSheet_CloseButtonClick', {});
+    }
+
+    public static logAboutBottomSheetCloseFromOutside() {
+        gtag('event', 'MobileNavBar_AboutuBottomSheet_CloseFromOutside', {});
     }
 
     public static logHistoryMenuButtonOpenClick() {
@@ -153,8 +157,12 @@ export class Logger {
         gtag('event', 'MobileNavBar_HistoryButton_CloseClick', {});
     }
 
-    public static logHistoryMenuCloseButtonClick() {
-        gtag('event', 'MobileNavBar_HistoryClose_Click', {});
+    public static logHistoryBottomSheetCloseButtonClick() {
+        gtag('event', 'MobileNavBar_HistoryBottomSheet_CloseButtonClick', {});
+    }
+
+    public static logHistoryBottomSheetCloseFromOutside() {
+        gtag('event', 'MobileNavBar_HistoryBottomSheet_CloseFromOutside', {});
     }
 
     public static logSponsorMenuButtonOpenClick() {
@@ -165,7 +173,11 @@ export class Logger {
         gtag('event', 'MobileNavBar_SponsorButton_CloseClick', {});
     }
 
-    public static logSponsorMenuCloseButtonClick() {
-        gtag('event', 'MobileNavBar_SponsorClose_Click', {});
+    public static logSponsorBottomSheetCloseButtonClick() {
+        gtag('event', 'MobileNavBar_SponsorBottomSheet_CloseButtonClick', {});
+    }
+
+    public static logSponsorBottomSheetCloseFromOutside() {
+        gtag('event', 'MobileNavBar_SponsorBottomSheet_CloseFromOutside', {});
     }
 }
