@@ -309,7 +309,9 @@ layout: empty_beta
         <div class="header">
             <div class="mobile-history-panel-header-text">Support ScanApp</div>
         </div>
-        <div class="body" id="mobile-sponsor-panel-body"></div>
+        <div class="body" id="mobile-sponsor-panel-body">
+            <div style="text-align: center; padding: 2px">loading...</div>
+        </div>
     </div>
     <div class="footer">
         <button id="scan-sponsor-close" class="scanapp-button">Close</button>
@@ -372,6 +374,7 @@ layout: empty_beta
         </div>
     </div>
     <!-- ScanAppAntiEmbedBottomAd -->
+    <!-- TODO: Make async: -->
     <div style="width: 100%; min-height: 500px; margin-top: 20px; padding: 20px; text-align: center;">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6209792783516879"
      crossorigin="anonymous"></script>
@@ -383,8 +386,7 @@ layout: empty_beta
     </div>
 </div>
 
-<script src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
-<script src="/assets/js/scanapp-js.pro.min.v2.5.7.beta.js"></script>
+<script defer src="https://unpkg.com/eva-icons" onload="eva.replace()"></script>
 
 <!-- Appzi: Capture Insightful Feedback -->
 <!-- TODO: Enable this one way for desktop and other way for mobile. -->

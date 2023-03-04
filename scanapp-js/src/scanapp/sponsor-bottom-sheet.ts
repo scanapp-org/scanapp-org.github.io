@@ -15,6 +15,8 @@ import { Logger } from "./logger";
 import { MobileScrimController } from "./mobile-scrim";
 
 export class MobileSponsorBottomSheet extends AbstractBottomSheet {
+    private isContentInjected = false;
+
     private constructor(
         scrimController: MobileScrimController,
         onOpenCallback: AbstractBottomSheetCallback,
@@ -43,7 +45,13 @@ export class MobileSponsorBottomSheet extends AbstractBottomSheet {
             bottomSheetCloseButtonElementId,
             scrimController,
             loggingEvents,
-            onOpenCallback,
+            () => {
+                if (!this.isContentInjected) {
+                    MobileSponsorBottomSheet.injectIframe();
+                    this.isContentInjected = true;
+                }
+                onOpenCallback();
+            },
             onCloseCallback);
     }
 
@@ -54,8 +62,9 @@ export class MobileSponsorBottomSheet extends AbstractBottomSheet {
         return new MobileSponsorBottomSheet(scrimController, onOpenCallback, onCloseCallback);
     }
 
-    public static injectIframe() {
+    private static injectIframe() {
         const container = document.getElementById("mobile-sponsor-panel-body")! as HTMLDivElement;
+        container.innerHTML = "";
         let iframe = document.createElement("iframe");
         iframe.id = "kofiframe";
         container.appendChild(iframe);
