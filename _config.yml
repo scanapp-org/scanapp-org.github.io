@@ -23,9 +23,10 @@ email: minhazav@gmail.com
 # description: >- # this means to ignore newlines until "baseurl:"
   # One stop solution for all scanning needs
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "scanapp.org" # the base hostname & protocol for your site, e.g. http://example.com
-tagline: Free online QR Code and Barcode scanner for web
-description: Free online QR Code and Barcode scanner for web
+url: "https://scanapp.org" # the base hostname & protocol for your site, e.g. http://example.com
+name: QR Code Scanner - ScanApp
+tagline: QR Code Scanner - Scan QR Code with webcam or files
+description: Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!
 twitter_username: minhazav
 github_username:  mebjas
 
