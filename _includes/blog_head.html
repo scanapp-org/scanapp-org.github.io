@@ -21,6 +21,8 @@
     <meta name="description" content="{{ page.description }}">
     <meta property="og:description" content="{{ page.description }}">
     <meta property="twitter:description" content="{{ page.description }}">
+    {% else %}
+    <meta name="description" content="Blog by ScanApp - find helpful articles around QR scanning, Bar Code scanning, React and Javascript technologies by amazing authors. Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images.">
     {% endif %}
     {% if page.image %}
     <meta property="twitter:image" content="{{ page.image }}">

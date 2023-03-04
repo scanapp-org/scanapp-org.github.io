@@ -164,7 +164,7 @@ The full example has been created at [scanapp-org/html5-qrcode-react](https://gi
 <div id="scanapp_ad" style="margin: 10px">
     <div class="alert alert-success" style="display: flex;">
         <div style="max-width: 100px; display: inline-block;">
-            <a href="https://scanapp.org"><img src="https://blog.minhazav.dev/assets/img/scanapp-logo-removebg-preview.png" style="width: 100px;"></a>
+            <a href="https://scanapp.org"><img src="https://blog.minhazav.dev/assets/img/scanapp-logo-removebg-preview.png" style="width: 100px;" alt="ScanApp green QR code"></a>
         </div>
         <div style="display: inline-block; margin-left: 10px">
             <strong>ScanApp - Free QR code and barcode scanner for web</strong>
