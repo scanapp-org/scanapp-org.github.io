@@ -45,7 +45,7 @@ html, body {
     height: 20px;
 }
 
-#heart {
+.heart {
     color: rgb(201 3 3);
 }
 
