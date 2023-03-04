@@ -98,18 +98,23 @@ export class ScanApp {
         this.isFormFactorMobile);
         Logger.logScanStart(this.isInIframe, "camera");
 
-        // About section
-        const onOpenListener = () => {
-            this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
-        };
-        const onCloseListener = () => {
-            this.html5QrcodeScanner.resume();
+        if (this.isFormFactorMobile) {
+            // About section
+            const onOpenListener = () => {
+                this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
+            };
+            const onCloseListener = () => {
+                this.html5QrcodeScanner.resume();
+            }
+    
+            this.listOfHidableUiComponents.push(
+                MobileAboutBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
+            this.listOfHidableUiComponents.push(
+                MobileSponsorBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
+
+            MobileSponsorBottomSheet.injectIframe();
         }
 
-        this.listOfHidableUiComponents.push(
-            MobileAboutBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
-        this.listOfHidableUiComponents.push(
-            MobileSponsorBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
     }
 
     private onScrimClick() {

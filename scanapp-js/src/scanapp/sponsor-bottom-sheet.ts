@@ -53,4 +53,20 @@ export class MobileSponsorBottomSheet extends AbstractBottomSheet {
         onCloseCallback: AbstractBottomSheetCallback): HidableUiComponent {
         return new MobileSponsorBottomSheet(scrimController, onOpenCallback, onCloseCallback);
     }
+
+    public static injectIframe() {
+        const container = document.getElementById("mobile-sponsor-panel-body")! as HTMLDivElement;
+        let iframe = document.createElement("iframe");
+        iframe.id = "kofiframe";
+        container.appendChild(iframe);
+
+        iframe.src = "https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true";
+        iframe.style.border = "none";
+        iframe.style.width = "100%";
+        iframe.style.background = "#f9f9f9";
+        iframe.style.marginTop = "10px";
+
+        iframe.height = "712";
+        iframe.title = "Ko-fi minhaz";
+    }
 }
