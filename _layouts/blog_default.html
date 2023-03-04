@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
-
   {% include blog_head.html %}
-
   <body>
 
     {% include blog_sidebar.html %}
@@ -14,7 +12,7 @@
       <div class="masthead">
         <div class="container">
           <h3 class="masthead-title">
-            Blog by <a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
+            Blog by <a href="{{ site.baseurl | absolute_url }}" title="Home">{{ site.title }}</a>
             <small>{{ site.tagline }}</small>
           </h3>
         </div>

@@ -1,8 +1,7 @@
 ---
 layout: blog_post
 title:  Using Html5-qrcode with only Camera or File options
-description: "In this article, I'll share how to use different scan types - 
-camera based and file based, depending upon the scenario."
+description: "In this article, I'll share how to use different scan types -  camera based and file based, depending upon the scenario."
 post-no: 4
 toc: true
 image: "/assets/images/blog/post4/default_config.png"
