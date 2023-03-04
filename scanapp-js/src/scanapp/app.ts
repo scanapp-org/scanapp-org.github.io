@@ -142,6 +142,8 @@ export class ScanApp {
     }
 
     private onScanResultCloseButtonClickCallback() {
+        this.scrimController.hide();
+
         if (this.html5QrcodeScanner.getState() === Html5QrcodeScannerState.PAUSED) {
             this.html5QrcodeScanner.resume();
         }
