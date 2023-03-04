@@ -29,15 +29,6 @@
   <meta name="theme-color" content="#ffffff" />
   <link rel="manifest" href="/assets/manifest.json" />
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-2KZEP7DPYH');
-  </script>
-
   <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
   <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
 
@@ -47,8 +38,20 @@
   <link rel="preload" href="/assets/css/index.v2.5.1.css" as="style">
   <link rel="stylesheet" href="/assets/css/index.v2.5.1.css">
   <base target="_parent">
+
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google-analytics.com">
 </head>
 <body data-instant-allow-query-string data-instant-allow-external-links>
     <div> {{ content }} </div>
 </body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
+<script defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2KZEP7DPYH');
+</script>
 </html>
