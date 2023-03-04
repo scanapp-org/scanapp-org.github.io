@@ -51,7 +51,7 @@ html, body {
 
 a, a:visited {
     text-decoration: none;
-    color: #8C8C8C;
+    color: #505050;
     font-weight: 400;
 }
 
@@ -171,7 +171,7 @@ a:hover {
     .desktop-right-container-top-panel-text {
         padding: 10px 20px 10px 20px;
         font-weight: 400;
-        color: #6D6D6D;
+        color: #2b2b2b;
         text-align: center;
         display: flex;
         justify-content: center;
