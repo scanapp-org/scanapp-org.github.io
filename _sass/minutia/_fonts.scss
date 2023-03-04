@@ -12,6 +12,7 @@
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.woff') format('woff'), /* Modern Browsers */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300.svg#IBMPlexSans') format('svg'); /* Legacy iOS */
+    font-display: swap;
 }
 
 /* ibm-plex-sans-300italic - latin */
@@ -26,6 +27,7 @@
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300italic.woff') format('woff'), /* Modern Browsers */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300italic.ttf') format('truetype'), /* Safari, Android, iOS */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-300italic.svg#IBMPlexSans') format('svg'); /* Legacy iOS */
+    font-display: swap;
 }
 
 /* ibm-plex-sans-regular - latin */
@@ -40,6 +42,7 @@
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-regular.woff') format('woff'), /* Modern Browsers */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-regular.svg#IBMPlexSans') format('svg'); /* Legacy iOS */
+    font-display: swap;
 }
 
 /* ibm-plex-sans-500 - latin */
@@ -54,6 +57,7 @@
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-500.woff') format('woff'), /* Modern Browsers */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
     url('/assets/fonts/ibm-plex-sans/ibm-plex-sans-v2-latin-500.svg#IBMPlexSans') format('svg'); /* Legacy iOS */
+    font-display: swap;
 }
 
 /* ubuntu-300 - latin */
@@ -68,6 +72,7 @@
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-300.woff') format('woff'), /* Modern Browsers */
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-300.svg#Ubuntu') format('svg'); /* Legacy iOS */
+       font-display: swap;
 }
 
 
@@ -83,6 +88,7 @@
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-regular.woff') format('woff'), /* Modern Browsers */
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('/assets/fonts/ubuntu/ubuntu-v14-latin-regular.svg#Ubuntu') format('svg'); /* Legacy iOS */
+       font-display: swap;
 }
 
 /* hack-regular - latin */
@@ -96,4 +102,5 @@
          url('/assets/fonts/hack/Hack-Regular-webfont.svg#hackregular') format('svg');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
