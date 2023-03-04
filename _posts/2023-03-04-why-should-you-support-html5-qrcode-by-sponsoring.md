@@ -1,7 +1,6 @@
 ---
 layout: blog_post
 title:  Why should you support html5-qrcode project by sponsoring
-date:   2022-03-04:13:10 +0800
 description: "The open source project - <a href='https://github.com/mebjas/html5-qrcode'>mebjas/html5-qrcode</a> is a fairly used library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. In this article, I want to share my humble story and make a case of why you should help support this project if you can by sponsoring the developers or in other ways possible!"
 post-no: 5
 toc: true
