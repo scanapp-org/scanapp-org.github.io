@@ -178,6 +178,26 @@ a:hover {
         flex-direction: column;
     }
 
+    .desktop-text-data-title,
+    .desktop-text-data-subtitle,
+    .desktop-text-data-body {
+        color: black;
+        text-align: left;
+    }
+
+    .desktop-text-data-body {
+        margin-top: 10px;
+    }
+
+    .desktop-text-data-title {
+        font-size: 20pt;
+    }
+    
+    .desktop-text-data-subtitle {
+        margin: 20px 0px 10px 0px;
+        font-size: 14pt;
+    }
+
     .desktop-right-container-top-panel-options {
         display: flex;
         flex-direction: row;
