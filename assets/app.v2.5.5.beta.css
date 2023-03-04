@@ -406,6 +406,7 @@ a:hover {
         border: 1px solid #DBDBDB;
         border-radius: 10px;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     /* The animation code */
@@ -493,6 +494,7 @@ a:hover {
 
     .mobile-about-links-col {
         margin: 30px;
+        text-align: left;
     }
 
     /** Mobile history section temporary */
