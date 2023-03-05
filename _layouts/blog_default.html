@@ -3,13 +3,9 @@
 <link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
   {% include blog_head.html %}
   <body>
-
-    {% include blog_sidebar.html %}
-
-    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
-         content to avoid any CSS collisions with our real content. -->
     <div class="wrap">
       <div class="masthead">
+        {% include blog_header_links.html %}
         <div class="container">
           <h3 class="masthead-title">
             Blog by <a href="https://scanapp.org" title="Home">{{ site.title }}</a>
@@ -23,8 +19,7 @@
       </div>
     </div>
 
-    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
-
+    {% include blog_footer.html %}
     <script src='https://scanapp.org/assets/js/blog.script.js'></script>
   </body>
 </html>
