@@ -15,3 +15,7 @@ scanapp-js/src/*.d.ts
 scanapp-js/src/*/*.d.ts
 scanapp-js/src/*/*/*.d.ts
 package-lock.json
+.DS_Store
+assets/.DS_Store
+assets/.DS_Store
+assets/_headers
