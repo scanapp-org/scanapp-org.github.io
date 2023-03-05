@@ -6,7 +6,7 @@ title:  Setting dynamic QR box size in Html5-qrcode
 description: "<a href='https://github.com/mebjas/html5-qrcode'>mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. This article explains how to set the dimensions of QR box dynamically based on video width or height"
 post-no: 2
 toc: true
-image: 'https://blog.minhazav.dev/images/post33_image1.png'
+image: '/assets/images/blog/post1/post1_theme_image.webp'
 author: Minhaz
 author_url: https://minhazav.dev
 ---
