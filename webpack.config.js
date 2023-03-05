@@ -1,4 +1,5 @@
 const path = require("path");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const VERSION = "2.3.8";
 
@@ -30,5 +31,8 @@ module.exports = {
     optimization: {
         minimize: true,
         usedExports: true
-    }
+    },
+    plugins: [
+        // new BundleAnalyzerPlugin()
+    ]
 };

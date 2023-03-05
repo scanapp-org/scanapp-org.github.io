@@ -13,8 +13,6 @@ import {
     showAntiEmbedWindow
 } from "./misc";
 import { MobileAboutBottomSheet } from "./about-bottom-sheet";
-import { loadAllDesktopImages } from "./desktop-image-loader";
-import { MobileHistoryBottomSheet } from "./history-bottom-sheet";
 import { MobileSponsorBottomSheet } from "./sponsor-bottom-sheet";
 import { MobileScrimController } from "./mobile-scrim";
 import { QrResultViewer } from "./result-viewer"
