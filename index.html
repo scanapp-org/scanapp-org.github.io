@@ -18,9 +18,14 @@ permalink: /blog/
         {% if post.image %}
         <div style="display: flex;justify-content: center;">
             {% if post.image_width %}
-            <img src="{{ post.image }}" alt="{{ post.title }}" style="max-width: {{ post.image_width }}; max-height: {{ post.image_height }}" />
+            <img src="{{ post.image }}"
+                alt="{{ post.title }}"
+                style="max-width: {{ post.image_width }}; max-height: {{ post.image_height }}"
+                fetchpriority="high" />
             {% else %}
-            <img src="{{ post.image }}" alt="{{ post.title }}" />
+            <img src="{{ post.image }}"
+                alt="{{ post.title }}"
+                fetchpriority="high" />
             {% endif %}
         </div>
         {% endif %}
