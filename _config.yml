@@ -44,10 +44,13 @@ plugins:
 webrick:
   headers:
     X-Frame-Options: SAMEORIGIN
-    
 
 github:
   org: https://github.com/scanapp-org
+
+collections:
+  supports:
+    output: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.

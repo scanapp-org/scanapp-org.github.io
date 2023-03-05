@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+  {% include support_head.html %}
+  <body>
+    <div class="wrap">
+      <div class="masthead">
+        {% include blog_header_links.html %}
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/support" title="ScanApp support">{{ site.title }} Support</a>             
+          </h3>
+          <div>
+            <small>ScanApp the only QR code or barcode scanner you need! No installation needed and free to use.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="container content">
+        {{ content }}
+      </div>
+    </div>
+
+    {% include blog_footer.html %}
+    <script src='https://scanapp.org/assets/js/blog.script.js'></script>
+  </body>
+</html>

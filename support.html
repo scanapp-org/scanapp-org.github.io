@@ -1,0 +1,19 @@
+---
+layout: support_default
+title: ScanApp Support - QR Code Scanner Support
+permalink: /support/
+---
+
+<div class="posts">
+    {% for support in site.supports %}
+    <div class="post">
+        <h1 class="post-title">
+            <a href="{{ support.url | relative_url }}">
+                {{ support.title }}
+            </a>
+        </h1>
+        {{ support.description }}<br>
+        <a href="{{ support.url | relative_url }}">Read more...</a>
+    </div>
+    {% endfor %}
+</div>

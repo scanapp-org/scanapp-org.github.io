@@ -1,0 +1,53 @@
+<head>
+    <link href="https://minhazav.dev" rel="profile">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <meta charset="utf-8">
+    <meta property="og:type" content="website">
+
+    {% if page.title == "Home" %}
+    <title>{{ site.title }}</title>
+    {% else %}
+    <title>{{ page.title }}</title>
+    <meta name="title" content="{{ page.title }}">
+    <meta property="twitter:title" content="{{ page.title }}">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="twitter:url" content="{{ page.url | absolute_url }}">
+    <meta property="twitter:card" content="summary_large_image">
+
+    <!-- description -->
+    {% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="twitter:description" content="{{ page.description }}">
+    {% else %}
+    <meta name="description" content="ScanApp support - find support articles around QR scanning on web, Android, IOS, Windows or Mac platform.">
+    {% endif %}
+    {% if page.image %}
+    <meta property="twitter:image" content="{{ page.image }}">
+    <meta property="og:image" content="{{ page.image }}">
+    {% else %}
+    <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+    <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+    {% endif %}
+    {% endif %}
+
+    <!-- TODO: Add canonical link -->
+
+    <link rel="preload" href="https://scanapp.org/assets/css/poole.min.css" as="style">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.min.css">
+
+    <link rel="preload" href="https://scanapp.org/assets/css/syntax.min.css" as="style">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.min.css">
+
+    <link rel="preload" href="https://scanapp.org/assets/css/lanyon.min.css" as="style">
+    <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.min.css">
+
+    {% include blog_font_css.html %}
+
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}"> -->
+    <!-- <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}"> -->
+
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
+</head>
