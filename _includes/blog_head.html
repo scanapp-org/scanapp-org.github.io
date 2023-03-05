@@ -1,7 +1,7 @@
 <head>
     <link href="https://minhazav.dev" rel="profile">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta charset="utf-8">
     <meta property="og:type" content="website">
 
@@ -35,10 +35,21 @@
 
     <!-- TODO: Add canonical link -->
 
+    <link rel="preload" href="https://scanapp.org/assets/css/poole.min.css" as="style">
     <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.min.css">
+
+    <link rel="preload" href="https://scanapp.org/assets/css/syntax.min.css" as="style">
     <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.min.css">
+
+    <link rel="preload" href="https://scanapp.org/assets/css/lanyon.min.css" as="style">
     <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.min.css">
+
+    <!-- Inlined from
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400" as="style">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+    -->
+    {% include blog_font_css.html %}
+
 
     <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}"> -->
     <!-- <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}"> -->

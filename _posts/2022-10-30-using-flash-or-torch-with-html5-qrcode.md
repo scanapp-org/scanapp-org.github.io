@@ -4,7 +4,7 @@ title:  Using Flash or Torch with Html5-Qrcode
 description: "<a href='https://github.com/mebjas/html5-qrcode'>mebjas/html5-qrcode</a> is a fairly used open source library for implementing QR Code or barcode scanner in a web application. There has been ask supporting torch or flash feature with the scanner. This feature is usually very well supported on native scanner apps that are available on Android or IOS. In this article I'll share how to add torch support with both end to end library (Html5QrcodeScanner) as well as the low level library  (Html5Qrcode)."
 post-no: 3
 toc: true
-image: '/assets/images/blog/post3/im1.jpeg'
+image: '/assets/images/blog/post3/im1-optimised.jpeg'
 author: Minhaz
 author_url: https://minhazav.dev
 ---

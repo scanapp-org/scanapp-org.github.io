@@ -4,14 +4,14 @@ title:  Why should you support html5-qrcode project by sponsoring
 description: "The open source project - <a href='https://github.com/mebjas/html5-qrcode'>mebjas/html5-qrcode</a> is a fairly used library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. In this article, I want to share my humble story and make a case of why you should help support this project if you can by sponsoring the developers or in other ways possible!"
 post-no: 5
 toc: true
-image: 'https://github.githubassets.com/images/modules/site/social-cards/sponsors.jpg'
+image: '/assets/images/blog/post5/sponsors-small.webp'
 author: Minhaz
 author_url: https://minhazav.dev
 ---
 
 The open source project - [mebjas/html5-qrcode](https://github.com/mebjas/html5-qrcode) is a fairly used library for implementing QR Code or barcode scanner in a web application. Several developers have been using it under webview for android projects as well. In this article, I want to share my humble story and make a case of why you should help support this project if you can by sponsoring the developers or in other ways possible!
 
-![](https://github.githubassets.com/images/modules/site/social-cards/sponsors.jpg)
+![](/assets/images/blog/post5/sponsors.webp)
 
 > This story was written partially using Chat-GPT :)
 
