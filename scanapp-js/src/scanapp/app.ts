@@ -112,8 +112,6 @@ export class ScanApp {
                 MobileAboutBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
             this.listOfHidableUiComponents.push(
                 MobileSponsorBottomSheet.setup(this.scrimController, onOpenListener, onCloseListener));
-        } else {
-            loadAllDesktopImages();
         }
     }
 
