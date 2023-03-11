@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://scanapp.org</loc>
-    <lastmod>2021-12-20</lastmod>
+    <lastmod>2023-03-11</lastmod>
   </url>
   <url>
     <loc>https://scanapp.org/demo/html5qrcode-class</loc>
@@ -11,5 +11,13 @@
   <url>
     <loc>https://scanapp.org/demo/html5qrcodescanner-class</loc>
     <lastmod>2021-12-20</lastmod>
+  </url>
+  <url>
+    <loc>https://scanapp.org/blog/</loc>
+    <lastmod>2023-03-11</lastmod>
+  </url>
+  <url>
+    <loc>https://scanapp.org/support/</loc>
+    <lastmod>2023-03-11</lastmod>
   </url>
 </urlset>
