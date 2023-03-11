@@ -602,6 +602,10 @@ div#scan-result-parsed {
     overflow: auto;
 }
 
+div#scan-result-parsed a {
+    text-decoration: underline;
+}
+
 div#scan-result-text {
     max-height: 100px;
     overflow: auto;

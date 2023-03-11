@@ -3,7 +3,7 @@
  */
 
 // On new version, change this name.
-var cacheName = 'v2.5.9.1:static';
+var cacheName = 'v2.5.9.2:static';
 self.addEventListener('install', function(event) {
     // prevents the waiting, meaning the service worker activates
     // as soon as it's finished installing
@@ -15,7 +15,7 @@ self.addEventListener('install', function(event) {
         caches.open(cacheName).then(function(cache) {
             return cache.addAll([
                 // As new files are added, update this.
-                '/assets/app.v2.5.5.3.css',
+                '/assets/app.v2.5.5.5.css',
                 '/assets/js/scanapp-js.pro.min.v2.5.9.js',
                 '/assets/main.css',
                 '/assets/css/index.v2.5.1.css',
