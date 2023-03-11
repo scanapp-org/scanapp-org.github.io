@@ -29,6 +29,7 @@ import {
     createWifiTyeUi,
     createUpiTypeUi
 } from "./ui";
+import { QuickActionHandler } from "./quick-action-handler";
 
 interface LastRenderedResult {
     text: string;
@@ -56,6 +57,8 @@ export class QrResultViewer implements HidableUiComponent {
     private readonly scanResultClose = document.getElementById("scan-result-close");
     private readonly scanResultFooter = document.getElementById("body-footer");
     private readonly mobileNavBarQrIcon = document.getElementById("navbar-menu-icon-qr")! as HTMLDivElement;
+
+    private readonly quickActionHandler = QuickActionHandler.create();
 
     private readonly isFormFactorMobile: boolean = false;
 
@@ -268,6 +271,12 @@ export class QrResultViewer implements HidableUiComponent {
         this.scanResultParsed.innerHTML = "";
         this.scanResultParsed.appendChild(
             this.createParsedResult(scanResult.decodedText, codeCategory));
+
+        if (codeCategory == CodeCategory.TYPE_URL) {
+            this.quickActionHandler.display(scanResult.decodedText);
+        } else {
+            this.quickActionHandler.hide();
+        }
 
         // Show / hide views.
         this.scanResultFooter!.style.display = (onCloseCallback) ? "block" : "none";

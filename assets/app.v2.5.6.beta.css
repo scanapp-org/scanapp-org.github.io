@@ -540,6 +540,60 @@ a:hover {
     }
 }
 
+/** quick action */
+#scan-quick-action {
+    margin: 10px;
+    width: calc(100% - 40px);
+    background: #DBF0FF;
+    border-radius: 12px;
+    border: 1px solid #476E8B;
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    display: none;
+}
+
+div#scan-quick-action-header {
+    font-size: 12pt;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-height: 1.2rem;
+    max-height: 2.4rem;
+}
+
+#scan-quick-action-header-text {
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+div#scan-quick-action-body {
+    font-size: 10pt;
+    margin-top: 5px;
+    display: none;
+}
+
+div#scan-quick-action-body-title {
+    font-weight: bold;
+}
+
+#scan-quick-action-body-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.2rem;
+    max-height: 2.4rem;
+}
+
+
+/** other misc items. */
+
 #logo img {
     height: 40px;
     background: #ffffff66;

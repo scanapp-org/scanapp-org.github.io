@@ -180,4 +180,8 @@ export class Logger {
     public static logSponsorBottomSheetCloseFromOutside() {
         gtag('event', 'MobileNavBar_SponsorBottomSheet_CloseFromOutside', {});
     }
+
+    public static logUrlQuickActionClick() {
+        gtag('event', 'QuickAction_Url_Click', {});
+    }
 }
