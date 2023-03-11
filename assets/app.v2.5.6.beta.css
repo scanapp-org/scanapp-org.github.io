@@ -555,6 +555,10 @@ a:hover {
     display: none;
 }
 
+div#scan-quick-action:hover {
+    background: #b4dcf9;
+}
+
 div#scan-quick-action-header {
     font-size: 12pt;
     overflow: hidden;

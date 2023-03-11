@@ -6,6 +6,7 @@
  */
 
 import { Logger } from "./logger";
+import { fixUrl } from "./misc";
 
 export class QuickActionHandler {
 
@@ -24,7 +25,8 @@ export class QuickActionHandler {
                 return;
             }
 
-            location.href = url;
+            let fixedUrl = fixUrl(url);
+            location.href = fixedUrl;
             Logger.logUrlQuickActionClick();
         })
     }
@@ -64,7 +66,8 @@ export class QuickActionHandler {
             }
         }
         
-        const dataUrl = `https://jsonlink.io/api/extract?url=${url}`;
+        const fixedUrl = fixUrl(url);
+        const dataUrl = `https://jsonlink.io/api/extract?url=${fixedUrl}`;
         xmlHttpRequest.open('GET', dataUrl, /* async= */ true);
         xmlHttpRequest.send();
     }

@@ -21,6 +21,7 @@ import { MinimisablePanels } from "./minimisable-panels";
 import { Html5QrcodeScanner } from "../html5-qrcode/html5-qrcode-scanner";
 import { Html5QrcodeScannerState } from "../html5-qrcode/state-manager";
 import { Html5QrcodeResult } from "../html5-qrcode/core";
+import { Html5QrcodeScanType } from "../html5-qrcode/core";
 import { ScanResult } from "./scan-result";
 import { Logger } from "./logger";
 
@@ -67,10 +68,10 @@ export class ScanApp {
                 showTorchButtonIfSupported: true,
                 showZoomSliderIfSupported: true,
                 defaultZoomValueIfSupported: 1.5,
-                // supportedScanTypes: [
-                    // Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-                    // Html5QrcodeScanType.SCAN_TYPE_FILE,
-                // ]
+                supportedScanTypes: [
+                    Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                    Html5QrcodeScanType.SCAN_TYPE_FILE,
+                ]
             },
             /* verbose= */ false);
     }

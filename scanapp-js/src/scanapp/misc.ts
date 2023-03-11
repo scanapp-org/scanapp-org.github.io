@@ -8,6 +8,19 @@
 import { CodeCategory } from "./constants";
 import { Logger } from "./logger";
 
+export function fixUrl(url: string): string {
+    if (!isUrl(url)) {
+        console.error(`Invalid url - ${url}`);
+        return url;
+    }
+
+    if (url.indexOf("http://") === -1 && url.indexOf("https://") === -1) {
+        return `http://${url}`;
+    }
+
+    return url;
+}
+
 export function showBanner(message: string, isSuccessMessage?: boolean): void {
     hideBanners();
     var selector = ".banner.success";
