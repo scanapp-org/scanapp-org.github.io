@@ -20,15 +20,15 @@ Once the QR code reader software is installed, all you need to do is hold the QR
 
 ## What is ScanApp.org?
 
-[scanapp.org](scanapp.org) is a website that utilizes the webcam's ability to scan QR codes. The website is designed to make it easy for users to scan QR codes without having to download a separate app or software. All you need is a webcam and a modern web browser.
+[scanapp.org](https://scanapp.org) is a website that utilizes the webcam's ability to scan QR codes. The website is designed to make it easy for users to scan QR codes without having to download a separate app or software. All you need is a webcam and a modern web browser.
 
-When you visit [scanapp.org](scanapp.org), You will see a button requesting acceess permission for accesing web camera. The button will have text "Request Camera Permission". This is critical as [scanapp.org](scanapp.org) cannot and will not access camera without user consent. Once user click on the button, the browser will show another prompt stating [scanapp.org](scanapp.org) want to "use your camera". Clicking on "Allow" will start QR scanning directly on web browser.
+When you visit [scanapp.org](https://scanapp.org), You will see a button requesting acceess permission for accesing web camera. The button will have text "Request Camera Permission". This is critical as [scanapp.org](https://scanapp.org) cannot and will not access camera without user consent. Once user click on the button, the browser will show another prompt stating [scanapp.org](https://scanapp.org) want to "use your camera". Clicking on "Allow" will start QR scanning directly on web browser.
 
 
 Simply hold the QR code up to your webcam, and the website will automatically decode the information contained within the code.
 
-[scanapp.org](scanapp.org) can be used to scan QR codes for a variety of purposes. For example, you might use it to scan a QR code on a business card to add the contact information to your address book. You could also use it to scan a QR code on a product to get more information about the item, or to scan a QR code on a poster to view a video or download an app.
+[scanapp.org](https://scanapp.org) can be used to scan QR codes for a variety of purposes. For example, you might use it to scan a QR code on a business card to add the contact information to your address book. You could also use it to scan a QR code on a product to get more information about the item, or to scan a QR code on a poster to view a video or download an app.
 
 ## Conclusion
 
-In conclusion, webcams can indeed scan QR codes, and there are many software options available to make this possible. [scanapp.org](scanapp.org) is an example of a website that takes advantage of this technology to make scanning QR codes easier than ever. Whether you're using a webcam or a smartphone, scanning QR codes has never been more convenient. With the increasing popularity of QR codes, we can expect to see even more innovative uses for this technology in the future.
+In conclusion, webcams can indeed scan QR codes, and there are many software options available to make this possible. [scanapp.org](https://scanapp.org) is an example of a website that takes advantage of this technology to make scanning QR codes easier than ever. Whether you're using a webcam or a smartphone, scanning QR codes has never been more convenient. With the increasing popularity of QR codes, we can expect to see even more innovative uses for this technology in the future.

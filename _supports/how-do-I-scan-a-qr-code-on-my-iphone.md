@@ -39,14 +39,14 @@ Another option to scan QR codes on your iPhone is to use a QR code scanning webs
 
 1.  **Open Chrome or Safari**: Open the Chrome or Safari browser on your iPhone.
 
-2.  **Navigate to [scanapp.org](scanapp.org)**: Type "scanapp.org" into the URL bar and hit Enter.
+2.  **Navigate to [scanapp.org](https://scanapp.org)**: Type "scanapp.org" into the URL bar and hit Enter.
 
-3.  **Grant camera permissions**: On the [scanapp.org](scanapp.org) homepage, click on the "Request Camera Permission" button and grant camera permission.
+3.  **Grant camera permissions**: On the [scanapp.org](https://scanapp.org) homepage, click on the "Request Camera Permission" button and grant camera permission.
 
-4.  **Scan the QR code**: Hold the QR code up to your camera and wait for [scanapp.org](scanapp.org) to recognize and decode the information.
+4.  **Scan the QR code**: Hold the QR code up to your camera and wait for [scanapp.org](https://scanapp.org) to recognize and decode the information.
 
-5.  **Access the information**: Once [scanapp.org](scanapp.org) decodes the QR code, you can access the information or website directly from your iPhone.
+5.  **Access the information**: Once [scanapp.org](https://scanapp.org) decodes the QR code, you can access the information or website directly from your iPhone.
 
 ## Conclusion
 
-Scanning QR codes on your iPhone is a simple and easy process. Whether you want to use the stock Camera app, the Control Center QR code scanner, a third-party app, or a QR code scanning website like [scanapp.org](scanapp.org), there are plenty of options available to you. With these options, you can quickly and easily access the information or website linked to any QR code you encounter.
+Scanning QR codes on your iPhone is a simple and easy process. Whether you want to use the stock Camera app, the Control Center QR code scanner, a third-party app, or a QR code scanning website like [scanapp.org](https://scanapp.org), there are plenty of options available to you. With these options, you can quickly and easily access the information or website linked to any QR code you encounter.

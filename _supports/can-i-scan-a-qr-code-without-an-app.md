@@ -19,13 +19,13 @@ If you are using an Android device, the process is a little more complicated. So
 
 ## Using scanapp.org to scan QR codes
 
-[scanapp.org](scanapp.org) is a website that allows you to scan QR codes without downloading an app. To use [scanapp.org](scanapp.org), follow these steps:
+[scanapp.org](https://scanapp.org) is a website that allows you to scan QR codes without downloading an app. To use [scanapp.org](https://scanapp.org), follow these steps:
 
-1.   Open your device's web browser and navigate to [scanapp.org](scanapp.org).
+1.   Open your device's web browser and navigate to [scanapp.org](https://scanapp.org).
 2.   Allow the website to access your device's camera when prompted.
 3.   Point your device's camera at the QR code you want to scan. Make sure the code is within the viewfinder on the website.
 4.   Wait for the website to recognize the code. The information associated with the code will be displayed on the website.
 
-[scanapp.org](scanapp.org) is a convenient way to scan QR codes without downloading an app.
+[scanapp.org](https://scanapp.org) is a convenient way to scan QR codes without downloading an app.
 
-In conclusion, scanning a QR code without an app is possible, but the process will vary depending on the device you are using. If your device has a built-in scanner, use it to avoid downloading unnecessary apps. If not, consider using a trusted third-party app or website like [scanapp.org](scanapp.org) to scan codes. Always be careful when scanning codes, and make sure you trust the source.
+In conclusion, scanning a QR code without an app is possible, but the process will vary depending on the device you are using. If your device has a built-in scanner, use it to avoid downloading unnecessary apps. If not, consider using a trusted third-party app or website like [scanapp.org](https://scanapp.org) to scan codes. Always be careful when scanning codes, and make sure you trust the source.
