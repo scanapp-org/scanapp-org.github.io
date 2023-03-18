@@ -1,7 +1,7 @@
 ---
 layout: support_page
 title:  How to scan a QR code without an app? 
-description: "The short answer is yes, you can scan a QR code without downloading an app. However, the method you use will depend on the device you are using and the operating system it runs on. <a href='https://scanapp.org'>scanapp.org</a> is a website that allows you to scan QR codes without downloading an app. To use <a href='https://scanapp.org'>scanapp.org</a>."
+description: "Ther are multiple ways to scan a QR Code without an app. However, the method you use will depend on the device you are using and the operating system it runs on. <a href='https://scanapp.org'>scanapp.org</a> is a website that allows you to scan QR codes without downloading an app. To use <a href='https://scanapp.org'>scanapp.org</a>."
 toc: true
 ---
 
