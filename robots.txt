@@ -1,8 +1,9 @@
 User-agent: Googlebot
-Disallow: /staging
 Disallow: /beta
 
 User-agent: *
 Allow: /
 
 Sitemap: https://scanapp.org/atom.xml
+Sitemap: https://scanapp.org/support_atom.xml
+Sitemap: https://scanapp.org/sitemap.xml

@@ -33,6 +33,10 @@
     {% endif %}
     {% endif %}
 
+    {% if page.canonical %}
+    <link rel="canonical" href="{{ page.canonical }}" />
+    {% endif %}
+
     <!-- TODO: Add canonical link -->
 
     <link rel="preload" href="https://scanapp.org/assets/css/poole.min.css" as="style">
