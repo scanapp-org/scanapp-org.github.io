@@ -53,5 +53,5 @@ description: How to use Html5Qrcode class
 </div>
 
 
-<script src="/assets/js/html5-qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode/html5-qrcode.min.js"></script>
 <script src="/assets/js/demo/html5qrcode-class.js"></script>
