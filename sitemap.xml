@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://scanapp.org</loc>
-    <lastmod>2023-03-11</lastmod>
+    <lastmod>2023-03-19</lastmod>
+  </url>
+    <url>
+    <loc>https://scanapp.org/barcode</loc>
+    <lastmod>2023-03-19</lastmod>
   </url>
   <url>
     <loc>https://scanapp.org/blog/</loc>
-    <lastmod>2023-03-11</lastmod>
+    <lastmod>2023-03-19</lastmod>
   </url>
   <url>
     <loc>https://scanapp.org/support/</loc>
-    <lastmod>2023-03-11</lastmod>
+    <lastmod>2023-03-19</lastmod>
   </url>
 </urlset>
