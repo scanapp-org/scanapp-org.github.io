@@ -4,7 +4,7 @@ echo "Initiating webpack build sequence."
 
 export NODE_OPTIONS=--openssl-legacy-provider
 
-VERSION="2.3.8.2.beta"
+VERSION="2.6.1.beta"
 
 webpack
 

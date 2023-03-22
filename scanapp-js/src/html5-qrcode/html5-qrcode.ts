@@ -37,7 +37,8 @@ import {
     CameraCapabilities,
     CameraRenderingOptions,
     RenderedCamera,
-    RenderingCallbacks
+    RenderingCallbacks,
+    Html5QrcodeCameraRenderingConstraints
 } from "./camera/core";
 import { CameraRetriever } from "./camera/retriever";
 import { ExperimentalFeaturesConfig } from "./experimental-features";
@@ -182,6 +183,14 @@ export interface Html5QrcodeCameraScanConfig {
      * aspectRatio, facingMode, frameRate, etc.
      */
     videoConstraints?: MediaTrackConstraints | undefined;
+
+    /**
+     * Contraint for rendering the video feed.
+     * 
+     * The video feed from camera will be rendered into the parent HTML element based on this.
+     * If not set, {@link Html5QrcodeCameraRenderingConstraints#CONSTRAINT_BY_WIDTH} will be set by default.
+     */
+    renderingConstraints?: Html5QrcodeCameraRenderingConstraints;
 }
 
 /**
@@ -195,6 +204,7 @@ class InternalHtml5QrcodeConfig implements Html5QrcodeCameraScanConfig {
     public readonly qrbox: number | QrDimensions | QrDimensionFunction | undefined;
     public readonly aspectRatio: number | undefined;
     public readonly videoConstraints: MediaTrackConstraints | undefined;
+    public readonly renderingConstraints: Html5QrcodeCameraRenderingConstraints;
 
     private logger: Logger;
 
@@ -206,6 +216,7 @@ class InternalHtml5QrcodeConfig implements Html5QrcodeCameraScanConfig {
         this.fps = Constants.SCAN_DEFAULT_FPS;
         if (!config) {
             this.disableFlip = Constants.DEFAULT_DISABLE_FLIP;
+            this.renderingConstraints = Html5QrcodeCameraRenderingConstraints.CONSTRAINT_BY_HEIGHT;
         } else {
             if (config.fps) {
                 this.fps = config.fps;
@@ -214,6 +225,12 @@ class InternalHtml5QrcodeConfig implements Html5QrcodeCameraScanConfig {
             this.qrbox = config.qrbox;
             this.aspectRatio = config.aspectRatio;
             this.videoConstraints = config.videoConstraints;
+
+            if (config.renderingConstraints) {
+                this.renderingConstraints = config.renderingConstraints;
+            } else {
+                this.renderingConstraints = Html5QrcodeCameraRenderingConstraints.CONSTRAINT_BY_WIDTH;
+            }
         }
     }
 
@@ -307,14 +324,12 @@ export class Html5Qrcode {
         this.elementId = elementId;
         this.verbose = false;
         
-        let experimentalFeatureConfig : ExperimentalFeaturesConfig | undefined;
         let configObject: Html5QrcodeFullConfig | undefined;
         if (typeof configOrVerbosityFlag == "boolean") {
             this.verbose = configOrVerbosityFlag === true;
         } else if (configOrVerbosityFlag) {
             configObject = configOrVerbosityFlag;
             this.verbose = configObject.verbose === true;
-            experimentalFeatureConfig = configObject.experimentalFeatures;
         }
         
         this.logger = new BaseLoggger(this.verbose);
@@ -390,8 +405,6 @@ export class Html5Qrcode {
 
         // qr shaded box
         const element = document.getElementById(this.elementId)!;
-        const rootElementWidth = element.clientWidth
-            ? element.clientWidth : Constants.DEFAULT_WIDTH;
         element.style.position = "relative";
 
         this.shouldScan = true;
@@ -411,7 +424,9 @@ export class Html5Qrcode {
                 return;
             }
 
-            let cameraRenderingOptions: CameraRenderingOptions = {};
+            let cameraRenderingOptions: CameraRenderingOptions = {
+                renderingConstraints: internalConfig.renderingConstraints
+            };
             if (!areVideoConstraintsEnabled || internalConfig.aspectRatio) {
                 cameraRenderingOptions.aspectRatio = internalConfig.aspectRatio;
             }

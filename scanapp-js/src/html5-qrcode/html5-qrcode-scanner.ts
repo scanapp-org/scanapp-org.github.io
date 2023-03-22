@@ -462,16 +462,6 @@ export class Html5QrcodeScanner {
     private createBasicLayout(parent: HTMLElement) {
         parent.style.position = "relative";
         parent.style.padding = "0px";
-        // HACK @MINHAZAV
-        // parent.style.paddingTop = "100px";
-        // parent.style.paddingBottom = "100px";
-        // parent.style.background = "#000000";
-        // if (this.isFormFactorMobile) {
-        // }
-        // @ScanApp specific change start
-        // parent.style.border = "1px solid silver";
-        // @ScanApp specific change end
-
         this.createHeader(parent);
 
         const qrCodeScanRegion = document.createElement("div");
@@ -649,6 +639,8 @@ export class Html5QrcodeScanner {
         const section = document.getElementById(this.getDashboardSectionId())!;
         const sectionControlPanel = document.createElement("div");
         section.appendChild(sectionControlPanel);
+
+        // Camera Scan region.
         const scpCameraScanRegion = document.createElement("div");
         scpCameraScanRegion.id = this.getDashboardSectionCameraScanRegionId();
         scpCameraScanRegion.style.display

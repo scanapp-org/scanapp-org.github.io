@@ -149,6 +149,18 @@ export interface RenderedCamera {
   getCapabilities(): CameraCapabilities;
 }
 
+/** Defines how the camera should be rendered with respect to the parent element. */
+export enum Html5QrcodeCameraRenderingConstraints {
+  // Only the parent HTML element's width would be considered as constraint.
+  CONSTRAINT_BY_WIDTH = 0,
+  
+  // Only the parent HTML element's height would be considered as constraint.
+  CONSTRAINT_BY_HEIGHT = 1,
+  
+  // Both the parent HTML element's width and height would be considered as constraint.
+  CONSTRAINT_BY_WIDTH_AND_HEIGHT = 2,
+}
+
 /** Options for rendering camera feed. */
 export interface CameraRenderingOptions {
   /**
@@ -157,6 +169,11 @@ export interface CameraRenderingOptions {
    * <p> Setting this value doesn't guarantee the exact value to be applied.
    */
   aspectRatio?: number;
+
+  /**
+   * Contraint for rendering the video feed.
+   */
+  renderingConstraints: Html5QrcodeCameraRenderingConstraints;
 }
 
 /** Interface for the camera. */

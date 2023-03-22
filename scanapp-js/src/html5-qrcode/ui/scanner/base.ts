@@ -26,6 +26,9 @@ export class PublicUiElementIdAndClasses {
 
     /** Id of the camera stop button. */
     static CAMERA_STOP_BUTTON_ID = "html5-qrcode-button-camera-stop";
+    
+    /** Id of the camera switch button. */
+    static CAMERA_SWITCH_BUTTON_ID = "html5-qrcode-button-camera-switch";
 
     /** Id of the torch button. */
     static TORCH_BUTTON_ID = "html5-qrcode-button-torch";

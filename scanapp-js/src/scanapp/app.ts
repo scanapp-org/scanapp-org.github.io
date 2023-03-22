@@ -18,7 +18,7 @@ import { MobileScrimController } from "./mobile-scrim";
 import { QrResultViewer } from "./result-viewer"
 import { PwaPromptManager } from "./pwa";
 import { MinimisablePanels } from "./minimisable-panels";
-import { Html5QrcodeScanner } from "../html5-qrcode/html5-qrcode-scanner";
+import { Html5QrcodeScannerBeta } from "../html5-qrcode/html5-qrcode-scanner-beta";
 import { Html5QrcodeScannerState } from "../html5-qrcode/state-manager";
 import { Html5QrcodeResult } from "../html5-qrcode/core";
 import { Html5QrcodeScanType } from "../html5-qrcode/core";
@@ -35,11 +35,11 @@ export class ScanApp {
     
     private isFormFactorMobile: boolean;
     private isInIframe: boolean;
-    private html5QrcodeScanner: Html5QrcodeScanner;
+    private html5QrcodeScanner: Html5QrcodeScannerBeta;
     private pwaTimeout?: number;
 
     public static createAndRender() {
-        let isFormFactorMobile = screen.availWidth < 600;
+        let isFormFactorMobile = screen.availWidth < 950;
         let scanApp = new ScanApp(isFormFactorMobile);
         scanApp.render();
     }
@@ -57,7 +57,7 @@ export class ScanApp {
             showAntiEmbedWindow();
         }
 
-        this.html5QrcodeScanner = new Html5QrcodeScanner(
+        this.html5QrcodeScanner = new Html5QrcodeScannerBeta(
             "reader", 
             { 
                 fps: 10,
@@ -94,8 +94,7 @@ export class ScanApp {
         this.html5QrcodeScanner.render((decodedText: string, decodedResult: Html5QrcodeResult) => {
             this.onScanSuccess(decodedText, decodedResult);
         },
-        qrCodeErrorCallback,
-        this.isFormFactorMobile);
+        qrCodeErrorCallback);
         Logger.logScanStart(this.isInIframe, "camera");
 
         if (this.isFormFactorMobile) {
@@ -157,6 +156,8 @@ export class ScanApp {
     // aspect ratio is 16/9
     // location.href = "#reader";
     private qrboxFunction(viewfinderWidth: number, viewfinderHeight: number) {
+        return {width: viewfinderWidth, height: viewfinderHeight};
+
         // Square QR Box, with size = 80% of the min edge.
         var minEdgeSizeThreshold = 250;
         var edgeSizePercentage = 0.75;

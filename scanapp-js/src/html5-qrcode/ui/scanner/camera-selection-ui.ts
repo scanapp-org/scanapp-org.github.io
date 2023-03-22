@@ -37,7 +37,6 @@ export class CameraSelectionUi {
     private render(
         parentElement: HTMLElement) {
         const cameraSelectionContainer = document.createElement("span");
-        cameraSelectionContainer.style.marginRight = "10px";
         const numCameras = this.cameras.length;
         if (numCameras === 0) {
             throw new Error("No cameras found");

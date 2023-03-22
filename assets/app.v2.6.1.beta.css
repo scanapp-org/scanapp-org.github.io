@@ -73,7 +73,7 @@ a:hover {
 }
 
 
-@media(min-width: 600px) {
+@media(min-width: 950px) {
     /** Desktop mode **/
 
     .scanapp-top-container {
@@ -106,7 +106,7 @@ a:hover {
     }
 
     #desktop-scanapp-right-container {
-        width: 30%;
+        /* width: 30%; */
         margin-left: 1%;
         background-color: #EEEEEE;
         border-left: 1px solid silver;
@@ -139,6 +139,28 @@ a:hover {
         font-size: 20px;
         line-height: 16px;
         margin-right: 15px;
+    }
+
+    .desktop-render-area {
+        width: 100%;
+        height: calc(100% - 300px);
+    }
+
+    #reader-container {
+        height: 100%;
+        /* max-width: 1200px; */
+        margin: auto;
+    }
+
+    #reader {
+        width: 100%;
+        margin: auto;
+        padding: 0px;
+        /* display: flex; */
+        /* justify-content: center; */
+        /* flex-direction: column; */
+        height: 100%;
+        background-color: #f1f1f18c;
     }
 
     .desktop-footer-area {
@@ -291,17 +313,6 @@ a:hover {
         color: #6D6D6D;
     }
 
-    #reader-container {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    #reader {
-        width: 80%;
-        margin: auto;
-        padding: 0px;
-    }
-
     /** Mobile specific UI components */
     .mobile-bottom-navbar,
     #mobile-about-panel,
@@ -311,7 +322,7 @@ a:hover {
     }
 }
 
-@media(max-width: 600px) {
+@media(max-width: 950px) {
     /** Mobile mode **/
 
     .desktop-header-area, .desktop-footer-area {
@@ -334,10 +345,22 @@ a:hover {
 
     .desktop-render-area {
         width: 100%;
+        height: calc(100% - 80px);
         /* margin: auto; */
         /* position: absolute; */
         /* top: 50%; */
         /* transform: translateY(-50%); */
+    }
+
+    #reader-container {
+        height: 100%;
+    }
+
+    #reader {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
     }
 
     .desktop-right-container-top-panel {

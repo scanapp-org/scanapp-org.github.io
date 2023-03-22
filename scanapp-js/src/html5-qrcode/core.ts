@@ -334,9 +334,20 @@ export class BaseLoggger implements Logger {
 }
 
 //#region global functions
-/** Returns true if the {@param obj} is null or undefined. */
-export function isNullOrUndefined(obj?: any) {
+/** Returns {@code true} if the {@param obj} is null or undefined. */
+export function isNullOrUndefined(obj: any) {
     return (typeof obj === "undefined") || obj === null;
+}
+
+/** Returns {@code true} if the {@param str} is non empty string. */
+export function isValidString(str: string | null | undefined) {
+    if (isNullOrUndefined(str)) {
+        return false;
+    }
+    if (str?.trim() === "") {
+        return false;
+    }
+    return true;
 }
 
 /** Clips the {@code value} between {@code minValue} and {@code maxValue}. */
@@ -349,5 +360,13 @@ export function clip(value: number, minValue: number, maxValue: number) {
     }
 
     return value;
+}
+
+export function checkNotNullOrUndefined<Type>(value: Type | null | undefined, varName: string): Type {
+    if (isNullOrUndefined(value)) {
+        throw `${varName} shouldn't be null;`;
+    }
+
+    return value!;
 }
 //#endregion

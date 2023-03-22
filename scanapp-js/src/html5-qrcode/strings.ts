@@ -144,16 +144,16 @@ export class Html5QrcodeScannerStrings {
         return "Select Camera";
     }
 
+    public static switchCamera(): string {
+        return "Switch";
+    }
+
     public static fileSelectionChooseImage(): string {
-        return "Choose Image";
+        return "Choose Photo";
     }
 
     public static fileSelectionChooseAnother(): string {
         return "Choose Another";
-    }
-
-    public static fileSelectionNoImageSelected(): string {
-        return "No image choosen";
     }
 
     /** Prefix to be given to anonymous cameras. */
@@ -162,11 +162,15 @@ export class Html5QrcodeScannerStrings {
     }
 
     public static dragAndDropMessage(): string {
+        return "Drop an image to scan";
+    }
+
+    public static orDropAnImageToScan(): string {
         return "Or drop an image to scan";
     }
 
     public static dragAndDropMessageOnlyImages(): string {
-        return "Or drop an image to scan (other files not supported)";
+        return "Drop an image to scan (other files not supported)";
     }
 
     /** Value for zoom. */

@@ -111,7 +111,7 @@ class TorchController {
 
 /** Options for creating torch button. */
 export interface TorchButtonOptions {
-    display: string;
+    display?: string;
     marginLeft: string;
 }
 
@@ -140,7 +140,9 @@ export class TorchButton implements TorchButtonController {
         parentElement: HTMLElement, torchButtonOptions: TorchButtonOptions) {
         this.torchButton.innerText
             = Html5QrcodeScannerStrings.torchOnButton();
-        this.torchButton.style.display = torchButtonOptions.display;
+        if (torchButtonOptions.display) {
+            this.torchButton.style.display = torchButtonOptions.display;
+        }
         this.torchButton.style.marginLeft = torchButtonOptions.marginLeft;
 
         let $this = this;
