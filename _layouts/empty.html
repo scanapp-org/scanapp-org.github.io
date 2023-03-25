@@ -34,7 +34,10 @@
   <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
   <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
 
+  {% if page.hide_canonical %}
+  {% else %}
   <link rel="canonical" href="https://scanapp.org"/>
+  {% endif %}
   <link rel="preload" href={{ "/assets/app.v2.6.0.css" | relative_url }} as="style">
   <link rel="stylesheet" href="/assets/app.v2.6.0.css">
   <link rel="preload" href="https://scanapp.pages.dev/css/index.v2.5.1.css" as="style">
