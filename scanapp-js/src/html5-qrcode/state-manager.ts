@@ -13,9 +13,13 @@ export enum Html5QrcodeScannerState {
     // scanning.
     NOT_STARTED = 1,
     // Camera scan is running.
-    SCANNING,
+    SCANNING = 2,
     // Camera scan is paused but camera is running.
-    PAUSED,
+    PAUSED = 3,
+    // File based scanning was triggerd, UI is showing selected image.
+    // In this state, camera would be paused, so this state has similar properties
+    // as that of 'PAUSED' state.
+    FILE_SCAN = 4,
 }
 
 /** Transaction for state transition. */
@@ -132,12 +136,18 @@ class StateManagerImpl implements StateManager, StateManagerTransaction {
             case Html5QrcodeScannerState.PAUSED:
                 // Both state transitions legal from here.
                 break;
+            case Html5QrcodeScannerState.FILE_SCAN:
+                this.failIfNewStateIs(newState, [Html5QrcodeScannerState.PAUSED]);
+                break;
         }
     }
 
     private failIfNewStateIs(
         newState: Html5QrcodeScannerState,
         disallowedStatesToTransition: Array<Html5QrcodeScannerState>) {
+        if (newState == Html5QrcodeScannerState.UNKNOWN) {
+            throw `Cannot transition from ${this.state} to unknown state`;
+        }
         for (const disallowedState of disallowedStatesToTransition) {
             if (newState === disallowedState) {
                 throw `Cannot transition from ${this.state} to ${newState}`;

@@ -10,7 +10,8 @@ export enum CodeCategory {
     TYPE_URL = 2,
     TYPE_PHONE = 3,
     TYPE_WIFI = 4,
-    TYPE_UPI = 5
+    TYPE_UPI = 5,
+    TYPE_JSON_OBJ = 6
 }
 
 export function codeCategoryToString(codeCategory: CodeCategory): string {
@@ -25,6 +26,8 @@ export function codeCategoryToString(codeCategory: CodeCategory): string {
             return "Wifi";
         case CodeCategory.TYPE_UPI:
             return "Upi";
+        case CodeCategory.TYPE_JSON_OBJ:
+            return "JSON object";
     }
 }
 

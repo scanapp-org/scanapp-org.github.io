@@ -151,6 +151,21 @@ function getFirstTrackOrFail(mediaStream: MediaStream): MediaStreamTrack {
     return mediaStream.getVideoTracks()[0];
 }
 
+function isAndroidOrIos() {
+   let anyWindow: any = window;
+   var userAgent = navigator.userAgent || navigator.vendor || anyWindow.opera;
+
+   if (/android/i.test(userAgent)) {
+       return true;
+   }
+
+   // iOS detection from: http://stackoverflow.com/a/9039885/177710
+   if (/iPad|iPhone|iPod/.test(userAgent) && !anyWindow.MSStream) {
+       return true;
+   }
+
+   return false;
+}
 
 function setupVideoSurface(
     mediaStream: MediaStream,
@@ -168,8 +183,13 @@ function setupVideoSurface(
         }
     } else {
         videoAspectRatio = mediaTrack.getSettings().width! /  mediaTrack.getSettings().height!;
+        // Known issue in Android or IOS browsers.
+        // The aspect ratio is reported incorrectly or flipped.
+        // https://stackoverflow.com/a/62598616/2614250
+        if (isAndroidOrIos()) {
+            videoAspectRatio = 1 / videoAspectRatio;
+        }
     }
-
 
     if (renderingConstraints == Html5QrcodeCameraRenderingConstraints.CONSTRAINT_BY_WIDTH) {
         videoElement.style.width = `${clientWidth}px`;
@@ -181,23 +201,17 @@ function setupVideoSurface(
         let newVideoHeight = clientHeight;
 
         if (containerAspectRatio > videoAspectRatio) {
-            console.log(`clientWidth, clientHeight => ${clientWidth}, ${clientHeight}`)
-            console.log(`containerAspectRatio > videoAspectRatio => ${containerAspectRatio}, ${videoAspectRatio}`)
             // Scenario example
             // Container = 16x9; Video = 16x12 (4:3)
             // Video height needs to be brought down to 9.
             newVideoHeight = clientHeight;
             newVideoWidth = Math.floor(newVideoHeight * videoAspectRatio);
-            console.log(`newVideoWidth, newVideoHeight => ${newVideoWidth}, ${newVideoHeight}`)
         } else if (containerAspectRatio < videoAspectRatio) {
-            console.log(`clientWidth, clientHeight => ${clientWidth}, ${clientHeight}`)
-            console.log(`containerAspectRatio < videoAspectRatio => ${containerAspectRatio}, ${videoAspectRatio}`)
             // Scenario example
             // Container = 16x12 (4:3); Video = 16x9 (4:3)
             // Video height needs to be brought down to 9.
             newVideoWidth = clientWidth;
             newVideoHeight = Math.floor(newVideoWidth / videoAspectRatio);
-            console.log(`newVideoWidth, newVideoHeight => ${newVideoWidth}, ${newVideoHeight}`)
         }
         videoElement.style.width = `${newVideoWidth}px`;
         videoElement.style.height = `${newVideoHeight}px`;
@@ -380,7 +394,8 @@ export class CameraImpl implements Camera {
             parentElement, this.mediaStream, options, callbacks);
     }
 
-    static async create(videoConstraints: MediaTrackConstraints)
+    static async create(
+        videoConstraints: MediaTrackConstraints)
         : Promise<Camera> {
         if (!navigator.mediaDevices) {
             throw "navigator.mediaDevices not supported";

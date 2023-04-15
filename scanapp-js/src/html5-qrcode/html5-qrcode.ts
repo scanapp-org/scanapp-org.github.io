@@ -26,7 +26,8 @@ import {
     Html5QrcodeResult,
     isNullOrUndefined,
     QrDimensions,
-    QrDimensionFunction
+    QrDimensionFunction,
+    QrcodeRegionBounds
 } from "./core";
 import { Html5QrcodeStrings } from "./strings";
 import { VideoConstraintsUtil } from "./utils";
@@ -48,6 +49,7 @@ import {
     StateManagerTransaction,
     Html5QrcodeScannerState
 } from "./state-manager";
+import { FileScanRenderer } from "./file-scan/file-scan-renderer";
 
 type Html5QrcodeIdentifier = string | MediaTrackConstraints;
 
@@ -260,13 +262,7 @@ class InternalHtml5QrcodeConfig implements Html5QrcodeCameraScanConfig {
     }
 }
 
-interface QrcodeRegionBounds {
-    x: number,
-    y: number,
-    width: number,
-    height: number
-}
-
+/** QR Scanning library - supports API for Camera based scan and file based scan! */
 export class Html5Qrcode {
 
     //#region Private fields.
@@ -288,6 +284,7 @@ export class Html5Qrcode {
     private borderShaders: Array<HTMLElement> | null = null;
     private qrMatch: boolean | null = null;
     private renderedCamera: RenderedCamera | null = null;
+    private fileScanRenderer: FileScanRenderer | null = null;
 
     private foreverScanTimeout: any;
     private qrRegion: QrcodeRegionBounds | null = null;
@@ -425,7 +422,7 @@ export class Html5Qrcode {
             }
 
             let cameraRenderingOptions: CameraRenderingOptions = {
-                renderingConstraints: internalConfig.renderingConstraints
+                renderingConstraints: internalConfig.renderingConstraints,
             };
             if (!areVideoConstraintsEnabled || internalConfig.aspectRatio) {
                 cameraRenderingOptions.aspectRatio = internalConfig.aspectRatio;
@@ -485,8 +482,12 @@ export class Html5Qrcode {
             throw "Cannot pause, scanner is not scanning.";
         }
         this.stateManagerProxy.directTransition(Html5QrcodeScannerState.PAUSED);
-        this.showPausedState();
+        this.pauseInternal(shouldPauseVideo);
+    }
 
+    private pauseInternal(shouldPauseVideo?: boolean) {
+        this.showPausedState();
+        
         if (isNullOrUndefined(shouldPauseVideo) || shouldPauseVideo !== true) {
             shouldPauseVideo = false;
         }
@@ -614,6 +615,8 @@ export class Html5Qrcode {
      *   1. QR Code decode failed because enough patterns not found in image.
      *   2. Input file was not image or unable to load the image or other image
      *      load errors.
+     * 
+     * @deprecated This API is deprecated, use {@link Html5Qrcode#scanFileV2} instead.
      */
     public scanFile(
         imageFile: File, /* default=true */ showImage?: boolean): Promise<string> {
@@ -633,9 +636,6 @@ export class Html5Qrcode {
      *
      * @returns Promise which resolves with result of type
      * {@code Html5QrcodeResult}.
-     * 
-     * @beta This is a WIP method, it's available as a public method but not
-     * documented.
      * TODO(mebjas): Replace scanFile with ScanFileV2
      */
     public scanFileV2(imageFile: File, /* default=true */ showImage?: boolean)
@@ -649,13 +649,16 @@ export class Html5Qrcode {
             showImage = true;
         }
 
-        if (!this.stateManagerProxy.canScanFile()) {
-            throw "Cannot start file scan - ongoing camera scan";
+        let transaction: StateManagerTransaction | undefined;
+        if (showImage === true) {
+            if (this.stateManagerProxy.isStrictlyScanning()) {
+                this.pauseInternal(/* shouldPauseVideo= */ true);
+            }
+            transaction = this.stateManagerProxy.startTransition(
+                Html5QrcodeScannerState.FILE_SCAN);
         }
-
         return new Promise((resolve, reject) => {
             this.possiblyCloseLastScanImageFile();
-            this.clearElement();
             this.lastScanImageFile = URL.createObjectURL(imageFile);
 
             const inputImage = new Image;
@@ -672,29 +675,10 @@ export class Html5Qrcode {
 
                 const config = this.computeCanvasDrawConfig(
                     imageWidth, imageHeight, containerWidth, containerHeight);
+
                 if (showImage) {
-                    const visibleCanvas = this.createCanvasElement(
-                        containerWidth, containerHeight, "qr-canvas-visible");
-                    visibleCanvas.style.display = "inline-block";
-                    element.appendChild(visibleCanvas);
-                    const context = visibleCanvas.getContext("2d");
-                    if (!context) {
-                        throw "Unable to get 2d context from canvas";
-                    }
-                    context.canvas.width = containerWidth;
-                    context.canvas.height = containerHeight;
-                    // More reference
-                    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-                    context.drawImage(
-                        inputImage,
-                        /* sx= */ 0,
-                        /* sy= */ 0,
-                        /* sWidth= */ imageWidth,
-                        /* sHeight= */ imageHeight,
-                        /* dx= */ config.x,
-                        /* dy= */  config.y,
-                        /* dWidth= */ config.width,
-                        /* dHeight= */ config.height);
+                    this.getFileScanRenderer(element).renderImage(inputImage);
+                    transaction?.execute();
                 }
 
                 // Hidden canvas should be at-least as big as the image.
@@ -737,7 +721,10 @@ export class Html5Qrcode {
                                 Html5QrcodeResultFactory.createFromQrcodeResult(
                                     result));
                         })
-                        .catch(reject);
+                        .catch(reject)
+                        .finally(() => {
+                            element.removeChild(hiddenCanvas);
+                        });
                 } catch (exception) {
                     reject(`QR code parse error, error = ${exception}`);
                 }
@@ -749,6 +736,13 @@ export class Html5Qrcode {
             inputImage.onsuspend = reject;
             inputImage.src = URL.createObjectURL(imageFile);
         });
+    }
+
+    private getFileScanRenderer(element: HTMLElement): FileScanRenderer {
+        if (!this.fileScanRenderer) {
+            this.fileScanRenderer = FileScanRenderer.createAndRender(element);
+        }
+        return this.fileScanRenderer;
     }
     //#endregion
 

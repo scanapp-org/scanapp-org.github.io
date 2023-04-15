@@ -134,6 +134,15 @@ function isUpi(decodedText: string): boolean {
     }
 }
 
+function isJsonObj(decodedText: string): boolean {
+    try {
+        const object = JSON.parse(decodedText);
+        return !isNullOrUndefined(object);
+    } catch (_) {
+        return false;
+    }
+}
+
 // TODO(minhazav): Add logging for the detected type.
 export function detectType(decodedText: string): CodeCategory {
     if (isUrl(decodedText)) {
@@ -150,6 +159,10 @@ export function detectType(decodedText: string): CodeCategory {
 
     if (isUpi(decodedText)) {
         return CodeCategory.TYPE_UPI;
+    }
+
+    if (isJsonObj(decodedText)) {
+        return CodeCategory.TYPE_JSON_OBJ;
     }
 
     return CodeCategory.TYPE_TEXT;

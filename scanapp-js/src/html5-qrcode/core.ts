@@ -260,6 +260,13 @@ export interface QrcodeDecoderAsync {
     decodeAsync(canvas: HTMLCanvasElement): Promise<QrcodeResult>;
 }
 
+export interface QrcodeRegionBounds {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
 /**
  * Code robust decoder interface.
  * 

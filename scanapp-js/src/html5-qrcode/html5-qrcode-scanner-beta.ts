@@ -131,15 +131,15 @@ function toHtml5QrcodeFullConfig(
 // End to end scanner library.
 export class Html5QrcodeScannerBeta implements Html5QrcodeHandler {
 
-    //#region private fields
-    private elementId: string;
-    private config: Html5QrcodeScannerConfig;
-    private verbose: boolean;
-    private currentScanType: Html5QrcodeScanType;
-    private persistedDataManager: PersistedDataManager;
-    private scanTypeSelector: ScanTypeSelector;
-    private logger: Logger;
+    private readonly elementId: string;
+    private readonly config: Html5QrcodeScannerConfig;
+    private readonly verbose: boolean;
+    private readonly currentScanType: Html5QrcodeScanType;
+    private readonly persistedDataManager: PersistedDataManager;
+    private readonly scanTypeSelector: ScanTypeSelector;
+    private readonly logger: Logger;
 
+    //#region private fields
     // Initally null fields.
     private html5Qrcode: Html5Qrcode | undefined;
     private qrCodeSuccessCallback: QrcodeSuccessCallback | undefined;
@@ -461,7 +461,7 @@ export class Html5QrcodeScannerBeta implements Html5QrcodeHandler {
             rememberLastUsedCamera:
                 Html5QrcodeConstants.DEFAULT_REMEMBER_LAST_CAMERA_USED,
             supportedScanTypes:
-                Html5QrcodeConstants.DEFAULT_SUPPORTED_SCAN_TYPE
+                Html5QrcodeConstants.DEFAULT_SUPPORTED_SCAN_TYPE,
         };
     }
 
@@ -488,11 +488,7 @@ export class Html5QrcodeScannerBeta implements Html5QrcodeHandler {
                 throw "html5Qrcode not defined";
             }
 
-            // @minhavav - ScanApp changes.
-            // if (!ScanTypeSelector.isFileScanType($this.currentScanType)) {
-            //     return;
-            // }
-
+            this.qrScanDashboard?.hideMiddleDash();
             this.setHeaderMessage(Html5QrcodeScannerStrings.loadingImage());
             this.html5Qrcode.scanFileV2(file, /* showImage= */ true)
                 .then((html5qrcodeResult: Html5QrcodeResult) => {

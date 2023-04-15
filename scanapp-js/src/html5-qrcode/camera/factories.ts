@@ -26,7 +26,8 @@ export class CameraFactory {
     private constructor() { /* No Op. */ }
 
     /** Creates camera instance based on constraints. */
-    public async create(videoConstraints: MediaTrackConstraints)
+    public async create(
+        videoConstraints: MediaTrackConstraints)
         : Promise<Camera> {
         return CameraImpl.create(videoConstraints);
     }

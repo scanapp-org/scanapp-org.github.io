@@ -39,7 +39,7 @@ export class ScanApp {
     private pwaTimeout?: number;
 
     public static createAndRender() {
-        let isFormFactorMobile = screen.availWidth < 950;
+        let isFormFactorMobile = screen.availWidth < 950 || this.getMobileOperatingSystem() != "unknown";
         let scanApp = new ScanApp(isFormFactorMobile);
         scanApp.render();
     }
@@ -77,11 +77,38 @@ export class ScanApp {
     }
 
     private getAspectRatio() {
-        const FOR_MOBILE_ASPECT_RATIO = 4/3;
-        // const FOR_MOBILE_ASPECT_RATIO = 16/9;
+        // const FOR_MOBILE_ASPECT_RATIO = 4/3;
+        const FOR_MOBILE_ASPECT_RATIO = 16/9;
         const FOR_DESKTOP_ASPECT_RATIO = 4/3;
 
         return this.isFormFactorMobile ? FOR_MOBILE_ASPECT_RATIO : FOR_DESKTOP_ASPECT_RATIO;
+    }
+
+    /**
+     * Determine the mobile operating system.
+     * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
+     *
+     * @returns {String}
+     */
+    private static getMobileOperatingSystem() {
+        let anyWindow: any = window;
+        var userAgent = navigator.userAgent || navigator.vendor || anyWindow.opera;
+
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !anyWindow.MSStream) {
+            return "iOS";
+        }
+
+        return "unknown";
     }
 
     private render() {
@@ -125,12 +152,13 @@ export class ScanApp {
             this.pwaTimeout = undefined;
         }
 
-        if (this.html5QrcodeScanner.getState() !== Html5QrcodeScannerState.NOT_STARTED) {
+        if (this.html5QrcodeScanner.getState() === Html5QrcodeScannerState.SCANNING) {
             this.html5QrcodeScanner.pause(/* shouldPauseVideo= */ true);
         }
 
         this.scrimController.show();
 
+        // Get this from scan result.
         let scanType = ScanType.SCAN_TYPE_CAMERA;
         if (this.html5QrcodeScanner.getState() === Html5QrcodeScannerState.NOT_STARTED) {
             scanType = ScanType.SCAN_TYPE_FILE;

@@ -653,6 +653,18 @@ export class QrScanDashboard {
         this.fileScanUi?.setImageNameToButton(fileName);
     }
 
+    public hideMiddleDash() {
+        if (this.childContainer) {
+            this.childContainer.style.display = "none";
+        }
+    }
+
+    public showMiddleDash() {
+        if (this.childContainer) {
+            this.childContainer.style.display = "flex";
+        }
+    }
+
     public static createAndRender(
         parentContainer: HTMLDivElement,
         currentScanType: Html5QrcodeScanType,

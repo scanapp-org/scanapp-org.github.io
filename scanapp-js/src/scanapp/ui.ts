@@ -5,6 +5,7 @@
  * @author mebjas <minhazav@gmail.com>
  */
 
+import { isNullOrUndefined } from "../html5-qrcode/core";
 import { CodeCategory } from "./constants";
 
 export function createLinkTyeUi(
@@ -65,4 +66,73 @@ export function createUpiTypeUi(parentElem: HTMLElement, decodedText: string) {
     if (pn && pn != null) {
         addKeyValuePairUi(parentElem, "Payee Name", pn);
     }
+}
+
+export function createJsonObject(parentElem: HTMLElement, decodedText: string) {
+    const object = JSON.parse(decodedText);
+    if (isNullOrUndefined(object)) {
+        throw "Unable to decode the decodedText as json";
+    }
+
+    function generateSpaces(depth: number) {
+        const spacePerTab = 2;
+        let text = "";
+        for (let i = 0; i < depth * spacePerTab; ++i) {
+            text += "&nbsp;"
+        }
+        return text;
+    }
+
+    function createValueElement(value: object) : HTMLSpanElement {
+        function createContainerTags(tag: string) {
+            const span = document.createElement("span");
+            span.innerText = tag;
+            return span;
+        }
+
+        const childValueElem = document.createElement("span");
+        // TODO(minhazav): If the 'value' is array: fix the spaces, change ',' to black.
+        childValueElem.innerText = `${value}`;
+        childValueElem.style.color = "green";
+        
+        const valueElement = document.createElement("span");
+        if (Array.isArray(value)) {
+            valueElement.appendChild(createContainerTags("["));
+            valueElement.appendChild(childValueElem);
+            valueElement.appendChild(createContainerTags("]"));
+        } else if (typeof value === "string") {
+            valueElement.appendChild(createContainerTags("\""));
+            valueElement.appendChild(childValueElem);
+            valueElement.appendChild(createContainerTags("\""));
+        } else {
+            valueElement.appendChild(childValueElem);
+        }
+        return valueElement;
+    }
+
+    function recursivelyRender(parent: HTMLElement, obj: any, depth: number) {
+        const keys: Array<string> = Object.keys(obj);
+        console.log(keys);
+        for (let i = 0; i < keys.length; ++i) {
+            const key = keys[i];
+            const value = obj[key];
+            console.log("Processing ", key, value);
+            if (Array.isArray(value) || typeof value !== "object") {
+                const div = document.createElement("div");
+                div.style.fontFamily = "monospace";
+                div.innerHTML = `${generateSpaces(depth)}<b>${key}</b>: `;
+                div.appendChild(createValueElement(value));
+                parent.appendChild(div);
+            } else {
+                const div = document.createElement("div");
+                div.style.fontFamily = "monospace";
+                div.innerHTML = `${generateSpaces(depth)}<b>${key}</b>:`;
+                parent.appendChild(div);
+                recursivelyRender(parent, value, depth + 1);
+            }
+        }
+    }
+
+    console.log(object);
+    recursivelyRender(parentElem, object, /* depth= */ 0);
 }

@@ -27,7 +27,8 @@ import { ScanResult } from "./scan-result";
 import {
     createLinkTyeUi,
     createWifiTyeUi,
-    createUpiTypeUi
+    createUpiTypeUi,
+    createJsonObject
 } from "./ui";
 import { QuickActionHandler } from "./quick-action-handler";
 
@@ -45,6 +46,7 @@ export class QrResultViewer implements HidableUiComponent {
     private readonly parentContainer = document.getElementById("result-panel-container")!;
     private readonly scanResultCodeType = document.getElementById("scan-result-code-type");
     private readonly scanResultImage = document.getElementById("scan-result-image");
+    private readonly scanResultTextRow = document.getElementById("scan-result-text-row")! as HTMLTableRowElement;
     private readonly scanResultText = document.getElementById("scan-result-text");
     private readonly scanResultBadgeBody = document.getElementById("scan-result-badge-body");
     private readonly scanResultParsed: HTMLDivElement = document.getElementById("scan-result-parsed")! as HTMLDivElement;
@@ -238,8 +240,21 @@ export class QrResultViewer implements HidableUiComponent {
             return parentElem;
         }
 
+        if (codeType == CodeCategory.TYPE_JSON_OBJ) {
+            createJsonObject(parentElem, decodedText);
+            return parentElem;
+        }
+
         parentElem.innerText = decodedText;
         return parentElem;
+    }
+
+    private shouldShowTextResult(codeCategory: CodeCategory) {
+        if (codeCategory == CodeCategory.TYPE_TEXT
+            || codeCategory == CodeCategory.TYPE_URL) {
+            return false;
+        } 
+        return true;
     }
 
     /**
@@ -258,6 +273,12 @@ export class QrResultViewer implements HidableUiComponent {
         this.scanResultCodeType!.innerText = codeFormatName;
         this.scanResultText!.innerText = scanResult.decodedText;
         let codeCategory = detectType(scanResult.decodedText);
+        if (this.shouldShowTextResult(codeCategory)) {
+            this.scanResultTextRow.style.removeProperty("display");
+        } else {
+            this.scanResultTextRow.style.display = "none";
+        }
+
         let codeCategoryName = codeCategoryToString(codeCategory);
         let scanTypeName = scanTypeToString(scanResult.scanType);
         Logger.logScanSuccess(scanTypeName, codeCategoryName);
