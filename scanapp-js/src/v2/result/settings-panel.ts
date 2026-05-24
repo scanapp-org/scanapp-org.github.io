@@ -1,5 +1,6 @@
 import { h, s } from "../utils/dom";
 import { ThemeManager } from "../theme/theme-manager";
+import { Logger } from "../../scanapp/logger";
 
 export class SettingsPanel {
   private element: HTMLElement;
@@ -83,7 +84,10 @@ export class SettingsPanel {
     // Support Banner Card
     const supportBanner = h("div", {
       class: "support-banner-card",
-      onClick: () => this.onSupportClickCallback()
+      onClick: () => {
+        Logger.logBetaKoFiSupportClick("settings_panel");
+        this.onSupportClickCallback();
+      }
     },
       h("div", { class: "support-banner-icon-wrapper" }, heartIcon),
       h("div", { class: "support-banner-content" },

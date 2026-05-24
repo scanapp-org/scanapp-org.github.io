@@ -76,6 +76,11 @@ export class DesktopSidebar {
       s("path", { d: "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" })
     );
 
+    const dropNote = h("div", { class: "sidebar-drop-note" },
+      h("span", { class: "sidebar-drop-note-icon" }, "💡"),
+      h("span", { class: "sidebar-drop-note-text" }, "Drag & drop image anywhere to scan")
+    );
+
     const privacyCard = h("div", { class: "sidebar-privacy-card" },
       h("div", { class: "sidebar-privacy-icon-wrapper" }, shieldCheckIcon),
       h("div", { class: "sidebar-privacy-content" },
@@ -152,6 +157,7 @@ export class DesktopSidebar {
         mediumBtn,
         themeSelector,
         upgradeBanner,
+        dropNote,
         privacyCard
       ),
       h("div", { class: "sidebar-footer" },

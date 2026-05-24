@@ -2,6 +2,8 @@ import { appShell } from "./app-shell";
 import { PageId } from "./types";
 import { ScanPage } from "./pages/scan-page/scan-page";
 import { ComingSoonPage } from "./pages/coming-soon-page";
+import { IS_DEBUG } from "../scanapp/constants";
+import { Logger } from "../scanapp/logger";
 
 function docReady(func: () => void) {
   if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -35,3 +37,15 @@ if ('serviceWorker' in navigator) {
       console.warn('Service Worker registration failed:', err);
     });
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  let displayMode = 'Browser_tab';
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    displayMode = 'PWA_standalone';
+  }
+  if (IS_DEBUG) {
+    console.log('DISPLAY_MODE_LAUNCH:', displayMode);
+  } else {
+    Logger.logDisplayMode(displayMode);
+  }
+});

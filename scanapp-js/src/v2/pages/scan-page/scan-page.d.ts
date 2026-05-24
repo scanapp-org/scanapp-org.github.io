@@ -20,6 +20,7 @@ export declare class ScanPage implements Page {
     private fallbackUI;
     private dragZone;
     private fileInputHelper;
+    private dropOverlay;
     private isCoverMode;
     private isTorchOn;
     private availableCameras;

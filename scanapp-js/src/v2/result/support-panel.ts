@@ -1,5 +1,5 @@
 import { h, s } from "../utils/dom";
-import { appShell } from "../app-shell";
+import { Logger } from "../../scanapp/logger";
 
 export class SupportPanel {
   private element: HTMLElement;
@@ -30,6 +30,7 @@ export class SupportPanel {
   }
 
   public hide(): void {
+    Logger.logBetaSupportPanelClose();
     this.element.classList.remove("show");
     if (this.scrimElement) {
       this.scrimElement.classList.remove("show");

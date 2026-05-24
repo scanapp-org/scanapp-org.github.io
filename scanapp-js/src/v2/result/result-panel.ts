@@ -447,6 +447,7 @@ export class ResultPanel {
   }
 
   private showPanelFromTab(): void {
+    Logger.logBetaResultPanelCollapsedTabOpen(!!this.currentResult);
     if (this.currentResult) {
       this.placeholderElement.style.display = "none";
       this.contentViewElement.style.display = "flex";
@@ -474,6 +475,7 @@ export class ResultPanel {
   }
 
   private showKoFi(): void {
+    Logger.logBetaKoFiSupportClick("result_panel");
     this.placeholderElement.style.display = "none";
     this.contentViewElement.style.display = "none";
     this.kofiElement.style.display = "flex";

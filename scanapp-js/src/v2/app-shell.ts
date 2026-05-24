@@ -88,7 +88,7 @@ export class AppShell {
       this.sidebar = new DesktopSidebar(
         this.themeManager,
         (pageId) => this.navigateTo(pageId),
-        () => this.showSupportPanel()
+        () => this.showSupportPanel("desktop_sidebar")
       );
       root.appendChild(this.sidebar.getElement());
       root.appendChild(appContent);
@@ -128,7 +128,8 @@ export class AppShell {
     if (this.tabBar) this.tabBar.setActivePage(pageId);
   }
 
-  public showSupportPanel(): void {
+  public showSupportPanel(source: string = "unknown"): void {
+    Logger.logBetaSupportPanelOpen(source);
     if (!this.supportPanel) {
       this.supportPanel = new SupportPanel();
     }
@@ -139,7 +140,7 @@ export class AppShell {
     if (!this.settingsPanel) {
       this.settingsPanel = new SettingsPanel(this.themeManager, () => {
         this.settingsPanel?.hide();
-        this.showSupportPanel();
+        this.showSupportPanel("settings_panel");
       });
     }
     this.settingsPanel.show();

@@ -30,10 +30,10 @@ export class ScanPage implements Page {
   private fitBtn!: HTMLButtonElement;
   private fileBtn!: HTMLButtonElement;
 
-  // Fallback elements
   private fallbackUI!: HTMLElement;
   private dragZone!: HTMLElement;
   private fileInputHelper!: HTMLInputElement;
+  private dropOverlay!: HTMLElement;
 
   // State
   private isCoverMode: boolean = true;
@@ -261,7 +261,7 @@ export class ScanPage implements Page {
 
     this.fileBtn = h("button", {
       class: "control-btn",
-      onClick: () => this.triggerFileSelect()
+      onClick: () => this.triggerFileSelect("toolbar")
     }, fileIcon);
 
     this.cameraPopover = h("div", { class: "camera-popover" });
@@ -311,7 +311,7 @@ export class ScanPage implements Page {
 
     this.dragZone = h("div", {
       class: "drag-drop-zone",
-      onClick: () => this.triggerFileSelect()
+      onClick: () => this.triggerFileSelect("drag_zone")
     },
       dragDropIcon,
       h("h4", {},
@@ -335,7 +335,7 @@ export class ScanPage implements Page {
       h("p", { class: "fallback-desc" }, "Please grant camera permission to scan, or choose a file below."),
       h("div", { class: "fallback-action-container" },
         h("button", { class: "primary-btn", onClick: () => this.startScanSequence() }, "Try Again"),
-        h("button", { class: "secondary-btn", onClick: () => this.triggerFileSelect() }, "Upload Image")
+        h("button", { class: "secondary-btn", onClick: () => this.triggerFileSelect("fallback_button") }, "Upload Image")
       ),
       this.dragZone,
       h("br"),
@@ -365,16 +365,28 @@ export class ScanPage implements Page {
       h("div", { class: "permission-arrow-label" }, "Tap lock icon to enable camera")
     );
 
+    this.dropOverlay = h("div", { class: "app-drop-overlay" },
+      h("div", { class: "app-drop-overlay-box" },
+        s("svg", { viewBox: "0 0 24 24", class: "drop-icon" },
+          s("path", { d: "M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" })
+        ),
+        h("h2", {}, "Drop image here to scan"),
+        h("p", {}, "ScanApp will automatically detect any QR codes or barcodes")
+      )
+    );
+
     return h("div", { class: "scan-page-container" },
       this.viewportWrapper,
       this.fallbackUI,
-      this.permissionArrow
+      this.permissionArrow,
+      this.dropOverlay
     );
   }
 
   private handleToggleTorch(): void {
     this.isTorchOn = !this.isTorchOn;
     this.cameraManager.setTorch(this.isTorchOn);
+    Logger.logBetaTorchToggle(this.isTorchOn);
     if (this.isTorchOn) {
       this.torchBtn.classList.add("active");
       appShell.showToast("Torch On");
@@ -387,6 +399,7 @@ export class ScanPage implements Page {
   private handleToggleFitMode(): void {
     this.isCoverMode = !this.isCoverMode;
     localStorage.setItem("scanapp_cover_mode", String(this.isCoverMode));
+    Logger.logBetaViewfinderModeToggle(this.isCoverMode ? "cover" : "fit");
     if (this.isCoverMode) {
       this.fitBtn.classList.add("active");
       this.cameraReader.classList.remove("fit-resolution");
@@ -433,11 +446,16 @@ export class ScanPage implements Page {
   private openPopover(): void {
     this.cameraPopover.classList.add("show");
     this.popoverOpen = true;
+    Logger.logBetaCameraPopover("open");
   }
 
   private closePopover(): void {
+    const wasOpen = this.popoverOpen;
     this.cameraPopover.classList.remove("show");
     this.popoverOpen = false;
+    if (wasOpen) {
+      Logger.logBetaCameraPopover("close");
+    }
   }
 
   private renderCameraPopoverOptions(): void {
@@ -465,14 +483,17 @@ export class ScanPage implements Page {
       this.renderCameraPopoverOptions(); // refresh selected state
       this.updateCameraControlsUI();
       this.hideLoader();
+      Logger.logBetaCameraSwitch("success");
       appShell.showToast("Switched Camera");
     } catch (e) {
       this.hideLoader();
+      Logger.logBetaCameraSwitch("failure");
       appShell.showToast("Failed to switch camera");
     }
   }
 
-  private triggerFileSelect(): void {
+  private triggerFileSelect(source: string): void {
+    Logger.logBetaFilePickerOpen(source);
     this.fileInputHelper.value = "";
     this.fileInputHelper.click();
   }
@@ -488,6 +509,7 @@ export class ScanPage implements Page {
     appShell.showToast("Processing image...");
     try {
       const result = await this.cameraManager.scanFile(file);
+      this.cameraManager.pause();
       Logger.logScanSuccess("file", result.category);
       this.resultPanel.show(result);
     } catch (err) {
@@ -502,24 +524,68 @@ export class ScanPage implements Page {
       e.stopPropagation();
     };
 
+    const hasFiles = (e: DragEvent) => {
+      if (!e.dataTransfer) return false;
+      return Array.from(e.dataTransfer.types).includes("Files");
+    };
+
+    let dragCounter = 0;
+
+    window.addEventListener("dragenter", (e: DragEvent) => {
+      handleDrag(e);
+      if (!hasFiles(e)) return;
+      dragCounter++;
+      if (dragCounter === 1) {
+        this.dropOverlay.classList.add("active");
+        Logger.logBetaDragDropOverlayShown();
+      }
+    });
+
+    window.addEventListener("dragover", (e: DragEvent) => {
+      handleDrag(e);
+      if (hasFiles(e) && e.dataTransfer) {
+        e.dataTransfer.dropEffect = "copy";
+      }
+    });
+
+    window.addEventListener("dragleave", (e: DragEvent) => {
+      handleDrag(e);
+      if (!hasFiles(e)) return;
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        this.dropOverlay.classList.remove("active");
+      }
+    });
+
+    window.addEventListener("drop", async (e: DragEvent) => {
+      handleDrag(e);
+      dragCounter = 0;
+      this.dropOverlay.classList.remove("active");
+
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        Logger.logBetaDragDropFileDropped("window");
+        await this.processImageFile(files[0]);
+      }
+    });
+
+    // Also bind fallback UI drag zone to support clicks and keep visual dragover local styling if dragged inside fallback dragzone
     this.dragZone.addEventListener("dragenter", (e) => {
       handleDrag(e);
       this.dragZone.classList.add("dragover");
     });
-
     this.dragZone.addEventListener("dragover", handleDrag);
-
     this.dragZone.addEventListener("dragleave", (e) => {
       handleDrag(e);
       this.dragZone.classList.remove("dragover");
     });
-
     this.dragZone.addEventListener("drop", async (e: DragEvent) => {
       handleDrag(e);
       this.dragZone.classList.remove("dragover");
-      
       const files = e.dataTransfer?.files;
       if (files && files.length > 0) {
+        Logger.logBetaDragDropFileDropped("fallback_drag_zone");
         await this.processImageFile(files[0]);
       }
     });

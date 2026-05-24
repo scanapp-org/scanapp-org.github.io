@@ -185,6 +185,68 @@ export class Logger {
         gtag('event', 'QuickAction_Url_Click', {});
     }
 
+    private static logBetaEvent(eventName: string, label?: string) {
+        if (typeof gtag === 'function') {
+            const eventParams: {[key: string]: string} = {
+                'event_category': 'BetaUi',
+            };
+            if (label) {
+                eventParams['event_label'] = label;
+            }
+            gtag('event', eventName, eventParams);
+        }
+    }
+
+    public static logBetaTorchToggle(isOn: boolean) {
+        Logger.logBetaEvent('Beta_Torch_Toggle', isOn ? 'on' : 'off');
+    }
+
+    public static logBetaViewfinderModeToggle(mode: string) {
+        Logger.logBetaEvent('Beta_ViewfinderMode_Toggle', mode);
+    }
+
+    public static logBetaCameraPopover(action: string) {
+        Logger.logBetaEvent('Beta_CameraPopover', action);
+    }
+
+    public static logBetaCameraSwitch(outcome: string) {
+        Logger.logBetaEvent('Beta_CameraSwitch', outcome);
+    }
+
+    public static logBetaFilePickerOpen(source: string) {
+        Logger.logBetaEvent('Beta_FilePicker_Open', source);
+    }
+
+    public static logBetaDragDropOverlayShown() {
+        Logger.logBetaEvent('Beta_DragDrop_OverlayShown');
+    }
+
+    public static logBetaDragDropFileDropped(source: string) {
+        Logger.logBetaEvent('Beta_DragDrop_FileDropped', source);
+    }
+
+    public static logBetaThemeChange(themeId: string) {
+        Logger.logBetaEvent('Beta_Theme_Change', themeId);
+    }
+
+    public static logBetaSupportPanelOpen(source: string) {
+        Logger.logBetaEvent('Beta_SupportPanel_Open', source);
+    }
+
+    public static logBetaSupportPanelClose() {
+        Logger.logBetaEvent('Beta_SupportPanel_Close');
+    }
+
+    public static logBetaResultPanelCollapsedTabOpen(hasResult: boolean) {
+        Logger.logBetaEvent(
+            'Beta_ResultPanel_CollapsedTabOpen',
+            hasResult ? 'with_result' : 'empty');
+    }
+
+    public static logBetaKoFiSupportClick(source: string) {
+        Logger.logBetaEvent('Beta_KoFiSupport_Click', source);
+    }
+
     public static logUpgradeBannerClick() {
         if (typeof gtag === 'function') {
             gtag('event', 'UpgradeBanner_Click', {});

@@ -2258,3 +2258,103 @@ body, html {
 .scan-another-footer .result-panel-support-card {
   margin: 0;
 }
+
+/* App-wide Full-Screen Drag and Drop Overlay */
+.app-drop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.app-drop-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.app-drop-overlay-box {
+  background: var(--sa-surface);
+  border: 3px dashed var(--sa-primary);
+  border-radius: var(--sa-radius-xl);
+  padding: 48px 32px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-drop-overlay.active .app-drop-overlay-box {
+  transform: scale(1);
+}
+
+.app-drop-overlay-box svg.drop-icon {
+  width: 64px;
+  height: 64px;
+  fill: var(--sa-primary);
+  animation: floatOverlayIcon 2s ease-in-out infinite;
+}
+
+@keyframes floatOverlayIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.app-drop-overlay-box h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--sa-text);
+  margin: 0;
+}
+
+.app-drop-overlay-box p {
+  font-size: 0.95rem;
+  color: var(--sa-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Sidebar Drop Note */
+.sidebar-drop-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background-color: var(--sa-surface-elevated);
+  border-left: 3px solid var(--sa-primary);
+  padding: 10px 14px;
+  border-radius: 0 var(--sa-radius-md) var(--sa-radius-md) 0;
+  margin: 12px 0 4px 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--sa-text);
+}
+
+.sidebar-drop-note-icon {
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.sidebar-drop-note-text {
+  font-weight: 500;
+}
+
+/* Add margin below local and private banner */
+.sidebar-privacy-card {
+  margin-bottom: 24px !important;
+}

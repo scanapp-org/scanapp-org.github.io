@@ -1,5 +1,6 @@
 import { Storage } from "../utils/storage";
 import { THEMES, ThemeInfo } from "./themes";
+import { Logger } from "../../scanapp/logger";
 
 export class ThemeManager {
   private static readonly STORAGE_KEY = "scanapp-v2-theme";
@@ -26,9 +27,11 @@ export class ThemeManager {
 
   public setTheme(themeId: string): void {
     if (!THEMES.some(t => t.id === themeId)) return;
+    if (this.currentTheme === themeId) return;
     this.currentTheme = themeId;
     Storage.set(ThemeManager.STORAGE_KEY, themeId);
     this.applyTheme(themeId);
+    Logger.logBetaThemeChange(themeId);
     
     const themeInfo = this.getActiveTheme();
     this.listeners.forEach(cb => cb(themeInfo));
