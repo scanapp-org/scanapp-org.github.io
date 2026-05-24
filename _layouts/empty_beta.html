@@ -48,7 +48,8 @@
     window.scanappPageData = {
       title: {% if page_title %}"{{ page_title | escape }}"{% else %}null{% endif %},
       description: {% if page_visible_description %}"{{ page_visible_description | escape }}"{% else %}null{% endif %},
-      locale: {% if page.locale %}"{{ page.locale | escape }}"{% else %}null{% endif %}
+      locale: {% if page.locale %}"{{ page.locale | escape }}"{% else %}null{% endif %},
+      scan_type: {% if page.scan_type %}"{{ page.scan_type | escape }}"{% elsif loc.scan_type %}"{{ loc.scan_type | escape }}"{% else %}null{% endif %}
     };
   </script>
 

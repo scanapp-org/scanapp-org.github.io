@@ -14,7 +14,8 @@
   <script>
     window.scanappPageData = {
       title: {% if page.title %}"{{ page.title | escape }}"{% else %}null{% endif %},
-      description: {% if page.page_visible_description %}"{{ page.page_visible_description | escape }}"{% else %}null{% endif %}
+      description: {% if page.page_visible_description %}"{{ page.page_visible_description | escape }}"{% else %}null{% endif %},
+      scan_type: {% if page.scan_type %}"{{ page.scan_type | escape }}"{% else %}null{% endif %}
     };
   </script>
 

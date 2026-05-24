@@ -52,10 +52,11 @@ export class DesktopSidebar {
       s("path", { d: "M12 12c0 3.037-1.79 5.5-4 5.5S4 15.037 4 12s1.79-5.5 4-5.5 4 2.463 4 5.5zm6.5 0c0 2.761-.67 5-1.5 5s-1.5-2.239-1.5-5 .67-5 1.5-5 1.5 2.239 1.5 5zm3.5 0c0 2.21-.224 4-.5 4s-.5-1.79-.5-4 .224-4 .5-4 .5 1.79.5 4z" })
     );
 
+    const scanType = (window as any).scanappPageData?.scan_type || "QR";
     const scanBtn = h("button", {
       class: "sidebar-item active",
       onClick: () => this.handleNavigate(PageId.SCAN)
-    }, scanIcon, h("span", {}, "Scan QR"));
+    }, scanIcon, h("span", {}, `Scan ${scanType}`));
 
     const blogBtn = h("a", {
       href: "/blog/",
