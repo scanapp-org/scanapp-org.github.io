@@ -91,8 +91,30 @@ export class Logger {
         });
     }
 
+    public static getDisplayMode(): string {
+        if (window.matchMedia('(display-mode: standalone)').matches
+            || (navigator as any).standalone === true) {
+            return 'PWA_standalone';
+        }
+        return 'Browser_tab';
+    }
+
     public static logDisplayMode(displayMode: string) {
         gtag("event", `DisplayMode_${displayMode}`, {});
+    }
+
+    private static logA2hsEvent(eventName: string, source?: string, extraParams: {[key: string]: string} = {}) {
+        if (typeof gtag !== 'function') {
+            return;
+        }
+
+        gtag("event", eventName, {
+            'event_category': 'PWA',
+            'event_label': source || 'unknown',
+            'display_mode': Logger.getDisplayMode(),
+            'source': source || 'unknown',
+            ...extraParams,
+        });
     }
 
     public static logA2hsPopupShown() {
@@ -113,16 +135,26 @@ export class Logger {
         });
     }
 
-    public static logA2hsBrowserPromptShown() {
-        gtag("event", "A2hs-browser-prompt-shown", {});
+    public static logA2hsBrowserPromptShown(source?: string) {
+        Logger.logA2hsEvent("A2hs-browser-prompt-shown", source);
     }
 
-    public static logA2hsDone() {
-        gtag("event", "A2hs-done", {});
+    public static logA2hsDone(source?: string) {
+        Logger.logA2hsEvent("A2hs-done", source);
     }
 
-    public static logA2hsBrowserPromptCancelled() {
-        gtag("event", "A2hs-browser-prompt-cancelled", {});
+    public static logA2hsBrowserPromptCancelled(source?: string) {
+        Logger.logA2hsEvent("A2hs-browser-prompt-cancelled", source);
+    }
+
+    public static logA2hsBeforeInstallPromptCaptured(source?: string) {
+        Logger.logA2hsEvent("A2hs-beforeinstallprompt-captured", source);
+    }
+
+    public static logA2hsPromptSkipped(reason: string, source?: string) {
+        Logger.logA2hsEvent("A2hs-prompt-skipped", source, {
+            'reason': reason,
+        });
     }
 
     public static logFtpBacklinkClick(callback: RunnableCallback) {

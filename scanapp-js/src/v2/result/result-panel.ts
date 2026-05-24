@@ -19,6 +19,7 @@ export class ResultPanel {
   private timeVal!: HTMLElement;
   private actionOpenBtn!: HTMLButtonElement;
   private actionShareBtn!: HTMLButtonElement;
+  private actionPaymentBtn!: HTMLButtonElement;
   private placeholderElement!: HTMLElement;
   private contentViewElement!: HTMLElement;
   private collapsedTab!: HTMLElement;
@@ -86,6 +87,7 @@ export class ResultPanel {
       this.contentCard.textContent = result.text;
       this.actionOpenBtn.style.display = "none";
     }
+    this.actionPaymentBtn.style.display = result.category === CodeCategory.UPI ? "flex" : "none";
 
     // Toggle views inside panel
     if (this.placeholderElement) this.placeholderElement.style.display = "none";
@@ -161,6 +163,16 @@ export class ResultPanel {
       class: "action-strip-btn",
       onClick: () => this.handleShare()
     }, shareIcon, h("span", {}, "Share"));
+
+    const paymentIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M5 4h14v2H5V4zm0 4h9.5a4.5 4.5 0 0 1 0 9H12l4 3H12.8l-4-3H5v-2h9.5a2.5 2.5 0 0 0 0-5H5V8zm0 3h14v2H5v-2z" })
+    );
+
+    this.actionPaymentBtn = h("button", {
+      class: "action-strip-btn",
+      style: { display: "none" },
+      onClick: () => this.handlePayment()
+    }, paymentIcon, h("span", {}, "Pay"));
 
     const actionCopyBtn = h("button", {
       class: "action-strip-btn",
@@ -271,6 +283,7 @@ export class ResultPanel {
         ),
         h("div", { class: "result-actions-strip" },
           this.actionOpenBtn,
+          this.actionPaymentBtn,
           actionCopyBtn,
           this.actionShareBtn,
           actionDownloadBtn
@@ -361,6 +374,18 @@ export class ResultPanel {
     } catch (e) {
       // User cancelled or error
       console.log("Share failed or cancelled", e);
+    }
+  }
+
+  private handlePayment(): void {
+    if (!this.currentResult || this.currentResult.category !== CodeCategory.UPI) return;
+    Logger.logPaymentAction();
+    try {
+      window.location.href = decodeURIComponent(this.currentResult.text);
+      appShell.showToast("Opening payment app...");
+    } catch (err) {
+      console.error("Payment action failed:", err);
+      appShell.showToast("Payment action failed.");
     }
   }
 

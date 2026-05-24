@@ -39,10 +39,7 @@ if ('serviceWorker' in navigator) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  let displayMode = 'Browser_tab';
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-    displayMode = 'PWA_standalone';
-  }
+  let displayMode = Logger.getDisplayMode();
   if (IS_DEBUG) {
     console.log('DISPLAY_MODE_LAUNCH:', displayMode);
   } else {

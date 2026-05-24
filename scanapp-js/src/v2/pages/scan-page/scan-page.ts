@@ -7,12 +7,16 @@ import { CameraDevice } from "../../../html5-qrcode/camera/core";
 import { appShell } from "../../app-shell";
 import { Logger } from "../../../scanapp/logger";
 import { isMobile } from "../../utils/detect";
+import { PwaPromptManager } from "../../../scanapp/pwa";
 
 export class ScanPage implements Page {
   public id = PageId.SCAN;
   private element: HTMLElement;
   private cameraManager: CameraManager;
   private resultPanel!: ResultPanel;
+  private readonly pwaPromptManager = new PwaPromptManager("beta_result_close");
+  private pwaTimeout?: any;
+  private hasCompletedScanAwaitingClose = false;
 
   // Viewport elements
   private viewportWrapper!: HTMLElement;
@@ -69,6 +73,10 @@ export class ScanPage implements Page {
   }
 
   public async onUnmount(): Promise<void> {
+    if (this.pwaTimeout) {
+      clearTimeout(this.pwaTimeout);
+      this.pwaTimeout = undefined;
+    }
     this.closePopover();
     this.isTorchOn = false;
     this.torchBtn.classList.remove("active");
@@ -80,6 +88,7 @@ export class ScanPage implements Page {
       this.cameraManager.pause();
       Logger.logScanSuccess("camera", result.category);
       // Play a subtle beep or scan sound (optional, let's show toast/result panel)
+      this.hasCompletedScanAwaitingClose = true;
       this.resultPanel.show(result);
     };
 
@@ -91,8 +100,18 @@ export class ScanPage implements Page {
   private initResultPanel(): void {
     this.resultPanel = new ResultPanel(() => {
       Logger.logScanRestart();
+      const shouldOfferPwaInstall = this.hasCompletedScanAwaitingClose;
+      this.hasCompletedScanAwaitingClose = false;
+
       // Resume camera when panel is closed
       this.cameraManager.resume();
+      if (this.pwaTimeout) {
+        clearTimeout(this.pwaTimeout);
+        this.pwaTimeout = undefined;
+      }
+      if (shouldOfferPwaInstall) {
+        this.pwaTimeout = this.pwaPromptManager.optionallyShowPrompt("beta_result_close", 0);
+      }
     });
   }
 
@@ -511,6 +530,7 @@ export class ScanPage implements Page {
       const result = await this.cameraManager.scanFile(file);
       this.cameraManager.pause();
       Logger.logScanSuccess("file", result.category);
+      this.hasCompletedScanAwaitingClose = true;
       this.resultPanel.show(result);
     } catch (err) {
       console.warn("Scan file failed:", err);

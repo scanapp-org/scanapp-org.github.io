@@ -53,10 +53,7 @@ if (PWA_ENABLED) {
 ////////////////////////////////////////////////////////////////////////////////
 
 window.addEventListener('DOMContentLoaded', () => {
-    let displayMode = 'Browser_tab';
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      displayMode = 'PWA_standalone';
-    }
+    let displayMode = Logger.getDisplayMode();
     if (IS_DEBUG) {
         // Log launch display mode to analytics
         console.log('DISPLAY_MODE_LAUNCH:', displayMode);

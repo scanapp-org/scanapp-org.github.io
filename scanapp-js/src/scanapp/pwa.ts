@@ -35,65 +35,90 @@ export class PwaPromptManager {
     
     private deferredPrompt?: any; // TODO: Add strong typing.
     private countShownInSession = 0;
+    private readonly skippedReasonsLogged = new Set<string>();
 
-    public constructor() {
+    public constructor(private readonly defaultSource: string = "legacy_result_close") {
         window.addEventListener('beforeinstallprompt', (event) => {
             // Prevent Chrome 67 and earlier from automatically showing the prompt
             event.preventDefault();
             this.deferredPrompt = event;
+            Logger.logA2hsBeforeInstallPromptCaptured(this.defaultSource);
             console.log("Deferred installation prompt.");
         });
     }
 
-    private showPWAInstallPrompt() {
+    private logPromptSkippedOnce(reason: string, source: string) {
+        const key = `${source}:${reason}`;
+        if (this.skippedReasonsLogged.has(key)) {
+            return;
+        }
+        this.skippedReasonsLogged.add(key);
+        Logger.logA2hsPromptSkipped(reason, source);
+    }
+
+    private showPWAInstallPrompt(source: string) {
         if (!this.deferredPrompt) {
-            // TODO: log this.
+            this.logPromptSkippedOnce("no_deferred_prompt", source);
             return;
         }
         this.countShownInSession++;
 
         this.deferredPrompt.prompt();
+        Logger.logA2hsBrowserPromptShown(source);
+
         // Wait for the user to respond to the prompt
         this.deferredPrompt.userChoice.then((choiceResult: any) => {
-            Logger.logA2hsBrowserPromptShown();
             if (choiceResult.outcome === 'accepted') {
                 // console.log('User accepted the A2HS prompt');
-                Logger.logA2hsDone();
+                Logger.logA2hsDone(source);
             } else {
-                Logger.logA2hsBrowserPromptCancelled();
+                Logger.logA2hsBrowserPromptCancelled(source);
             }
             this.deferredPrompt = undefined;
         });
     }
 
-    private showPrompt() {
-        this.showPWAInstallPrompt();
+    private showPrompt(source: string) {
+        this.showPWAInstallPrompt(source);
     }
 
-    public optionallyShowPrompt(): any {
+    public optionallyShowPrompt(source: string = this.defaultSource, delayMs: number = 1000): any {
         let $this = this;
         if (!A2HS_SUPPORTED) {
+            this.logPromptSkippedOnce("unsupported", source);
+            return;
+        }
+        if (Logger.getDisplayMode() === "PWA_standalone") {
+            this.logPromptSkippedOnce("already_pwa_standalone", source);
             return;
         }
         if (this.countShownInSession > 0) {
             // Skipping showing prompt as already shown once in session.
+            this.logPromptSkippedOnce("already_shown_in_session", source);
             return;
         }
 
         if (!this.deferredPrompt) {
             // No deferred prompt, ignore.
             // Does this mean already installed?
+            this.logPromptSkippedOnce("no_deferred_prompt", source);
             return
         }
 
-        if (this.pwaHistoryManager.shouldShowPrompt()) {
+        if (!this.pwaHistoryManager.shouldShowPrompt()) {
             // Never show prompt set.
+            this.logPromptSkippedOnce("never_show_set", source);
             return;
         }
 
-        const TIMEOUT_MS = 1000;
+        if (delayMs <= 0) {
+            this.showPrompt(source);
+            return;
+        }
+
+        const TIMEOUT_MS = delayMs;
         let timeout: any = setTimeout(function() {
-            $this.showPrompt();
+            $this.showPrompt(source);
         }, TIMEOUT_MS);
 
         return timeout;
