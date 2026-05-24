@@ -683,11 +683,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // Collapse all other accordions
       document.querySelectorAll(".accordion").forEach((acc) => {
         acc.classList.remove("expanded");
+        const accHeader = acc.querySelector(".accordion-header");
+        if (accHeader) {
+          accHeader.setAttribute("aria-expanded", "false");
+        }
         acc.querySelector(".accordion-content").style.maxHeight = null;
       });
 
       if (!isExpanded) {
         accordion.classList.add("expanded");
+        header.setAttribute("aria-expanded", "true");
         const content = accordion.querySelector(".accordion-content");
         content.style.maxHeight = content.scrollHeight + 100 + "px";
       }
@@ -702,6 +707,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstAcc = document.querySelector(".accordion");
   if (firstAcc) {
     firstAcc.classList.add("expanded");
+    const firstHeader = firstAcc.querySelector(".accordion-header");
+    if (firstHeader) {
+      firstHeader.setAttribute("aria-expanded", "true");
+    }
     const content = firstAcc.querySelector(".accordion-content");
     content.style.maxHeight = content.scrollHeight + 100 + "px";
   }
