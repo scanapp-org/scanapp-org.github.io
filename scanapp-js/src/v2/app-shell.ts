@@ -61,7 +61,28 @@ export class AppShell {
          () => this.showSettingsPanel()
        );
        appContent.appendChild(this.tabBar.getElement());
+
+       const mobileUpgradeBanner = h("div", { class: "upgrade-banner-mobile" },
+         h("div", { class: "upgrade-banner-content" },
+           h("span", {}, "ScanApp has been upgraded! "),
+           h("a", {
+             href: "/version1",
+             class: "upgrade-banner-link",
+             onClick: () => Logger.logUpgradeBannerClick()
+           }, "Go to version 1")
+         )
+       );
+       appContent.insertBefore(mobileUpgradeBanner, routerView);
+
        root.appendChild(appContent);
+
+       // Auto hide after 5 seconds
+       setTimeout(() => {
+         mobileUpgradeBanner.classList.add("fade-out");
+         setTimeout(() => {
+           mobileUpgradeBanner.remove();
+         }, 300);
+       }, 5000);
     } else {
       // Desktop Layout
       this.sidebar = new DesktopSidebar(

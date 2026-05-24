@@ -1,19 +1,20 @@
 import { PageId } from "../types";
 import { h, s } from "../utils/dom";
 import { ThemeManager } from "../theme/theme-manager";
+import { Logger } from "../../scanapp/logger";
 
 export class DesktopSidebar {
   private element: HTMLElement;
   private onNavigateCallback: (pageId: PageId) => void;
   private themeManager: ThemeManager;
-  private onSupportClickCallback: () => void;
+  private onSupportClickCallback?: () => void;
   private activePage: PageId = PageId.SCAN;
   private buttons: Map<PageId, HTMLElement> = new Map();
 
   constructor(
     themeManager: ThemeManager,
     onNavigate: (pageId: PageId) => void,
-    onSupportClick: () => void
+    onSupportClick?: () => void
   ) {
     this.themeManager = themeManager;
     this.onNavigateCallback = onNavigate;
@@ -83,20 +84,7 @@ export class DesktopSidebar {
       )
     );
 
-    const heartIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" })
-    );
 
-    const supportCard = h("div", {
-      class: "sidebar-support-card",
-      onClick: () => this.onSupportClickCallback()
-    },
-      h("div", { class: "sidebar-support-icon-wrapper" }, heartIcon),
-      h("div", { class: "sidebar-support-content" },
-        h("span", { class: "sidebar-support-title" }, "Support ScanApp"),
-        h("span", { class: "sidebar-support-desc" }, "Keep us ad-free! ❤️")
-      )
-    );
 
     // Theme selector dropdown
     const themeSelect = h("select", {
@@ -142,6 +130,17 @@ export class DesktopSidebar {
       h("div", { class: "sidebar-footer-credits" }, "Built with ❤️ by ScanApp")
     );
 
+    const upgradeBanner = h("div", { class: "upgrade-banner-sidebar" },
+      h("div", { class: "upgrade-banner-content" },
+        h("span", { class: "upgrade-banner-text" }, "ScanApp has been upgraded!"),
+        h("a", {
+          href: "/version1",
+          class: "upgrade-banner-link",
+          onClick: () => Logger.logUpgradeBannerClick()
+        }, "Go to version 1")
+      )
+    );
+
     return h("aside", { class: "desktop-sidebar" },
       h("div", { class: "sidebar-logo" },
         h("img", { src: "/assets/images/svgs/logo.svg", alt: "logo" }),
@@ -152,8 +151,8 @@ export class DesktopSidebar {
         blogBtn,
         mediumBtn,
         themeSelector,
-        privacyCard,
-        supportCard
+        upgradeBanner,
+        privacyCard
       ),
       h("div", { class: "sidebar-footer" },
         sidebarExtraFooter,

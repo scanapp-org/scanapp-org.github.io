@@ -22,6 +22,9 @@ export class ResultPanel {
   private placeholderElement!: HTMLElement;
   private contentViewElement!: HTMLElement;
   private collapsedTab!: HTMLElement;
+  private kofiElement!: HTMLElement;
+  private isKofiIframeInjected = false;
+  private kofiIframeContainer!: HTMLElement;
 
   private isAlwaysVisible(): boolean {
     return window.innerWidth >= 1200;
@@ -87,6 +90,7 @@ export class ResultPanel {
     // Toggle views inside panel
     if (this.placeholderElement) this.placeholderElement.style.display = "none";
     if (this.contentViewElement) this.contentViewElement.style.display = "flex";
+    if (this.kofiElement) this.kofiElement.style.display = "none";
 
     // Toggle visibility
     this.element.classList.add("show");
@@ -108,10 +112,12 @@ export class ResultPanel {
       if (this.scrimElement) {
         this.scrimElement.classList.remove("show");
       }
+      if (this.kofiElement) this.kofiElement.style.display = "none";
     } else {
       // On widescreen >= 2500px, keep the panel visible but switch back to the placeholder view
       if (this.placeholderElement) this.placeholderElement.style.display = "flex";
       if (this.contentViewElement) this.contentViewElement.style.display = "none";
+      if (this.kofiElement) this.kofiElement.style.display = "none";
     }
     this.currentResult = null;
     this.onCloseCallback();
@@ -234,7 +240,8 @@ export class ResultPanel {
       h("div", { class: "result-placeholder-empty-state" },
         phoneSvg,
         h("span", {}, "Scan to get results")
-      )
+      ),
+      this.createSupportCard()
     );
 
     // Build content view elements
@@ -270,14 +277,40 @@ export class ResultPanel {
         )
       ),
       h("div", { class: "scan-another-footer" },
-        h("button", { class: "primary-btn", onClick: () => this.hide() }, "Scan Another")
+        h("button", { class: "primary-btn", onClick: () => this.hide() }, "Scan Another"),
+        this.createSupportCard()
       )
     );
+
+    const backIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" })
+    );
+
+    const closeIcon3 = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
+    );
+
+    this.kofiIframeContainer = h("div", { class: "support-iframe-container" });
+
+    this.kofiElement = h("div", { class: "result-kofi-view" },
+      h("div", { class: "result-header-v2" },
+        h("div", { style: "display: flex; align-items: center; gap: 8px;" },
+          h("button", { class: "kofi-back-btn", onClick: () => this.hideKoFi() }, backIcon),
+          h("h3", {}, "Support ScanApp")
+        ),
+        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon3)
+      ),
+      h("div", { class: "result-body-v2", style: "padding: 12px;" },
+        this.kofiIframeContainer
+      )
+    );
+    this.kofiElement.style.display = "none";
 
     // Compile panel DOM
     return h("div", { class: "result-panel-v2" },
       this.placeholderElement,
-      this.contentViewElement
+      this.contentViewElement,
+      this.kofiElement
     );
   }
 
@@ -422,5 +455,57 @@ export class ResultPanel {
       this.contentViewElement.style.display = "none";
     }
     this.element.classList.add("show");
+  }
+
+  private createSupportCard(): HTMLElement {
+    const heartIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" })
+    );
+    return h("div", {
+      class: "sidebar-support-card result-panel-support-card",
+      onClick: () => this.showKoFi()
+    },
+      h("div", { class: "sidebar-support-icon-wrapper" }, heartIcon),
+      h("div", { class: "sidebar-support-content" },
+        h("span", { class: "sidebar-support-title" }, "Support ScanApp"),
+        h("span", { class: "sidebar-support-desc" }, "Keep us ad-free! ❤️")
+      )
+    );
+  }
+
+  private showKoFi(): void {
+    this.placeholderElement.style.display = "none";
+    this.contentViewElement.style.display = "none";
+    this.kofiElement.style.display = "flex";
+
+    if (!this.isKofiIframeInjected) {
+      this.injectKofiIframe();
+      this.isKofiIframeInjected = true;
+    }
+  }
+
+  private hideKoFi(): void {
+    this.kofiElement.style.display = "none";
+    if (this.currentResult) {
+      this.placeholderElement.style.display = "none";
+      this.contentViewElement.style.display = "flex";
+    } else {
+      this.placeholderElement.style.display = "flex";
+      this.contentViewElement.style.display = "none";
+    }
+  }
+
+  private injectKofiIframe(): void {
+    this.kofiIframeContainer.innerHTML = "";
+    const iframe = document.createElement("iframe");
+    iframe.id = "kofiframe-result-panel";
+    iframe.src = "https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true";
+    iframe.style.border = "none";
+    iframe.style.width = "100%";
+    iframe.style.height = "520px";
+    iframe.style.background = "transparent";
+    iframe.style.borderRadius = "12px";
+    iframe.title = "Ko-fi minhaz";
+    this.kofiIframeContainer.appendChild(iframe);
   }
 }

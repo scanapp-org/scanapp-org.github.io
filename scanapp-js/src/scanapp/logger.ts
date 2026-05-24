@@ -184,4 +184,10 @@ export class Logger {
     public static logUrlQuickActionClick() {
         gtag('event', 'QuickAction_Url_Click', {});
     }
+
+    public static logUpgradeBannerClick() {
+        if (typeof gtag === 'function') {
+            gtag('event', 'UpgradeBanner_Click', {});
+        }
+    }
 }
