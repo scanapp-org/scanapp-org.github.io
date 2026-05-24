@@ -22,8 +22,15 @@
   {% assign page_visible_description = page.page_visible_description %}
   {% assign html_lang = "en" %}
   {% assign page_hreflang = "en" %}
-  {% assign canonical_url = site.url %}
-  {% assign og_url = "https://scanapp.org/" %}
+  {% comment %} Use page.url so /barcode/, /support/, etc. each get a self-referencing
+    canonical rather than all pointing to the homepage. Strip trailing slash from
+    page.url when page.url == "/" so the homepage canonical stays clean (no double-slash). {% endcomment %}
+  {% if page.url == "/" or page.url == "" %}
+    {% assign canonical_url = site.url %}
+  {% else %}
+    {% assign canonical_url = site.url | append: page.url %}
+  {% endif %}
+  {% assign og_url = canonical_url %}
 {% endif %}
 <html lang="{{ html_lang }}"{% if page.locale and site.data.locales[page.locale]._text_direction == "rtl" %} dir="rtl"{% endif %}>
 <head>
@@ -87,7 +94,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "ScanApp",
-    "alternateName": "QR Code Scanner - ScanApp",
+    "alternateName": ["QR Code Scanner - ScanApp", "Scaner", "Scan App", "Skaner", "QR Scaner"],
     "url": "{{ canonical_url }}",
     "inLanguage": "{{ page_hreflang }}",
     "description": "{{ page_meta_description }}",

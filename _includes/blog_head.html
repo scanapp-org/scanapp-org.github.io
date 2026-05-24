@@ -1,58 +1,148 @@
 <head>
-    <link href="https://minhazav.dev" rel="profile">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
-    <meta charset="utf-8">
-    <meta property="og:type" content="website">
+  <link href="https://minhazav.dev" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    {% if page.title == "Home" %}
-    <title>{{ site.title }}</title>
-    {% else %}
-    <title>{{ page.title }}</title>
-    <meta name="title" content="{{ page.title }}">
-    <meta property="twitter:title" content="{{ page.title }}">
-    <meta property="og:title" content="{{ page.title }}">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <meta property="twitter:url" content="{{ page.url | absolute_url }}">
-    <meta property="twitter:card" content="summary_large_image">
+  <!-- ─── Title & Core Meta ─────────────────────────────────────────────────── -->
+  {% if page.title == "Home" %}
+  <title>{{ site.title }} — Blog</title>
+  <meta name="title" content="{{ site.title }} — Blog">
+  {% else %}
+  <title>{{ page.title }} | ScanApp Blog</title>
+  <meta name="title" content="{{ page.title }} | ScanApp Blog">
+  {% endif %}
 
-    <!-- description -->
-    {% if page.description %}
-    <meta name="description" content="{{ page.description }}">
-    <meta property="og:description" content="{{ page.description }}">
-    <meta property="twitter:description" content="{{ page.description }}">
-    {% else %}
-    <meta name="description" content="Blog by ScanApp - find helpful articles around QR scanning, Bar Code scanning, React and Javascript technologies by amazing authors. Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images.">
-    {% endif %}
+  <!-- Description -->
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {% else %}
+  <meta name="description" content="ScanApp Blog — articles on QR code scanning, barcode technology, JavaScript, and React from the ScanApp team.">
+  {% endif %}
+
+  <!-- ─── Canonical ─────────────────────────────────────────────────────────── -->
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+  <!-- ─── Open Graph ───────────────────────────────────────────────────────── -->
+  <meta property="og:type" content="{% if page.layout == 'blog_post' %}article{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{{ page.title | default: site.title }} | ScanApp Blog">
+  {% if page.description %}
+  <meta property="og:description" content="{{ page.description }}">
+  {% else %}
+  <meta property="og:description" content="ScanApp Blog — articles on QR code scanning, barcode technology, JavaScript, and React.">
+  {% endif %}
+  {% if page.image %}
+  <meta property="og:image" content="{{ page.image | absolute_url }}">
+  {% else %}
+  <meta property="og:image" content="https://scanapp.org/assets/og-card.png">
+  {% endif %}
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  {% if page.layout == 'blog_post' %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  {% if page.author %}<meta property="article:author" content="{{ page.author }}">{% endif %}
+  {% endif %}
+
+  <!-- ─── Twitter Card ──────────────────────────────────────────────────────── -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ page.url | absolute_url }}">
+  <meta property="twitter:title" content="{{ page.title | default: site.title }} | ScanApp Blog">
+  {% if page.description %}
+  <meta property="twitter:description" content="{{ page.description }}">
+  {% else %}
+  <meta property="twitter:description" content="ScanApp Blog — articles on QR code scanning, barcode technology, JavaScript, and React.">
+  {% endif %}
+  {% if page.image %}
+  <meta property="twitter:image" content="{{ page.image | absolute_url }}">
+  {% else %}
+  <meta property="twitter:image" content="https://scanapp.org/assets/og-card.png">
+  {% endif %}
+
+  <!-- ─── Structured Data ───────────────────────────────────────────────────── -->
+  {% if page.layout == 'blog_post' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page.description | default: "" | jsonify }},
+    "url": {{ page.url | absolute_url | jsonify }},
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
     {% if page.image %}
-    <meta property="twitter:image" content="{{ page.image }}">
-    <meta property="og:image" content="{{ page.image }}">
-    {% else %}
-    <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
-    <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+    "image": {
+      "@type": "ImageObject",
+      "url": {{ page.image | absolute_url | jsonify }}
+    },
     {% endif %}
-    {% endif %}
+    "author": {
+      "@type": "Person",
+      "name": {{ page.author | default: "ScanApp Team" | jsonify }}{% if page.author_url %},
+      "url": {{ page.author_url | jsonify }}{% endif %}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ScanApp",
+      "url": "https://scanapp.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://scanapp.org/assets/og-card.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ page.url | absolute_url | jsonify }}
+    }
+  }
+  </script>
+  {% else %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "ScanApp Blog",
+    "description": "Articles on QR code scanning, barcode technology, JavaScript, and React from the ScanApp team.",
+    "url": "https://scanapp.org/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "ScanApp",
+      "url": "https://scanapp.org"
+    }
+  }
+  </script>
+  {% endif %}
 
-    <!-- TODO: Add canonical link -->
+  <!-- ─── Favicon ───────────────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
 
-    <link rel="preload" href="https://scanapp.org/assets/css/poole.min.css" as="style">
-    <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.min.css">
+  <!-- ─── Fonts: Inter (modern UI) ──────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
 
-    <link rel="preload" href="https://scanapp.org/assets/css/syntax.min.css" as="style">
-    <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.min.css">
+  <!-- PT Serif for body prose (self-hosted via font CSS) -->
+  {% include blog_font_css.html %}
 
-    <link rel="preload" href="https://scanapp.org/assets/css/lanyon.min.css" as="style">
-    <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.min.css">
+  <!-- ─── Stylesheets ───────────────────────────────────────────────────────── -->
+  <link rel="preload" href="https://scanapp.org/assets/css/poole.min.css" as="style">
+  <link rel="stylesheet" href="https://scanapp.org/assets/css/poole.min.css">
 
-    <!-- Inlined from
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400" as="style">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
-    -->
-    {% include blog_font_css.html %}
+  <link rel="preload" href="https://scanapp.org/assets/css/syntax.min.css" as="style">
+  <link rel="stylesheet" href="https://scanapp.org/assets/css/syntax.min.css">
 
+  <link rel="preload" href="https://scanapp.org/assets/css/lanyon.min.css" as="style">
+  <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.min.css">
 
-    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}"> -->
-    <!-- <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}"> -->
+  <!-- Premium blog overrides — must load last -->
+  <link rel="preload" href="/assets/css/blog-premium.css" as="style">
+  <link rel="stylesheet" href="/assets/css/blog-premium.css">
 
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
+  <!-- ─── RSS Feed ──────────────────────────────────────────────────────────── -->
+  <link rel="alternate" type="application/rss+xml" title="ScanApp Blog RSS" href="{{ '/atom.xml' | absolute_url }}">
+
+  <!-- ─── Theme color ───────────────────────────────────────────────────────── -->
+  <meta name="theme-color" content="#0a0a0c">
 </head>

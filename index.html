@@ -1,53 +1,73 @@
 ---
 layout: blog_default
 title: Blog by ScanApp - QR Code scanner for web
+description: "The ScanApp Blog: tips, tutorials, and insights on QR code scanning, barcode technology, JavaScript, and React — from the team behind ScanApp."
 permalink: /blog/
 ---
 
-<div class="posts">
+<!-- Blog index hero is rendered inside blog_default masthead -->
+
+<section aria-label="Blog posts">
+  <div class="posts">
     {% for post in paginator.posts %}
-    <div class="post">
-        <h1 class="post-title">
-            <a href="{{ post.url | relative_url }}">
-                {{ post.title }}
-            </a>
-        </h1>
+    <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+      <meta itemprop="datePublished" content="{{ post.date | date_to_xmlschema }}">
+      <meta itemprop="headline" content="{{ post.title | escape }}">
+      {% if post.author %}<meta itemprop="author" content="{{ post.author | escape }}">{% endif %}
 
-        <span class="post-date">{{ post.date | date_to_string }} by <a href="{{ post.author_url }}">{{ post.author }}</a></span>
+      {% if post.image %}
+      <div class="post-image-wrapper">
+        <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
+          <img src="{{ post.image }}"
+            alt="{{ post.title }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            {% if post.image_width %}style="max-width:{{ post.image_width }}"{% endif %}
+            itemprop="image">
+        </a>
+      </div>
+      {% endif %}
 
-        {% if post.image %}
-        <div style="display: flex;justify-content: center;">
-            {% if post.image_width %}
-            <img src="{{ post.image }}"
-                alt="{{ post.title }}"
-                style="max-width: {{ post.image_width }}; max-height: {{ post.image_height }}"
-                fetchpriority="high" />
-            {% else %}
-            <img src="{{ post.image }}"
-                alt="{{ post.title }}"
-                fetchpriority="high" />
-            {% endif %}
+      <div class="post-card-body">
+        <h2 class="post-title" itemprop="headline">
+          <a href="{{ post.url | relative_url }}" itemprop="url">{{ post.title }}</a>
+        </h2>
+
+        <div class="post-date" aria-label="Published date and author">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11zm0-13H5V5h14v1z"/></svg>
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+          &mdash;
+          <a href="{{ post.author_url }}" itemprop="author" rel="author">{{ post.author }}</a>
         </div>
+
+        {% if post.description %}
+        <p class="post-description" itemprop="description">{{ post.description }}</p>
         {% endif %}
 
-        {{ post.description }}
-    </div>
+        <a class="post-read-more" href="{{ post.url | relative_url }}" aria-label="Read: {{ post.title }}">
+          Read article
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </a>
+      </div>
+    </article>
     {% endfor %}
-</div>
+  </div>
+</section>
 
-<div class="pagination">
-    {% if paginator.next_page %}
-        <a class="pagination-item older" href="{{ paginator.next_page_path | absolute_url }}">Older</a>
-    {% else %}
-        <span class="pagination-item older">Older</span>
-    {% endif %}
-    {% if paginator.previous_page %}
-        {% if paginator.page == 2 %}
-        <a class="pagination-item newer" href="{{ '/' | absolute_url }}">Newer</a>
-        {% else %}
-        <a class="pagination-item newer" href="{{ paginator.previous_page_path | absolute_url }}">Newer</a>
-        {% endif %}
-    {% else %}
-        <span class="pagination-item newer">Newer</span>
-    {% endif %}
-</div>
+<!-- ─── Pagination ─────────────────────────────────────────────────────────── -->
+<nav class="pagination" role="navigation" aria-label="Blog pagination">
+  {% if paginator.next_page %}
+  <a class="pagination-item older" href="{{ paginator.next_page_path | absolute_url }}">&larr; Older posts</a>
+  {% else %}
+  <span class="pagination-item older" aria-disabled="true">&larr; Older posts</span>
+  {% endif %}
+
+  {% if paginator.previous_page %}
+  {% if paginator.page == 2 %}
+  <a class="pagination-item newer" href="{{ '/' | absolute_url }}">Newer posts &rarr;</a>
+  {% else %}
+  <a class="pagination-item newer" href="{{ paginator.previous_page_path | absolute_url }}">Newer posts &rarr;</a>
+  {% endif %}
+  {% else %}
+  <span class="pagination-item newer" aria-disabled="true">Newer posts &rarr;</span>
+  {% endif %}
+</nav>

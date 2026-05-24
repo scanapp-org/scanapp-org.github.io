@@ -2,7 +2,17 @@
 layout: blog_default
 ---
 
-<div class="page">
-  <h1 class="page-title">{{ page.title }}</h1>
+<div class="post-hero">
+  <div class="post-hero-inner">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="https://scanapp.org">ScanApp</a>
+      <span class="post-breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">{{ page.title }}</span>
+    </nav>
+    <h1 class="page-title">{{ page.title }}</h1>
+  </div>
+</div>
+
+<div class="page" role="main">
   {{ content }}
 </div>

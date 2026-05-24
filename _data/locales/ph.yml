@@ -13,9 +13,9 @@ _country_name_local: Pilipinas
 _url_path: /ph/
 
 meta:
-  title: "QR Code Scanner Online — Libreng ScanApp para sa Pilipinas"
-  description: "Libreng QR code scanner online. Mag-scan ng QR codes gamit ang camera o larawan sa iyong browser. Walang download, walang signup. Gumagana sa Android, iOS, PC, at Mac."
-  page_visible_description: "Libreng QR code scanner na gumagana sa anumang browser. Mag-scan gamit ang camera o mag-upload ng larawan ng QR code. Walang install, walang signup."
+  title: "QR Code Scanner Online Philippines — Libreng Scan QR & Barcode"
+  description: "Libreng QR code scanner online para sa Pilipinas. Mag-scan ng QR codes mula sa camera, larawan, screenshot, o gallery. Walang download, walang signup. Suportado ang GCash, Maya, at QR Ph sa Android, iOS, PC, at Mac."
+  page_visible_description: "Libreng QR code scanner at barcode reader na gumagana sa iyong browser. Mag-scan gamit ang camera o mag-upload ng larawan/screenshot ng QR code mula sa iyong gallery. Walang install o signup!"
 
 # Crawler-visible SEO content (rendered into the sr-only block by _layouts/locale.html)
 h1: "Libreng QR Code Scanner Online para sa Pilipinas"

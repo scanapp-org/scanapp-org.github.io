@@ -2,42 +2,114 @@
 layout: blog_default
 ---
 
-<div class="post">
-  <h1 class="post-title">{{ page.title }}</h1>
-  <span class="post-date">
-    {{ page.date | date_to_string }}
-    | Authored by <a href="{{ page.author_url }}">{{ page.author }}</a>
-    {% if page.editor %}
-    | Editted by <a href="{{ page.editor_url }}">{{ page.editor }}</a>
-    {% endif %}
-  </span> 
-  {{ content }}
-</div>
+<!-- ─── Post Hero ──────────────────────────────────────────────────────────────── -->
+<section class="post-hero" aria-label="Post header">
+  <div class="post-hero-inner">
 
-<!-- TODO(mebjas): Add social badges here -->
+    <!-- Breadcrumb (SEO: BreadcrumbList structured data added below) -->
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="https://scanapp.org">ScanApp</a>
+      <span class="post-breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="{{ site.baseurl }}/blog/">Blog</a>
+      <span class="post-breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">{{ page.title | truncate: 40 }}</span>
+    </nav>
 
-<script src="https://utteranc.es/client.js"
-  repo="scanapp-org/scanapp-org.github.io"
-  issue-term="url"
-  theme="github-light"
-  crossorigin="anonymous"
-  async>
+    <!-- Title -->
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <!-- Meta bar -->
+    <div class="post-meta-bar" aria-label="Post metadata">
+      <span class="post-meta-tag" aria-label="Content category">QR &amp; Barcode</span>
+
+      <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11zm0-13H5V5h14v1zM7 10h5v5H7z"/></svg>
+        {{ page.date | date: "%b %-d, %Y" }}
+      </time>
+
+      <span class="post-meta-author">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z"/></svg>
+        {% if page.author_url %}
+        <a href="{{ page.author_url }}" rel="author">{{ page.author }}</a>
+        {% else %}
+        {{ page.author }}
+        {% endif %}
+      </span>
+
+      {% if page.editor %}
+      <span class="post-meta-author">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        Edited by
+        {% if page.editor_url %}
+        <a href="{{ page.editor_url }}">{{ page.editor }}</a>
+        {% else %}
+        {{ page.editor }}
+        {% endif %}
+      </span>
+      {% endif %}
+
+      <!-- Estimated reading time (Jekyll has no native filter; approximated via words) -->
+      <span class="post-meta-reading-time" aria-label="Estimated reading time">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm.5 11H11V7h1.5v6zm0 4H11v-2h1.5v2z"/></svg>
+        {{ content | number_of_words | divided_by: 200 | plus: 1 }} min read
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── BreadcrumbList Structured Data ──────────────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ScanApp", "item": "https://scanapp.org/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ site.url }}/blog/" },
+    { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }}, "item": {{ page.url | absolute_url | jsonify }} }
+  ]
+}
 </script>
 
+<!-- ─── Post Content ──────────────────────────────────────────────────────────── -->
+<article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+  <meta itemprop="headline" content="{{ page.title | escape }}">
+  <meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}">
+  {% if page.author %}<meta itemprop="author" content="{{ page.author | escape }}">{% endif %}
+  {% if page.image %}<meta itemprop="image" content="{{ page.image | absolute_url }}">{% endif %}
+
+  <div itemprop="articleBody">
+    {{ content }}
+  </div>
+</article>
+
+<!-- ─── Related Posts ────────────────────────────────────────────────────────── -->
 {% if site.related_posts.size >= 1 %}
-<div class="related">
-  <h2>Related posts</h2>
+<aside class="related" aria-label="Related articles">
+  <h2>More Articles</h2>
   <ul class="related-posts">
     {% for post in site.related_posts limit:3 %}
-      <li>
-        <h3>
-          <a href="{{ site.baseurl }}{{ post.url }}">
-            {{ post.title }}
-            <small>{{ post.date | date_to_string }}</small>
-          </a>
-        </h3>
-      </li>
+    <li>
+      <h3>
+        <a href="{{ site.baseurl }}{{ post.url }}" aria-label="{{ post.title }}">
+          {{ post.title }}
+          <small>{{ post.date | date: "%b %-d, %Y" }}</small>
+        </a>
+      </h3>
+    </li>
     {% endfor %}
   </ul>
-</div>
+</aside>
 {% endif %}
+
+<!-- ─── Comments ─────────────────────────────────────────────────────────────── -->
+<section class="utterances-section" aria-label="Comments">
+  <h2>Discussion</h2>
+  <script src="https://utteranc.es/client.js"
+    repo="scanapp-org/scanapp-org.github.io"
+    issue-term="url"
+    theme="github-dark"
+    crossorigin="anonymous"
+    async>
+  </script>
+</section>
