@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="ios theme-dark">
 <head>
   <!-- TODO: Change maximum-scale=1 to 5 for improved accesiblity score. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
@@ -26,9 +26,16 @@
   <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
   
   <!-- PWA -->
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="color-scheme" content="dark" />
   <link rel="manifest" href="/assets/manifest.json" />
   <link rel="apple-touch-icon" href="https://scanapp.org/assets/svg/scanapp-logo.png">
+
+  <!-- Framework7 iOS CSS — loaded first so our theme CSS wins specificity -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/framework7@8.3.3/css/framework7.bundle.min.css" as="style">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/framework7@8.3.3/css/framework7.bundle.min.css">
 
   <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
   <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
@@ -38,6 +45,17 @@
   <link rel="stylesheet" href="/assets/app.v2.6.1.beta.css">
   <link rel="preload" href="/assets/css/index.v2.5.2.beta.css" as="style">
   <link rel="stylesheet" href="/assets/css/index.v2.5.2.beta.css">
+  <!-- iOS-inspired dark theme — loaded last so it wins specificity -->
+  <link rel="preload" href="/assets/css/beta-dark-theme.css" as="style">
+  <link rel="stylesheet" href="/assets/css/beta-dark-theme.css">
+
+  <!-- Theme: set CSS vars instantly from localStorage to prevent flash of wrong theme -->
+  <script>
+  (function(){var T={graphite:['#10b981','#ffffff','#0d0d0f','#141518','#1d1f24'],midnight:['#5b9cf8','#ffffff','#06091f','#0f1836','#1a2548'],obsidian:['#9d6ef8','#ffffff','#0c0b10','#17151e','#22202b'],dusk:['#f59e0b','#0e0a06','#0e0a06','#1c1409','#261c0e']};var k='scanapp-theme',n;try{n=localStorage.getItem(k);}catch(e){}if(!T[n])n='graphite';var t=T[n],r=document.documentElement.style;r.setProperty('--t-accent',t[0]);r.setProperty('--t-accent-text',t[1]);r.setProperty('--bg-primary',t[2]);r.setProperty('--bg-secondary',t[3]);r.setProperty('--bg-tertiary',t[4]);}());
+  </script>
+  <!-- Theme switcher: full logic + dot wiring, runs after parse -->
+  <link rel="preload" href="/assets/js/beta-theme-switcher.js" as="script">
+  <script defer src="/assets/js/beta-theme-switcher.js"></script>
 
   <link rel="preload" href="/assets/js/scanapp-js.pro.min.v2.6.1.beta.js" as="script">
   <script defer src="/assets/js/scanapp-js.pro.min.v2.6.1.beta.js"></script>

@@ -1,0 +1,903 @@
+/* ============================================================
+   ScanApp Beta — iOS-Inspired Dark Theme
+   Version: 1.0.0
+   ============================================================ */
+
+:root {
+  /* --- iOS Dark System Colors --- */
+  --bg-primary:      #000000;
+  --bg-secondary:    #1C1C1E;
+  --bg-tertiary:     #2C2C2E;
+  --bg-quaternary:   #3A3A3C;
+
+  --label-primary:   #FFFFFF;
+  --label-secondary: #8E8E93;
+  --label-tertiary:  rgba(235, 235, 245, 0.30);
+
+  --system-blue:     #0A84FF;
+  --system-green:    #30D158;
+  --system-red:      #FF453A;
+  --system-orange:   #FF9F0A;
+  --system-yellow:   #FFD60A;
+  --system-indigo:   #5E5CE6;
+
+  --separator:       rgba(84, 84, 88, 0.65);
+  --separator-solid: #38383A;
+
+  --fill-primary:    rgba(120, 120, 128, 0.36);
+  --fill-secondary:  rgba(120, 120, 128, 0.32);
+  --fill-tertiary:   rgba(118, 118, 128, 0.24);
+  --fill-quaternary: rgba(118, 118, 128, 0.14);
+
+  --glass-bg:        rgba(28, 28, 30, 0.88);
+  --glass-border:    rgba(255, 255, 255, 0.08);
+
+  /* Theme accent — overridden at runtime by beta-theme-switcher.js */
+  --t-accent:        #10b981;
+  --t-accent-text:   #ffffff;
+
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+  --radius-pill: 100px;
+
+  --font: -apple-system, "SF Pro Display", "SF Pro Text",
+          BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+}
+
+/* ============================================================
+   FRAMEWORK7 — CSS VARIABLE OVERRIDES
+   Maps F7 design tokens → our live theme tokens so all F7
+   components automatically honour the active palette.
+   ============================================================ */
+:root {
+  /* Accent / brand */
+  --f7-theme-color:                     var(--t-accent);
+  --f7-theme-color-shade:               var(--t-accent);
+  --f7-theme-color-tint:                var(--t-accent);
+
+  /* Typography */
+  --f7-font-family:                     var(--font);
+  --f7-text-color:                      var(--label-primary);
+  --f7-block-title-text-color:          var(--label-secondary);
+  --f7-block-text-color:                var(--label-primary);
+  --f7-block-title-font-size:           13px;
+  --f7-block-title-font-weight:         600;
+  --f7-block-title-letter-spacing:      0.3px;
+
+  /* Page / surfaces */
+  --f7-page-bg-color:                   var(--bg-primary);
+  --f7-bars-bg-color:                   var(--glass-bg);
+  --f7-bars-border-color:               transparent;
+  --f7-bars-text-color:                 var(--label-primary);
+  --f7-bars-link-color:                 var(--t-accent);
+
+  /* List component */
+  --f7-list-bg-color:                   var(--bg-secondary);
+  --f7-list-border-color:               var(--separator-solid);
+  --f7-list-item-border-color:          var(--separator-solid);
+  --f7-list-item-title-text-color:      var(--label-primary);
+  --f7-list-item-subtitle-text-color:   var(--label-secondary);
+  --f7-list-item-footer-text-color:     var(--label-secondary);
+  --f7-list-chevron-icon-color:         var(--label-secondary);
+  --f7-list-item-media-text-color:      var(--label-secondary);
+
+  /* Tabbar */
+  --f7-tabbar-bg-color:                 var(--glass-bg);
+  --f7-tabbar-border-color:             transparent;
+  --f7-tabbar-link-active-color:        var(--t-accent);
+  --f7-tabbar-link-inactive-color:      var(--label-secondary);
+  --f7-tabbar-labels-bg-color:          var(--glass-bg);
+  --f7-tabbar-label-active-color:       var(--t-accent);
+  --f7-tabbar-label-inactive-color:     var(--label-secondary);
+  --f7-tabbar-label-font-size:          10px;
+  --f7-tabbar-labels-link-height:       56px;
+
+  /* Toolbar */
+  --f7-toolbar-bg-color:                var(--glass-bg);
+  --f7-toolbar-border-color:            transparent;
+  --f7-toolbar-height:                  58px;
+
+  /* Cards */
+  --f7-card-bg-color:                   var(--bg-secondary);
+  --f7-card-border-color:               var(--separator-solid);
+  --f7-card-header-text-color:          var(--label-primary);
+  --f7-card-footer-text-color:          var(--label-secondary);
+  --f7-card-expandable-bg-color:        var(--bg-secondary);
+  --f7-card-header-padding:             12px 16px;
+  --f7-card-footer-padding:             10px 16px;
+
+  /* Block */
+  --f7-block-bg-color:                  var(--bg-secondary);
+  --f7-block-strong-border-color:       var(--separator-solid);
+
+  /* Safe area (iPhone notch / home indicator) */
+  --f7-safe-area-bottom:                env(safe-area-inset-bottom, 0px);
+  --f7-safe-area-top:                   env(safe-area-inset-top, 0px);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html, body {
+  background: var(--bg-primary) !important;
+  color: var(--label-primary) !important;
+  font-family: var(--font) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a, a:visited {
+  color: var(--system-blue) !important;
+  text-decoration: none;
+}
+a:hover {
+  color: var(--system-blue) !important;
+  opacity: 0.75;
+  text-decoration: none !important;
+}
+
+.heart { color: var(--system-red) !important; }
+
+/* ============================================================
+   DEV BANNER
+   ============================================================ */
+#under-development {
+  background: var(--system-orange) !important;
+  color: #000 !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 5px !important;
+}
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--fill-primary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--fill-secondary); }
+
+/* ============================================================
+   DESKTOP (≥ 950 px)
+   ============================================================ */
+@media (min-width: 950px) {
+
+  /* Left panel */
+  .scanapp-top-container { background: var(--bg-primary); }
+
+  /* Header bar */
+  .desktop-header-area {
+    padding: 14px 24px !important;
+    border-bottom: 1px solid var(--separator-solid);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-primary);
+  }
+
+  /* Logo: invert the dark logo svg for dark bg */
+  .desktop-logo img { filter: invert(1) brightness(0.9); }
+
+  .desktop-header-links a {
+    color: var(--system-blue) !important;
+    font-size: 14px !important;
+    font-weight: 500;
+    margin-right: 18px !important;
+    letter-spacing: -0.1px;
+    opacity: 0.9;
+  }
+  .desktop-header-links a:hover { opacity: 1; }
+
+  /* Ko-fi badge — keep original colours, just add subtle rounding */
+  .desktop-header-links a img { border-radius: 6px !important; }
+
+  /* Scanner region */
+  .desktop-render-area { background: var(--bg-primary); }
+
+  #reader-container { background: var(--bg-primary); }
+
+  #reader {
+    background: #0A0A0A !important;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--separator-solid);
+  }
+
+  /* Footer */
+  .desktop-footer-area {
+    border-top: 1px solid var(--separator-solid);
+    padding-top: 14px;
+    background: var(--bg-primary);
+  }
+  .desktop-footer-area-top-panel { color: var(--label-secondary) !important; }
+  .desktop-footer-area a {
+    color: var(--label-secondary) !important;
+    font-size: 12px;
+  }
+  .desktop-footer-area a:hover { color: var(--system-blue) !important; }
+
+  /* Right panel (info + results) */
+  #desktop-scanapp-right-container {
+    background: var(--bg-secondary) !important;
+    border-left: 1px solid var(--separator-solid) !important;
+  }
+
+  /* Info text */
+  .desktop-right-container-top-panel-text {
+    color: var(--label-secondary) !important;
+    padding: 16px 24px !important;
+  }
+  .desktop-text-data-title {
+    color: var(--label-primary) !important;
+    font-size: 21px !important;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .desktop-text-data-body {
+    color: var(--label-secondary) !important;
+    font-size: 13px !important;
+    line-height: 1.55;
+    margin-top: 8px !important;
+  }
+  .desktop-text-data-subtitle {
+    color: var(--system-green) !important;
+    font-size: 12px !important;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    margin-top: 14px !important;
+  }
+
+  /* Result / history panel header */
+  .desktop-right-container-panel .desktop-result-panel-header {
+    background: var(--bg-tertiary) !important;
+    border-bottom: 1px solid var(--separator-solid) !important;
+    padding: 8px 12px !important;
+  }
+  .desktop-result-panel-header-title-text {
+    color: var(--label-primary) !important;
+    font-size: 16px !important;
+    font-weight: 600;
+  }
+
+  /* Action icon buttons */
+  .action-icons {
+    background: var(--fill-quaternary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--radius-sm) !important;
+    transition: background 0.15s ease;
+  }
+  .action-icons:hover {
+    background: var(--fill-secondary) !important;
+    border: 1px solid var(--separator) !important;
+    cursor: pointer;
+  }
+  /* Invert dark SVG icons for dark bg */
+  .action-icons img { filter: invert(1) brightness(0.75); }
+  .action-icons:hover img { filter: invert(1) brightness(1); }
+
+  /* Placeholder */
+  .desktop-result-panel-body-placeholder {
+    color: var(--label-secondary) !important;
+    padding: 32px 16px !important;
+  }
+  .desktop-result-panel-body-placeholder img {
+    opacity: 0.35;
+    filter: invert(1);
+  }
+
+  /* History placeholder */
+  .desktop-result-panel-scan-history-placeholder {
+    background: var(--fill-quaternary) !important;
+    border: 1px solid var(--separator-solid) !important;
+    color: var(--label-secondary) !important;
+    border-radius: var(--radius-md) !important;
+  }
+}
+
+/* ============================================================
+   MOBILE (< 950 px)
+   ============================================================ */
+@media (max-width: 950px) {
+
+  /* Full-bleed black camera canvas */
+  .scanapp-top-container,
+  .scanapp-top-container-row,
+  #desktop-scanapp-left-container,
+  #scanapp-left-container-parent,
+  .desktop-render-area,
+  #reader-container,
+  #reader {
+    background: #000000 !important;
+  }
+
+  /* ---- iOS Bottom Sheet ---- */
+  .mobile-popup-banner {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    border-top: 0.5px solid var(--glass-border) !important;
+    border-top-left-radius: var(--radius-xl) !important;
+    border-top-right-radius: var(--radius-xl) !important;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.7) !important;
+    padding-top: 0 !important;
+  }
+
+  /* Drag indicator pill — shown via a real div (.swipe-handler) */
+  .swipe-handler {
+    width: 36px !important;
+    height: 5px !important;
+    background: var(--fill-primary) !important;
+    border-radius: 3px !important;
+    margin: 10px auto 6px !important;
+    flex-shrink: 0 !important;
+    cursor: grab !important;
+  }
+
+  /* ---- iOS Pill Bottom Navbar (F7 tabbar enhanced) ---- */
+  .mobile-bottom-navbar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(24px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+    border: 0.5px solid var(--glass-border) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.07) !important;
+    /* F7 toolbar is position:fixed — we refine the position: */
+    bottom: calc(14px + var(--f7-safe-area-bottom)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 58px !important;
+    padding: 0 !important;
+  }
+
+  /* F7 toolbar-inner reset — let our flex rules take over */
+  .mobile-bottom-navbar .toolbar-inner {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: space-around !important;
+    padding: 0 4px !important;
+    width: 100% !important;
+  }
+
+  /* Tab-link option wrapper */
+  .mobile-bottom-navbar .mobile-bottom-navbar-option {
+    flex: 1;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    color: var(--label-secondary) !important;
+    text-decoration: none !important;
+    opacity: 1 !important;
+    border-radius: var(--radius-lg) !important;
+    transition: background 0.12s ease !important;
+  }
+  .mobile-bottom-navbar .mobile-bottom-navbar-option:hover {
+    background: var(--fill-quaternary) !important;
+  }
+
+  .mobile-bottom-navbar .menu-icons {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    transition: background 0.12s ease;
+    width: auto !important;
+    height: 52px !important;
+    padding: 4px 10px !important;
+  }
+  .mobile-bottom-navbar .menu-icons:hover,
+  .mobile-bottom-navbar .menu-icons.active {
+    background: var(--fill-tertiary) !important;
+    border: none !important;
+  }
+  .mobile-bottom-navbar .menu-icons.inactive { opacity: 0.4; }
+
+  /* Invert icons for dark background */
+  .mobile-bottom-navbar .menu-icons img {
+    filter: invert(1) brightness(0.75) !important;
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
+  }
+  .mobile-bottom-navbar .menu-icons.active img,
+  .mobile-bottom-navbar .menu-icons:hover img {
+    filter: invert(1) brightness(1) !important;
+  }
+
+  /* Tab label */
+  .mobile-bottom-navbar .tabbar-label {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1px !important;
+    color: var(--label-secondary) !important;
+    line-height: 1 !important;
+  }
+  .mobile-bottom-navbar .menu-icons.active .tabbar-label {
+    color: var(--t-accent) !important;
+  }
+  .mobile-bottom-navbar .menu-icons.active img {
+    filter: invert(1) brightness(1) !important;
+    /* tint to accent colour using mix-blend-mode won't work cross-browser,
+       so we rely on the active label colour change as the active indicator */
+  }
+
+  /* Scrim */
+  #mobile-popup-scrim {
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  /* About panel */
+  .mobile-about-logo img { filter: invert(1) brightness(0.9); }
+  .mobile-about-text-panel { color: var(--label-secondary) !important; }
+  .mobile-about-links-panel a { color: var(--system-blue) !important; font-size: 14px; }
+
+  /* History panel */
+  .mobile-history-panel-header-text {
+    color: var(--label-primary) !important;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    text-align: center;
+  }
+  .mobile-history-panel-text { color: var(--label-secondary) !important; }
+
+  /* Sponsor panel */
+  #mobile-sponsor-panel .mobile-history-panel-header-text {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  /* ---- F7 List in About Panel ---- */
+  .mobile-about-links-panel.list {
+    margin: 8px 0 0 !important;
+  }
+  .mobile-about-links-panel.list ul {
+    background: var(--bg-secondary) !important;
+    border-radius: var(--radius-md) !important;
+    border: 0.5px solid var(--separator-solid) !important;
+    overflow: hidden;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 16px !important;
+  }
+  .mobile-about-links-panel.list li {
+    border-bottom: 0.5px solid var(--separator-solid) !important;
+  }
+  .mobile-about-links-panel.list li:last-child {
+    border-bottom: none !important;
+  }
+  .mobile-about-links-panel.list .item-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+    color: var(--label-primary) !important;
+    text-decoration: none !important;
+    transition: background 0.12s ease !important;
+    min-height: 44px !important;
+  }
+  .mobile-about-links-panel.list .item-link:hover,
+  .mobile-about-links-panel.list .item-link:active {
+    background: var(--fill-quaternary) !important;
+  }
+  .mobile-about-links-panel.list .item-content {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding-left: 16px !important;
+  }
+  .mobile-about-links-panel.list .item-inner {
+    flex: 1;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 16px 10px 0 !important;
+    min-height: 44px !important;
+  }
+  .mobile-about-links-panel.list .item-title {
+    color: var(--system-blue) !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+  }
+  /* Chevron */
+  .mobile-about-links-panel.list .item-inner::after {
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid var(--label-secondary);
+    border-top: 1.5px solid var(--label-secondary);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    opacity: 0.5;
+    margin-left: 4px;
+  }
+
+  /* F7 block-title for panel headings */
+  .f7-panel-title {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--label-secondary) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+    padding: 0 16px 8px !important;
+    margin: 16px 0 0 !important;
+  }
+}
+
+/* ============================================================
+   RESULT PANEL — shared mobile + desktop
+   ============================================================ */
+.mobile-popup-banner .header {
+  color: var(--label-primary) !important;
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px;
+  padding: 4px 16px 0 !important;
+  margin: 6px 0 0 !important;
+}
+
+.mobile-popup-banner .footer {
+  border-top: 0.5px solid var(--separator) !important;
+  background: transparent;
+  padding: 16px 0 24px !important;
+  margin-top: 12px !important;
+}
+
+/* Result container */
+#result-panel-container {
+  background: transparent !important;
+  color: var(--label-primary) !important;
+}
+
+/* Table */
+table#result_table {
+  color: var(--label-primary) !important;
+}
+table#result_table td {
+  color: var(--label-primary) !important;
+  padding: 7px 4px;
+  border: none;
+  font-size: 14px;
+}
+table#result_table tr td:first-child {
+  color: var(--label-secondary) !important;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+/* Parsed result mono block */
+div#scan-result-parsed {
+  background: var(--fill-quaternary) !important;
+  border: 0.5px solid var(--separator) !important;
+  color: var(--label-primary) !important;
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 10px 12px !important;
+  margin: 6px 0 12px !important;
+  word-break: break-word;
+}
+div#scan-result-parsed a { color: var(--system-blue) !important; }
+
+div#scan-result-text { color: var(--label-secondary) !important; }
+
+/* Badge */
+.badge {
+  border: 0.5px solid var(--separator-solid) !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.badge-icon {
+  background: var(--bg-quaternary) !important;
+  color: var(--label-secondary) !important;
+}
+.badge-text {
+  background: var(--fill-quaternary) !important;
+  color: var(--label-primary) !important;
+}
+
+/* Action icon buttons (share, copy, etc.) */
+.action_image {
+  border: 0.5px solid var(--separator) !important;
+  border-radius: var(--radius-sm) !important;
+  filter: invert(1) brightness(0.75);
+  padding: 8px !important;
+  margin: 3px !important;
+  transition: all 0.12s ease;
+  cursor: pointer;
+}
+.action_image:hover {
+  background: var(--fill-tertiary) !important;
+  filter: invert(1) brightness(1);
+}
+
+/* ============================================================
+   QUICK ACTION LINK CARD
+   ============================================================ */
+#scan-quick-action {
+  background: var(--bg-tertiary) !important;
+  border: 0.5px solid var(--separator) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--label-primary) !important;
+  margin: 10px 16px 16px !important;
+  width: calc(100% - 52px) !important;
+}
+#scan-quick-action:hover { background: var(--bg-quaternary) !important; }
+
+div#scan-quick-action-header { color: var(--label-primary) !important; }
+#scan-quick-action-header-icon img { filter: invert(1) brightness(0.7); }
+
+#scan-quick-action-header-text {
+  color: var(--t-accent) !important;
+  text-decoration: underline;
+}
+div#scan-quick-action-body { color: var(--label-secondary) !important; }
+div#scan-quick-action-body-title { color: var(--label-primary) !important; }
+
+/* ============================================================
+   BUTTONS — iOS style
+   ============================================================ */
+button.html5-qrcode-element,
+select.html5-qrcode-element,
+button.scanapp-button {
+  appearance: none !important;
+  background: var(--fill-tertiary) !important;
+  border: 0.5px solid var(--separator) !important;
+  color: var(--label-primary) !important;
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 9px 18px !important;
+  transition: background 0.12s ease, transform 0.08s ease !important;
+  box-shadow: none !important;
+}
+button.html5-qrcode-element:hover,
+select.html5-qrcode-element:hover,
+button.scanapp-button:hover {
+  background: var(--fill-secondary) !important;
+  text-decoration: none;
+}
+button.html5-qrcode-element:active,
+button.scanapp-button:active {
+  background: var(--fill-primary) !important;
+  transform: scale(0.97);
+}
+button.html5-qrcode-element:disabled,
+button.scanapp-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Primary CTA — "Close and scan another" */
+button#scan-result-close.scanapp-button {
+  background: var(--t-accent) !important;
+  color: var(--t-accent-text, #fff) !important;
+  border: none !important;
+  border-radius: var(--radius-pill) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 13px 36px !important;
+  letter-spacing: -0.2px;
+  width: 80%;
+  max-width: 300px;
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.18) !important;
+}
+button#scan-result-close.scanapp-button:hover {
+  background: var(--t-accent) !important;
+  opacity: 0.88;
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Secondary close buttons (about, sponsor, history) */
+button#scan-about-close.scanapp-button,
+button#scan-sponsor-close.scanapp-button,
+button#scan-history-close.scanapp-button {
+  background: var(--fill-tertiary) !important;
+  color: var(--label-primary) !important;
+  border: 0.5px solid var(--separator) !important;
+  border-radius: var(--radius-pill) !important;
+  padding: 11px 30px !important;
+}
+
+/* Torch on */
+button#html5-qrcode-button-torch.html5-qrcode-button-torch-on,
+button.scanapp-button.enticing {
+  background: var(--system-yellow) !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  font-weight: 700 !important;
+}
+
+/* Dropdown selects */
+select.html5-qrcode-element {
+  background: var(--bg-tertiary) !important;
+  color: var(--label-primary) !important;
+}
+
+/* ============================================================
+   HTML5-QRCODE LIBRARY — DARK OVERRIDES
+   ============================================================ */
+/* White backgrounds inside the scanner widget */
+#reader > div,
+#reader__dashboard,
+#reader__header_message {
+  background: var(--bg-secondary) !important;
+  color: var(--label-secondary) !important;
+}
+
+#reader__scan_region {
+  background: #000 !important;
+}
+
+#reader__dashboard {
+  border-top: 0.5px solid var(--separator-solid) !important;
+  padding: 10px 14px !important;
+}
+
+#reader__status_span {
+  color: var(--system-green) !important;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+#reader__dashboard_section_swaplink,
+#html5-qrcode-button-file-selection,
+#html5-qrcode-anchor-scan-type-change {
+  color: var(--system-blue) !important;
+}
+
+#reader__camera_permission_button {
+  background: var(--t-accent) !important;
+  color: var(--t-accent-text, #fff) !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* ============================================================
+   NOTIFICATION BANNERS
+   ============================================================ */
+.banner.success { background: var(--system-green) !important; }
+.banner.error   { background: var(--system-red) !important; }
+.banner.info    { background: var(--system-blue) !important; }
+
+/* ============================================================
+   THEME SWITCHER DOTS
+   ============================================================ */
+
+/* Shared dot style — colour set inline per dot */
+.theme-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+.theme-dot:hover  { transform: scale(1.25); }
+.theme-dot:focus  { outline: none; }
+.theme-dot.theme-active {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+/* Desktop: thin row in the header, right of nav links */
+.desktop-header-theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 0.5px solid var(--separator-solid);
+}
+.desktop-theme-label {
+  font-size: 11px;
+  color: var(--label-secondary);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* Mobile: hidden desktop switcher, show theme row in about panel */
+@media (max-width: 950px) {
+  .desktop-header-theme-switcher { display: none; }
+
+  .mobile-about-theme-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .mobile-about-theme-label {
+    font-size: 12px;
+    color: var(--label-secondary);
+    font-weight: 500;
+  }
+  .mobile-about-theme-dots {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .mobile-about-theme-dots .theme-dot {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ============================================================
+   PRIVACY CHIP
+   ============================================================ */
+.mobile-about-privacy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(48, 209, 88, 0.12);
+  border: 0.5px solid rgba(48, 209, 88, 0.3);
+  color: var(--system-green) !important;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  margin-top: 12px;
+}
+.privacy-chip-icon { font-size: 13px; }
+
+/* ============================================================
+   IFRAME GUARD
+   ============================================================ */
+#iframe-alert {
+  background: rgba(18, 18, 20, 0.97) !important;
+  border: 0.5px solid var(--separator-solid) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9) !important;
+  color: var(--label-primary) !important;
+}
+div#iframe-alert-section {
+  color: var(--label-primary) !important;
+}
+div#iframe-alert-section a { color: var(--system-blue) !important; }
+div#iframe-alert-image img { filter: invert(1) opacity(0.6); }
+div#iframe-alert-subimage img { filter: invert(1) brightness(0.9); }
+
+#iframe-alert-actions button {
+  background: var(--system-blue) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  padding: 10px 20px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+#iframe-alert-actions-continue {
+  background: var(--fill-tertiary) !important;
+  color: var(--label-primary) !important;
+}
