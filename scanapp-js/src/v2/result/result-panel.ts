@@ -275,7 +275,12 @@ export class ResultPanel {
 
     const placeholderHeader = h("div", { class: "result-header-v2" },
       h("h3", {}, "Scan Result"),
-      h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon1)
+      h("button", {
+        class: "close-sheet-btn",
+        "aria-label": "Close scan result panel",
+        title: "Close",
+        onClick: () => this.hide()
+      }, closeIcon1)
     );
 
     const pageData = (window as any).scanappPageData || {};
@@ -306,7 +311,12 @@ export class ResultPanel {
     this.contentViewElement = h("div", { class: "result-content-view" },
       h("div", { class: "result-header-v2" },
         h("h3", {}, "Scan Result"),
-        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon2)
+        h("button", {
+          class: "close-sheet-btn",
+          "aria-label": "Close scan result panel",
+          title: "Close",
+          onClick: () => this.hide()
+        }, closeIcon2)
       ),
       h("div", { class: "result-body-v2" },
         h("div", { class: "result-type-card" },
@@ -355,10 +365,20 @@ export class ResultPanel {
     this.kofiElement = h("div", { class: "result-kofi-view" },
       h("div", { class: "result-header-v2" },
         h("div", { style: "display: flex; align-items: center; gap: 8px;" },
-          h("button", { class: "kofi-back-btn", onClick: () => this.hideKoFi() }, backIcon),
+          h("button", {
+            class: "kofi-back-btn",
+            "aria-label": "Back to scan result",
+            title: "Back",
+            onClick: () => this.hideKoFi()
+          }, backIcon),
           h("h3", {}, "Support ScanApp")
         ),
-        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon3)
+        h("button", {
+          class: "close-sheet-btn",
+          "aria-label": "Close support panel",
+          title: "Close",
+          onClick: () => this.hide()
+        }, closeIcon3)
       ),
       h("div", { class: "result-body-v2", style: "padding: 12px;" },
         this.kofiIframeContainer
@@ -534,9 +554,18 @@ export class ResultPanel {
     const heartIcon = s("svg", { viewBox: "0 0 24 24" },
       s("path", { d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" })
     );
+    const openSupport = () => this.showKoFi();
     return h("div", {
       class: "sidebar-support-card result-panel-support-card",
-      onClick: () => this.showKoFi()
+      role: "button",
+      tabindex: "0",
+      onClick: openSupport,
+      onKeyDown: (event: KeyboardEvent) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openSupport();
+        }
+      }
     },
       h("div", { class: "sidebar-support-icon-wrapper" }, heartIcon),
       h("div", { class: "sidebar-support-content" },

@@ -255,23 +255,34 @@ export class ScanPage implements Page {
     // Controls
     this.torchBtn = h("button", {
       class: "control-btn",
+      "aria-label": "Toggle flashlight",
+      "aria-pressed": "false",
+      title: "Toggle flashlight",
       style: { display: "none" },
       onClick: () => this.handleToggleTorch()
     }, torchIcon);
 
     this.cameraBtn = h("button", {
       class: "control-btn",
+      "aria-label": "Switch camera",
+      "aria-expanded": "false",
+      title: "Switch camera",
       style: { display: "none" },
       onClick: (e: Event) => this.handleToggleCameraPopover(e)
     }, cameraIcon);
 
     this.fitBtn = h("button", {
       class: `control-btn ${this.isCoverMode ? "active" : ""}`,
+      "aria-label": "Toggle viewfinder fit mode",
+      "aria-pressed": String(this.isCoverMode),
+      title: "Toggle viewfinder fit mode",
       onClick: () => this.handleToggleFitMode()
     }, fitIcon);
 
     this.fileBtn = h("button", {
       class: "control-btn",
+      "aria-label": "Upload image to scan",
+      title: "Upload image to scan",
       onClick: () => this.triggerFileSelect("toolbar")
     }, fileIcon);
 
@@ -400,9 +411,11 @@ export class ScanPage implements Page {
     Logger.logBetaTorchToggle(this.isTorchOn);
     if (this.isTorchOn) {
       this.torchBtn.classList.add("active");
+      this.torchBtn.setAttribute("aria-pressed", "true");
       appShell.showToast("Torch On");
     } else {
       this.torchBtn.classList.remove("active");
+      this.torchBtn.setAttribute("aria-pressed", "false");
       appShell.showToast("Torch Off");
     }
   }
@@ -413,10 +426,12 @@ export class ScanPage implements Page {
     Logger.logBetaViewfinderModeToggle(this.isCoverMode ? "cover" : "fit");
     if (this.isCoverMode) {
       this.fitBtn.classList.add("active");
+      this.fitBtn.setAttribute("aria-pressed", "true");
       this.cameraReader.classList.remove("fit-resolution");
       appShell.showToast("Viewfinder Mode: Full Screen");
     } else {
       this.fitBtn.classList.remove("active");
+      this.fitBtn.setAttribute("aria-pressed", "false");
       this.cameraReader.classList.add("fit-resolution");
       appShell.showToast("Viewfinder Mode: Fit Aspect Ratio");
     }
@@ -457,6 +472,7 @@ export class ScanPage implements Page {
   private openPopover(): void {
     this.cameraPopover.classList.add("show");
     this.popoverOpen = true;
+    this.cameraBtn.setAttribute("aria-expanded", "true");
     Logger.logBetaCameraPopover("open");
   }
 
@@ -464,6 +480,9 @@ export class ScanPage implements Page {
     const wasOpen = this.popoverOpen;
     this.cameraPopover.classList.remove("show");
     this.popoverOpen = false;
+    if (this.cameraBtn) {
+      this.cameraBtn.setAttribute("aria-expanded", "false");
+    }
     if (wasOpen) {
       Logger.logBetaCameraPopover("close");
     }

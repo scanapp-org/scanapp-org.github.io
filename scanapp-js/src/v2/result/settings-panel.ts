@@ -57,7 +57,10 @@ export class SettingsPanel {
     );
 
     const themeSelect = h("select", {
+      id: "settings-theme-select",
+      name: "theme",
       class: "settings-theme-select",
+      "aria-label": "Theme",
       onChange: (e: any) => this.themeManager.setTheme(e.target.value)
     },
       ...this.themeManager.getAllThemes().map(t =>
@@ -75,18 +78,28 @@ export class SettingsPanel {
 
     const themeOptionRow = h("div", { class: "settings-option-row" },
       h("div", { class: "settings-option-info" },
-        h("span", { class: "settings-option-label" }, "Theme"),
+        h("label", { class: "settings-option-label", htmlFor: "settings-theme-select" }, "Theme"),
         h("span", { class: "settings-option-sublabel" }, "Choose UI appearance")
       ),
       themeSelect
     );
 
     // Support Banner Card
+    const openSupport = () => {
+      Logger.logBetaKoFiSupportClick("settings_panel");
+      this.onSupportClickCallback();
+    };
+
     const supportBanner = h("div", {
       class: "support-banner-card",
-      onClick: () => {
-        Logger.logBetaKoFiSupportClick("settings_panel");
-        this.onSupportClickCallback();
+      role: "button",
+      tabindex: "0",
+      onClick: openSupport,
+      onKeyDown: (event: KeyboardEvent) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openSupport();
+        }
       }
     },
       h("div", { class: "support-banner-icon-wrapper" }, heartIcon),
@@ -127,7 +140,12 @@ export class SettingsPanel {
     return h("div", { class: "settings-panel-v2" },
       h("div", { class: "settings-header-v2" },
         headerTitle,
-        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon)
+        h("button", {
+          class: "close-sheet-btn",
+          "aria-label": "Close settings panel",
+          title: "Close",
+          onClick: () => this.hide()
+        }, closeIcon)
       ),
       body,
       footer

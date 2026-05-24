@@ -93,7 +93,10 @@ export class DesktopSidebar {
 
     // Theme selector dropdown
     const themeSelect = h("select", {
+      id: "desktop-theme-select",
+      name: "theme",
       class: "theme-select",
+      "aria-label": "Theme",
       onChange: (e: any) => this.themeManager.setTheme(e.target.value)
     },
       ...this.themeManager.getAllThemes().map(t =>
@@ -110,7 +113,7 @@ export class DesktopSidebar {
     });
 
     const themeSelector = h("div", { class: "theme-selector-container" },
-      h("label", {}, "Theme"),
+      h("label", { htmlFor: "desktop-theme-select" }, "Theme"),
       themeSelect
     );
 
@@ -121,6 +124,8 @@ export class DesktopSidebar {
 
     const themeCollapsedBtn = h("button", {
       class: "theme-picker-collapsed-btn",
+      "aria-label": "Cycle theme",
+      title: "Cycle theme",
       onClick: () => {
         const all = this.themeManager.getAllThemes();
         const active = this.themeManager.getActiveTheme();

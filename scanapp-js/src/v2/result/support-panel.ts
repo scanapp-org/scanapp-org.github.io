@@ -61,7 +61,12 @@ export class SupportPanel {
     return h("div", { class: "support-panel-v2" },
       h("div", { class: "support-header-v2" },
         h("h3", {}, "Support ScanApp"),
-        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon)
+        h("button", {
+          class: "close-sheet-btn",
+          "aria-label": "Close support panel",
+          title: "Close",
+          onClick: () => this.hide()
+        }, closeIcon)
       ),
       h("div", { class: "support-body-v2" },
         this.iframeContainer

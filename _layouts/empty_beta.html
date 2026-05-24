@@ -37,6 +37,57 @@
   <link rel="manifest" href="/assets/manifest.json" />
   <link rel="apple-touch-icon" href="/assets/images/svgs/logo.svg">
 
+  <!-- Structured data: helps Google understand this is a free, web-based utility app.
+       Eligible for SoftwareApplication/WebApplication rich-result enhancements. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ScanApp",
+    "alternateName": "QR Code Scanner - ScanApp",
+    "url": "https://scanapp.org/",
+    "description": "{{ page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" }}",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any (web-based: Windows, macOS, Android, iOS, Linux, ChromeOS)",
+    "browserRequirements": "Requires JavaScript and camera access (optional for image-file scanning).",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ScanApp",
+      "url": "https://scanapp.org/",
+      "logo": "https://scanapp.org/assets/svg/scanapp-logo.png"
+    },
+    "featureList": [
+      "Scan QR codes using device camera",
+      "Scan QR codes and barcodes from image files",
+      "Works on PC, Mac, Android, and iOS",
+      "100% free, no signup required",
+      "Scanning is done locally on the device"
+    ]
+  }
+  </script>
+
+  <!-- Screen-reader-only SEO fallback styling. Keeps crawler-visible content in the DOM
+       without interfering with the JS-rendered app overlay (#scanapp-root is 100vw x 100vh). -->
+  <style>
+    .scanapp-seo-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
   <!-- Stylesheets -->
   <link rel="preload" href="/assets/css/scanapp-v2.css" as="style">
   <link rel="stylesheet" href="/assets/css/scanapp-v2.css">

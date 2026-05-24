@@ -1,4 +1,51 @@
 ---
 layout: empty_beta
 ---
-<div id="scanapp-root"></div>
+<!--
+  Crawler-visible SEO content. This block is present in the static HTML so that
+  Googlebot's initial (pre-render) crawl pass sees real keyword-rich text, an H1,
+  alt-tagged imagery, and internal links — rather than just <div id="scanapp-root"></div>.
+
+  Visually hidden via .scanapp-seo-only (CSS in empty_beta.html). The JS app renders
+  the same information into #scanapp-root for users; this fallback keeps SEO signals
+  intact regardless of JS execution.
+-->
+<header class="scanapp-seo-only">
+  <img src="/assets/svg/scanapp.svg" alt="ScanApp - QR Code Scanner logo" width="160" height="40" />
+  <h1>{{ page.title | default: "QR Code Scanner - ScanApp" }}</h1>
+  <p>{{ page.page_visible_description | default: "Use ScanApp to scan QR codes or different types of Bar Codes on your web browser using camera or images on the device. Scanning is supported on PC, Mac, Android or IOS and works 100% free! No signups required!" }}</p>
+  <p>ScanApp is a free, open-source web-based QR code and barcode scanner. Scan QR codes with your webcam or upload an image file — no install, no signup, no ads. Works on Windows, macOS, Android, iOS, Linux, and ChromeOS. Scanning is done locally on your device for full privacy.</p>
+  <h2>Supported codes</h2>
+  <p>QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14.</p>
+  <h2>How to scan a QR code</h2>
+  <p>Open scanapp.org in your browser, grant camera permission, point your camera at the QR code, and the result will appear instantly. You can also upload an image of a QR code from your device.</p>
+  <nav aria-label="Site links">
+    <a href="/blog/">Blog</a>
+    <a href="/support/">Support</a>
+    <a href="/barcode/">Barcode Scanner</a>
+    <a href="https://medium.com/qr-code" rel="noopener">QR Code articles on Medium</a>
+    <a href="https://github.com/scanapp-org" rel="noopener">Open source projects</a>
+    <a href="https://github.com/mebjas/html5-qrcode" rel="noopener">Built with html5-qrcode by mebjas</a>
+    <a href="https://github.com/scanapp-org/scanapp-org.github.io/issues/new" rel="noopener">Report an issue</a>
+  </nav>
+</header>
+
+<!-- JS mount point. The bundle appendChild()s the live app into this landmark. -->
+<main id="scanapp-root" aria-label="ScanApp QR scanner"></main>
+
+<!-- Fallback for environments where JavaScript is disabled. Crawlers without
+     a render pass will still see useful content and a path to alternatives. -->
+<noscript>
+  <div style="padding: 24px; font-family: sans-serif; max-width: 720px; margin: 0 auto;">
+    <h2>JavaScript is required to scan</h2>
+    <p>
+      ScanApp uses your browser's camera (or a local image file) to read QR codes and
+      barcodes. JavaScript needs to be enabled for the scanner to run.
+    </p>
+    <p>
+      Read about ScanApp on the <a href="/blog/">blog</a>, browse
+      <a href="/support/">support articles</a>, or check out the
+      <a href="https://github.com/scanapp-org" rel="noopener">open-source projects</a>.
+    </p>
+  </div>
+</noscript>

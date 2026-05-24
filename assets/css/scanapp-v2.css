@@ -238,7 +238,8 @@ body, html {
 
 .sidebar-item.active {
   color: #ffffff;
-  background-color: var(--sa-primary);
+  background-color: #047857;
+  font-weight: 700;
 }
 
 .sidebar-item.disabled {
@@ -1457,12 +1458,11 @@ body, html {
 }
 
 .camera-loader-text {
-  color: var(--sa-text-secondary);
+  color: var(--sa-text);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  animation: camera-text-pulse 1.5s ease-in-out infinite alternate;
 }
 
 .camera-container-v2 video {
@@ -1474,11 +1474,6 @@ body, html {
 
 @keyframes camera-spin {
   to { transform: rotate(360deg); }
-}
-
-@keyframes camera-text-pulse {
-  from { opacity: 0.5; }
-  to { opacity: 1; }
 }
 
 @keyframes video-fade-in {
@@ -2272,7 +2267,7 @@ body, html {
 .upgrade-banner-mobile {
   width: 100%;
   padding: 8px 12px;
-  background-color: var(--sa-primary);
+  background-color: #064e3b;
   color: #ffffff !important;
   display: flex;
   align-items: center;
