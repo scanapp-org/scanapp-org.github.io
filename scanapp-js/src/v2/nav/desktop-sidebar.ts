@@ -52,11 +52,21 @@ export class DesktopSidebar {
       s("path", { d: "M12 12c0 3.037-1.79 5.5-4 5.5S4 15.037 4 12s1.79-5.5 4-5.5 4 2.463 4 5.5zm6.5 0c0 2.761-.67 5-1.5 5s-1.5-2.239-1.5-5 .67-5 1.5-5 1.5 2.239 1.5 5zm3.5 0c0 2.21-.224 4-.5 4s-.5-1.79-.5-4 .224-4 .5-4 .5 1.79.5 4z" })
     );
 
+    // Generate Icon (Grid)
+    const generateIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z" })
+    );
+
     const scanType = (window as any).scanappPageData?.scan_type || "QR";
     const scanBtn = h("button", {
       class: "sidebar-item active",
       onClick: () => this.handleNavigate(PageId.SCAN)
     }, scanIcon, h("span", {}, `Scan ${scanType}`));
+
+    const generateBtn = h("a", {
+      href: "/generate",
+      class: "sidebar-item"
+    }, generateIcon, h("span", {}, "Generate QR Code"));
 
     const blogBtn = h("a", {
       href: "/blog/",
@@ -169,6 +179,7 @@ export class DesktopSidebar {
       ),
       h("div", { class: "sidebar-menu" },
         scanBtn,
+        generateBtn,
         blogBtn,
         mediumBtn,
         supportBtn,

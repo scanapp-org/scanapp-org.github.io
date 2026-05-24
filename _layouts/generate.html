@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
+
+  <!-- Primary Meta Tags -->
+  <title>{{ page.title | default: "Free Local QR Code Generator - No Sign-Up - ScanApp" }}</title>
+  <meta name="title" content="{{ page.meta_title | default: "Free Local QR Code Generator - Offline & No Sign-Up" }}">
+  <meta name="description" content="{{ page.meta_description | default: "Generate customized QR codes 100% locally & privately in your browser with no sign-ups or accounts required. Free offline QR generator for WiFi, vCards, PDFs, locations, and social media. Customize shapes, colors, frames, and logos safely." }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://scanapp.org/generate">
+  <meta property="og:title" content="{{ page.meta_title | default: 'Free Custom QR Code Generator - Local, Offline & No Sign-Up' }}">
+  <meta property="og:description" content="{{ page.meta_description | default: 'Generate customized QR codes 100% locally and privately in your browser with no sign-ups or accounts required. Free design options for WiFi, vCard, PDF links, and location pins.' }}">
+  <meta property="og:image" content="https://scanapp.org/assets/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ScanApp QR Code Generator - 100% local, free, no sign-up, privacy-first custom QR generator.">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://scanapp.org/generate">
+  <meta property="twitter:title" content="{{ page.meta_title | default: 'Free Custom QR Code Generator - Local, Offline & No Sign-Up' }}">
+  <meta property="twitter:description" content="{{ page.meta_description | default: 'Generate customized QR codes 100% locally and privately in your browser with no sign-ups or accounts required. Free design options for WiFi, vCard, PDF links, and location pins.' }}">
+  <meta property="twitter:image" content="https://scanapp.org/assets/og-card.png">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ScanApp QR Code Generator",
+    "url": "https://scanapp.org/generate",
+    "description": "Generate high-resolution custom QR codes 100% locally, privately, and for free in your browser with no sign-up required.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any (Windows, macOS, Android, iOS, Linux, ChromeOS)",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/generate.css">
+  
+  <!-- Libraries (Loaded locally) -->
+  <script src="/assets/js/qr-code-styling.min.js"></script>
+  <script src="/assets/js/jspdf.umd.min.js"></script>
+  
+  <base target="_parent">
+  <link rel="canonical" href="https://scanapp.org/generate"/>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <!-- Desktop Navigation Sidebar -->
+  <aside class="desktop-sidebar">
+    <div>
+      <a class="sidebar-logo" href="/" aria-label="ScanApp Home">
+        <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="28" height="28">
+        <span>Scan<span style="color:var(--sa-primary)">App</span></span>
+      </a>
+
+      <nav class="sidebar-menu" aria-label="Desktop Navigation">
+        <!-- Back Link to Scanner -->
+        <a class="sidebar-item" href="/" aria-label="Back to QR Code Scanner">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+          </svg>
+          <span>Scan QR Code</span>
+        </a>
+
+        <!-- Active Generator Link -->
+        <a class="sidebar-item active" href="/generate" aria-current="page">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z"/>
+          </svg>
+          <span>Generate QR Code</span>
+        </a>
+        
+        <a class="sidebar-item" href="/blog/">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+          </svg>
+          <span>Blog</span>
+        </a>
+
+        <a class="sidebar-item" href="/support/">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+          </svg>
+          <span>Support</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <!-- Local Badge -->
+      <div class="sidebar-privacy-card">
+        <div class="sidebar-privacy-icon-wrapper">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 15l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 7z"/></svg>
+        </div>
+        <div class="sidebar-privacy-content">
+          <div class="sidebar-privacy-title">100% Local & Free</div>
+          <div class="sidebar-privacy-desc">No sign-ups or accounts. Offline generation, no data leaves your device.</div>
+        </div>
+      </div>
+
+      <!-- Theme Switcher -->
+      <div class="theme-selector-container">
+        <label for="app-theme-picker">Theme</label>
+        <select class="theme-select" id="app-theme-picker" aria-label="Select app color theme">
+          <option value="dark">Dark Theme</option>
+          <option value="light">Light Theme</option>
+          <option value="monokai">Monokai</option>
+          <option value="dracula">Dracula</option>
+          <option value="nord">Nord</option>
+          <option value="solarized-dark">Solarized</option>
+        </select>
+      </div>
+
+      <div class="sidebar-extra-footer">
+        <div class="sidebar-footer-links">
+          <a href="https://github.com/scanapp-org" target="_blank" rel="noopener">GitHub</a> &bull; 
+          <a href="/support/">Contact</a>
+        </div>
+        <div class="sidebar-footer-credits">
+          &copy; <span id="current-year">2026</span> ScanApp
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Top Header -->
+  <header class="mobile-header" role="banner">
+    <a class="mobile-brand" href="/" aria-label="ScanApp Home">
+      <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="24" height="24">
+      <span>Scan<span style="color:var(--sa-primary)">App</span></span>
+    </a>
+    
+    <!-- Back to Scanner Link on Mobile -->
+    <a href="/" class="sidebar-item" style="padding: 6px 12px; width: auto; font-size: 0.85rem; border: 1px solid var(--sa-border); border-radius: 8px;" aria-label="Scan QR Code">
+      Scan QR
+    </a>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="app-content" id="main-content" role="main">
+    <div class="generator-grid">
+      
+      <!-- LEFT PANEL: CONTROLS -->
+      <section class="controls-panel" aria-label="QR Code customization options">
+        
+        <!-- Marketing Hero -->
+        <div class="marketing-banner">
+          <h1>Free & Local QR Code Studio</h1>
+          <p>Design beautiful, professional, and custom QR codes instantly. <strong>100% free with no sign-ups or registration required.</strong> Built with absolute privacy in mind: your data never touches a server and everything runs fully client-side in your browser.</p>
+        </div>
+
+        <!-- ACCORDION 1: CONTENT TYPE & VALUE -->
+        <div class="accordion expanded" id="accordion-content">
+          <header class="accordion-header" role="button" aria-expanded="true" aria-controls="accordion-content-body">
+            <div class="accordion-header-title">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              <span>1. Select Content Type</span>
+            </div>
+            <svg class="accordion-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </header>
+          
+          <div class="accordion-content" id="accordion-content-body">
+            <div class="accordion-body">
+              
+              <!-- Content Selector Grid -->
+              <div class="content-type-grid" role="radiogroup" aria-label="Select QR Code Content Type">
+                <button class="content-type-card active" data-type="website" role="radio" aria-checked="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                  Website Link
+                </button>
+                <button class="content-type-card" data-type="text" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/></svg>
+                  Plain Text
+                </button>
+                <button class="content-type-card" data-type="wifi" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M12 21l-12-12c4.97-4.97 13.03-4.97 18 0l-6 12zm0-15.28c-2.91 0-5.83.91-8.08 2.73l2.08 2.08c1.69-1.17 3.73-1.81 6-1.81s4.31.64 6 1.81l2.08-2.08c-2.25-1.82-5.17-2.73-8.08-2.73zm0 5.4c-1.42 0-2.84.45-3.94 1.34l3.94 3.94 3.94-3.94c-1.1-1.01-2.52-1.34-3.94-1.34z"/></svg>
+                  Wi-Fi Network
+                </button>
+                <button class="content-type-card" data-type="vcard" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 16h-4v-2h4v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                  Digital vCard
+                </button>
+                <button class="content-type-card" data-type="mecard" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                  meCard Simple
+                </button>
+                <button class="content-type-card" data-type="pdf" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3.5h-1v1h1V11h-1v1H19V7h2.5v1.5z"/></svg>
+                  PDF File Link
+                </button>
+                <button class="content-type-card" data-type="appstore" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 22c-1.31.05-1.72-.75-3.22-.75-1.5 0-1.96.72-3.22.78-1.35.05-2.32-1.3-3.15-2.5-1.7-2.46-3-6.96-1.27-10 1.07-1.8 2.93-2.95 4.91-2.98 1.5-.03 2.92 1 3.84 1 .92 0 2.65-1.25 4.45-1.07 1.75.08 3.32.96 4.14 2.2-3.48 2.1-2.94 6.78.68 8.28-1.1 2.82-2.5 5.6-3.8 7.54z"/></svg>
+                  App Store
+                </button>
+                <button class="content-type-card" data-type="playstore" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M17.51 3.87L15.73 2.1 8 9.8 4.27 6.07 2.5 7.84 8 13.34l9.51-9.47zm-1.88 8.6l-5.63 5.61-3.73-3.73-1.77 1.77 5.5 5.5 7.4-7.38-1.77-1.77z"/></svg>
+                  Google Play
+                </button>
+                <button class="content-type-card" data-type="location" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                  Location Map
+                </button>
+                <button class="content-type-card" data-type="facebook" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
+                  Facebook Link
+                </button>
+                <button class="content-type-card" data-type="twitter" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  Twitter / X
+                </button>
+                <button class="content-type-card" data-type="youtube" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.507A3.003 3.003 0 0 0 .502 6.163C0 8.07 0 12 0 12s0 3.93 .502 5.837a3.003 3.003 0 0 0 2.11 2.11C4.484 20.455 12 20.455 12 20.455s7.517 0 9.387-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.93 24 12 24 12s0-3.93-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  YouTube
+                </button>
+                <button class="content-type-card" data-type="event" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/></svg>
+                  iCal Event
+                </button>
+                <button class="content-type-card" data-type="bitcoin" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.39 12.19c-.31.06-.62.1-.92.14v2.96h-1.44v-2.91c-.44.02-.88.03-1.32.03H7.5v-1.44h.98c.38 0 .5-.12.5-.5V8.11c0-.38-.12-.5-.5-.5H7.5V6.17h2.21c.41 0 .82-.01 1.23-.03V3.24h1.44v2.87c.3-.02.61-.05.9-.09.91-.14 1.83.15 2.37.93.43.62.48 1.48.16 2.14-.52 1.07-1.49 1.54-2.6 1.76 1.42.3 2.38 1.15 2.18 2.68-.18 1.44-1.33 2.47-2.6 2.66zm.05-4.88c.24-.04.47-.07.7-.12.51-.11.75-.43.7-.9-.05-.44-.34-.73-.85-.68-.24.02-.48.05-.72.08v1.64zm-.13 3.32c.28-.05.57-.1.85-.17.51-.12.78-.45.74-.95-.04-.47-.36-.78-.88-.7-.27.04-.55.08-.82.13l.11 1.69z"/></svg>
+                  Bitcoin Pay
+                </button>
+                <button class="content-type-card" data-type="email" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  Email Message
+                </button>
+                <button class="content-type-card" data-type="phone" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                  Phone Call
+                </button>
+                <button class="content-type-card" data-type="sms" role="radio" aria-checked="false">
+                  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 11H7V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>
+                  SMS Message
+                </button>
+              </div>
+
+              <!-- DYNAMIC CONTENT FORM WRAPPERS -->
+              <div class="inputs-group" aria-live="polite">
+                
+                <!-- WEBSITE -->
+                <div class="dynamic-inputs" id="inputs-website" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="web-url">Website URL</label>
+                    <input type="url" id="web-url" placeholder="https://example.com" value="https://scanapp.org" required>
+                    <span class="field-helper">Enter the complete web address including http:// or https://</span>
+                  </div>
+                </div>
+
+                <!-- PLAIN TEXT -->
+                <div class="dynamic-inputs" id="inputs-text" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="text-content">Plain Text Content</label>
+                    <textarea id="text-content" placeholder="Type your custom text, note or instructions here..." rows="4"></textarea>
+                    <span class="field-helper">Standard text without formatting. Suitable for brief descriptions.</span>
+                  </div>
+                </div>
+
+                <!-- WI-FI -->
+                <div class="dynamic-inputs" id="inputs-wifi" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="wifi-ssid">Network Name (SSID)</label>
+                    <input type="text" id="wifi-ssid" placeholder="My Home Network">
+                  </div>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="wifi-password">Network Password</label>
+                      <input type="text" id="wifi-password" placeholder="••••••••">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="wifi-encryption">Encryption Security</label>
+                      <select id="wifi-encryption">
+                        <option value="WPA" selected>WPA/WPA2</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">Unsecured (No Password)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field-wrapper" style="padding-top: 5px;">
+                    <label class="toggle-wrapper" for="wifi-hidden">
+                      <input type="checkbox" id="wifi-hidden">
+                      <span class="toggle-switch"></span>
+                      <span>Hidden Network (SSID is hidden)</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- VCARD -->
+                <div class="dynamic-inputs" id="inputs-vcard" style="display: none; flex-direction: column; gap: 1rem;">
+                  <h3 class="form-section-title">Personal Details</h3>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="vcard-first">First Name</label>
+                      <input type="text" id="vcard-first" placeholder="John">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="vcard-last">Last Name</label>
+                      <input type="text" id="vcard-last" placeholder="Doe">
+                    </div>
+                  </div>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="vcard-company">Company</label>
+                      <input type="text" id="vcard-company" placeholder="Acme Inc.">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="vcard-title">Job Title</label>
+                      <input type="text" id="vcard-title" placeholder="Creative Director">
+                    </div>
+                  </div>
+                  <h3 class="form-section-title">Contact & Web</h3>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="vcard-phone">Mobile Phone</label>
+                      <input type="tel" id="vcard-phone" placeholder="+1 (555) 019-2834">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="vcard-email">Email Address</label>
+                      <input type="email" id="vcard-email" placeholder="john.doe@example.com">
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="vcard-web">Website</label>
+                    <input type="url" id="vcard-web" placeholder="https://myportfolio.com">
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="vcard-address">Address</label>
+                    <input type="text" id="vcard-address" placeholder="123 Main St, New York, NY 10001">
+                  </div>
+                </div>
+
+                <!-- MECARD -->
+                <div class="dynamic-inputs" id="inputs-mecard" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="mecard-name">Full Name</label>
+                      <input type="text" id="mecard-name" placeholder="John Doe">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="mecard-phone">Phone Number</label>
+                      <input type="tel" id="mecard-phone" placeholder="+15550192834">
+                    </div>
+                  </div>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="mecard-email">Email Address</label>
+                      <input type="email" id="mecard-email" placeholder="john@example.com">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="mecard-web">Website URL</label>
+                      <input type="url" id="mecard-web" placeholder="https://example.com">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PDF FILE LINK -->
+                <div class="dynamic-inputs" id="inputs-pdf" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="pdf-url">PDF Document URL</label>
+                    <input type="url" id="pdf-url" placeholder="https://example.com/menu.pdf">
+                    <span class="field-helper">💡 Tip: Upload your PDF to Google Drive, Dropbox, or iCloud, copy the shareable link, and paste it above!</span>
+                  </div>
+                </div>
+
+                <!-- APP STORE -->
+                <div class="dynamic-inputs" id="inputs-appstore" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="app-url">iOS App Store URL</label>
+                    <input type="url" id="app-url" placeholder="https://apps.apple.com/app/id123456789">
+                  </div>
+                </div>
+
+                <!-- PLAY STORE -->
+                <div class="dynamic-inputs" id="inputs-playstore" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="play-url">Google Play Store URL</label>
+                    <input type="url" id="play-url" placeholder="https://play.google.com/store/apps/details?id=com.example">
+                  </div>
+                </div>
+
+                <!-- LOCATION -->
+                <div class="dynamic-inputs" id="inputs-location" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="loc-lat">Latitude</label>
+                      <input type="text" id="loc-lat" placeholder="40.7128" value="40.7128">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="loc-lng">Longitude</label>
+                      <input type="text" id="loc-lng" placeholder="-74.0060" value="-74.0060">
+                    </div>
+                  </div>
+                  <button type="button" class="sidebar-item" id="loc-get-current" style="background-color: var(--sa-surface-elevated); border: 1px solid var(--sa-border); padding: 10px 16px; justify-content: center; font-weight: 600;">
+                    Use Current Location
+                  </button>
+                </div>
+
+                <!-- FACEBOOK -->
+                <div class="dynamic-inputs" id="inputs-facebook" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="fb-url">Facebook Profile or Page URL</label>
+                    <input type="url" id="fb-url" placeholder="https://facebook.com/myusername">
+                  </div>
+                </div>
+
+                <!-- TWITTER / X -->
+                <div class="dynamic-inputs" id="inputs-twitter" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="tw-url">Twitter / X Username or Link</label>
+                    <input type="url" id="tw-url" placeholder="https://x.com/myusername">
+                  </div>
+                </div>
+
+                <!-- YOUTUBE -->
+                <div class="dynamic-inputs" id="inputs-youtube" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="yt-url">YouTube Video or Channel Link</label>
+                    <input type="url" id="yt-url" placeholder="https://youtube.com/c/mychannel">
+                  </div>
+                </div>
+
+                <!-- CALENDAR EVENT -->
+                <div class="dynamic-inputs" id="inputs-event" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="ev-title">Event Title</label>
+                    <input type="text" id="ev-title" placeholder="Company Meetup 2026">
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="ev-location">Event Location</label>
+                    <input type="text" id="ev-location" placeholder="Acme Conference Hall">
+                  </div>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="ev-start">Start Time</label>
+                      <input type="datetime-local" id="ev-start">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="ev-end">End Time</label>
+                      <input type="datetime-local" id="ev-end">
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="ev-desc">Event Description</label>
+                    <textarea id="ev-desc" placeholder="Brief event description..."></textarea>
+                  </div>
+                </div>
+
+                <!-- BITCOIN -->
+                <div class="dynamic-inputs" id="inputs-bitcoin" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="btc-address">Bitcoin Wallet Address</label>
+                    <input type="text" id="btc-address" placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                  </div>
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="btc-amount">Amount (BTC)</label>
+                      <input type="number" id="btc-amount" placeholder="0.005" step="0.0001">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="btc-message">Payment Message</label>
+                      <input type="text" id="btc-message" placeholder="Invoice #1024">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="dynamic-inputs" id="inputs-email" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="input-row-2">
+                    <div class="field-wrapper">
+                      <label for="email-to">Recipients Email</label>
+                      <input type="email" id="email-to" placeholder="support@acme.com">
+                    </div>
+                    <div class="field-wrapper">
+                      <label for="email-subject">Email Subject</label>
+                      <input type="text" id="email-subject" placeholder="Inquiry about services">
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="email-body">Email Body Message</label>
+                    <textarea id="email-body" placeholder="Write your message here..."></textarea>
+                  </div>
+                </div>
+
+                <!-- PHONE CALL -->
+                <div class="dynamic-inputs" id="inputs-phone" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="phone-num">Phone Number</label>
+                    <input type="tel" id="phone-num" placeholder="+15550192834">
+                  </div>
+                </div>
+
+                <!-- SMS -->
+                <div class="dynamic-inputs" id="inputs-sms" style="display: none; flex-direction: column; gap: 1rem;">
+                  <div class="field-wrapper">
+                    <label for="sms-num">Receiver Phone Number</label>
+                    <input type="tel" id="sms-num" placeholder="+15550192834">
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="sms-msg">SMS Body Message</label>
+                    <textarea id="sms-msg" placeholder="Type your text message here..."></textarea>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCORDION 2: DESIGN & COLORS -->
+        <div class="accordion" id="accordion-design">
+          <header class="accordion-header" role="button" aria-expanded="false" aria-controls="accordion-design-body">
+            <div class="accordion-header-title">
+              <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.76-.39-1.03-.23-.27-.38-.64-.38-1.04 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm4.5 4c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+              <span>2. Customize Design Colors & Shapes</span>
+            </div>
+            <svg class="accordion-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </header>
+          
+          <div class="accordion-content" id="accordion-design-body">
+            <div class="accordion-body" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <!-- QR Patterns -->
+              <div>
+                <h3 class="form-section-title">QR Code Body Patterns</h3>
+                <div class="shape-selector-grid">
+                  <div class="shape-option-card active" data-shape="rounded">
+                    <div class="shape-preview-icon rounded"></div>
+                    Rounded
+                  </div>
+                  <div class="shape-option-card" data-shape="dots">
+                    <div class="shape-preview-icon dots"></div>
+                    Dots
+                  </div>
+                  <div class="shape-option-card" data-shape="classy">
+                    <div class="shape-preview-icon classy"></div>
+                    Classy
+                  </div>
+                  <div class="shape-option-card" data-shape="classy-rounded">
+                    <div class="shape-preview-icon classy-rounded"></div>
+                    Fluid
+                  </div>
+                  <div class="shape-option-card" data-shape="square">
+                    <div class="shape-preview-icon square"></div>
+                    Square
+                  </div>
+                  <div class="shape-option-card" data-shape="extra-rounded">
+                    <div class="shape-preview-icon extra-rounded"></div>
+                    Tablet
+                  </div>
+                </div>
+                <div class="field-wrapper" style="margin-top: 10px;">
+                  <label for="dots-type" style="display:none;">Dot Style</label>
+                  <select id="dots-type" style="display:none;">
+                    <option value="rounded" selected>Rounded</option>
+                    <option value="dots">Dots</option>
+                    <option value="classy">Classy</option>
+                    <option value="classy-rounded">Fluid</option>
+                    <option value="square">Square</option>
+                    <option value="extra-rounded">Tablet</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Corner Styles -->
+              <div class="input-row-2">
+                <div class="field-wrapper">
+                  <label for="corners-square-type">Corner Ring Shape</label>
+                  <select id="corners-square-type">
+                    <option value="extra-rounded" selected>Extra Rounded</option>
+                    <option value="dot">Circular Ring</option>
+                    <option value="square">Square Ring</option>
+                    <option value="out-rounded">Outer Rounded</option>
+                  </select>
+                </div>
+                <div class="field-wrapper">
+                  <label for="corners-dot-type">Corner Inner Dot</label>
+                  <select id="corners-dot-type">
+                    <option value="dot" selected>Circle Dot</option>
+                    <option value="square">Square Dot</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dot Colors -->
+              <div>
+                <h3 class="form-section-title">QR Code Color Settings</h3>
+                <div class="color-picker-grid">
+                  <div class="color-option-row">
+                    <div class="field-wrapper" style="flex-grow: 1;">
+                      <label for="dots-color-mode">Color Fill Type</label>
+                      <select id="dots-color-mode">
+                        <option value="single" selected>Solid Single Color</option>
+                        <option value="gradient">Gradient Colors</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <div class="color-picker-group">
+                      <input type="color" id="dots-color-1" value="#10b981">
+                      <input type="text" class="color-text-input" id="dots-color-1-text" value="#10B981" maxlength="7">
+                    </div>
+
+                    <div class="color-picker-group" id="dots-color-2-wrapper">
+                      <input type="color" id="dots-color-2" value="#059669">
+                      <input type="text" class="color-text-input" id="dots-color-2-text" value="#059669" maxlength="7">
+                    </div>
+                  </div>
+
+                  <!-- Gradient settings -->
+                  <div class="gradient-settings" id="dots-gradient-settings">
+                    <div class="input-row-2">
+                      <div class="field-wrapper">
+                        <label for="dots-gradient-type">Gradient Flow</label>
+                        <select id="dots-gradient-type">
+                          <option value="linear" selected>Linear Gradient</option>
+                          <option value="radial">Radial Glow</option>
+                        </select>
+                      </div>
+                      <div class="field-wrapper slider-group">
+                        <div class="slider-labels">
+                          <label for="dots-gradient-angle">Angle Rotation</label>
+                          <span id="dots-gradient-angle-val">0°</span>
+                        </div>
+                        <input type="range" id="dots-gradient-angle" min="0" max="360" value="0">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Corner Custom Colors -->
+              <div>
+                <h3 class="form-section-title">Independent Corner Colors</h3>
+                <div class="input-row-2">
+                  <div class="field-wrapper">
+                    <label for="corners-square-color">Corner Ring Color</label>
+                    <div class="color-picker-group">
+                      <input type="color" id="corners-square-color" value="#10b981">
+                      <input type="text" class="color-text-input" id="corners-square-color-text" value="#10B981" maxlength="7">
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="corners-dot-color">Corner Dot Color</label>
+                    <div class="color-picker-group">
+                      <input type="color" id="corners-dot-color" value="#10b981">
+                      <input type="text" class="color-text-input" id="corners-dot-color-text" value="#10B981" maxlength="7">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Background Settings -->
+              <div>
+                <h3 class="form-section-title">QR Code Background</h3>
+                <div class="color-picker-grid">
+                  <div class="color-option-row">
+                    <div class="field-wrapper" style="flex-grow: 1;">
+                      <label for="bg-color-mode">Background Mode</label>
+                      <select id="bg-color-mode">
+                        <option value="single" selected>Solid Single Background</option>
+                        <option value="gradient">Gradient Background</option>
+                        <option value="transparent">Transparent Transparent</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div id="bg-solid-row" style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <div class="color-picker-group">
+                      <input type="color" id="bg-color-1" value="#ffffff">
+                      <input type="text" class="color-text-input" id="bg-color-1-text" value="#FFFFFF" maxlength="7">
+                    </div>
+                    
+                    <div class="color-picker-group" id="bg-color-2-wrapper">
+                      <input type="color" id="bg-color-2" value="#ffffff">
+                      <input type="text" class="color-text-input" id="bg-color-2-text" value="#FFFFFF" maxlength="7">
+                    </div>
+                  </div>
+
+                  <!-- Gradient settings -->
+                  <div class="gradient-settings" id="bg-gradient-settings">
+                    <div class="input-row-2">
+                      <div class="field-wrapper">
+                        <label for="bg-gradient-type">Gradient Flow</label>
+                        <select id="bg-gradient-type">
+                          <option value="linear" selected>Linear Gradient</option>
+                          <option value="radial">Radial Glow</option>
+                        </select>
+                      </div>
+                      <div class="field-wrapper slider-group">
+                        <div class="slider-labels">
+                          <label for="bg-gradient-angle">Angle Rotation</label>
+                          <span id="bg-gradient-angle-val">0°</span>
+                        </div>
+                        <input type="range" id="bg-gradient-angle" min="0" max="360" value="0">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCORDION 3: BRAND LOGO OPTIONS -->
+        <div class="accordion" id="accordion-logo">
+          <header class="accordion-header" role="button" aria-expanded="false" aria-controls="accordion-logo-body">
+            <div class="accordion-header-title">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span>3. Embed Brand Logo / Icon</span>
+            </div>
+            <svg class="accordion-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </header>
+          
+          <div class="accordion-content" id="accordion-logo-body">
+            <div class="accordion-body" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <!-- Presets Grid -->
+              <div>
+                <h3 class="form-section-title">Brand Logo Presets</h3>
+                <div class="logo-presets-grid" role="radiogroup" aria-label="Select logo preset">
+                  <div class="logo-preset-card active" data-preset="none" role="radio" aria-checked="true" title="No logo">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="scanapp" role="radio" aria-checked="false" title="ScanApp Logo">
+                    <img src="/assets/images/svgs/logo.svg" alt="ScanApp preset">
+                  </div>
+                  <div class="logo-preset-card" data-preset="globe" role="radio" aria-checked="false" title="Website Globe">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="wifi" role="radio" aria-checked="false" title="WiFi Network">
+                    <svg viewBox="0 0 24 24"><path d="M12 21l-12-12c4.97-4.97 13.03-4.97 18 0l-6 12zm0-15.28c-2.91 0-5.83.91-8.08 2.73l2.08 2.08c1.69-1.17 3.73-1.81 6-1.81s4.31.64 6 1.81l2.08-2.08c-2.25-1.82-5.17-2.73-8.08-2.73zm0 5.4c-1.42 0-2.84.45-3.94 1.34l3.94 3.94 3.94-3.94c-1.1-1.01-2.52-1.34-3.94-1.34z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="whatsapp" role="radio" aria-checked="false" title="WhatsApp Link">
+                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.458L0 24z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="facebook" role="radio" aria-checked="false" title="Facebook Link">
+                    <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="twitter" role="radio" aria-checked="false" title="Twitter / X">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="instagram" role="radio" aria-checked="false" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="youtube" role="radio" aria-checked="false" title="YouTube Channel">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.507A3.003 3.003 0 0 0 .502 6.163C0 8.07 0 12 0 12z"/></svg>
+                  </div>
+                  <div class="logo-preset-card" data-preset="bitcoin" role="radio" aria-checked="false" title="Bitcoin Address">
+                    <svg viewBox="0 0 24 24"><path d="M23.633 13.568c-.472 2.808-2.4 4.417-5.006 4.917v5.515h-3.093v-5.263c-.808.2-1.636.368-2.455.518v4.745H9.986v-4.745c-.754.015-1.5.015-2.222.015h-4.67v-3.093h2.386c1.3-.015 1.573-.393 1.786-1.573v-7.94z"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Upload Logo -->
+              <div>
+                <h3 class="form-section-title">Upload Custom Logo</h3>
+                <div class="file-upload-zone" id="logo-upload-zone">
+                  <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                  <span>Drop your logo here, or <strong style="color:var(--sa-primary);">browse</strong></span>
+                  <span style="font-size:0.75rem; color:var(--sa-text-secondary); margin-top:4px;">Supports PNG, JPG, or SVG. Squared aspect ratios work best.</span>
+                  <input type="file" id="logo-upload-input" accept="image/*" style="display:none;">
+                </div>
+
+                <!-- Custom Logo Preview block -->
+                <div class="uploaded-logo-preview" id="uploaded-logo-preview-box" style="margin-top: 12px; display: none;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <img id="uploaded-logo-img" src="" alt="Custom Logo Preview">
+                    <span style="font-size:0.85rem; font-weight:600;">Custom Logo Selected</span>
+                  </div>
+                  <button type="button" class="remove-btn" id="remove-uploaded-logo">Remove</button>
+                </div>
+              </div>
+
+              <!-- Logo Sizing Options -->
+              <div class="field-wrapper slider-group">
+                <div class="slider-labels">
+                  <label for="logo-size-range">Logo Overlay Size</label>
+                  <span id="logo-size-val">30%</span>
+                </div>
+                <input type="range" id="logo-size-range" min="0.1" max="0.5" step="0.05" value="0.3">
+                <span class="field-helper">Adjust the logo scaling to avoid blocking too many data blocks.</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCORDION 4: FRAME & BOTTOM LABEL -->
+        <div class="accordion" id="accordion-frame">
+          <header class="accordion-header" role="button" aria-expanded="false" aria-controls="accordion-frame-body">
+            <div class="accordion-header-title">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17 12H7v2h10v-2zm-3-4H7v2h7V8z"/></svg>
+              <span>4. Wrap in Call-to-Action Frame</span>
+            </div>
+            <svg class="accordion-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </header>
+          
+          <div class="accordion-content" id="accordion-frame-body">
+            <div class="accordion-body" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <div class="field-wrapper">
+                <label for="frame-style-select">Frame Layout Style</label>
+                <select id="frame-style-select">
+                  <option value="none" selected>No Frame (Just QR Code)</option>
+                  <option value="border">Border Outer Outline Frame</option>
+                  <option value="bottom-text">"Scan Me" Bottom Tag Banner</option>
+                </select>
+              </div>
+
+              <div id="frame-text-group" style="display: none; flex-direction: column; gap: 1.25rem;">
+                <div class="field-wrapper">
+                  <label for="frame-text-input">Frame Label Text</label>
+                  <input type="text" id="frame-text-input" value="SCAN ME" maxlength="24">
+                </div>
+                
+                <div class="input-row-2">
+                  <div class="field-wrapper">
+                    <label for="frame-color-input">Frame Theme Color</label>
+                    <input type="color" id="frame-color-input" value="#10b981" style="width:100%; height:42px; border:1px solid var(--sa-border); padding:0; background:none; cursor:pointer; border-radius:10px;">
+                  </div>
+                  <div class="field-wrapper">
+                    <label for="frame-text-color-input">Label Text Color</label>
+                    <input type="color" id="frame-text-color-input" value="#ffffff" style="width:100%; height:42px; border:1px solid var(--sa-border); padding:0; background:none; cursor:pointer; border-radius:10px;">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCORDION 5: ARTISTIC BACKGROUND OVERLAY -->
+        <div class="accordion" id="accordion-artistic">
+          <header class="accordion-header" role="button" aria-expanded="false" aria-controls="accordion-art-body">
+            <div class="accordion-header-title">
+              <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              <span>5. Artistic Background Merging</span>
+            </div>
+            <svg class="accordion-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+          </header>
+          
+          <div class="accordion-content" id="accordion-art-body">
+            <div class="accordion-body" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <div>
+                <h3 class="form-section-title">Merge Background Image</h3>
+                <div class="file-upload-zone" id="art-bg-upload-zone">
+                  <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+                  <span>Drop background image here, or <strong style="color:var(--sa-primary);">browse</strong></span>
+                  <span style="font-size:0.75rem; color:var(--sa-text-secondary); margin-top:4px;">Upload beautiful wallpapers or textures to blend the QR code with.</span>
+                  <input type="file" id="art-bg-upload-input" accept="image/*" style="display:none;">
+                </div>
+
+                <!-- Custom Art Preview block -->
+                <div class="uploaded-logo-preview" id="uploaded-art-preview-box" style="margin-top: 12px; display: none;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <img id="uploaded-art-img" src="" alt="Custom Art Preview" style="height:32px; width:32px; object-fit:cover;">
+                    <span style="font-size:0.85rem; font-weight:600;">Background Image Loaded</span>
+                  </div>
+                  <button type="button" class="remove-btn" id="remove-uploaded-art">Remove</button>
+                </div>
+              </div>
+
+              <!-- Opacity / Contrast Slider -->
+              <div class="field-wrapper slider-group">
+                <div class="slider-labels">
+                  <label for="art-contrast-range">QR Contrast Strength</label>
+                  <span id="art-contrast-val">60%</span>
+                </div>
+                <input type="range" id="art-contrast-range" min="0.1" max="0.9" step="0.05" value="0.6">
+                <span class="field-helper">Lower strength makes the background image shine through more. Higher values ensure standard scanners can read the code.</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT PANEL: STICKY PREVIEW CARD -->
+      <section class="preview-panel" aria-label="QR Code live preview and download">
+        <div class="preview-card">
+          <h2 class="preview-card-title">Live Studio Preview</h2>
+          
+          <!-- Wrapper Mockup Frame rendering -->
+          <div class="qr-frame-wrapper" id="qr-preview-frame">
+            <!-- QR Mount Target -->
+            <div class="qr-render-target" id="qr-preview-target"></div>
+            <!-- Frame label rendering -->
+            <div class="qr-frame-text-block" id="qr-frame-text">SCAN ME</div>
+          </div>
+
+          <!-- Download Action Panel -->
+          <div class="download-settings">
+            
+            <div class="input-row-2">
+              <!-- Format Selection -->
+              <div class="field-wrapper">
+                <label for="download-format">Image Format</label>
+                <select id="download-format">
+                  <option value="png" selected>PNG (High Compatibility)</option>
+                  <option value="svg">SVG (Infinite Scale Vector)</option>
+                  <option value="pdf">PDF Document (Print Ready)</option>
+                  <option value="jpg">JPEG (Lightweight Web)</option>
+                </select>
+              </div>
+
+              <!-- Output Size Slider -->
+              <div class="field-wrapper slider-group">
+                <div class="slider-labels">
+                  <label for="download-size">Resolution</label>
+                  <span id="download-size-val">1024 x 1024 px</span>
+                </div>
+                <input type="range" id="download-size" min="256" max="3072" step="256" value="1024">
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button class="download-btn" id="download-trigger" type="button" aria-label="Download generated QR code">
+              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+              Download QR Code
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Security & Privacy Card -->
+        <div class="security-badge">
+          <div class="security-badge-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </div>
+          <div class="security-badge-text">
+            <h3>100% Free & Offline</h3>
+            <p>ScanApp QR Studio is completely free to use with no sign-ups, accounts, or limitations. All generation and customization happen offline in your browser, guaranteeing total privacy.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Local Toast Alert container -->
+<div class="toast-container" id="toast-msg-container" role="status" aria-live="polite">
+  QR Code generated locally!
+</div>
+
+<!-- Theme Picker Sync Logic -->
+<script>
+(function() {
+  const STORAGE_KEY = 'scanapp-v2-theme';
+  const VALID = ['light', 'dark', 'monokai', 'dracula', 'nord', 'solarized-dark'];
+  const THEME_COLORS = {
+    dark: '#0a0a0c', light: '#f9fafb', monokai: '#272822',
+    dracula: '#282a36', nord: '#2e3440', 'solarized-dark': '#002b36'
+  };
+
+  function applyTheme(id) {
+    document.documentElement.setAttribute('data-theme', id);
+    const meta = document.querySelector("meta[name='theme-color']");
+    if (meta) meta.setAttribute('content', THEME_COLORS[id] || '#0a0a0c');
+    
+    const select = document.getElementById('app-theme-picker');
+    if (select) select.value = id;
+    
+    try { localStorage.setItem(STORAGE_KEY, id); } catch (e) {}
+  }
+
+  // Load theme preference
+  let savedTheme = 'dark';
+  try { savedTheme = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+  applyTheme(VALID.indexOf(savedTheme) !== -1 ? savedTheme : 'dark');
+
+  // Listen to select change
+  const select = document.getElementById('app-theme-picker');
+  if (select) {
+    select.addEventListener('change', (e) => {
+      applyTheme(e.target.value);
+    });
+  }
+
+  // Current year copyright update
+  document.getElementById('current-year').textContent = new Date().getFullYear();
+})();
+</script>
+
+<!-- Generator controller script -->
+<script src="/assets/js/generate.js" defer></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  window.loadScanAppAnalytics = function() {
+    if (window.__scanAppAnalyticsLoaded) {
+      return;
+    }
+
+    window.__scanAppAnalyticsLoaded = true;
+    var analyticsScript = document.createElement('script');
+    analyticsScript.async = true;
+    analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH';
+    document.head.appendChild(analyticsScript);
+    gtag('js', new Date());
+    gtag('config', 'G-2KZEP7DPYH');
+  };
+
+  var scheduleScanAppAnalytics = function() {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(window.loadScanAppAnalytics, { timeout: 3000 });
+      return;
+    }
+
+    window.setTimeout(window.loadScanAppAnalytics, 3000);
+  };
+
+  if (document.readyState === 'complete') {
+    scheduleScanAppAnalytics();
+  } else {
+    window.addEventListener('load', scheduleScanAppAnalytics, { once: true });
+  }
+</script>
+
+</body>
+</html>
