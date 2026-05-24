@@ -1,28 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+{% comment %}
+  Locale resolution: if page.locale is set (e.g., from _layouts/locale.html), pull
+  metadata from _data/locales/{locale}.yml. Otherwise default to English / page
+  front matter. Keeps a single empty_beta layout serving both the homepage and
+  every localized landing page.
+{% endcomment %}
+{% if page.locale and site.data.locales[page.locale] %}
+  {% assign loc = site.data.locales[page.locale] %}
+  {% assign page_title = loc.meta.title %}
+  {% assign page_meta_title = loc.meta.title %}
+  {% assign page_meta_description = loc.meta.description %}
+  {% assign page_visible_description = loc.meta.page_visible_description %}
+  {% assign html_lang = loc._language %}
+  {% assign page_hreflang = loc._hreflang %}
+  {% assign canonical_url = site.url | append: loc._url_path %}
+  {% assign og_url = canonical_url %}
+{% else %}
+  {% assign page_title = page.title | default: "QR Code Scanner - ScanApp" %}
+  {% assign page_meta_title = page.meta_title | default: "QR Code Scanner - Scan QR Code with webcam or files" %}
+  {% assign page_meta_description = page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" %}
+  {% assign page_visible_description = page.page_visible_description %}
+  {% assign html_lang = "en" %}
+  {% assign page_hreflang = "en" %}
+  {% assign canonical_url = site.url %}
+  {% assign og_url = "https://scanapp.org/" %}
+{% endif %}
+<html lang="{{ html_lang }}"{% if page.locale and site.data.locales[page.locale]._text_direction == "rtl" %} dir="rtl"{% endif %}>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
-  
+
   <!-- Primary Meta Tags -->
-  <title>{{ page.title | default: "QR Code Scanner - ScanApp" }}</title>
-  <meta name="title" content="{{ page.meta_title | default: "QR Code Scanner - Scan QR Code with webcam or files" }}">
-  <meta name="description" content="{{ page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" }}">
+  <title>{{ page_title }}</title>
+  <meta name="title" content="{{ page_meta_title }}">
+  <meta name="description" content="{{ page_meta_description }}">
 
   <script>
     window.scanappPageData = {
-      title: {% if page.title %}"{{ page.title | escape }}"{% else %}null{% endif %},
-      description: {% if page.page_visible_description %}"{{ page.page_visible_description | escape }}"{% else %}null{% endif %}
+      title: {% if page_title %}"{{ page_title | escape }}"{% else %}null{% endif %},
+      description: {% if page_visible_description %}"{{ page_visible_description | escape }}"{% else %}null{% endif %},
+      locale: {% if page.locale %}"{{ page.locale | escape }}"{% else %}null{% endif %}
     };
   </script>
 
+  <!-- hreflang alternates: tells Google which page targets which language/market.
+       Bidirectional linking is required by Google — every locale page lists every
+       other locale page, plus the English default. -->
+  <link rel="alternate" hreflang="en" href="{{ site.url }}/" />
+  {% for entry in site.data.locales %}
+    {% assign loc_code = entry[0] %}
+    {% assign loc_data = entry[1] %}
+    <link rel="alternate" hreflang="{{ loc_data._hreflang }}" href="{{ site.url }}{{ loc_data._url_path }}" />
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}/" />
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://scanapp.org/">
-  <meta property="og:title" content="{{ page.meta_title | default: "QR Code Scanner - Scan QR Code with webcam or files" }}">
-  <meta property="og:description" content="{{ page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" }}">
+  <meta property="og:url" content="{{ og_url }}">
+  <meta property="og:title" content="{{ page_meta_title }}">
+  <meta property="og:description" content="{{ page_meta_description }}">
+  <meta property="og:locale" content="{{ page_hreflang | replace: '-', '_' }}">
   <meta property="og:image" content="https://scanapp.org/assets/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -30,12 +69,12 @@
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://scanapp.org/">
-  <meta property="twitter:title" content="{{ page.meta_title | default: "QR Code Scanner - Scan QR Code with webcam or files" }}">
-  <meta property="twitter:description" content="{{ page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" }}">
+  <meta property="twitter:url" content="{{ og_url }}">
+  <meta property="twitter:title" content="{{ page_meta_title }}">
+  <meta property="twitter:description" content="{{ page_meta_description }}">
   <meta property="twitter:image" content="https://scanapp.org/assets/og-card.png">
   <meta property="twitter:image:alt" content="ScanApp - Free QR Code Scanner. Works in your browser, no install, no signup.">
-  
+
   <!-- PWA -->
   <meta name="theme-color" content="#0a0a0c" />
   <link rel="manifest" href="/assets/manifest.json" />
@@ -49,8 +88,9 @@
     "@type": "WebApplication",
     "name": "ScanApp",
     "alternateName": "QR Code Scanner - ScanApp",
-    "url": "https://scanapp.org/",
-    "description": "{{ page.meta_description | default: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!" }}",
+    "url": "{{ canonical_url }}",
+    "inLanguage": "{{ page_hreflang }}",
+    "description": "{{ page_meta_description }}",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any (web-based: Windows, macOS, Android, iOS, Linux, ChromeOS)",
     "browserRequirements": "Requires JavaScript and camera access (optional for image-file scanning).",
@@ -144,7 +184,10 @@
   <script defer src="/assets/js/scanapp-v2.min.js"></script>
   
   <base target="_parent">
-  <link rel="canonical" href="https://scanapp.org"/>
+  <!-- Per-page canonical. Locale pages canonicalize to themselves, NOT to
+       the English homepage — otherwise Google would treat them as duplicates
+       and deindex them. -->
+  <link rel="canonical" href="{{ canonical_url }}"/>
 
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://www.google-analytics.com">

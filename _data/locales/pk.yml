@@ -1,0 +1,96 @@
+# ============================================================================
+# ScanApp locale data — Pakistan (Urdu, with Roman Urdu/English where common)
+# ----------------------------------------------------------------------------
+# LLM-drafted. NEEDS native-speaker review before going live.
+# Particular care: JazzCash/Easypaisa terminology, Raast QR, RTL rendering.
+# Note: Urdu is RTL. Layout CSS should handle direction via [lang="ur"] selector.
+# ============================================================================
+_review_status: pending-native-review
+_locale_code: pk
+_language: ur
+_hreflang: ur-PK
+_text_direction: rtl              # Urdu is right-to-left
+_country_name_en: Pakistan
+_country_name_local: پاکستان
+_url_path: /pk/
+
+meta:
+  title: "مفت آن لائن QR کوڈ سکینر — ScanApp پاکستان"
+  description: "آپ کے براؤزر میں مفت QR کوڈ سکینر۔ کیمرے یا تصویر سے QR کوڈ سکین کریں۔ کوئی ڈاؤن لوڈ نہیں، کوئی سائن اپ نہیں۔ JazzCash، Easypaisa، اور Raast سپورٹ کرتا ہے۔"
+  page_visible_description: "مفت QR کوڈ سکینر جو ہر براؤزر میں کام کرتا ہے۔ کیمرے سے سکین کریں یا QR کوڈ کی تصویر اپ لوڈ کریں۔ نہ انسٹال، نہ سائن اپ۔"
+
+h1: "پاکستان کے لیے مفت QR کوڈ سکینر آن لائن"
+
+intro: |
+  ScanApp ایک مفت QR کوڈ سکینر ہے جو براہ راست آپ کے ویب براؤزر میں کام کرتا ہے۔
+  کسی ایپ کو ڈاؤن لوڈ کرنے کی ضرورت نہیں — صرف Chrome، Safari، یا کسی بھی جدید
+  براؤزر میں scanapp.org کھولیں اور سکیننگ شروع کریں۔ Android، iPhone، PC، اور
+  Mac سب پر کام کرتا ہے۔ تمام سکیننگ آپ کے ڈیوائس پر ہوتی ہے، اس لیے آپ کا ڈیٹا
+  محفوظ ہے۔
+
+features_title: "ScanApp کی خصوصیات"
+features:
+  - "100% مفت، کوئی سائن اپ نہیں"
+  - "کوئی انسٹال نہیں — براؤزر میں چلتا ہے"
+  - "کیمرے یا تصویر دونوں سے سکین کریں"
+  - "JazzCash، Easypaisa، Raast، اور دیگر کے QR کوڈز پڑھتا ہے"
+  - "پرائیویسی محفوظ — سکیننگ صرف ڈیوائس پر"
+
+how_to:
+  title: "ScanApp میں QR کوڈ کیسے سکین کریں"
+  steps:
+    - "اپنے براؤزر میں scanapp.org کھولیں (Chrome، Safari، یا کوئی بھی)"
+    - "جب کیمرہ کی اجازت مانگی جائے تو 'Allow' دبائیں"
+    - "کیمرے کو QR کوڈ کی طرف کریں، یا تصویر اپ لوڈ کریں"
+    - "نتیجہ فوراً نظر آئے گا — لنک، ٹیکسٹ، یا ادائیگی کی معلومات"
+
+payment_examples:
+  title: "پاکستان کے مقبول QR ادائیگی ایپس"
+  intro: "ScanApp پاکستان کے تمام بڑے ادائیگی ایپس کے QR کوڈز پڑھ سکتا ہے:"
+  apps:
+    - name: "JazzCash"
+      description: "JazzCash کے merchant QR کوڈز اور personal QR دونوں سکین ہوتے ہیں۔ سکین کے بعد JazzCash ایپ میں جا کر ادائیگی کریں۔"
+    - name: "Easypaisa"
+      description: "Easypaisa کے QR کوڈز بھی مکمل طور پر سپورٹ ہیں۔"
+    - name: "Raast (SBP standard)"
+      description: "Raast پاکستان کا قومی instant payment system ہے۔ Raast کے QR کوڈز ScanApp میں پڑھے جا سکتے ہیں۔"
+    - name: "SadaPay اور NayaPay"
+      description: "جدید ڈیجیٹل بینکوں کے QR کوڈز بھی سکین ہوتے ہیں۔"
+    - name: "بینکوں کے UBL، HBL، MCB QR کوڈز"
+      description: "تمام بڑے بینکوں کے QR کوڈز Raast standard کے ذریعے سپورٹ ہیں۔"
+
+use_cases_title: "عام استعمال"
+use_cases:
+  - "دکاندار کے JazzCash یا Raast QR سے ادائیگی کریں"
+  - "کمپیوٹر پر WhatsApp Web کھولیں"
+  - "WiFi QR کوڈ سے انٹرنیٹ سے کنیکٹ ہوں"
+  - "بزنس کارڈ سے رابطہ معلومات import کریں"
+  - "پروڈکٹ پر لگے QR سے مزید معلومات حاصل کریں"
+
+faq:
+  - q: "کیا ScanApp واقعی مفت ہے؟"
+    a: "جی ہاں، 100% مفت۔ کوئی سائن اپ نہیں، کوئی اشتہار نہیں، کوئی in-app purchase نہیں۔ یہ ایک open-source پروجیکٹ ہے۔"
+  - q: "کیا میرے Android فون پر کام کرے گا؟"
+    a: "جی ہاں، تمام جدید Android فونز (Android 7 یا نیا) پر چلتا ہے۔ پرانے Android کے لیے تصویر اپ لوڈ کر کے سکین کر سکتے ہیں۔"
+  - q: "iPhone پر کیسے استعمال کریں؟"
+    a: "iPhone پر Safari براؤزر میں scanapp.org کھولیں (iOS 11+)۔ App Store سے کچھ انسٹال کرنے کی ضرورت نہیں۔"
+  - q: "کیا میرا ڈیٹا محفوظ ہے؟"
+    a: "جی ہاں۔ آپ کا سکین کیا گیا ڈیٹا کسی سرور پر نہیں بھیجا جاتا۔ تمام سکیننگ آپ کے ڈیوائس پر ہوتی ہے۔ ہم آپ کے QR کا content نہیں دیکھ سکتے۔"
+  - q: "کیمرہ کام کیوں نہیں کر رہا؟"
+    a: "براؤزر کو کیمرہ کی اجازت دیں۔ iPhone پر Safari استعمال کریں (Chrome iOS پر ابھی کیمرہ access نہیں دیتا)۔"
+  - q: "کیا تصویر سے بھی QR سکین کر سکتے ہیں؟"
+    a: "جی ہاں۔ اگر آپ کے پاس QR کوڈ کی تصویر ہے (screenshot یا WhatsApp سے)، تو اسے ScanApp پر اپ لوڈ کر کے سکین کر سکتے ہیں۔"
+
+cta_title: "ابھی آزمائیں"
+cta_body: "نیچے سکینر کھولیں یا scanapp.org پر جا کر سکیننگ شروع کریں۔"
+
+footer_links_title: "مزید معلومات"
+footer_links:
+  - text: "ScanApp بلاگ"
+    href: /blog/
+  - text: "ٹیوٹوریل اور FAQ"
+    href: /support/
+  - text: "Barcode سکینر (QR نہیں)"
+    href: /barcode/
+  - text: "GitHub پر source code"
+    href: https://github.com/scanapp-org

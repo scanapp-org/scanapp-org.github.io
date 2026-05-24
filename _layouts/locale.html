@@ -1,0 +1,116 @@
+---
+layout: empty_beta
+---
+{% comment %}
+  Shared layout for localized landing pages.
+
+  How this works:
+  - Each /xx/index.md stub sets `locale: xx` in its front matter.
+  - This layout pulls translated content from `_data/locales/{locale}.yml`.
+  - All visible content is rendered into the sr-only SEO block (same pattern as
+    the homepage). The JS app paints over the top via #scanapp-root.
+  - hreflang + canonical wiring lives in _layouts/empty_beta.html and reads
+    `page.locale` to set per-page metadata.
+
+  To add a new locale:
+    1. Create _data/locales/<code>.yml using ph.yml as a template.
+    2. Create <code>/index.md with 3 lines of front matter (see ph/index.md).
+    3. Done — sitemap and hreflang pick it up automatically.
+{% endcomment %}
+
+{% assign loc = site.data.locales[page.locale] %}
+
+<!--
+  Crawler-visible localized SEO content. Mirrors what the JS app eventually
+  renders, but in the local language and with country-specific examples
+  (payment apps, common use cases). Visually hidden via .scanapp-seo-only.
+-->
+<header class="scanapp-seo-only" lang="{{ loc._language }}"{% if loc._text_direction == "rtl" %} dir="rtl"{% endif %}>
+  <img src="/assets/images/svgs/logo-long.svg" alt="ScanApp - {{ loc.h1 }}" width="340" height="100" />
+
+  <h1>{{ loc.h1 }}</h1>
+  <p>{{ loc.intro }}</p>
+
+  <h2>{{ loc.features_title }}</h2>
+  <ul>
+    {% for feature in loc.features %}
+      <li>{{ feature }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>{{ loc.how_to.title }}</h2>
+  <ol>
+    {% for step in loc.how_to.steps %}
+      <li>{{ step }}</li>
+    {% endfor %}
+  </ol>
+
+  <h2>{{ loc.payment_examples.title }}</h2>
+  <p>{{ loc.payment_examples.intro }}</p>
+  <ul>
+    {% for app in loc.payment_examples.apps %}
+      <li><strong>{{ app.name }}</strong> — {{ app.description }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>{{ loc.use_cases_title }}</h2>
+  <ul>
+    {% for use_case in loc.use_cases %}
+      <li>{{ use_case }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>FAQ</h2>
+  {% for item in loc.faq %}
+    <h3>{{ item.q }}</h3>
+    <p>{{ item.a }}</p>
+  {% endfor %}
+
+  <h2>{{ loc.cta_title }}</h2>
+  <p>{{ loc.cta_body }}</p>
+
+  <h2>{{ loc.footer_links_title }}</h2>
+  <nav aria-label="Locale page navigation">
+    {% for link in loc.footer_links %}
+      <a href="{{ link.href }}">{{ link.text }}</a>
+    {% endfor %}
+    <!-- Always link back to the canonical English homepage for crawl discovery -->
+    <a href="/" hreflang="en">English homepage / scanapp.org</a>
+  </nav>
+</header>
+
+<!--
+  FAQPage structured data for the locale's FAQ block. Translated questions and
+  answers eligible for rich-result snippets in the local Google market.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "{{ loc._hreflang }}",
+  "mainEntity": [
+    {% for item in loc.faq %}
+    {
+      "@type": "Question",
+      "name": {{ item.q | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ item.a | jsonify }}
+      }
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<!-- JS app mount point. The bundle reads window.scanappPageData for the
+     localized title/description and appendChild()s the live app here. -->
+<div id="scanapp-root"></div>
+
+<noscript>
+  <div lang="{{ loc._language }}"{% if loc._text_direction == "rtl" %} dir="rtl"{% endif %} style="padding: 24px; font-family: sans-serif; max-width: 720px; margin: 0 auto;">
+    <h2>{{ loc.cta_title }}</h2>
+    <p>{{ loc.cta_body }}</p>
+    <p><a href="/">English homepage / scanapp.org</a></p>
+  </div>
+</noscript>

@@ -1,0 +1,94 @@
+# ============================================================================
+# ScanApp locale data — Indonesia (Bahasa Indonesia)
+# ----------------------------------------------------------------------------
+# LLM-drafted. NEEDS native-speaker review before going live.
+# Particular care: QRIS terminology, GoPay/OVO/DANA branding.
+# ============================================================================
+_review_status: pending-native-review
+_locale_code: id
+_language: id
+_hreflang: id-ID
+_country_name_en: Indonesia
+_country_name_local: Indonesia
+_url_path: /id/
+
+meta:
+  title: "Pemindai Kode QR Online Gratis — ScanApp Indonesia"
+  description: "Pemindai kode QR gratis di browser Anda. Pindai kode QR menggunakan kamera atau gambar. Tidak perlu unduh, tidak perlu daftar. Mendukung QRIS, GoPay, OVO, DANA."
+  page_visible_description: "Pemindai kode QR gratis yang bekerja di browser apa pun. Pindai dengan kamera atau unggah gambar kode QR. Tanpa install, tanpa signup."
+
+h1: "Pemindai Kode QR Online Gratis untuk Indonesia"
+
+intro: |
+  ScanApp adalah pemindai kode QR gratis yang bekerja langsung di browser web
+  Anda. Tidak perlu mengunduh aplikasi apa pun — cukup buka scanapp.org di
+  Chrome, Safari, atau browser modern lainnya, lalu mulai memindai. Bekerja
+  di Android, iPhone, PC, dan Mac. Semua pemindaian dilakukan di perangkat
+  Anda, sehingga data Anda aman — tidak ada yang dikirim ke server.
+
+features_title: "Fitur ScanApp"
+features:
+  - "100% gratis, tanpa pendaftaran"
+  - "Tanpa install — berjalan di browser"
+  - "Pindai dengan kamera atau gambar"
+  - "Mendukung QRIS, GoPay, OVO, DANA, dan lainnya"
+  - "Privasi terjaga — pemindaian hanya di perangkat Anda"
+
+how_to:
+  title: "Cara memindai kode QR dengan ScanApp"
+  steps:
+    - "Buka scanapp.org di browser Anda (Chrome, Safari, atau lainnya)"
+    - "Tekan 'Allow' saat diminta izin kamera"
+    - "Arahkan kamera ke kode QR, atau unggah gambar"
+    - "Hasil akan muncul seketika — tautan, teks, atau info pembayaran"
+
+payment_examples:
+  title: "Aplikasi pembayaran QR populer di Indonesia"
+  intro: "ScanApp dapat membaca kode QR dari semua aplikasi pembayaran utama di Indonesia:"
+  apps:
+    - name: "QRIS"
+      description: "QRIS (Quick Response Code Indonesian Standard) adalah standar QR resmi Bank Indonesia. Semua kode QRIS dapat dipindai oleh ScanApp untuk pembayaran lintas-aplikasi."
+    - name: "GoPay"
+      description: "Pindai kode QR GoPay untuk pembayaran di merchant yang mendukung Gojek/GoPay."
+    - name: "OVO"
+      description: "Mendukung kode QR OVO untuk pembayaran di Grab dan merchant OVO lainnya."
+    - name: "DANA"
+      description: "Kode QR DANA juga dapat dipindai untuk pembayaran cepat."
+    - name: "ShopeePay, LinkAja, Sakuku"
+      description: "Semua dompet digital utama Indonesia didukung melalui standar QRIS."
+
+use_cases_title: "Penggunaan umum"
+use_cases:
+  - "Membayar di warung atau restoran menggunakan QRIS"
+  - "Membuka WhatsApp Web di komputer"
+  - "Terhubung ke WiFi melalui kode QR"
+  - "Mengimpor info kontak dari kartu nama"
+  - "Memindai QR pada produk untuk info lebih lanjut"
+
+faq:
+  - q: "Apakah ScanApp benar-benar gratis?"
+    a: "Ya, 100% gratis. Tanpa pendaftaran, tanpa iklan dalam aplikasi, tanpa pembelian dalam aplikasi. Ini adalah proyek open-source."
+  - q: "Apakah berfungsi di ponsel Android saya?"
+    a: "Ya, berfungsi di semua ponsel Android modern (Android 7 atau lebih baru) yang memiliki kamera. Untuk Android lama, Anda dapat mengunggah gambar kode QR."
+  - q: "Bagaimana dengan iPhone?"
+    a: "Berfungsi di iPhone dengan menggunakan Safari (iOS 11+). Tidak perlu menginstal apa pun dari App Store."
+  - q: "Apakah data saya aman?"
+    a: "Ya. Data pemindaian Anda tidak dikirim ke server mana pun. Semua pemindaian dilakukan di perangkat Anda sendiri. Kami tidak dapat melihat isi kode QR Anda."
+  - q: "Mengapa kamera saya tidak bekerja?"
+    a: "Pastikan browser diberi izin untuk mengakses kamera. Pada iPhone, gunakan Safari (Chrome untuk iOS belum dapat mengakses kamera)."
+  - q: "Bisakah memindai dari gambar?"
+    a: "Bisa. Jika Anda memiliki foto kode QR (screenshot atau dari WhatsApp), Anda dapat mengunggahnya ke ScanApp untuk dipindai."
+
+cta_title: "Coba sekarang"
+cta_body: "Buka pemindai di bawah atau kunjungi scanapp.org untuk mulai memindai."
+
+footer_links_title: "Informasi tambahan"
+footer_links:
+  - text: "Blog ScanApp"
+    href: /blog/
+  - text: "Tutorial dan FAQ"
+    href: /support/
+  - text: "Pemindai barcode (bukan QR)"
+    href: /barcode/
+  - text: "Kode sumber di GitHub"
+    href: https://github.com/scanapp-org

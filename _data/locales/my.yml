@@ -1,0 +1,94 @@
+# ============================================================================
+# ScanApp locale data — Malaysia (Bahasa Melayu)
+# ----------------------------------------------------------------------------
+# LLM-drafted. NEEDS native-speaker review before going live.
+# Particular care: DuitNow QR, Touch 'n Go eWallet wording, formality.
+# ============================================================================
+_review_status: pending-native-review
+_locale_code: my
+_language: ms
+_hreflang: ms-MY
+_country_name_en: Malaysia
+_country_name_local: Malaysia
+_url_path: /my/
+
+meta:
+  title: "Pengimbas Kod QR Online Percuma — ScanApp Malaysia"
+  description: "Pengimbas kod QR percuma dalam browser anda. Imbas kod QR menggunakan kamera atau imej. Tiada muat turun, tiada pendaftaran. Sokong DuitNow QR, Touch 'n Go, GrabPay."
+  page_visible_description: "Pengimbas kod QR percuma yang berfungsi dalam mana-mana pelayar web. Imbas dengan kamera atau muat naik imej kod QR. Tiada install, tiada signup."
+
+h1: "Pengimbas Kod QR Percuma Online untuk Malaysia"
+
+intro: |
+  ScanApp ialah pengimbas kod QR percuma yang berfungsi terus dalam pelayar web
+  anda. Tidak perlu muat turun apa-apa aplikasi — buka sahaja scanapp.org dalam
+  Chrome, Safari, atau pelayar moden yang lain, dan anda boleh mula mengimbas.
+  Berfungsi pada Android, iPhone, PC, dan Mac. Semua pengimbasan dilakukan pada
+  peranti anda, jadi data anda selamat — tiada apa-apa dihantar ke server.
+
+features_title: "Ciri-ciri ScanApp"
+features:
+  - "100% percuma, tiada pendaftaran"
+  - "Tiada perlu install — berfungsi dalam pelayar"
+  - "Imbas dengan kamera atau imej"
+  - "Sokong DuitNow QR, Touch 'n Go, GrabPay, dan lain-lain"
+  - "Privasi terjamin — pengimbasan pada peranti sahaja"
+
+how_to:
+  title: "Cara mengimbas kod QR dengan ScanApp"
+  steps:
+    - "Buka scanapp.org dalam pelayar anda (Chrome, Safari, atau lain-lain)"
+    - "Tekan 'Allow' apabila diminta untuk akses kamera"
+    - "Halakan kamera ke kod QR, atau muat naik imej jika ada"
+    - "Keputusan akan dipaparkan serta-merta — pautan, teks, atau maklumat bayaran"
+
+payment_examples:
+  title: "Aplikasi pembayaran QR popular di Malaysia"
+  intro: "ScanApp boleh membaca kod QR dari semua aplikasi pembayaran utama di Malaysia:"
+  apps:
+    - name: "DuitNow QR"
+      description: "DuitNow QR ialah standard QR rasmi PayNet Malaysia. Boleh diimbas oleh ScanApp untuk pembayaran bank-ke-bank, eWallet-ke-bank, dan lain-lain."
+    - name: "Touch 'n Go eWallet"
+      description: "Imbas kod QR Touch 'n Go untuk membayar di kedai dan tempat letak kereta yang menerima TNG."
+    - name: "GrabPay"
+      description: "Sokong kod QR GrabPay untuk bayaran di merchant Grab."
+    - name: "Boost"
+      description: "Kod QR Boost eWallet juga boleh diimbas."
+    - name: "MAE oleh Maybank, BigPay, ShopeePay"
+      description: "Semua wallet utama Malaysia disokong melalui standard DuitNow QR."
+
+use_cases_title: "Kegunaan biasa"
+use_cases:
+  - "Bayar di gerai makanan menggunakan DuitNow QR"
+  - "Sambung ke WiFi melalui kod QR"
+  - "Buka WhatsApp Web pada komputer"
+  - "Import maklumat kenalan dari kad nama"
+  - "Imbas QR pada produk untuk maklumat lanjut"
+
+faq:
+  - q: "Adakah ScanApp benar-benar percuma?"
+    a: "Ya, 100% percuma. Tiada pendaftaran, tiada iklan dalam aplikasi, tiada in-app purchases. Ini ialah projek sumber terbuka."
+  - q: "Adakah berfungsi pada telefon Android saya?"
+    a: "Ya, berfungsi pada semua telefon Android moden (Android 7 atau lebih baru) yang mempunyai kamera. Untuk Android lama, anda boleh muat naik imej kod QR."
+  - q: "Bagaimana pada iPhone?"
+    a: "Berfungsi pada iPhone dengan menggunakan Safari (iOS 11+). Tidak perlu install apa-apa dari App Store."
+  - q: "Adakah data saya selamat?"
+    a: "Ya. Data imbasan anda tidak dihantar ke mana-mana server. Semua pengimbasan dilakukan pada peranti anda sahaja. Kami tidak boleh melihat kandungan kod QR anda."
+  - q: "Kenapa kamera saya tidak berfungsi?"
+    a: "Pastikan pelayar diberi kebenaran untuk mengakses kamera. Pada iPhone, gunakan Safari (Chrome untuk iOS belum boleh mengakses kamera)."
+  - q: "Boleh imbas dari imej juga?"
+    a: "Ya. Jika anda mempunyai gambar kod QR (screenshot atau dari WhatsApp), anda boleh muat naik ke ScanApp untuk diimbas."
+
+cta_title: "Cuba sekarang"
+cta_body: "Buka pengimbas di bawah atau lawati scanapp.org untuk mula mengimbas."
+
+footer_links_title: "Maklumat tambahan"
+footer_links:
+  - text: "Blog ScanApp"
+    href: /blog/
+  - text: "Tutorial dan FAQ"
+    href: /support/
+  - text: "Imbas barcode (bukan QR)"
+    href: /barcode/
+  - text: "Kod sumber di GitHub"
+    href: https://github.com/scanapp-org

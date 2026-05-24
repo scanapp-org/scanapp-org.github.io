@@ -1,0 +1,94 @@
+# ============================================================================
+# ScanApp locale data — India (Hindi, with Hinglish where natural)
+# ----------------------------------------------------------------------------
+# LLM-drafted. NEEDS native-speaker review before going live.
+# Particular care: UPI/PhonePe/Paytm wording, formal vs. informal "you" (आप).
+# ============================================================================
+_review_status: pending-native-review
+_locale_code: in
+_language: hi
+_hreflang: hi-IN
+_country_name_en: India
+_country_name_local: भारत
+_url_path: /in/
+
+meta:
+  title: "QR Code Scanner Online — मुफ़्त ScanApp भारत के लिए"
+  description: "मुफ़्त QR code scanner online। अपने browser में camera या image से QR code scan करें। कोई download नहीं, कोई signup नहीं। UPI, PhonePe, Paytm, Google Pay सपोर्ट करता है।"
+  page_visible_description: "मुफ़्त QR कोड स्कैनर जो किसी भी browser में काम करता है। Camera से scan करें या QR code की image upload करें। न install, न signup।"
+
+h1: "मुफ़्त QR Code Scanner Online — भारत के लिए"
+
+intro: |
+  ScanApp एक मुफ़्त QR code scanner है जो सीधे आपके web browser में काम करता है।
+  कोई app download करने की ज़रूरत नहीं — बस scanapp.org खोलें Chrome, Safari, या
+  किसी भी modern browser में, और scanning शुरू कर दें। Android, iPhone, PC, Mac
+  सब पर काम करता है। सारी scanning आपके device पर ही होती है, इसलिए आपका data
+  सुरक्षित रहता है।
+
+features_title: "ScanApp की ख़ासियतें"
+features:
+  - "100% मुफ़्त, कोई signup नहीं"
+  - "कोई install नहीं — browser में चलता है"
+  - "Camera या image दोनों से scan करें"
+  - "UPI, PhonePe, Paytm, Google Pay सब के QR codes पढ़ता है"
+  - "Privacy सुरक्षित — scanning device पर होती है, server पर नहीं"
+
+how_to:
+  title: "ScanApp में QR code कैसे scan करें"
+  steps:
+    - "अपने browser में scanapp.org खोलें (Chrome, Safari, या कोई भी)"
+    - "जब camera permission माँगे तो 'Allow' दबाएँ"
+    - "Camera को QR code की तरफ़ करें, या image upload करें"
+    - "Result तुरंत दिखेगा — link, text, या payment info"
+
+payment_examples:
+  title: "भारत के लोकप्रिय QR payment apps"
+  intro: "ScanApp भारत के सभी मुख्य payment apps के QR codes पढ़ सकता है:"
+  apps:
+    - name: "UPI (BHIM, सभी banks)"
+      description: "UPI QR codes — चाहे वो BHIM, बैंक के app से हो या कहीं और से — सब ScanApp में काम करते हैं। NPCI के UPI standard को support करता है।"
+    - name: "PhonePe"
+      description: "PhonePe के merchant QR codes और personal QR दोनों scan होते हैं। Payment के बाद आप PhonePe app में जाकर pay कर सकते हैं।"
+    - name: "Paytm"
+      description: "Paytm wallet और Paytm UPI QR दोनों पढ़े जा सकते हैं। दुकानों के Paytm QR भी scan कर सकते हैं।"
+    - name: "Google Pay (GPay)"
+      description: "Google Pay UPI QR codes भी fully supported हैं।"
+    - name: "Amazon Pay, MobiKwik, Freecharge"
+      description: "बाक़ी popular Indian wallets के QR codes भी scan होते हैं।"
+
+use_cases_title: "आम इस्तेमाल"
+use_cases:
+  - "दुकानदार के UPI QR से payment करें"
+  - "WhatsApp Web को computer पर खोलें"
+  - "WiFi QR से network से connect हों"
+  - "Business card से contact import करें"
+  - "Aadhaar या PAN के QR codes verify करें"
+
+faq:
+  - q: "क्या ScanApp सच में मुफ़्त है?"
+    a: "हाँ, 100% मुफ़्त। कोई signup नहीं, कोई ads नहीं, कोई in-app purchase नहीं। यह एक open-source project है।"
+  - q: "क्या यह मेरे Android phone पर काम करेगा?"
+    a: "हाँ, सभी modern Android phones (Android 7 या नया) पर चलता है। पुराने Android पर भी image upload करके scan कर सकते हैं।"
+  - q: "iPhone पर कैसे चलाएँ?"
+    a: "iPhone पर Safari browser में scanapp.org खोलें (iOS 11+)। App Store से कुछ install नहीं करना है।"
+  - q: "क्या मेरा data safe है? Scanned QR कहीं save तो नहीं होता?"
+    a: "नहीं, आपका scanned data किसी server पर नहीं भेजा जाता। सारी scanning आपके device पर local होती है। हम आपके QR का content देख ही नहीं सकते।"
+  - q: "Camera काम क्यों नहीं कर रहा?"
+    a: "Browser को camera की permission देना ज़रूरी है। iPhone में Safari ज़रूर use करें (Chrome iOS पर अभी camera access नहीं देता)।"
+  - q: "क्या image से भी QR scan कर सकते हैं?"
+    a: "हाँ। अगर आपके पास QR code की photo है (screenshot या WhatsApp से आई हो), तो उसे ScanApp पर upload करके scan कर सकते हैं।"
+
+cta_title: "अभी try करें"
+cta_body: "नीचे scanner खोलें या scanapp.org पर जाकर scanning शुरू करें।"
+
+footer_links_title: "और जानकारी"
+footer_links:
+  - text: "ScanApp Blog"
+    href: /blog/
+  - text: "Tutorial और FAQ"
+    href: /support/
+  - text: "Barcode scanner (QR नहीं)"
+    href: /barcode/
+  - text: "GitHub पर source code"
+    href: https://github.com/scanapp-org

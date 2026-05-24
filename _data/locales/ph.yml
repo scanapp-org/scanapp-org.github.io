@@ -1,0 +1,95 @@
+# ============================================================================
+# ScanApp locale data — Philippines (Tagalog/Filipino)
+# ----------------------------------------------------------------------------
+# LLM-drafted. NEEDS native-speaker review before going live.
+# Particular care: payment-app descriptions, idiomatic CTAs, brand voice.
+# ============================================================================
+_review_status: pending-native-review
+_locale_code: ph
+_language: tl                  # ISO 639-1 for Tagalog/Filipino
+_hreflang: tl-PH
+_country_name_en: Philippines
+_country_name_local: Pilipinas
+_url_path: /ph/
+
+meta:
+  title: "QR Code Scanner Online — Libreng ScanApp para sa Pilipinas"
+  description: "Libreng QR code scanner online. Mag-scan ng QR codes gamit ang camera o larawan sa iyong browser. Walang download, walang signup. Gumagana sa Android, iOS, PC, at Mac."
+  page_visible_description: "Libreng QR code scanner na gumagana sa anumang browser. Mag-scan gamit ang camera o mag-upload ng larawan ng QR code. Walang install, walang signup."
+
+# Crawler-visible SEO content (rendered into the sr-only block by _layouts/locale.html)
+h1: "Libreng QR Code Scanner Online para sa Pilipinas"
+
+intro: |
+  Ang ScanApp ay libreng QR code scanner na direktang gumagana sa iyong web browser.
+  Hindi mo na kailangan mag-download ng app — buksan lang ang scanapp.org sa Chrome,
+  Safari, o anumang modern browser, at maaari ka nang mag-scan. Gumagana ito sa
+  Android, iPhone, PC, at Mac. Lahat ng scanning ay nangyayari sa iyong device,
+  kaya ligtas ang iyong data — walang nasi-send sa server.
+
+features_title: "Mga tampok ng ScanApp"
+features:
+  - "100% libre at walang signup"
+  - "Walang kailangang i-install — gumagana sa browser"
+  - "Mag-scan gamit ang camera o larawan"
+  - "Sinusuportahan ang GCash, PayMaya, at iba pang QR payment apps"
+  - "Pinoprotektahan ang privacy — ang scanning ay nasa device mo lang"
+
+how_to:
+  title: "Paano mag-scan ng QR code sa ScanApp"
+  steps:
+    - "Buksan ang scanapp.org sa iyong browser (Chrome, Safari, o iba pa)"
+    - "Pindutin ang 'Allow' kapag humingi ng camera permission"
+    - "Ituro ang camera sa QR code, o mag-upload ng larawan kung mayroon"
+    - "Makikita mo agad ang nakuha — link, text, o payment info"
+
+payment_examples:
+  title: "Mga sikat na QR payment apps sa Pilipinas"
+  intro: "Ang ScanApp ay nakakabasa ng QR codes mula sa lahat ng nangungunang Philippine payment apps:"
+  apps:
+    - name: "GCash"
+      description: "I-scan ang GCash QR codes para magbayad sa mga tindahan o makatanggap ng pera. Suportado ang scan-to-pay at scan-to-receive."
+    - name: "Maya (dating PayMaya)"
+      description: "Lahat ng Maya QR codes ay nababasa ng ScanApp, kasama ang merchant QR at QR Ph standard."
+    - name: "QR Ph (BSP standard)"
+      description: "Ang QR Ph ay ang opisyal na inter-operable QR standard ng Bangko Sentral ng Pilipinas. Nababasa ito ng ScanApp."
+    - name: "GrabPay"
+      description: "I-scan ang GrabPay QR para magbayad sa partner merchants."
+    - name: "ShopeePay at Lazada Wallet"
+      description: "Suportado rin ang mga QR codes mula sa Shopee at Lazada wallets."
+
+use_cases_title: "Mga karaniwang gamit"
+use_cases:
+  - "Magbayad gamit ang GCash o Maya sa palengke o tindahan"
+  - "Mag-add ng kaibigan sa social media gamit ang profile QR"
+  - "Buksan ang WhatsApp Web sa computer"
+  - "Mag-connect sa WiFi gamit ang WiFi QR code"
+  - "Mag-import ng contact info mula sa business card QR"
+
+faq:
+  - q: "Libre ba talaga ang ScanApp?"
+    a: "Oo, 100% libre. Walang signup, walang ads sa loob, walang in-app purchases. Open-source rin ang proyekto."
+  - q: "Gumagana ba sa Android phone ko?"
+    a: "Oo, gumagana sa lahat ng modern Android phones (Android 7 o mas bago) na may camera. Para sa older Android, maaaring ma-upload na lang ang larawan ng QR code."
+  - q: "Gumagana ba sa iPhone?"
+    a: "Oo, gumagana sa iPhone gamit ang Safari (iOS 11+). Hindi mo kailangan mag-install ng app sa App Store."
+  - q: "Ligtas ba? Naka-save ba ang scanned data?"
+    a: "Hindi nase-save ang iyong scanned data sa anumang server. Lahat ng scanning ay nangyayari sa iyong device. Hindi rin ipinapadala sa amin ang nilalaman ng QR code."
+  - q: "Bakit hindi gumagana ang camera ko?"
+    a: "Tiyaking pinayagan mo ang browser na gamitin ang camera. Sa iPhone, kailangang Safari ang gamit (hindi Chrome) dahil ang ibang browsers ay hindi pa nakakakuha ng camera access sa iOS."
+  - q: "Maaari ba akong mag-scan mula sa larawan?"
+    a: "Oo. Kung may larawan ka na ng QR code (halimbawa, screenshot o pic mula sa Messenger), maaari mong i-upload sa ScanApp at babasahin nito ang code."
+
+cta_title: "Subukan na ngayon"
+cta_body: "Buksan ang scanner sa ibaba o pumunta sa scanapp.org para magsimulang mag-scan."
+
+footer_links_title: "Karagdagang impormasyon"
+footer_links:
+  - text: "Blog ng ScanApp"
+    href: /blog/
+  - text: "Mga tutorial at FAQ"
+    href: /support/
+  - text: "Mag-scan ng barcodes (hindi QR)"
+    href: /barcode/
+  - text: "Source code sa GitHub"
+    href: https://github.com/scanapp-org

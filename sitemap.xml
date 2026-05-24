@@ -2,12 +2,18 @@
 layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://scanapp.org</loc>
+    <loc>https://scanapp.org/</loc>
     <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://scanapp.org/" />
+    {%- for alt in site.data.locales %}
+    <xhtml:link rel="alternate" hreflang="{{ alt[1]._hreflang }}" href="https://scanapp.org{{ alt[1]._url_path }}" />
+    {%- endfor %}
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scanapp.org/" />
   </url>
   <url>
     <loc>https://scanapp.org/barcode/</loc>
@@ -27,6 +33,27 @@ layout: null
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+{%- comment -%}
+  Localized landing pages. Each entry includes xhtml:link alternates per
+  Google's sitemap hreflang specification — this is the most explicit signal
+  for which page targets which market, in addition to the in-page <link rel="alternate">
+  tags. Bidirectional: every locale lists every other locale plus the English default.
+{%- endcomment -%}
+{% for entry in site.data.locales %}
+  {%- assign loc_code = entry[0] -%}
+  {%- assign loc_data = entry[1] -%}
+  <url>
+    <loc>https://scanapp.org{{ loc_data._url_path }}</loc>
+    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://scanapp.org/" />
+    {%- for alt in site.data.locales %}
+    <xhtml:link rel="alternate" hreflang="{{ alt[1]._hreflang }}" href="https://scanapp.org{{ alt[1]._url_path }}" />
+    {%- endfor %}
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scanapp.org/" />
+  </url>
+{% endfor %}
 {% for post in site.supports %}
   <url>
     <loc>{{ site.url }}{{ post.url }}</loc>
