@@ -1166,21 +1166,72 @@ export class Html5Qrcode {
         if (!this.renderedCamera) {
             return;
         }
-        // There is difference in size of rendered video and one that is
-        // considered by the canvas. Need to account for scaling factor.
         const videoElement = this.renderedCamera!.getSurface();
-        const widthRatio
-            = videoElement.videoWidth / videoElement.clientWidth;
-        const heightRatio
-            = videoElement.videoHeight / videoElement.clientHeight;
+        const Cw = videoElement.clientWidth;
+        const Ch = videoElement.clientHeight;
+        const Vw = videoElement.videoWidth;
+        const Vh = videoElement.videoHeight;
 
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
         }
-        const sWidthOffset = this.qrRegion.width * widthRatio;
-        const sHeightOffset = this.qrRegion.height * heightRatio;
-        const sxOffset = this.qrRegion.x * widthRatio;
-        const syOffset = this.qrRegion.y * heightRatio;
+
+        let sxOffset = 0;
+        let syOffset = 0;
+        let sWidthOffset = Vw;
+        let sHeightOffset = Vh;
+
+        const objectFit = window.getComputedStyle(videoElement).objectFit;
+        if (objectFit === "cover" || objectFit === "contain") {
+            const scale = objectFit === "cover"
+                ? Math.max(Cw / Vw, Ch / Vh)
+                : Math.min(Cw / Vw, Ch / Vh);
+            
+            const Rw = Vw * scale;
+            const Rh = Vh * scale;
+            const Ox = (Cw - Rw) / 2;
+            const Oy = (Ch - Rh) / 2;
+
+            sxOffset = (this.qrRegion.x - Ox) / scale;
+            syOffset = (this.qrRegion.y - Oy) / scale;
+            sWidthOffset = this.qrRegion.width / scale;
+            sHeightOffset = this.qrRegion.height / scale;
+        } else {
+            const widthRatio = Vw / Cw;
+            const heightRatio = Vh / Ch;
+            sxOffset = this.qrRegion.x * widthRatio;
+            syOffset = this.qrRegion.y * heightRatio;
+            sWidthOffset = this.qrRegion.width * widthRatio;
+            sHeightOffset = this.qrRegion.height * heightRatio;
+        }
+
+        // Clamp source coordinates to video boundaries
+        if (sxOffset < 0) {
+            sWidthOffset += sxOffset;
+            sxOffset = 0;
+        }
+        if (syOffset < 0) {
+            sHeightOffset += syOffset;
+            syOffset = 0;
+        }
+        if (sxOffset + sWidthOffset > Vw) {
+            sWidthOffset = Vw - sxOffset;
+        }
+        if (syOffset + sHeightOffset > Vh) {
+            sHeightOffset = Vh - syOffset;
+        }
+        if (sWidthOffset < 1) sWidthOffset = 1;
+        if (sHeightOffset < 1) sHeightOffset = 1;
+
+        const targetWidth = Math.floor(sWidthOffset);
+        const targetHeight = Math.floor(sHeightOffset);
+
+        if (this.context!.canvas.width !== targetWidth) {
+            this.context!.canvas.width = targetWidth;
+        }
+        if (this.context!.canvas.height !== targetHeight) {
+            this.context!.canvas.height = targetHeight;
+        }
 
         // Only decode the relevant area, ignore the shaded area,
         // More reference:
@@ -1193,8 +1244,8 @@ export class Html5Qrcode {
             /* sHeight= */ sHeightOffset,
             /* dx= */ 0,
             /* dy= */  0,
-            /* dWidth= */ this.qrRegion.width,
-            /* dHeight= */ this.qrRegion.height);
+            /* dWidth= */ targetWidth,
+            /* dHeight= */ targetHeight);
 
         const triggerNextScan = () => {
             this.foreverScanTimeout = setTimeout(() => {

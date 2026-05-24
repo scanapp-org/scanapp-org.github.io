@@ -1,17 +1,18 @@
 const path = require("path");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const VERSION = "2.3.8";
-
 module.exports = {
     // bundling mode
     mode: "production",
     // entry files
-    entry: "./scanapp-js/src/index.ts",
+    entry: {
+        "scanapp-js.pro.min": "./scanapp-js/src/index.ts",
+        "scanapp-v2.min": "./scanapp-js/src/v2/index.ts"
+    },
     // output bundles (location)
     output: {
         path: path.resolve( __dirname, "scanapp-js/dist" ),
-        filename: "scanapp-js.pro.min.js",
+        filename: "[name].js",
         library: "__Html5QrcodeLibrary__",
     },
     // file resolutions

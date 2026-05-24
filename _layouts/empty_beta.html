@@ -1,46 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- TODO: Change maximum-scale=1 to 5 for improved accesiblity score. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" sizes="144x144" href="/assets/svg/log_sq-144.jpg">
+  
   <!-- Primary Meta Tags -->
-  <title>QR Code Scanner - ScanApp</title>
+  <title>QR Code Scanner - ScanApp Beta</title>
   <meta name="title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
   <meta name="description" content="Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://scanapp.org/">
+  <meta property="og:url" content="https://scanapp.org/beta">
   <meta property="og:title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
   <meta property="og:description" content="Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!">
   <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://scanapp.org/">
+  <meta property="twitter:url" content="https://scanapp.org/beta">
   <meta property="twitter:title" content="QR Code Scanner (beta) - Scan QR Code with webcam or files">
   <meta property="twitter:description" content="Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!">
   <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
   
   <!-- PWA -->
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0a0a0c" />
   <link rel="manifest" href="/assets/manifest.json" />
   <link rel="apple-touch-icon" href="https://scanapp.org/assets/svg/scanapp-logo.png">
 
-  <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
-  <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
+  <!-- Stylesheets -->
+  <link rel="preload" href="/assets/css/scanapp-v2.css" as="style">
+  <link rel="stylesheet" href="/assets/css/scanapp-v2.css">
 
-  <link rel="canonical" href="https://scanapp.org/beta"/>
-  <link rel="preload" href={{ "/assets/app.v2.6.1.beta.css" | relative_url }} as="style">
-  <link rel="stylesheet" href="/assets/app.v2.6.1.beta.css">
-  <link rel="preload" href="/assets/css/index.v2.5.2.beta.css" as="style">
-  <link rel="stylesheet" href="/assets/css/index.v2.5.2.beta.css">
-
-  <link rel="preload" href="/assets/js/scanapp-js.pro.min.v2.6.1.beta.js" as="script">
-  <script defer src="/assets/js/scanapp-js.pro.min.v2.6.1.beta.js"></script>
+  <!-- Scripts -->
+  <link rel="preload" href="/assets/js/scanapp-v2.min.js" as="script">
+  <script defer src="/assets/js/scanapp-v2.min.js"></script>
+  
   <base target="_parent">
 
   <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -51,13 +48,11 @@
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<!-- TODO: understand impact of defer on gtag manager -->
 <script defer src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
 <script defer>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  // gtag('set', 'transport', 'beacon');
   gtag('config', 'G-2KZEP7DPYH');
 </script>
 </html>

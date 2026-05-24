@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+    <defs>
+        <linearGradient id="sGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2563EB" />
+            <stop offset="40%" stop-color="#06B6D4" />
+            <stop offset="70%" stop-color="#3B82F6" />
+            <stop offset="100%" stop-color="#00D2FF" />
+        </linearGradient>
+
+        <linearGradient id="topLeftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1D4ED8" />
+            <stop offset="100%" stop-color="#3B82F6" />
+        </linearGradient>
+
+        <linearGradient id="topRightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#06B6D4" />
+            <stop offset="100%" stop-color="#00D2FF" />
+        </linearGradient>
+
+        <linearGradient id="bottomLeftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1D4ED8" />
+            <stop offset="100%" stop-color="#2563EB" />
+        </linearGradient>
+
+        <linearGradient id="bottomRightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3B82F6" />
+            <stop offset="100%" stop-color="#06B6D4" />
+        </linearGradient>
+    </defs>
+
+    <path d="M 370,105 L 215,105 A 85 85 0 0 0 215,275 L 251,275 L 187,211 A 35 35 0 0 1 215,155 L 320,155 Z"
+        fill="url(#sGradient)" />
+    <path d="M 130,395 L 285,395 A 85 85 0 0 0 285,225 L 249,225 L 313,289 A 35 35 0 0 1 285,345 L 180,345 Z"
+        fill="url(#sGradient)" />
+
+    <path d="M 145,60 L 95,60 C 75,60 60,75 60,95 L 60,145" fill="none" stroke="url(#topLeftGrad)" stroke-width="36"
+        stroke-linecap="round" />
+
+    <path d="M 355,60 L 405,60 C 425,60 440,75 440,95 L 440,145" fill="none" stroke="url(#topRightGrad)"
+        stroke-width="36" stroke-linecap="round" />
+
+    <path d="M 60,355 L 60,405 C 60,425 75,440 95,440 L 145,440" fill="none" stroke="url(#bottomLeftGrad)"
+        stroke-width="36" stroke-linecap="round" />
+
+    <path d="M 440,355 L 440,405 C 440,425 425,440 405,440 L 355,440" fill="none" stroke="url(#bottomRightGrad)"
+        stroke-width="36" stroke-linecap="round" />
+</svg>
