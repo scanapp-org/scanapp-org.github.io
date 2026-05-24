@@ -132,6 +132,8 @@ export class SettingsPanel {
       h("div", { class: "settings-footer-links" },
         h("a", { href: "/blog/", target: "_blank", class: "settings-footer-link" }, "Blog"),
         h("span", { class: "settings-footer-separator" }, "•"),
+        h("a", { href: "/support/", target: "_blank", class: "settings-footer-link" }, "Help & FAQ"),
+        h("span", { class: "settings-footer-separator" }, "•"),
         h("a", { href: "https://medium.com/qr-code", target: "_blank", class: "settings-footer-link" }, "Medium")
       ),
       h("div", { class: "settings-footer-credits" }, "Built with ❤️ by ScanApp")

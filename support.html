@@ -1,19 +1,29 @@
 ---
 layout: support_default
 title: ScanApp Support - QR Code Scanner Support
+description: "Find answers to common questions about QR code scanning on web, Android, iOS, Windows, and Mac. ScanApp support articles and guides."
 permalink: /support/
 ---
 
-<div class="posts">
+<section aria-label="Support articles">
+  <div class="posts">
     {% for support in site.supports %}
-    <div class="post">
-        <h1 class="post-title">
-            <a href="{{ support.url | relative_url }}">
-                {{ support.title }}
-            </a>
-        </h1>
-        {{ support.description }}<br>
-        <a href="{{ support.url | relative_url }}">Read more...</a>
-    </div>
+    <article class="post" itemscope itemtype="https://schema.org/Article">
+      <div class="post-card-body">
+        <h2 class="post-title" itemprop="headline">
+          <a href="{{ support.url | relative_url }}" itemprop="url">{{ support.title }}</a>
+        </h2>
+
+        {% if support.description %}
+        <p class="post-description" itemprop="description">{{ support.description }}</p>
+        {% endif %}
+
+        <a class="post-read-more" href="{{ support.url | relative_url }}" aria-label="Read: {{ support.title }}">
+          Read article
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </a>
+      </div>
+    </article>
     {% endfor %}
-</div>
+  </div>
+</section>

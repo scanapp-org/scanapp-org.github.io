@@ -1,27 +1,153 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
-  {% include support_head.html %}
+  {% include blog_head.html %}
   <body>
     <div class="wrap">
-      <div class="masthead">
-        {% include blog_header_links.html %}
-        <div class="container">
-          <h3 class="masthead-title">
-            <a href="https://scanapp.org/support" title="ScanApp support">{{ site.title }} Support</a>             
-          </h3>
-          <div>
-            <small>ScanApp the only QR code or barcode scanner you need! No installation needed and free to use.</small>
+
+      <!-- ─── Premium Sticky Navbar ──────────────────────────────────────────── -->
+      <header class="masthead" role="banner">
+        <nav class="blog-navbar" aria-label="Main navigation">
+          <!-- Brand -->
+          <a class="blog-navbar-brand" href="https://scanapp.org" aria-label="ScanApp Home">
+            <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="28" height="28">
+            <span>Scan<em style="font-style:normal;color:var(--blog-primary)">App</em></span>
+          </a>
+
+          <!-- Nav links -->
+          <div class="blog-navbar-links" role="list">
+            <a href="https://scanapp.org/blog/" role="listitem">Blog</a>
+            <a href="https://scanapp.org/support/" role="listitem" class="active">Support</a>
+            <a href="{{ site.github.org }}" role="listitem" rel="noopener">GitHub</a>
           </div>
+
+          <!-- Right side: theme picker + CTA -->
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0;">
+
+            <!-- Theme picker -->
+            <div class="blog-theme-picker" id="blog-theme-picker">
+              <button class="blog-theme-btn" id="blog-theme-btn"
+                aria-label="Change color theme"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="blog-theme-dropdown">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.55 0 1.08-.05 1.59-.14A5.978 5.978 0 0 1 12 18c0-3.31 2.69-6 6-6 .34 0 .68.03 1.01.08A9.983 9.983 0 0 0 22 12c0-5.52-4.48-10-10-10zm-5 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm2-5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                </svg>
+              </button>
+
+              <div class="blog-theme-dropdown" id="blog-theme-dropdown" role="menu" aria-label="Theme options">
+                <div class="blog-theme-dropdown-label">Color Theme</div>
+                <button class="blog-theme-option" data-theme="light" role="menuitem">
+                  <span class="blog-theme-swatch swatch-light"></span> Light
+                </button>
+                <button class="blog-theme-option" data-theme="dark" role="menuitem">
+                  <span class="blog-theme-swatch swatch-dark"></span> Dark
+                </button>
+                <button class="blog-theme-option" data-theme="monokai" role="menuitem">
+                  <span class="blog-theme-swatch swatch-monokai"></span> Monokai
+                </button>
+                <button class="blog-theme-option" data-theme="dracula" role="menuitem">
+                  <span class="blog-theme-swatch swatch-dracula"></span> Dracula
+                </button>
+                <button class="blog-theme-option" data-theme="nord" role="menuitem">
+                  <span class="blog-theme-swatch swatch-nord"></span> Nord
+                </button>
+                <button class="blog-theme-option" data-theme="solarized-dark" role="menuitem">
+                  <span class="blog-theme-swatch swatch-solarized-dark"></span> Solarized
+                </button>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <a class="blog-navbar-cta" href="https://scanapp.org" aria-label="Open ScanApp QR Code Scanner">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7zM5 5v3h3V5zm0 11v3h3v-3zm11-11v3h3V5zm0 11v3h3v-3z"/></svg>
+              Scan QR Code
+            </a>
+          </div>
+        </nav>
+
+        <!-- Support section hero -->
+        <div class="blog-hero">
+          <span class="blog-hero-eyebrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+            Help Center
+          </span>
+          <h1 class="blog-hero-title">ScanApp Support</h1>
+          <p class="blog-hero-desc">Find answers to common questions about QR code scanning on web, Android, iOS, Windows, and Mac.</p>
         </div>
-      </div>
+      </header>
 
-      <div class="container content">
+      <!-- ─── Main Content ───────────────────────────────────────────────────── -->
+      <main class="container content" id="main-content" role="main">
         {{ content }}
-      </div>
-    </div>
+      </main>
 
-    {% include blog_footer.html %}
-    <script src='https://scanapp.org/assets/js/blog.script.js'></script>
+    </div><!-- /.wrap -->
+
+    <!-- ─── Premium Footer ─────────────────────────────────────────────────── -->
+    <footer class="blog-footer" role="contentinfo">
+      <div class="blog-footer-inner">
+        <a class="blog-footer-brand" href="https://scanapp.org" aria-label="ScanApp Home">
+          <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="22" height="22">
+          ScanApp
+        </a>
+        <nav class="blog-footer-links" aria-label="Footer navigation">
+          <a href="https://scanapp.org">Scanner</a>
+          <a href="https://scanapp.org/blog/">Blog</a>
+          <a href="https://scanapp.org/support/">Support</a>
+          <a href="{{ site.github.org }}" rel="noopener">GitHub</a>
+          <a href="{{ '/atom.xml' | absolute_url }}" rel="noopener">RSS</a>
+        </nav>
+        <p class="blog-footer-copy">&copy; {{ site.time | date: '%Y' }} ScanApp. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="https://scanapp.org/assets/js/blog.script.js" defer></script>
+
+    <!-- ─── Theme Switcher (shared with blog) ─────────────────────────────── -->
+    <script>
+    (function () {
+      var STORAGE_KEY = 'scanapp-v2-theme';
+      var VALID = ['light', 'dark', 'monokai', 'dracula', 'nord', 'solarized-dark'];
+      var THEME_COLORS = {
+        dark: '#0a0a0c', light: '#f9fafb', monokai: '#272822',
+        dracula: '#282a36', nord: '#2e3440', 'solarized-dark': '#002b36'
+      };
+
+      function applyTheme(id) {
+        document.documentElement.setAttribute('data-theme', id);
+        var meta = document.querySelector("meta[name='theme-color']");
+        if (meta) meta.setAttribute('content', THEME_COLORS[id] || '#f9fafb');
+        document.querySelectorAll('.blog-theme-option').forEach(function (btn) {
+          btn.classList.toggle('active', btn.dataset.theme === id);
+        });
+        try { localStorage.setItem(STORAGE_KEY, id); } catch (e) {}
+      }
+
+      var saved;
+      try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+      applyTheme(VALID.indexOf(saved) !== -1 ? saved : 'light');
+
+      var btn      = document.getElementById('blog-theme-btn');
+      var dropdown = document.getElementById('blog-theme-dropdown');
+
+      function openPicker()  { dropdown.classList.add('open');    btn.setAttribute('aria-expanded', 'true');  }
+      function closePicker() { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.contains('open') ? closePicker() : openPicker();
+      });
+      document.addEventListener('click', function (e) {
+        if (!document.getElementById('blog-theme-picker').contains(e.target)) closePicker();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closePicker();
+      });
+      document.querySelectorAll('.blog-theme-option').forEach(function (opt) {
+        opt.addEventListener('click', function () { applyTheme(opt.dataset.theme); closePicker(); });
+      });
+    })();
+    </script>
   </body>
 </html>
