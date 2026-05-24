@@ -157,6 +157,14 @@ export class Logger {
         });
     }
 
+    public static logA2hsInstallBannerShown(source?: string) {
+        Logger.logA2hsEvent("A2hs-install-banner-shown", source);
+    }
+
+    public static logA2hsInstallBannerClicked(source?: string) {
+        Logger.logA2hsEvent("A2hs-install-banner-clicked", source);
+    }
+
     public static logFtpBacklinkClick(callback: RunnableCallback) {
         gtag('event', 'Ftp-Backlink-Action', {
             'event_callback': function() {

@@ -4,6 +4,12 @@ import { isMobile } from "../utils/detect";
 import { appShell } from "../app-shell";
 import { Logger } from "../../scanapp/logger";
 
+export interface InstallBannerOptions {
+  shouldShow: () => boolean;
+  onShown: () => void;
+  onClick: () => void;
+}
+
 export class ResultPanel {
   private element: HTMLElement;
   private scrimElement?: HTMLElement;
@@ -20,18 +26,20 @@ export class ResultPanel {
   private actionOpenBtn!: HTMLButtonElement;
   private actionShareBtn!: HTMLButtonElement;
   private actionPaymentBtn!: HTMLButtonElement;
+  private installBannerElement!: HTMLElement;
   private placeholderElement!: HTMLElement;
   private contentViewElement!: HTMLElement;
   private collapsedTab!: HTMLElement;
   private kofiElement!: HTMLElement;
   private isKofiIframeInjected = false;
   private kofiIframeContainer!: HTMLElement;
+  private installBannerShownForCurrentResult = false;
 
   private isAlwaysVisible(): boolean {
     return window.innerWidth >= 1200;
   }
 
-  constructor(onClose: () => void) {
+  constructor(onClose: () => void, private readonly installBannerOptions?: InstallBannerOptions) {
     this.onCloseCallback = onClose;
     
     // Create scrim for mobile view
@@ -64,6 +72,7 @@ export class ResultPanel {
 
   public show(result: ScanResult): void {
     this.currentResult = result;
+    this.installBannerShownForCurrentResult = false;
 
     // Set badge info
     this.updateTypeUI(result.category, result.text);
@@ -88,6 +97,7 @@ export class ResultPanel {
       this.actionOpenBtn.style.display = "none";
     }
     this.actionPaymentBtn.style.display = result.category === CodeCategory.UPI ? "flex" : "none";
+    this.refreshInstallBanner();
 
     // Toggle views inside panel
     if (this.placeholderElement) this.placeholderElement.style.display = "none";
@@ -105,6 +115,19 @@ export class ResultPanel {
       this.actionShareBtn.style.opacity = "0.4";
     } else {
       this.actionShareBtn.style.opacity = "1";
+    }
+  }
+
+  public refreshInstallBanner(): void {
+    if (!this.installBannerElement || !this.installBannerOptions) {
+      return;
+    }
+
+    const shouldShow = !!this.currentResult && this.installBannerOptions.shouldShow();
+    this.installBannerElement.style.display = shouldShow ? "flex" : "none";
+    if (shouldShow && !this.installBannerShownForCurrentResult) {
+      this.installBannerShownForCurrentResult = true;
+      this.installBannerOptions.onShown();
     }
   }
 
@@ -187,6 +210,29 @@ export class ResultPanel {
       class: "action-strip-btn",
       onClick: () => this.handleDownload()
     }, downloadIcon, h("span", {}, "Download"));
+
+    const installIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" })
+    );
+
+    this.installBannerElement = h("button", {
+      class: "pwa-install-banner",
+      style: { display: "none" },
+      onClick: () => {
+        if (!this.installBannerOptions) return;
+        this.installBannerOptions.onClick();
+        this.refreshInstallBanner();
+      }
+    },
+      h("span", { class: "pwa-install-banner-icon" }, installIcon),
+      h("span", { class: "pwa-install-banner-copy" },
+        h("span", { class: "pwa-install-banner-title" }, "Add ScanApp to homescreen"),
+        h("span", { class: "pwa-install-banner-subtitle" }, "Open faster next time")
+      ),
+      s("svg", { viewBox: "0 0 24 24", class: "pwa-install-banner-chevron" },
+        s("path", { d: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" })
+      )
+    );
 
     // Build placeholder view elements
     const phoneSvg = s("svg", {
@@ -290,6 +336,7 @@ export class ResultPanel {
         )
       ),
       h("div", { class: "scan-another-footer" },
+        this.installBannerElement,
         h("button", { class: "primary-btn", onClick: () => this.hide() }, "Scan Another"),
         this.createSupportCard()
       )

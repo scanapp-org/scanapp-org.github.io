@@ -6,8 +6,6 @@ export declare class ScanPage implements Page {
     private cameraManager;
     private resultPanel;
     private readonly pwaPromptManager;
-    private pwaTimeout?;
-    private hasCompletedScanAwaitingClose;
     private viewportWrapper;
     private cameraReader;
     private viewfinderOverlay;

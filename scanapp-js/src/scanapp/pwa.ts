@@ -36,6 +36,7 @@ export class PwaPromptManager {
     private deferredPrompt?: any; // TODO: Add strong typing.
     private countShownInSession = 0;
     private readonly skippedReasonsLogged = new Set<string>();
+    private readonly promptAvailableCallbacks: Array<() => void> = [];
 
     public constructor(private readonly defaultSource: string = "legacy_result_close") {
         window.addEventListener('beforeinstallprompt', (event) => {
@@ -43,8 +44,29 @@ export class PwaPromptManager {
             event.preventDefault();
             this.deferredPrompt = event;
             Logger.logA2hsBeforeInstallPromptCaptured(this.defaultSource);
+            this.promptAvailableCallbacks.forEach(callback => callback());
             console.log("Deferred installation prompt.");
         });
+    }
+
+    public onPromptAvailable(callback: () => void) {
+        this.promptAvailableCallbacks.push(callback);
+    }
+
+    public canShowPrompt(): boolean {
+        return A2HS_SUPPORTED
+            && Logger.getDisplayMode() !== "PWA_standalone"
+            && this.countShownInSession === 0
+            && !!this.deferredPrompt
+            && this.pwaHistoryManager.shouldShowPrompt();
+    }
+
+    public logInstallBannerShown(source: string = this.defaultSource) {
+        Logger.logA2hsInstallBannerShown(source);
+    }
+
+    public logInstallBannerClicked(source: string = this.defaultSource) {
+        Logger.logA2hsInstallBannerClicked(source);
     }
 
     private logPromptSkippedOnce(reason: string, source: string) {
