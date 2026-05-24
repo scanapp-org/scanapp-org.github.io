@@ -55,17 +55,20 @@ export class AppShell {
     );
 
     if (isMobile()) {
-      // Mobile Layout
-      this.tabBar = new MobileTabBar(
-        (pageId) => this.navigateTo(pageId),
-        () => this.showSupportPanel(),
-        () => this.showSettingsPanel()
-      );
-      appContent.appendChild(this.tabBar.getElement());
-      root.appendChild(appContent);
+       // Mobile Layout
+       this.tabBar = new MobileTabBar(
+         (pageId) => this.navigateTo(pageId),
+         () => this.showSettingsPanel()
+       );
+       appContent.appendChild(this.tabBar.getElement());
+       root.appendChild(appContent);
     } else {
       // Desktop Layout
-      this.sidebar = new DesktopSidebar(this.themeManager, (pageId) => this.navigateTo(pageId));
+      this.sidebar = new DesktopSidebar(
+        this.themeManager,
+        (pageId) => this.navigateTo(pageId),
+        () => this.showSupportPanel()
+      );
       root.appendChild(this.sidebar.getElement());
       root.appendChild(appContent);
     }
@@ -113,7 +116,10 @@ export class AppShell {
 
   public showSettingsPanel(): void {
     if (!this.settingsPanel) {
-      this.settingsPanel = new SettingsPanel(this.themeManager);
+      this.settingsPanel = new SettingsPanel(this.themeManager, () => {
+        this.settingsPanel?.hide();
+        this.showSupportPanel();
+      });
     }
     this.settingsPanel.show();
   }

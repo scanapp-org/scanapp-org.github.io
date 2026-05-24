@@ -5,9 +5,11 @@ export class SettingsPanel {
   private element: HTMLElement;
   private scrimElement?: HTMLElement;
   private themeManager: ThemeManager;
+  private onSupportClickCallback: () => void;
 
-  constructor(themeManager: ThemeManager) {
+  constructor(themeManager: ThemeManager, onSupportClick: () => void) {
     this.themeManager = themeManager;
+    this.onSupportClickCallback = onSupportClick;
 
     this.scrimElement = h("div", {
       class: "mobile-scrim-v2",
@@ -36,6 +38,10 @@ export class SettingsPanel {
   private createPanel(): HTMLElement {
     const closeIcon = s("svg", { viewBox: "0 0 24 24" },
       s("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
+    );
+
+    const heartIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" })
     );
 
     const logoImg = h("img", {
@@ -74,8 +80,35 @@ export class SettingsPanel {
       themeSelect
     );
 
+    // Support Banner Card
+    const supportBanner = h("div", {
+      class: "support-banner-card",
+      onClick: () => this.onSupportClickCallback()
+    },
+      h("div", { class: "support-banner-icon-wrapper" }, heartIcon),
+      h("div", { class: "support-banner-content" },
+        h("span", { class: "support-banner-title" }, "Support ScanApp"),
+        h("span", { class: "support-banner-desc" }, "Keep scanning ad-free! Support the creator with a donation.")
+      ),
+      h("span", { class: "support-banner-arrow" }, "→")
+    );
+
+    const shieldCheckIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" })
+    );
+
+    const privacyCard = h("div", { class: "settings-privacy-card" },
+      h("div", { class: "settings-privacy-icon-wrapper" }, shieldCheckIcon),
+      h("div", { class: "settings-privacy-content" },
+        h("span", { class: "settings-privacy-title" }, "Local & Private"),
+        h("span", { class: "settings-privacy-desc" }, "Scanning is fully local inside your browser. No camera feed or barcode data is ever sent to any server.")
+      )
+    );
+
     const body = h("div", { class: "settings-body-v2" },
-      themeOptionRow
+      themeOptionRow,
+      privacyCard,
+      supportBanner
     );
 
     const footer = h("div", { class: "settings-footer-v2" },

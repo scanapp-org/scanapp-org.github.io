@@ -19,6 +19,13 @@ export class ResultPanel {
   private timeVal!: HTMLElement;
   private actionOpenBtn!: HTMLButtonElement;
   private actionShareBtn!: HTMLButtonElement;
+  private placeholderElement!: HTMLElement;
+  private contentViewElement!: HTMLElement;
+  private collapsedTab!: HTMLElement;
+
+  private isAlwaysVisible(): boolean {
+    return window.innerWidth >= 1200;
+  }
 
   constructor(onClose: () => void) {
     this.onCloseCallback = onClose;
@@ -33,7 +40,22 @@ export class ResultPanel {
     }
 
     this.element = this.createPanel();
-    document.getElementById("scanapp-root")?.appendChild(this.element);
+    this.collapsedTab = this.createCollapsedTab();
+    
+    const root = document.getElementById("scanapp-root");
+    if (root) {
+      root.appendChild(this.collapsedTab);
+      root.appendChild(this.element);
+    }
+
+    // Initial state: on widescreen >= 1200px show placeholder, on smaller desktop/mobile show content panel inside sheet
+    if (this.isAlwaysVisible()) {
+      this.placeholderElement.style.display = "flex";
+      this.contentViewElement.style.display = "none";
+    } else {
+      this.placeholderElement.style.display = "none";
+      this.contentViewElement.style.display = "flex";
+    }
   }
 
   public show(result: ScanResult): void {
@@ -62,6 +84,10 @@ export class ResultPanel {
       this.actionOpenBtn.style.display = "none";
     }
 
+    // Toggle views inside panel
+    if (this.placeholderElement) this.placeholderElement.style.display = "none";
+    if (this.contentViewElement) this.contentViewElement.style.display = "flex";
+
     // Toggle visibility
     this.element.classList.add("show");
     if (this.scrimElement) {
@@ -77,9 +103,15 @@ export class ResultPanel {
   }
 
   public hide(): void {
-    this.element.classList.remove("show");
-    if (this.scrimElement) {
-      this.scrimElement.classList.remove("show");
+    if (!this.isAlwaysVisible()) {
+      this.element.classList.remove("show");
+      if (this.scrimElement) {
+        this.scrimElement.classList.remove("show");
+      }
+    } else {
+      // On widescreen >= 2500px, keep the panel visible but switch back to the placeholder view
+      if (this.placeholderElement) this.placeholderElement.style.display = "flex";
+      if (this.contentViewElement) this.contentViewElement.style.display = "none";
     }
     this.currentResult = null;
     this.onCloseCallback();
@@ -87,7 +119,11 @@ export class ResultPanel {
 
   private createPanel(): HTMLElement {
     // Icons
-    const closeIcon = s("svg", { viewBox: "0 0 24 24" },
+    const closeIcon1 = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
+    );
+
+    const closeIcon2 = s("svg", { viewBox: "0 0 24 24" },
       s("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
     );
 
@@ -134,11 +170,78 @@ export class ResultPanel {
       onClick: () => this.handleDownload()
     }, downloadIcon, h("span", {}, "Download"));
 
-    // Compile panel DOM
-    return h("div", { class: "result-panel-v2" },
+    // Build placeholder view elements
+    const phoneSvg = s("svg", {
+      viewBox: "0 0 100 160",
+      width: "120",
+      height: "192",
+      class: "placeholder-phone-svg"
+    },
+      s("rect", { x: "15", y: "10", width: "70", height: "140", rx: "14", fill: "none", stroke: "currentColor", "stroke-width": "2.5" }),
+      s("path", { d: "M40 10a1 1 0 0 1 1 1v4a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-4a1 1 0 0 1 1-1", fill: "none", stroke: "currentColor", "stroke-width": "2" }),
+      s("text", { x: "50", y: "40", "font-size": "7", "font-weight": "700", "text-anchor": "middle", fill: "currentColor", "letter-spacing": "1" }, "QR SCAN"),
+      s("path", { d: "M30 65h6M30 65v6M70 65h-6M70 65v6M30 105h6M30 105v-6M70 105h-6M70 105v-6", fill: "none", stroke: "currentColor", "stroke-width": "1.5" }),
+      s("g", { fill: "currentColor" },
+        s("rect", { x: "34", y: "69", width: "8", height: "8" }),
+        s("rect", { x: "36", y: "71", width: "4", height: "4", fill: "var(--sa-surface)" }),
+        s("rect", { x: "58", y: "69", width: "8", height: "8" }),
+        s("rect", { x: "60", y: "71", width: "4", height: "4", fill: "var(--sa-surface)" }),
+        s("rect", { x: "34", y: "93", width: "8", height: "8" }),
+        s("rect", { x: "36", y: "95", width: "4", height: "4", fill: "var(--sa-surface)" }),
+        s("rect", { x: "46", y: "69", width: "2", height: "2" }),
+        s("rect", { x: "50", y: "71", width: "2", height: "2" }),
+        s("rect", { x: "44", y: "75", width: "4", height: "2" }),
+        s("rect", { x: "54", y: "73", width: "2", height: "4" }),
+        s("rect", { x: "46", y: "81", width: "6", height: "2" }),
+        s("rect", { x: "58", y: "81", width: "4", height: "2" }),
+        s("rect", { x: "34", y: "85", width: "2", height: "4" }),
+        s("rect", { x: "40", y: "87", width: "4", height: "2" }),
+        s("rect", { x: "48", y: "85", width: "2", height: "6" }),
+        s("rect", { x: "54", y: "89", width: "6", height: "2" }),
+        s("rect", { x: "62", y: "87", width: "4", height: "2" }),
+        s("rect", { x: "44", y: "93", width: "2", height: "4" }),
+        s("rect", { x: "48", y: "97", width: "6", height: "2" }),
+        s("rect", { x: "58", y: "93", width: "2", height: "2" }),
+        s("rect", { x: "62", y: "95", width: "4", height: "2" }),
+        s("rect", { x: "58", y: "99", width: "8", height: "2" })
+      ),
+      s("line", { x1: "25", y1: "85", x2: "75", y2: "85", stroke: "var(--sa-primary)", "stroke-width": "2", "stroke-linecap": "round" }),
+      s("text", { x: "50", y: "125", "font-size": "6", "font-style": "italic", "text-anchor": "middle", fill: "var(--sa-text-secondary)" }, "scanning...")
+    );
+
+    const placeholderHeader = h("div", { class: "result-header-v2" },
+      h("h3", {}, "Scan Result"),
+      h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon1)
+    );
+
+    const pageData = (window as any).scanappPageData || {};
+    const displayTitle = pageData.title || "QR Code Scanner - ScanApp";
+    const displayDesc = pageData.description || "Use ScanApp to scan QR codes or different types of Bar Codes on your web browser using camera or images on the device. Scanning is supported on PC, Mac, Android or IOS and works 100% free! No signups required!";
+
+    this.placeholderElement = h("div", { class: "result-placeholder-view" },
+      placeholderHeader,
+      h("div", { class: "result-placeholder-info" },
+        h("h2", {}, displayTitle),
+        h("p", {}, displayDesc),
+        h("div", { class: "result-placeholder-local-pill" }, "Scanning is done locally on your device")
+      ),
+      h("div", { class: "result-placeholder-divider" },
+        h("span", {}, "Scan Result"),
+        s("svg", { viewBox: "0 0 24 24", class: "chevron-icon" },
+          s("path", { d: "M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" })
+        )
+      ),
+      h("div", { class: "result-placeholder-empty-state" },
+        phoneSvg,
+        h("span", {}, "Scan to get results")
+      )
+    );
+
+    // Build content view elements
+    this.contentViewElement = h("div", { class: "result-content-view" },
       h("div", { class: "result-header-v2" },
         h("h3", {}, "Scan Result"),
-        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon)
+        h("button", { class: "close-sheet-btn", onClick: () => this.hide() }, closeIcon2)
       ),
       h("div", { class: "result-body-v2" },
         h("div", { class: "result-type-card" },
@@ -169,6 +272,12 @@ export class ResultPanel {
       h("div", { class: "scan-another-footer" },
         h("button", { class: "primary-btn", onClick: () => this.hide() }, "Scan Another")
       )
+    );
+
+    // Compile panel DOM
+    return h("div", { class: "result-panel-v2" },
+      this.placeholderElement,
+      this.contentViewElement
     );
   }
 
@@ -283,5 +392,35 @@ export class ResultPanel {
     this.typeIconWrapper.appendChild(iconSvg);
     this.typeTitle.textContent = titleStr;
     this.typeValue.textContent = descStr;
+  }
+
+  private createCollapsedTab(): HTMLElement {
+    const barcodeIcon = s("svg", { viewBox: "0 0 24 24", class: "tab-icon" },
+      s("path", { d: "M3 5h2v14H3zm4 0h1v14H7zm3 0h2v14h-2zm4 0h1v14h-1zm3 0h3v14h-3z" })
+    );
+
+    const chevronIcon = s("svg", { viewBox: "0 0 24 24", class: "tab-chevron" },
+      s("path", { d: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" })
+    );
+
+    return h("div", {
+      class: "result-collapsed-tab",
+      onClick: () => this.showPanelFromTab()
+    },
+      chevronIcon,
+      barcodeIcon,
+      h("div", { class: "tab-text" }, "SCAN RESULT")
+    );
+  }
+
+  private showPanelFromTab(): void {
+    if (this.currentResult) {
+      this.placeholderElement.style.display = "none";
+      this.contentViewElement.style.display = "flex";
+    } else {
+      this.placeholderElement.style.display = "flex";
+      this.contentViewElement.style.display = "none";
+    }
+    this.element.classList.add("show");
   }
 }

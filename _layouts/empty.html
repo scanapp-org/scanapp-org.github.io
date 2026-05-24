@@ -11,6 +11,13 @@
   <meta name="title" content="{{ page.meta_title }}">
   <meta name="description" content="{{ page.meta_description }}">
 
+  <script>
+    window.scanappPageData = {
+      title: {% if page.title %}"{{ page.title | escape }}"{% else %}null{% endif %},
+      description: {% if page.page_visible_description %}"{{ page.page_visible_description | escape }}"{% else %}null{% endif %}
+    };
+  </script>
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://scanapp.org/">

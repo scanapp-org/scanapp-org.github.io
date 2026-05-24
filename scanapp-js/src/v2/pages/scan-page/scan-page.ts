@@ -6,6 +6,7 @@ import { ResultPanel } from "../../result/result-panel";
 import { CameraDevice } from "../../../html5-qrcode/camera/core";
 import { appShell } from "../../app-shell";
 import { Logger } from "../../../scanapp/logger";
+import { isMobile } from "../../utils/detect";
 
 export class ScanPage implements Page {
   public id = PageId.SCAN;
@@ -44,6 +45,8 @@ export class ScanPage implements Page {
     const savedCoverMode = localStorage.getItem("scanapp_cover_mode");
     if (savedCoverMode !== null) {
       this.isCoverMode = savedCoverMode === "true";
+    } else {
+      this.isCoverMode = isMobile(); // True (cover/full-screen) on mobile, false (fit/resolution) on desktop web
     }
 
     this.element = this.createPageStructure();
@@ -209,7 +212,8 @@ export class ScanPage implements Page {
     );
 
     const cameraIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5 0-2.64 2.05-4.78 4.65-4.96L10 8h2l2.5-3 2.5 3h2l-1.65-.96C18.95 7.22 21 9.36 21 12c0 2.76-2.24 5-5 5zm0-2c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" })
+      s("path", { d: "M21 6h-1.5a.5.5 0 0 1-.5-.5A1.502 1.502 0 0 0 17.5 4h-6A1.502 1.502 0 0 0 10 5.5a.5.5 0 0 1-.5.5H8V5H4v1H3a2.002 2.002 0 0 0-2 2v10a2.002 2.002 0 0 0 2 2h18a2.002 2.002 0 0 0 2-2V8a2.002 2.002 0 0 0-2-2zm1 12a1.001 1.001 0 0 1-1 1H3a1.001 1.001 0 0 1-1-1V8a1.001 1.001 0 0 1 1-1h2V6h2v1h2.5A1.502 1.502 0 0 0 11 5.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5A1.502 1.502 0 0 0 19.5 7H21a1.001 1.001 0 0 1 1 1zM8.2 13h-1a4.796 4.796 0 0 1 8.8-2.644V9h1v3h-3v-1h1.217A3.79 3.79 0 0 0 8.2 13zm7.6 0h1A4.796 4.796 0 0 1 8 15.644V17H7v-3h3v1H8.783a3.79 3.79 0 0 0 7.017-2z" }),
+      s("path", { fill: "none", d: "M0 0h24v24H0z" })
     );
 
     const fitIcon = s("svg", { viewBox: "0 0 24 24" },
@@ -217,7 +221,7 @@ export class ScanPage implements Page {
     );
 
     const fileIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" })
+      s("path", { d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71zM8.5 11c.828 0 1.5-.672 1.5-1.5S9.328 8 8.5 8 7 8.672 7 9.5 7.672 11 8.5 11z" })
     );
 
     this.cameraReader = h("div", {
