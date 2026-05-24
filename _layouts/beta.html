@@ -30,8 +30,13 @@ layout: empty_beta
   </nav>
 </header>
 
-<!-- JS mount point. The bundle appendChild()s the live app into this landmark. -->
-<main id="scanapp-root" aria-label="ScanApp QR scanner"></main>
+<!-- JS mount point. The bundle replaces this tiny shell with the live app. -->
+<main id="scanapp-root" aria-label="ScanApp QR scanner">
+  <div class="scanapp-static-loader" role="status" aria-live="polite">
+    <div class="scanapp-static-spinner" aria-hidden="true"></div>
+    <div class="camera-loader-text">Waiting for camera permissions...</div>
+  </div>
+</main>
 
 <!-- Fallback for environments where JavaScript is disabled. Crawlers without
      a render pass will still see useful content and a path to alternatives. -->

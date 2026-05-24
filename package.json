@@ -8,6 +8,7 @@
     "build-windows": "npm run build:umd_windows",
     "build": "npm run build:umd",
     "build:umd": "./scripts/build-webpack.sh",
+    "build:css:v2": "node scripts/minify-scanapp-css.js",
     "lint-md": "remark .",
     "clean": "rm -Rf ./scanapp-js/lib/* ./scanapp-js/build/* ./scanapp-js/meta/bundlesize/* ./scanapp-js/meta/coverage/* ./scanapp-js/.rpt2_cache  ./scanapp-js/dist/* ./scanapp-js/src/html5-qrcode/*.d.ts ./scanapp-js/src/html5-qrcode/ui/scanner/*.d.ts ./scanapp-js/src/html5-qrcode/*/*.d.ts ./scanapp-js/src/scanapp/*.d.ts",
     "prebuild": "npm run clean",

@@ -1,5 +1,5 @@
 ---
-layout: index
+layout: beta
 title: "QR Code Scanner - ScanApp"
 meta_title: "QR Code Scanner - Scan QR Code with webcam or files"
 meta_description: "Use ScanApp to scan QR or different Bar Codes on your web browser using camera or images. Works for free on PC, Mac, Android, IOS without any sign up!"

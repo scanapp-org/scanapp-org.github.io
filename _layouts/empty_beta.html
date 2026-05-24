@@ -90,11 +90,54 @@
       white-space: nowrap;
       border: 0;
     }
+
+    #scanapp-root {
+      background-color: #0a0a0c;
+      color: #f3f4f6;
+    }
+
+    .scanapp-static-loader {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      gap: 16px;
+      height: 100vh;
+      height: 100dvh;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      width: 100vw;
+    }
+
+    .scanapp-static-spinner {
+      animation: scanapp-static-spin 0.8s linear infinite;
+      border: 3px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      border-top-color: #10b981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+      height: 44px;
+      width: 44px;
+    }
+
+    .scanapp-static-loader .camera-loader-text {
+      color: #f3f4f6;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @keyframes scanapp-static-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 
   <!-- Stylesheets -->
-  <link rel="preload" href="/assets/css/scanapp-v2.css" as="style">
-  <link rel="stylesheet" href="/assets/css/scanapp-v2.css">
+  <link rel="preload" href="/assets/css/scanapp-v2.min.css" as="style">
+  <link rel="stylesheet" href="/assets/css/scanapp-v2.min.css">
 
   <!-- Scripts -->
   <link rel="preload" href="/assets/js/scanapp-v2.min.js" as="script">
@@ -111,11 +154,37 @@
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script defer src="https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH"></script>
-<script defer>
+<script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2KZEP7DPYH');
+
+  window.loadScanAppAnalytics = function() {
+    if (window.__scanAppAnalyticsLoaded) {
+      return;
+    }
+
+    window.__scanAppAnalyticsLoaded = true;
+    var analyticsScript = document.createElement('script');
+    analyticsScript.async = true;
+    analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH';
+    document.head.appendChild(analyticsScript);
+    gtag('js', new Date());
+    gtag('config', 'G-2KZEP7DPYH');
+  };
+
+  var scheduleScanAppAnalytics = function() {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(window.loadScanAppAnalytics, { timeout: 3000 });
+      return;
+    }
+
+    window.setTimeout(window.loadScanAppAnalytics, 3000);
+  };
+
+  if (document.readyState === 'complete') {
+    scheduleScanAppAnalytics();
+  } else {
+    window.addEventListener('load', scheduleScanAppAnalytics, { once: true });
+  }
 </script>
 </html>
