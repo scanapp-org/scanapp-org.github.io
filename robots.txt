@@ -5,6 +5,8 @@ Disallow: /strategy/
 User-agent: *
 Allow: /
 Disallow: /strategy/
+Disallow: /beta
+Disallow: /beta/
 
 Sitemap: https://scanapp.org/sitemap.xml
 Sitemap: https://scanapp.org/atom.xml

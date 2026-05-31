@@ -1,7 +1,7 @@
 ---
 layout: blog_post
 title: "How to Scan Photoism QR Codes to Retrieve Your Photos and Videos"
-description: "Got a photo strip from a Photoism booth but having trouble downloading your session video? Learn how to scan Photoism QR codes online."
+description: "Scan Photoism photo booth QR codes online to retrieve your high-quality photos and session video. Works on iPhone, Android, PC — no app required."
 post-no: 8
 toc: true
 author: ScanApp Team

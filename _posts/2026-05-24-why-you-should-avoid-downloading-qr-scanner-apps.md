@@ -1,7 +1,7 @@
 ---
 layout: blog_post
 title: "Why You Should Avoid Downloading QR Code Scanner Apps"
-description: "Discover the hidden security risks, adware, and high subscription fees found in App Store QR scanners, and why web apps are safer."
+description: "Most QR scanner apps are adware or fleeceware. Learn why a free browser-based scanner like ScanApp is safer, faster, and requires no download."
 post-no: 14
 toc: true
 author: ScanApp Team

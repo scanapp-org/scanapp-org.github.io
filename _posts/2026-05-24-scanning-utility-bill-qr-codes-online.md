@@ -1,7 +1,7 @@
 ---
 layout: blog_post
 title: "How to Scan Utility Bill QR Codes for Easy Online Payments"
-description: "Confused by the QR code on your utility bill, invoice, or tax form? Learn how to scan and decode bill QR codes securely online."
+description: "Scan utility bill, invoice, or tax form QR codes online to view the payment link and reference number before paying. Free, no app needed."
 post-no: 10
 toc: true
 author: ScanApp Team

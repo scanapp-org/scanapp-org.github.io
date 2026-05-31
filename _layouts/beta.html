@@ -17,23 +17,344 @@ layout: empty_beta
   <p>ScanApp is a free, open-source web-based QR code and barcode scanner. Scan QR codes with your webcam or upload an image file — no install, no signup, no ads. Works on Windows, macOS, Android, iOS, Linux, and ChromeOS. Scanning is done locally on your device for full privacy.</p>
   <h2>Supported codes</h2>
   <p>QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14.</p>
+
+  {% if page.url == "/isbn/" or page.url == "/isbn" %}
+  <h2>How to scan an ISBN barcode online</h2>
+  <p>Open scanapp.org/isbn in your browser and grant camera permission, then point your camera at the ISBN barcode on the back of any book (or near the copyright page inside). ScanApp recognizes both ISBN-13 (starts with 978 or 979) and ISBN-10 formats and decodes the number in your browser. You can also upload a photo of the back cover.</p>
+
+  <h2>Look up a book by ISBN</h2>
+  <p>Once you have the ISBN, you can look up the title, author, edition, and cover art using the free <a href="https://openlibrary.org/dev/docs/api/books" rel="noopener">Open Library API</a> or Google Books. ScanApp links you straight to price comparisons on Amazon, AbeBooks, and ThriftBooks so you can find the cheapest copy — new, used, or rental.</p>
+
+  <h2>Why scan an ISBN online?</h2>
+  <ul>
+    <li><strong>Find cheaper textbooks.</strong> Scan the ISBN at the bookstore to compare used prices before buying new.</li>
+    <li><strong>Sell your old books.</strong> Get an instant offer from BookScouter, Decluttr, or Amazon Trade-In using the scanned ISBN.</li>
+    <li><strong>Build a personal library.</strong> Scan your shelf to bulk-import titles into Goodreads, LibraryThing, or Bookwyrm.</li>
+    <li><strong>Verify rare editions.</strong> Compare the printed ISBN against catalog data to spot first editions or reprints.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How do I scan an ISBN barcode online?</h3>
+  <p>Open scanapp.org/isbn in any modern browser, allow camera access, and point your camera at the ISBN barcode on the back of the book. ScanApp decodes the number instantly and links to title lookup and price comparison sites.</p>
+  <h3>What is the difference between ISBN-10 and ISBN-13?</h3>
+  <p>ISBN-10 is the older 10-digit format used on books published before 2007. ISBN-13 is the current 13-digit format starting with 978 or 979 and matches the EAN-13 barcode standard used worldwide. ScanApp reads both.</p>
+  <h3>Can I look up a book by scanning the ISBN?</h3>
+  <p>Yes. After ScanApp decodes the ISBN, the page links to Open Library, Google Books, Amazon, AbeBooks, and ThriftBooks where you can see the title, author, cover, and current prices.</p>
+  <h3>Is there a free ISBN scanner for textbooks?</h3>
+  <p>Yes — scanapp.org/isbn is 100% free, has no ads, and requires no signup. It's ideal for students comparing textbook prices across new, used, and rental sellers.</p>
+  <h3>Can I scan a book's ISBN from a photo instead of using the camera?</h3>
+  <p>Yes. Click the upload icon on scanapp.org/isbn and select a photo of the book's back cover. ScanApp decodes the ISBN from the image entirely in your browser.</p>
+  <h3>Does ISBN scanning work on iPhone and Android?</h3>
+  <p>Yes. Open scanapp.org/isbn in Safari, Chrome, or any modern mobile browser, grant camera permission, and scan. No app download required.</p>
+  <h3>Where is the ISBN barcode on a book?</h3>
+  <p>The ISBN barcode is almost always printed on the back cover near the bottom, often above the price. For hardcovers without dust jackets, check the copyright page inside the front matter for the printed ISBN number.</p>
+  {% elsif page.url == "/barcode/" or page.url == "/barcode" %}
+  <h2>How to scan a barcode online</h2>
+  <p>Open scanapp.org/barcode in your browser, grant camera permission, and point your camera at the barcode. ScanApp reads UPC, EAN, Code 128, ISBN, Data Matrix, and more. You can also upload an image file or screenshot of a barcode from your device.</p>
+
+  <h2>Barcode types explained</h2>
+  <ul>
+    <li><strong>EAN-13 / EAN-8</strong> — grocery and retail products (international).</li>
+    <li><strong>UPC-A / UPC-E</strong> — US retail products.</li>
+    <li><strong>Code 128</strong> — shipping labels and logistics.</li>
+    <li><strong>ISBN</strong> — books. See the <a href="/isbn/">ISBN scanner &amp; book lookup</a>.</li>
+    <li><strong>Code 39</strong> — industrial and automotive.</li>
+    <li><strong>Data Matrix</strong> — electronics and medical devices.</li>
+    <li><strong>QR Code</strong> — URLs, contacts, and WiFi. Use the <a href="/">QR code scanner</a>.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How do I scan a product barcode online?</h3>
+  <p>Open scanapp.org/barcode in any modern browser, allow camera access, and hold the barcode in front of your camera. ScanApp decodes the number instantly and copies it to your clipboard. You can also upload a photo of the barcode.</p>
+  <h3>What is the difference between a QR code and a barcode?</h3>
+  <p>A barcode is a 1D pattern of vertical lines that encodes a short number — typically a product ID. A QR code is a 2D matrix that can store URLs, text, WiFi credentials, contacts, and more. ScanApp reads both.</p>
+  <h3>Can I scan a barcode to check the price?</h3>
+  <p>Yes. Scan the EAN or UPC barcode at scanapp.org/barcode to get the product code, then look it up on Amazon, Walmart, or Google Shopping. For books, use the <a href="/isbn/">ISBN scanner</a> for direct price comparisons.</p>
+  <h3>How do I scan an ISBN barcode?</h3>
+  <p>Use the dedicated <a href="/isbn/">ISBN scanner</a> at scanapp.org/isbn. It reads ISBN-13 and ISBN-10 barcodes on book back covers and looks up the title, author, and edition automatically.</p>
+  <h3>What barcode formats does ScanApp support?</h3>
+  <p>QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14.</p>
+  <h3>Can I scan a barcode from an image or photo?</h3>
+  <p>Yes. Click the upload option on scanapp.org/barcode and select any photo or screenshot of a barcode from your device. Decoding is done locally in your browser.</p>
+  <h3>Does barcode scanning work on iPhone?</h3>
+  <p>Yes. Open scanapp.org/barcode in Safari on iPhone or iPad, grant camera permission, and point it at the barcode. No app required.</p>
+  {% else %}
   <h2>How to scan a QR code</h2>
   <p>Open scanapp.org in your browser, grant camera permission, point your camera at the QR code, and the result will appear instantly. You can also upload an image of a QR code from your device.</p>
   <h2>Frequently Asked Questions</h2>
-  <h3>Is ScanApp a free online scaner app?</h3>
-  <p>Yes, ScanApp is a 100% free online scanner (often searched as 'scaner' or 'skaner'). You can scan QR codes and barcodes instantly without downloading any app or signing up.</p>
-  <h3>Can I scan QR codes from an image, photo, or screenshot?</h3>
-  <p>Yes, you can easily upload an image, photo, or screenshot of a QR code from your device's gallery, and ScanApp will decode it locally in your browser.</p>
+  <h3>How do I scan a QR code without an app?</h3>
+  <p>Open scanapp.org in your browser on any device — no app download required. Grant camera permission and point your camera at the QR code. The result appears instantly. Works on iPhone, Android, PC, Mac, and Chromebook.</p>
+  <h3>Can I scan a QR code on my PC or laptop?</h3>
+  <p>Yes. Open scanapp.org on your PC or laptop, click 'Allow' when asked for camera permission, and hold the QR code in front of your webcam. You can also upload a screenshot or image file containing a QR code.</p>
+  <h3>How do I scan a QR code from a screenshot?</h3>
+  <p>On scanapp.org, click the 'Upload Image' option and select your screenshot from your device. ScanApp will decode the QR code from the image instantly without needing a camera.</p>
+  <h3>Is it safe to scan QR codes?</h3>
+  <p>ScanApp processes all QR codes locally on your device — no data is sent to any server. Always check the decoded URL before tapping it, especially for unsolicited QR codes in public places.</p>
+  <h3>What is the best free QR code scanner?</h3>
+  <p>ScanApp is a free, open-source QR code scanner that works directly in your browser. Unlike app-store scanners, it has no ads, no subscription, no signup, and no data collection. It works on all platforms including iPhone, Android, Windows, Mac, and Linux.</p>
+  <h3>How do I scan a QR code on Windows 11?</h3>
+  <p>Open scanapp.org in Chrome, Edge, or Firefox on Windows 11. Click 'Allow' when prompted for camera access. Hold the QR code in front of your webcam or upload an image file containing the QR code. See our <a href="/supports/how-to-scan-qr-code-windows-11/">Windows 11 guide</a>.</p>
+  <h3>Can I scan a QR code from an image on my phone?</h3>
+  <p>Yes. Open scanapp.org in your mobile browser, tap the file upload option, and select any image from your gallery, photos, or files. ScanApp decodes QR codes from images entirely on your device.</p>
+  <h3>What types of codes can ScanApp scan?</h3>
+  <p>ScanApp supports QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14.</p>
+  <h3>Does ScanApp work on iPhone?</h3>
+  <p>Yes. Open scanapp.org in Safari on your iPhone, grant camera permission, and scan any QR code or barcode instantly. No app download needed. ScanApp also works on iPad using the same method.</p>
+  <h3>Does ScanApp store my scan data?</h3>
+  <p>No. ScanApp processes all scans locally in your browser. No scan data, images, or results are ever sent to ScanApp's servers. Your privacy is fully protected.</p>
+  {% endif %}
   <nav aria-label="Site links">
     <a href="/blog/">Blog</a>
     <a href="/support/">Support</a>
     <a href="/barcode/">Barcode Scanner</a>
+    <a href="/isbn/">ISBN Book Lookup</a>
     <a href="https://medium.com/qr-code" rel="noopener">QR Code articles on Medium</a>
     <a href="https://github.com/scanapp-org" rel="noopener">Open source projects</a>
     <a href="https://github.com/mebjas/html5-qrcode" rel="noopener">Built with html5-qrcode by mebjas</a>
     <a href="https://github.com/scanapp-org/scanapp-org.github.io/issues/new" rel="noopener">Report an issue</a>
   </nav>
 </header>
+
+{% comment %} ─── FAQPage structured data (per-page) ─────────────────────── {% endcomment %}
+{% if page.url == "/isbn/" or page.url == "/isbn" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I scan an ISBN barcode online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open scanapp.org/isbn in any modern browser, allow camera access, and point your camera at the ISBN barcode on the back of the book. ScanApp decodes the number instantly and links to title lookup and price comparison sites."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between ISBN-10 and ISBN-13?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ISBN-10 is the older 10-digit format used on books published before 2007. ISBN-13 is the current 13-digit format starting with 978 or 979 and matches the EAN-13 barcode standard used worldwide. ScanApp reads both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I look up a book by scanning the ISBN?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. After ScanApp decodes the ISBN, the page links to Open Library, Google Books, Amazon, AbeBooks, and ThriftBooks where you can see the title, author, cover, and current prices."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a free ISBN scanner for textbooks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — scanapp.org/isbn is 100% free, has no ads, and requires no signup. It's ideal for students comparing textbook prices across new, used, and rental sellers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan a book's ISBN from a photo instead of using the camera?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Click the upload icon on scanapp.org/isbn and select a photo of the book's back cover. ScanApp decodes the ISBN from the image entirely in your browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ISBN scanning work on iPhone and Android?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open scanapp.org/isbn in Safari, Chrome, or any modern mobile browser, grant camera permission, and scan. No app download required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is the ISBN barcode on a book?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The ISBN barcode is almost always printed on the back cover near the bottom, often above the price. For hardcovers without dust jackets, check the copyright page inside the front matter for the printed ISBN number."
+      }
+    }
+  ]
+}
+</script>
+{% elsif page.url == "/barcode/" or page.url == "/barcode" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I scan a product barcode online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open scanapp.org/barcode in any modern browser, allow camera access, and hold the barcode in front of your camera. ScanApp decodes the number instantly. You can also upload a photo of the barcode."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a QR code and a barcode?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A barcode is a 1D pattern of vertical lines that encodes a short number, typically a product ID. A QR code is a 2D matrix that can store URLs, text, WiFi credentials, contacts, and more. ScanApp reads both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan a barcode to check the price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Scan the EAN or UPC barcode at scanapp.org/barcode to get the product code, then look it up on Amazon, Walmart, or Google Shopping. For books, use the ISBN scanner for direct price comparisons."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I scan an ISBN barcode?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the dedicated ISBN scanner at scanapp.org/isbn. It reads ISBN-13 and ISBN-10 barcodes on book back covers and looks up the title, author, and edition automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What barcode formats does ScanApp support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan a barcode from an image or photo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Click the upload option on scanapp.org/barcode and select any photo or screenshot of a barcode from your device. Decoding is done locally in your browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does barcode scanning work on iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open scanapp.org/barcode in Safari on iPhone or iPad, grant camera permission, and point it at the barcode. No app required."
+      }
+    }
+  ]
+}
+</script>
+{% elsif page.url == "/" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I scan a QR code without an app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open scanapp.org in your browser on any device — no app download required. Grant camera permission and point your camera at the QR code. The result appears instantly. Works on iPhone, Android, PC, Mac, and Chromebook."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan a QR code on my PC or laptop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open scanapp.org on your PC or laptop, click 'Allow' when asked for camera permission, and hold the QR code in front of your webcam. You can also upload a screenshot or image file containing a QR code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I scan a QR code from a screenshot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On scanapp.org, click the 'Upload Image' option and select your screenshot from your device. ScanApp will decode the QR code from the image instantly without needing a camera."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to scan QR codes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ScanApp processes all QR codes locally on your device — no data is sent to any server. Always check the decoded URL before tapping it, especially for unsolicited QR codes in public places."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best free QR code scanner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ScanApp is a free, open-source QR code scanner that works directly in your browser. Unlike app-store scanners, it has no ads, no subscription, no signup, and no data collection. It works on all platforms including iPhone, Android, Windows, Mac, and Linux."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I scan a QR code on Windows 11?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open scanapp.org in Chrome, Edge, or Firefox on Windows 11. Click 'Allow' when prompted for camera access. Hold the QR code in front of your webcam or upload an image file containing the QR code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan a QR code from an image on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open scanapp.org in your mobile browser, tap the file upload option, and select any image from your gallery, photos, or files. ScanApp decodes QR codes from images entirely on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of codes can ScanApp scan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ScanApp supports QR Code, Aztec, Code 128, Code 39, Code 93, Codabar, Data Matrix, EAN-13, EAN-8, ITF, PDF417, UPC-A, UPC-E, MaxiCode, and RSS-14."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ScanApp work on iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open scanapp.org in Safari on your iPhone, grant camera permission, and scan any QR code or barcode instantly. No app download needed. ScanApp also works on iPad using the same method."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ScanApp store my scan data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. ScanApp processes all scans locally in your browser. No scan data, images, or results are ever sent to ScanApp's servers. Your privacy is fully protected."
+      }
+    }
+  ]
+}
+</script>
+
+{% comment %} ─── SoftwareApplication structured data (homepage only) ────── {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ScanApp",
+  "operatingSystem": "Windows, macOS, Android, iOS, Linux, ChromeOS",
+  "applicationCategory": "UtilitiesApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Free online QR code and barcode scanner. Works in your browser with no download, no signup, and no ads. All scanning is done locally for complete privacy.",
+  "url": "https://scanapp.org",
+  "screenshot": "https://scanapp.org/assets/og-card.png"
+}
+</script>
+{% endif %}
 
 <!-- JS mount point. The bundle replaces this tiny shell with the live app. -->
 <main id="scanapp-root" aria-label="ScanApp QR scanner">

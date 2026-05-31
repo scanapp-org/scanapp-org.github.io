@@ -39,6 +39,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
 
+  {% if page.noindex %}
+  <meta name="robots" content="noindex, nofollow">
+  {% endif %}
+
   <!-- Primary Meta Tags -->
   <title>{{ page_title }}</title>
   <meta name="title" content="{{ page_meta_title }}">

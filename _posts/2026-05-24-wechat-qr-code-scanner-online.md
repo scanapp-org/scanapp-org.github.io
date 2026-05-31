@@ -1,7 +1,7 @@
 ---
 layout: blog_post
 title: "How to Scan WeChat QR Codes Online Without the WeChat App"
-description: "Need to scan a WeChat QR code or mini-program code but don't have the app installed? Learn how to extract WeChat links online."
+description: "Scan WeChat QR codes online without the WeChat app. Decode mini-program, contact, and pay codes in your browser — free, no signup, no install."
 post-no: 11
 toc: true
 author: ScanApp Team

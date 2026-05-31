@@ -29,9 +29,9 @@ QR codes are becoming increasingly popular and can be found almost anywhere from
 
 5.  **Tap the notification to access the information**: Tap on the notification to access the information or website linked to the QR code.
 
-## Option 3: Use a third-party QR code scanner app
+## Option 3: Use the ScanApp Native iOS App (Coming Soon)
 
-There are many third-party QR code scanner apps available in the App Store. Some popular ones include QR Code Reader by Scan, QR Reader for iPhone, and QR Code Reader & Barcode Scanner. Simply download the app of your choice, open it, and point your camera at the QR code to scan it.
+ScanApp is launching a free, privacy-first native iOS app with full camera scanning, scan history, and smart result detection — no ads, no subscription traps. The app uses Apple's Vision framework for fast on-device decoding and supports widgets, Shortcuts, the Action Button, and Control Center. [Join the waitlist →](https://scanapp.org/beta/)
 
 ## Option 4: Use a QR code scanning website
 

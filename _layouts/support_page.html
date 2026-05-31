@@ -2,6 +2,34 @@
 layout: support_default
 ---
 
+<!-- ─── BreadcrumbList Structured Data ──────────────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ScanApp",
+      "item": "https://scanapp.org"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Support",
+      "item": "https://scanapp.org/support/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": {{ page.title | jsonify }},
+      "item": {{ page.url | absolute_url | jsonify }}
+    }
+  ]
+}
+</script>
+
 <div class="post-hero">
   <div class="post-hero-inner">
     <nav class="post-breadcrumb" aria-label="Breadcrumb">
