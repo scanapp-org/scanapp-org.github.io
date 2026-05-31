@@ -161,17 +161,6 @@ export class DesktopSidebar {
       h("div", { class: "sidebar-footer-credits" }, "Built with ❤️ by ScanApp")
     );
 
-    const upgradeBanner = h("div", { class: "upgrade-banner-sidebar" },
-      h("div", { class: "upgrade-banner-content" },
-        h("span", { class: "upgrade-banner-text" }, "ScanApp has been upgraded!"),
-        h("a", {
-          href: "/version1",
-          class: "upgrade-banner-link",
-          onClick: () => Logger.logUpgradeBannerClick()
-        }, "Go to version 1")
-      )
-    );
-
     return h("aside", { class: "desktop-sidebar" },
       h("div", { class: "sidebar-logo" },
         h("img", { src: "/assets/images/svgs/logo.svg", alt: "logo" }),
@@ -184,7 +173,6 @@ export class DesktopSidebar {
         mediumBtn,
         supportBtn,
         themeSelector,
-        upgradeBanner,
         dropNote,
         privacyCard
       ),
