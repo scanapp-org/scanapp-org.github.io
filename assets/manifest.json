@@ -4,10 +4,22 @@
     "description": "QR Code Scanner - Scan QR Code with webcam or files",
     "icons": [
         {
-            "src": "/assets/images/svgs/logo.svg",
-            "type": "image/svg+xml",
-            "sizes": "any",
-            "purpose": "any maskable"
+            "src": "/assets/icons/pwa-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/icons/pwa-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/icons/pwa-maskable-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "maskable"
         }
     ],
     "start_url": "/",

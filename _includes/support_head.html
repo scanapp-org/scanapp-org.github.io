@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta charset="utf-8">
     <meta property="og:type" content="website">
+{% include icon_links.html %}
 
     {% if page.title == "Home" %}
     <title>{{ site.title }}</title>
@@ -28,8 +29,8 @@
     <meta property="twitter:image" content="{{ page.image }}">
     <meta property="og:image" content="{{ page.image }}">
     {% else %}
-    <meta property="twitter:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
-    <meta property="og:image" content="https://scanapp.org/assets/svg/scanapp-logo.png">
+    <meta property="twitter:image" content="https://scanapp.org/assets/og-card.png">
+    <meta property="og:image" content="https://scanapp.org/assets/og-card.png">
     {% endif %}
     {% endif %}
 
@@ -49,9 +50,6 @@
     <link rel="stylesheet" href="https://scanapp.org/assets/css/lanyon.min.css">
 
     {% include blog_font_css.html %}
-
-    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}"> -->
-    <!-- <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}"> -->
 
     <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
 </head>

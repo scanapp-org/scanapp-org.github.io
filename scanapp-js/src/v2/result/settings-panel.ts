@@ -46,7 +46,7 @@ export class SettingsPanel {
     );
 
     const logoImg = h("img", {
-      src: "/assets/images/svgs/logo.svg",
+      src: "/assets/icons/pwa-192x192.png",
       alt: "ScanApp Logo",
       class: "settings-logo"
     });

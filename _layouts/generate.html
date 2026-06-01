@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
+{% include icon_links.html %}
 
   <!-- Primary Meta Tags -->
   <title>{{ page.title | default: "Free Local QR Code Generator - No Sign-Up - ScanApp" }}</title>
@@ -64,7 +64,7 @@
   <aside class="desktop-sidebar">
     <div>
       <a class="sidebar-logo" href="/" aria-label="ScanApp Home">
-        <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="28" height="28">
+        <img src="/assets/icons/pwa-192x192.png" alt="ScanApp logo" width="28" height="28">
         <span>Scan<span style="color:var(--sa-primary)">App</span></span>
       </a>
 
@@ -141,7 +141,7 @@
   <!-- Mobile Top Header -->
   <header class="mobile-header" role="banner">
     <a class="mobile-brand" href="/" aria-label="ScanApp Home">
-      <img src="/assets/images/svgs/logo.svg" alt="ScanApp logo" width="24" height="24">
+      <img src="/assets/icons/pwa-192x192.png" alt="ScanApp logo" width="24" height="24">
       <span>Scan<span style="color:var(--sa-primary)">App</span></span>
     </a>
     
@@ -744,7 +744,7 @@
                     <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
                   </div>
                   <div class="logo-preset-card" data-preset="scanapp" role="radio" aria-checked="false" title="ScanApp Logo">
-                    <img src="/assets/images/svgs/logo.svg" alt="ScanApp preset">
+                    <img src="/assets/icons/logo-1024.png" alt="ScanApp preset">
                   </div>
                   <div class="logo-preset-card" data-preset="globe" role="radio" aria-checked="false" title="Website Globe">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -972,10 +972,10 @@
     <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM19 19h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2-2h2v-2h2v2h-2v2h-2zm2-4h2v2h-2zm-4 0h2v2h-2zm2 2h-2v2h2v-2z"/></svg>
     <span>Scan</span>
   </a>
-  <a href="/generate" class="mobile-tab-item active" aria-current="page" aria-label="Active: QR Code Generator">
+  <!-- <a href="/generate" class="mobile-tab-item active" aria-current="page" aria-label="Active: QR Code Generator">
     <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z"/></svg>
     <span>Generate</span>
-  </a>
+  </a> -->
   <button class="mobile-tab-item" id="mobile-settings-btn" aria-label="Open settings panel">
     <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
     <span>Settings</span>
@@ -987,7 +987,7 @@
 <div class="settings-panel-v2" id="mobile-settings-panel" role="dialog" aria-modal="true" aria-label="Settings panel" style="display:none;">
   <div class="settings-header-v2">
     <div class="settings-header-title-container">
-      <img src="/assets/images/svgs/logo.svg" alt="ScanApp Logo" class="settings-logo" width="28" height="28">
+      <img src="/assets/icons/pwa-192x192.png" alt="ScanApp Logo" class="settings-logo" width="28" height="28">
       <span class="settings-header-text">ScanApp</span>
     </div>
     <button class="close-sheet-btn" id="close-settings-btn" aria-label="Close settings panel" title="Close">

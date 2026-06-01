@@ -163,7 +163,7 @@ export class DesktopSidebar {
 
     return h("aside", { class: "desktop-sidebar" },
       h("div", { class: "sidebar-logo" },
-        h("img", { src: "/assets/images/svgs/logo.svg", alt: "logo" }),
+        h("img", { src: "/assets/icons/pwa-192x192.png", alt: "ScanApp logo" }),
         h("span", {}, "ScanApp")
       ),
       h("div", { class: "sidebar-menu" },

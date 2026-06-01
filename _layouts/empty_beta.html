@@ -37,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/svg+xml" href="/assets/images/svgs/logo.svg">
+{% include icon_links.html %}
 
   {% if page.noindex %}
   <meta name="robots" content="noindex, nofollow">
@@ -89,9 +89,6 @@
 
   <!-- PWA -->
   <meta name="theme-color" content="#0a0a0c" />
-  <link rel="manifest" href="/assets/manifest.json" />
-  <link rel="apple-touch-icon" href="/assets/images/svgs/logo.svg">
-
   <!-- Structured data: helps Google understand this is a free, web-based utility app.
        Eligible for SoftwareApplication/WebApplication rich-result enhancements. -->
   <script type="application/ld+json">
@@ -116,7 +113,7 @@
       "@type": "Organization",
       "name": "ScanApp",
       "url": "https://scanapp.org/",
-      "logo": "https://scanapp.org/assets/og-card.png"
+      "logo": "https://scanapp.org/assets/icons/organization-logo.png"
     },
     "featureList": [
       "Scan QR codes using device camera",
