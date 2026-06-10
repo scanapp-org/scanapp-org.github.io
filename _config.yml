@@ -31,7 +31,8 @@ twitter_username: minhazav
 github_username:  mebjas
 
 # Blog
-paginate: 5
+paginate: 20
+paginate_path: "/blog/page:num/"
 # permalink: pretty
 permalink: /blog/:year/:month/:day/:title.html
 

@@ -63,7 +63,7 @@ permalink: /blog/
 
   {% if paginator.previous_page %}
   {% if paginator.page == 2 %}
-  <a class="pagination-item newer" href="{{ '/' | absolute_url }}">Newer posts &rarr;</a>
+  <a class="pagination-item newer" href="{{ '/blog/' | absolute_url }}">Newer posts &rarr;</a>
   {% else %}
   <a class="pagination-item newer" href="{{ paginator.previous_page_path | absolute_url }}">Newer posts &rarr;</a>
   {% endif %}
