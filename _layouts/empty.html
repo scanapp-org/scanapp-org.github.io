@@ -53,6 +53,8 @@
 
   <!-- <link rel="preload" href="/assets/js/scanapp-js.pro.min.v2.5.9.js" as="script">
   <script defer src="/assets/js/scanapp-js.pro.min.v2.5.9.js"></script> -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1311871960161162"
+          crossorigin="anonymous" data-adbreak-test="on"></script>
   {% include inline_scanapp_js.html %}
 
   <base target="_parent">
@@ -61,7 +63,37 @@
   <link rel="preconnect" href="https://www.google-analytics.com">
 </head>
 <body data-instant-allow-query-string data-instant-allow-external-links>
-    <div> {{ content }} </div>
+  <script>
+    (function() {
+      var lockStyle = function(el) {
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.attributeName === "style") {
+              var style = el.getAttribute("style");
+              if (style && style !== "") {
+                el.removeAttribute("style");
+              }
+            }
+          });
+        });
+        observer.observe(el, { attributes: true, attributeFilter: ["style"] });
+      };
+      lockStyle(document.documentElement);
+      
+      var lockBodyAndMain = function() {
+        if (document.body) lockStyle(document.body);
+        var mainEl = document.getElementById("scanapp-root");
+        if (mainEl) lockStyle(mainEl);
+      };
+      
+      if (document.readyState === "loading") {
+        window.addEventListener("DOMContentLoaded", lockBodyAndMain);
+      } else {
+        lockBodyAndMain();
+      }
+    })();
+  </script>
+  {{ content }}
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

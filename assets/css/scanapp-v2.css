@@ -123,9 +123,11 @@ body, html {
   font-family: var(--sa-font);
   background-color: var(--sa-bg);
   color: var(--sa-text);
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

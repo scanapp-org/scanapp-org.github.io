@@ -38,17 +38,27 @@ export class SupportPanel {
   }
 
   private injectIframe(): void {
-    this.iframeContainer.innerHTML = "";
-    const iframe = document.createElement("iframe");
-    iframe.id = "kofiframe-v2";
-    iframe.src = "https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true";
-    iframe.style.border = "none";
-    iframe.style.width = "100%";
-    iframe.style.height = "520px";
-    iframe.style.background = "transparent";
-    iframe.style.borderRadius = "12px";
-    iframe.title = "Ko-fi minhaz";
-    this.iframeContainer.appendChild(iframe);
+    const tryPushAd = () => {
+      if (this.iframeContainer.offsetWidth > 0) {
+        this.iframeContainer.innerHTML = "";
+
+        const ins = document.createElement("ins");
+        ins.className = "adsbygoogle";
+        ins.style.display = "block";
+        ins.setAttribute("data-ad-client", "ca-pub-1311871960161162");
+        ins.setAttribute("data-ad-slot", "8739501923");
+        ins.setAttribute("data-ad-format", "auto");
+        ins.setAttribute("data-full-width-responsive", "true");
+        this.iframeContainer.appendChild(ins);
+
+        const script2 = document.createElement("script");
+        script2.innerHTML = "setTimeout(function() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }, 100);";
+        this.iframeContainer.appendChild(script2);
+      } else {
+        setTimeout(tryPushAd, 200);
+      }
+    };
+    setTimeout(tryPushAd, 50);
   }
 
   private createPanel(): HTMLElement {

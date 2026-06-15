@@ -551,28 +551,34 @@ export class ResultPanel {
   }
 
   private createSupportCard(): HTMLElement {
-    const heartIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" })
-    );
-    const openSupport = () => this.showKoFi();
-    return h("div", {
-      class: "sidebar-support-card result-panel-support-card",
-      role: "button",
-      tabindex: "0",
-      onClick: openSupport,
-      onKeyDown: (event: KeyboardEvent) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openSupport();
-        }
+    const adContainer = h("div", {
+      class: "result-panel-support-card",
+      style: "display: block; width: auto; background: transparent; border: none; min-height: 100px; text-align: center;"
+    });
+
+    const tryPushAd = () => {
+      if (adContainer.offsetWidth > 0) {
+        adContainer.innerHTML = "";
+
+        const ins = document.createElement("ins");
+        ins.className = "adsbygoogle";
+        ins.style.display = "block";
+        ins.setAttribute("data-ad-client", "ca-pub-1311871960161162");
+        ins.setAttribute("data-ad-slot", "8739501923");
+        ins.setAttribute("data-ad-format", "auto");
+        ins.setAttribute("data-full-width-responsive", "true");
+        adContainer.appendChild(ins);
+
+        const script2 = document.createElement("script");
+        script2.innerHTML = "setTimeout(function() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }, 100);";
+        adContainer.appendChild(script2);
+      } else {
+        setTimeout(tryPushAd, 200);
       }
-    },
-      h("div", { class: "sidebar-support-icon-wrapper" }, heartIcon),
-      h("div", { class: "sidebar-support-content" },
-        h("span", { class: "sidebar-support-title" }, "Support ScanApp"),
-        h("span", { class: "sidebar-support-desc" }, "Keep us ad-free! ❤️")
-      )
-    );
+    };
+    setTimeout(tryPushAd, 50);
+
+    return adContainer;
   }
 
   private showKoFi(): void {
@@ -599,16 +605,26 @@ export class ResultPanel {
   }
 
   private injectKofiIframe(): void {
-    this.kofiIframeContainer.innerHTML = "";
-    const iframe = document.createElement("iframe");
-    iframe.id = "kofiframe-result-panel";
-    iframe.src = "https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true";
-    iframe.style.border = "none";
-    iframe.style.width = "100%";
-    iframe.style.height = "520px";
-    iframe.style.background = "transparent";
-    iframe.style.borderRadius = "12px";
-    iframe.title = "Ko-fi minhaz";
-    this.kofiIframeContainer.appendChild(iframe);
+    const tryPushAd = () => {
+      if (this.kofiIframeContainer.offsetWidth > 0) {
+        this.kofiIframeContainer.innerHTML = "";
+
+        const ins = document.createElement("ins");
+        ins.className = "adsbygoogle";
+        ins.style.display = "block";
+        ins.setAttribute("data-ad-client", "ca-pub-1311871960161162");
+        ins.setAttribute("data-ad-slot", "8739501923");
+        ins.setAttribute("data-ad-format", "auto");
+        ins.setAttribute("data-full-width-responsive", "true");
+        this.kofiIframeContainer.appendChild(ins);
+
+        const script2 = document.createElement("script");
+        script2.innerHTML = "setTimeout(function() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }, 100);";
+        this.kofiIframeContainer.appendChild(script2);
+      } else {
+        setTimeout(tryPushAd, 200);
+      }
+    };
+    setTimeout(tryPushAd, 50);
   }
 }

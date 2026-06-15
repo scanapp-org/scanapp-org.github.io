@@ -64,18 +64,27 @@ export class MobileSponsorBottomSheet extends AbstractBottomSheet {
 
     private static injectIframe() {
         const container = document.getElementById("mobile-sponsor-panel-body")! as HTMLDivElement;
-        container.innerHTML = "";
-        let iframe = document.createElement("iframe");
-        iframe.id = "kofiframe";
-        container.appendChild(iframe);
 
-        iframe.src = "https://ko-fi.com/minhazav/?hidefeed=true&widget=true&embed=true&preview=true";
-        iframe.style.border = "none";
-        iframe.style.width = "100%";
-        iframe.style.background = "#f9f9f9";
-        iframe.style.marginTop = "10px";
+        const tryPushAd = () => {
+            if (container.offsetWidth > 0) {
+                container.innerHTML = "";
 
-        iframe.height = "712";
-        iframe.title = "Ko-fi minhaz";
+                const ins = document.createElement("ins");
+                ins.className = "adsbygoogle";
+                ins.style.display = "block";
+                ins.setAttribute("data-ad-client", "ca-pub-1311871960161162");
+                ins.setAttribute("data-ad-slot", "8739501923");
+                ins.setAttribute("data-ad-format", "auto");
+                ins.setAttribute("data-full-width-responsive", "true");
+                container.appendChild(ins);
+
+                const script2 = document.createElement("script");
+                script2.innerHTML = "setTimeout(function() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }, 100);";
+                container.appendChild(script2);
+            } else {
+                setTimeout(tryPushAd, 200);
+            }
+        };
+        setTimeout(tryPushAd, 50);
     }
 }

@@ -84,31 +84,33 @@ export class SettingsPanel {
       themeSelect
     );
 
-    // Support Banner Card
-    const openSupport = () => {
-      Logger.logBetaKoFiSupportClick("settings_panel");
-      this.onSupportClickCallback();
-    };
-
+    // Support Banner Card (Google Ads)
     const supportBanner = h("div", {
       class: "support-banner-card",
-      role: "button",
-      tabindex: "0",
-      onClick: openSupport,
-      onKeyDown: (event: KeyboardEvent) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openSupport();
-        }
+      style: "display: block; width: auto; background: transparent; border: none; padding: 0; cursor: default; min-height: 100px; text-align: center; box-shadow: none; transition: none;"
+    });
+
+    const tryPushAd = () => {
+      if (supportBanner.offsetWidth > 0) {
+        supportBanner.innerHTML = "";
+
+        const ins = document.createElement("ins");
+        ins.className = "adsbygoogle";
+        ins.style.display = "block";
+        ins.setAttribute("data-ad-client", "ca-pub-1311871960161162");
+        ins.setAttribute("data-ad-slot", "8739501923");
+        ins.setAttribute("data-ad-format", "auto");
+        ins.setAttribute("data-full-width-responsive", "true");
+        supportBanner.appendChild(ins);
+
+        const script2 = document.createElement("script");
+        script2.innerHTML = "setTimeout(function() { (window.adsbygoogle = window.adsbygoogle || []).push({}); }, 100);";
+        supportBanner.appendChild(script2);
+      } else {
+        setTimeout(tryPushAd, 200);
       }
-    },
-      h("div", { class: "support-banner-icon-wrapper" }, heartIcon),
-      h("div", { class: "support-banner-content" },
-        h("span", { class: "support-banner-title" }, "Support ScanApp"),
-        h("span", { class: "support-banner-desc" }, "Keep scanning ad-free! Support the creator with a donation.")
-      ),
-      h("span", { class: "support-banner-arrow" }, "→")
-    );
+    };
+    setTimeout(tryPushAd, 50);
 
     const shieldCheckIcon = s("svg", { viewBox: "0 0 24 24" },
       s("path", { d: "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" })
