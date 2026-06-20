@@ -57,6 +57,11 @@ export class DesktopSidebar {
       s("path", { d: "M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z" })
     );
 
+    // Image Icon (ScanApp Tools)
+    const imageCompressionIcon = s("svg", { viewBox: "0 0 24 24" },
+      s("path", { d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5l3.5-4.5 2.5 3.01L14.5 13l4.5 6zM8.5 11A1.5 1.5 0 1 0 8.5 8a1.5 1.5 0 0 0 0 3z" })
+    );
+
     const scanType = (window as any).scanappPageData?.scan_type || "QR";
     const scanBtn = h("button", {
       class: "sidebar-item active",
@@ -67,6 +72,11 @@ export class DesktopSidebar {
       href: "/generate",
       class: "sidebar-item"
     }, generateIcon, h("span", {}, "Generate QR Code"));
+
+    const imageCompressionBtn = h("a", {
+      href: "/image-compressor/",
+      class: "sidebar-item"
+    }, imageCompressionIcon, h("span", {}, "Compress Image"));
 
     const blogBtn = h("a", {
       href: "/blog/",
@@ -169,6 +179,7 @@ export class DesktopSidebar {
       h("div", { class: "sidebar-menu" },
         scanBtn,
         generateBtn,
+        imageCompressionBtn,
         blogBtn,
         mediumBtn,
         supportBtn,

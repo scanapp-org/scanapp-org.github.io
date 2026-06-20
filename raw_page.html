@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Favicons and install icons -->
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/manifest.json">
+
+  <title>Compress Images Online - ScanApp</title>
+  <meta name="title" content="Compress Images Online — Private JPG, PNG & WebP Compressor">
+  <meta name="description" content="Compress JPG, PNG, and WebP images privately in your browser. No upload, no signup, and no watermark. Resize and download your smaller image instantly.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://scanapp.org/image-compressor/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://scanapp.org/image-compressor/">
+  <meta property="og:title" content="Compress Images Online — Private JPG, PNG & WebP Compressor">
+  <meta property="og:description" content="Compress JPG, PNG, and WebP images privately in your browser. No upload, no signup, and no watermark. Resize and download your smaller image instantly.">
+  <meta property="og:image" content="https://scanapp.org/assets/og-card.png">
+  <meta name="theme-color" content="#10b981">
+  <link rel="stylesheet" href="/assets/css/scanapp-v2.min.css">
+  <link rel="stylesheet" href="/assets/css/tools.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Compress Images Online",
+    "url": "https://scanapp.org/image-compressor/",
+    "description": "Compress JPG, PNG, and WebP images privately in your browser. No upload, no signup, and no watermark. Resize and download your smaller image instantly.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+
+<div id="scanapp-root">
+  <!-- Desktop Navigation Sidebar -->
+  <aside class="desktop-sidebar">
+    <div>
+      <a class="sidebar-logo" href="/" aria-label="ScanApp Home">
+        <img src="/assets/icons/pwa-192x192.png" alt="ScanApp logo" width="28" height="28">
+        <span>Scan<span style="color:var(--sa-primary)">App</span></span>
+      </a>
+
+      <nav class="sidebar-menu" aria-label="Desktop Navigation">
+        <!-- Back Link to Scanner -->
+        <a class="sidebar-item" href="/" aria-label="Back to QR Code Scanner">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+          </svg>
+          <span>Scan QR Code</span>
+        </a>
+
+        <!-- Generator Link -->
+        <a class="sidebar-item" href="/generate">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z"/>
+          </svg>
+          <span>Generate QR Code</span>
+        </a>
+        
+        <!-- Compressor Link (Active) -->
+        <a class="sidebar-item active" href="/image-compressor/" aria-current="page">
+          <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+          <span>Compress Image</span>
+        </a>
+        
+        <a class="sidebar-item" href="/blog/">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+          </svg>
+          <span>Blog</span>
+        </a>
+
+        <a class="sidebar-item" href="/support/">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+          </svg>
+          <span>Support</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <!-- Local Badge -->
+      <div class="sidebar-privacy-card">
+        <div class="sidebar-privacy-icon-wrapper">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 15l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 7z"/></svg>
+        </div>
+        <div class="sidebar-privacy-content">
+          <div class="sidebar-privacy-title">100% Local & Free</div>
+          <div class="sidebar-privacy-desc">No sign-ups or accounts. Offline processing, no data leaves your device.</div>
+        </div>
+      </div>
+
+      <!-- Theme Switcher -->
+      <div class="theme-selector-container">
+        <label for="app-theme-picker">Theme</label>
+        <select class="theme-select" id="app-theme-picker" aria-label="Select app color theme">
+          <option value="dark">Dark Theme</option>
+          <option value="light">Light Theme</option>
+          <option value="monokai">Monokai</option>
+          <option value="dracula">Dracula</option>
+          <option value="nord">Nord</option>
+          <option value="solarized-dark">Solarized</option>
+        </select>
+      </div>
+
+      <div class="sidebar-extra-footer">
+        <div class="sidebar-footer-links">
+          <a href="https://github.com/scanapp-org" target="_blank" rel="noopener">GitHub</a> &bull; 
+          <a href="/support/">Contact</a>
+        </div>
+        <div class="sidebar-footer-credits">
+          &copy; <span id="current-year">2026</span> ScanApp
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Top Header -->
+  <header class="mobile-header" role="banner">
+    <a class="mobile-brand" href="/" aria-label="ScanApp Home">
+      <img src="/assets/icons/pwa-192x192.png" alt="ScanApp logo" width="24" height="24">
+      <span>Scan<span style="color:var(--sa-primary)">App</span></span>
+    </a>
+    
+    <!-- Back to Scanner Link on Mobile -->
+    <a href="/" class="sidebar-item" style="padding: 6px 12px; width: auto; font-size: 0.85rem; border: 1px solid var(--sa-border); border-radius: 8px;" aria-label="Scan QR Code">
+      Scan QR
+    </a>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="app-content" id="main-content" role="main" style="overflow-y: auto;">
+    <section class="tool-hero" aria-labelledby="compressor-title">
+  <p class="eyebrow">ScanApp Tools</p>
+  <h1 id="compressor-title">Compress images, privately.</h1>
+  <p class="hero-copy">Make JPG, PNG, and WebP files smaller directly in your browser. Your image is never uploaded to a ScanApp server.</p>
+</section>
+
+<section class="compressor-shell" aria-label="Image compressor">
+  <div class="privacy-note" role="note">
+    <span aria-hidden="true">✓</span>
+    <div><strong>100% local processing</strong><br /><small>Your file stays on this device. Closing the page clears it.</small></div>
+  </div>
+
+  <div class="drop-zone" id="drop-zone">
+    <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp" hidden="" />
+    <div class="drop-icon" aria-hidden="true">↑</div>
+    <h2>Drop an image here</h2>
+    <p>or choose a JPG, PNG, or WebP file up to 25 MB</p>
+    <button id="choose-image" class="button button-primary" type="button">Choose image</button>
+    <p class="paste-tip">You can also paste a screenshot.</p>
+  </div>
+
+  <div id="workspace" class="workspace" hidden="">
+    <section class="preview-card" aria-label="Image preview">
+      <div class="preview-frame"><img id="image-preview" alt="Selected image preview" /></div>
+      <dl class="image-details">
+        <div><dt>Original</dt><dd id="original-size">—</dd></div>
+        <div><dt>Dimensions</dt><dd id="original-dimensions">—</dd></div>
+      </dl>
+      <button id="replace-image" class="text-button" type="button">Replace image</button>
+    </section>
+
+    <section class="controls-card" aria-label="Compression settings">
+      <h2>Compression settings</h2>
+      <label for="quality">Quality <output id="quality-value" for="quality">80%</output></label>
+      <input id="quality" type="range" min="30" max="95" value="80" step="5" />
+      <p class="field-help">Lower quality makes a smaller file. We keep a sensible 30% minimum for readable images.</p>
+
+      <label for="max-width">Maximum width <span class="optional">optional</span></label>
+      <input id="max-width" type="number" min="1" max="10000" placeholder="Keep original size" inputmode="numeric" />
+      <p class="field-help">Large images shrink proportionally to this width.</p>
+
+      <label for="output-format">Output format</label>
+      <select id="output-format">
+        <option value="auto">Smart (keeps PNG transparency)</option>
+        <option value="image/jpeg">JPG — best for photos</option>
+        <option value="image/webp">WebP — smaller, modern format</option>
+      </select>
+      <p class="field-help">Smart exports transparent PNG files as WebP; other images become JPG.</p>
+
+      <button id="compress-image" class="button button-primary button-full" type="button">Compress image</button>
+      <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="result-card" class="result-card" hidden="" aria-label="Compressed image result">
+      <p class="result-kicker">Ready to download</p>
+      <h2>Your smaller image is ready.</h2>
+      <div class="saving"><strong id="compressed-size">—</strong><span id="saving-summary">—</span></div>
+      <div class="result-actions">
+        <a id="download-image" class="button button-primary" href="#">Download image</a>
+        <button id="share-image" class="button button-secondary" type="button" hidden="">Share</button>
+      </div>
+      <p class="field-help">Image metadata is removed when the file is re-encoded.</p>
+    </section>
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>How to compress an image</h2>
+  <ol>
+    <li>Choose or drop a JPG, PNG, or WebP image.</li>
+    <li>Adjust quality or maximum width if you need to.</li>
+    <li>Download the compressed image. It never leaves your browser.</li>
+  </ol>
+  <h2>Private by design</h2>
+  <p>ScanApp handles the compression in your browser using your device’s own processing power. We do not upload, store, or inspect the image you select.</p>
+  <h2>Related ScanApp tools</h2>
+  <p><a href="/">Scan a QR code from an image</a> or <a href="/generate/">create a private QR code</a>, also without an account.</p>
+</section>
+
+  </main>
+
+<!-- Mobile Bottom Tab Bar -->
+<nav class="mobile-tab-bar" aria-label="Mobile Navigation">
+  <a href="/" class="mobile-tab-item" aria-label="Go to QR Code Scanner">
+    <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM19 19h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2-2h2v-2h2v2h-2v2h-2zm2-4h2v2h-2zm-4 0h2v2h-2zm2 2h-2v2h2v-2z"/></svg>
+    <span>Scan</span>
+  </a>
+  <a href="/generate" class="mobile-tab-item" aria-label="Go to QR Code Generator">
+    <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z"/></svg>
+    <span>Generate</span>
+  </a>
+  <a href="/image-compressor/" class="mobile-tab-item active" aria-current="page" aria-label="Active: Image Compressor">
+    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    <span>Compress</span>
+  </a>
+  <button class="mobile-tab-item" id="mobile-settings-btn" aria-label="Open settings panel">
+    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    <span>Settings</span>
+  </button>
+</nav>
+
+<!-- Mobile Settings Drawer -->
+<div class="mobile-scrim-v2" id="mobile-scrim" style="display:none;"></div>
+<div class="settings-panel-v2" id="mobile-settings-panel" role="dialog" aria-modal="true" aria-label="Settings panel" style="display:none;">
+  <div class="settings-header-v2">
+    <div class="settings-header-title-container">
+      <img src="/assets/icons/pwa-192x192.png" alt="ScanApp Logo" class="settings-logo" width="28" height="28">
+      <span class="settings-header-text">ScanApp</span>
+    </div>
+    <button class="close-sheet-btn" id="close-settings-btn" aria-label="Close settings panel" title="Close">
+      <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+  </div>
+  <div class="settings-body-v2">
+    <div class="settings-option-row">
+      <div class="settings-option-info">
+        <label class="settings-option-label" for="settings-theme-picker">Theme</label>
+        <span class="settings-option-sublabel">Choose UI appearance</span>
+      </div>
+      <select class="settings-theme-select" id="settings-theme-picker" aria-label="Select app color theme">
+        <option value="dark">Dark Theme</option>
+        <option value="light">Light Theme</option>
+        <option value="monokai">Monokai</option>
+        <option value="dracula">Dracula</option>
+        <option value="nord">Nord</option>
+        <option value="solarized-dark">Solarized</option>
+      </select>
+    </div>
+
+    <!-- Security & Offline Badge -->
+    <div class="settings-privacy-card">
+      <div class="settings-privacy-icon-wrapper">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </div>
+      <div class="settings-privacy-content">
+        <span class="settings-privacy-title">100% Local & Free</span>
+        <span class="settings-privacy-desc">All scanning and processing happens locally on your device. Your privacy is fully guaranteed.</span>
+      </div>
+    </div>
+  </div>
+  <div class="settings-footer-v2">
+    <div class="settings-footer-links">
+      <a href="/blog/" class="settings-footer-link">Blog</a>
+      <span class="settings-footer-separator">•</span>
+      <a href="/support/" class="settings-footer-link">Help & FAQ</a>
+      <span class="settings-footer-separator">•</span>
+      <a href="https://github.com/scanapp-org" target="_blank" rel="noopener" class="settings-footer-link">GitHub</a>
+    </div>
+    <div class="settings-footer-credits">Built with ❤️ by ScanApp</div>
+  </div>
+</div>
+</div>
+
+<!-- Theme Picker Sync Logic -->
+<script>
+(function() {
+  const STORAGE_KEY = 'scanapp-v2-theme';
+  const VALID = ['light', 'dark', 'monokai', 'dracula', 'nord', 'solarized-dark'];
+  const THEME_COLORS = {
+    dark: '#0a0a0c', light: '#f9fafb', monokai: '#272822',
+    dracula: '#282a36', nord: '#2e3440', 'solarized-dark': '#002b36'
+  };
+
+  function applyTheme(id) {
+    document.documentElement.setAttribute('data-theme', id);
+    const meta = document.querySelector("meta[name='theme-color']");
+    if (meta) meta.setAttribute('content', THEME_COLORS[id] || '#0a0a0c');
+    
+    const select = document.getElementById('app-theme-picker');
+    if (select) select.value = id;
+
+    const selectMobile = document.getElementById('settings-theme-picker');
+    if (selectMobile) selectMobile.value = id;
+    
+    try { localStorage.setItem(STORAGE_KEY, id); } catch (e) {}
+  }
+
+  // Load theme preference
+  let savedTheme = 'dark';
+  try { savedTheme = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+  applyTheme(VALID.indexOf(savedTheme) !== -1 ? savedTheme : 'dark');
+
+  // Listen to select changes (both desktop and mobile settings)
+  const select = document.getElementById('app-theme-picker');
+  if (select) {
+    select.addEventListener('change', (e) => {
+      applyTheme(e.target.value);
+    });
+  }
+
+  const selectMobile = document.getElementById('settings-theme-picker');
+  if (selectMobile) {
+    selectMobile.addEventListener('change', (e) => {
+      applyTheme(e.target.value);
+    });
+  }
+
+  // Mobile settings drawer open/close triggers
+  const mobileSettingsBtn = document.getElementById('mobile-settings-btn');
+  const mobileSettingsPanel = document.getElementById('mobile-settings-panel');
+  const mobileScrim = document.getElementById('mobile-scrim');
+  const closeSettingsBtn = document.getElementById('close-settings-btn');
+
+  if (mobileSettingsBtn && mobileSettingsPanel && mobileScrim) {
+    mobileSettingsBtn.addEventListener('click', () => {
+      mobileSettingsPanel.classList.add('show');
+      mobileScrim.classList.add('show');
+    });
+
+    const hidePanel = () => {
+      mobileSettingsPanel.classList.remove('show');
+      mobileScrim.classList.remove('show');
+    };
+
+    mobileScrim.addEventListener('click', hidePanel);
+    if (closeSettingsBtn) {
+      closeSettingsBtn.addEventListener('click', hidePanel);
+    }
+  }
+
+  // Current year copyright update
+  const yearEl = document.getElementById('current-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+</script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+  window.scanappToolEvent = function(name, params) {
+    window.gtag('event', name, params || {});
+  };
+  window.addEventListener('load', function() {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH';
+    document.head.appendChild(script);
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-2KZEP7DPYH');
+  }, { once: true });
+</script>
+<script src="/assets/js/image-compressor.js" defer></script>
+</body>
+</html>
