@@ -44,11 +44,6 @@ export class MobileTabBar {
       s("path", { d: "M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm13-2h3v2h-3zm-3 3h3v3h-3zm3 3h3v3h-3zm-3-3h3v-3h-3zm6-3h3v3h-3zm-3 6h3v-3h-3z" })
     );
 
-    // Compress Icon (Image)
-    const compressIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" })
-    );
-
     const scanItem = h("button", {
       class: "mobile-tab-item active",
       onClick: () => this.handleNavigate(PageId.SCAN)
@@ -58,20 +53,6 @@ export class MobileTabBar {
       href: "/generate",
       class: "mobile-tab-item"
     }, generateIcon, h("span", {}, "Generate"));
-
-    const compressItem = h("a", {
-      href: "/image-compressor/",
-      class: "mobile-tab-item"
-    }, compressIcon, h("span", {}, "Compress"));
-
-    const convertIcon = s("svg", { viewBox: "0 0 24 24" },
-      s("path", { d: "M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z" })
-    );
-
-    const convertItem = h("a", {
-      href: "/image-converter/",
-      class: "mobile-tab-item"
-    }, convertIcon, h("span", {}, "Convert"));
 
     const settingsItem = h("button", {
       class: "mobile-tab-item",
@@ -85,8 +66,6 @@ export class MobileTabBar {
     return h("nav", { class: "mobile-tab-bar" },
       scanItem,
       generateItem,
-      compressItem,
-      convertItem,
       settingsItem
     );
   }
