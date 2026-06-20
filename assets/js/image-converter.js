@@ -3,23 +3,23 @@
 
   var MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
   var fileQueue = [];
+  var targetFormat = 'image/webp'; // default
   var lastTriggerSource = 'unknown';
 
   // DOM Elements
   var input = document.getElementById('image-input');
   var dropZone = document.getElementById('drop-zone');
   var addImagesBtn = document.getElementById('add-images-btn');
-  var compressAllBtn = document.getElementById('compress-all-btn');
+  var convertAllBtn = document.getElementById('convert-all-btn');
   var downloadAllBtn = document.getElementById('download-all-btn');
   var quality = document.getElementById('quality');
   var qualityValue = document.getElementById('quality-value');
   var maxWidth = document.getElementById('max-width');
-  var outputFormat = document.getElementById('output-format');
   var queueContainer = document.getElementById('queue-container');
   var compressQueue = document.getElementById('compress-queue');
   var summarySavedBytes = document.getElementById('summary-saved-bytes');
-  var summaryCount = document.getElementById('summary-count');
-  var summaryPercentage = document.getElementById('summary-percentage');
+  var summaryProgressCount = document.getElementById('summary-progress-count');
+  var summaryTargetFormat = document.getElementById('summary-target-format');
 
   function event(name, params) {
     if (window.scanappToolEvent) window.scanappToolEvent(name, params);
@@ -42,11 +42,25 @@
     if (mimeType === 'image/avif') return 'avif';
     if (mimeType === 'image/gif') return 'gif';
     if (mimeType === 'image/bmp') return 'bmp';
+    if (mimeType === 'application/pdf') return 'pdf';
     return 'jpg';
   }
 
+  function formatLabel(mimeType) {
+    if (mimeType === 'image/webp') return 'WEBP';
+    if (mimeType === 'image/png') return 'PNG';
+    if (mimeType === 'image/avif') return 'AVIF';
+    if (mimeType === 'image/gif') return 'GIF';
+    if (mimeType === 'image/bmp') return 'BMP';
+    if (mimeType === 'application/pdf') return 'PDF';
+    return 'JPG';
+  }
+
   function validImage(file) {
-    return file && file.type && file.type.indexOf('image/') === 0;
+    if (!file || !file.name) return false;
+    var ext = file.name.split('.').pop().toLowerCase();
+    var validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
+    return (file.type && file.type.indexOf('image/') === 0) || validExtensions.indexOf(ext) !== -1;
   }
 
   // Handle files adding
@@ -57,7 +71,7 @@
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       if (!validImage(file)) {
-        alert('File "' + file.name + '" is not a valid image.');
+        alert('File "' + file.name + '" is not a supported format.');
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {
@@ -70,8 +84,14 @@
       }
 
       var id = 'file-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-      var previewUrl = URL.createObjectURL(file);
+      var previewUrl = null;
+      var isHeic = file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif') || file.type === 'image/heic' || file.type === 'image/heif';
       
+      // For standard images, create object URL immediately. For HEIC, we will do it on-the-fly.
+      if (!isHeic) {
+        previewUrl = URL.createObjectURL(file);
+      }
+
       var item = {
         id: id,
         file: file,
@@ -83,21 +103,22 @@
         compressedUrl: null,
         compressedName: null,
         previewUrl: previewUrl,
-        errorMsg: null
+        errorMsg: null,
+        isHeic: isHeic
       };
 
       fileQueue.push(item);
       renderQueueRow(item);
       addedCount++;
       
-      event('file_selected', { file_type: file.type, size: file.size, source: lastTriggerSource });
+      event('file_selected', { file_type: file.type || 'image/heic', size: file.size, source: lastTriggerSource });
     }
     lastTriggerSource = 'unknown';
 
     if (addedCount > 0) {
       queueContainer.hidden = false;
-      // Auto compress the newly added files
-      compressPending();
+      // Auto convert the newly added files
+      convertPending();
     }
   }
 
@@ -110,15 +131,23 @@
       compressQueue.appendChild(row);
     }
 
+    var sourceFormat = (item.file.type.split('/')[1] || item.file.name.split('.').pop() || 'img').toUpperCase();
+    if (sourceFormat === 'JPEG') sourceFormat = 'JPG';
+    if (sourceFormat === 'SVG+XML') sourceFormat = 'SVG';
+
     var sizesHtml = '<span>' + bytes(item.originalSize) + '</span>';
     if (item.status === 'done') {
-      var savings = Math.round(((item.originalSize - item.compressedSize) / item.originalSize) * 100);
-      sizesHtml = '<span>' + bytes(item.originalSize) + '</span>' +
+      var targetLabel = formatLabel(item.compressedBlob.type || targetFormat);
+      sizesHtml = '<span class="queue-savings-badge" style="background:rgba(var(--sa-primary-rgb),0.08);color:var(--sa-primary);margin-left:0;margin-right:6px;">' + sourceFormat + ' ➔ ' + targetLabel + '</span>' +
+                  '<span>' + bytes(item.originalSize) + '</span>' +
                   '<span class="queue-arrow">➔</span>' +
-                  '<span class="queue-sizes-compressed">' + bytes(item.compressedSize) + '</span>' +
-                  '<span class="queue-savings-badge">-' + Math.max(0, savings) + '%</span>';
+                  '<span class="queue-sizes-compressed">' + bytes(item.compressedSize) + '</span>';
     } else if (item.status === 'error') {
       sizesHtml = '<span style="color:var(--sa-danger)">' + (item.errorMsg || 'Failed') + '</span>';
+    } else if (item.status === 'compressing') {
+      sizesHtml = '<span style="color:var(--sa-muted)">' + (item.errorMsg || 'Converting...') + '</span>';
+    } else {
+      sizesHtml = '<span style="color:var(--sa-muted)">In queue</span>';
     }
 
     var progressClass = 'progress-bar-fill';
@@ -126,16 +155,11 @@
       progressClass += ' compressing';
     }
 
-    var format = item.file.type.split('/')[1] || 'img';
-    if (format === 'jpeg') format = 'jpg';
-    if (format === 'svg+xml') format = 'svg';
-
     var thumbHtml = '';
-    // Use canvas thumbnail preview for common raster formats, display fallback format text otherwise
-    if (['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'avif'].indexOf(format.toLowerCase()) !== -1) {
+    if (item.previewUrl) {
       thumbHtml = '<img class="queue-thumb" src="' + item.previewUrl + '" alt="Thumbnail">';
     } else {
-      thumbHtml = '<div class="queue-format-icon">' + format.toUpperCase() + '</div>';
+      thumbHtml = '<div class="queue-format-icon">' + sourceFormat + '</div>';
     }
 
     row.innerHTML = 
@@ -152,7 +176,7 @@
         '</div>' +
       '</div>' +
       '<div class="queue-actions">' +
-        '<a id="download-btn-' + item.id + '" class="icon-btn" title="Download image" ' + 
+        '<a id="download-btn-' + item.id + '" class="icon-btn" title="Download converted file" ' + 
           (item.status === 'done' ? 'href="' + item.compressedUrl + '" download="' + item.compressedName + '"' : 'style="pointer-events: none; opacity: 0.3;"') + '>' +
           '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>' +
         '</a>' +
@@ -169,7 +193,7 @@
     var dl = document.getElementById('download-btn-' + item.id);
     if (dl && item.status === 'done') {
       dl.addEventListener('click', function() {
-        event('download_clicked', { tool: 'image_compressor', filename: item.compressedName });
+        event('download_clicked', { tool: 'image_converter', filename: item.compressedName });
       });
     }
   }
@@ -201,6 +225,88 @@
     }
   }
 
+  function processImageConversion(item, imgElement, callback) {
+    try {
+      var canvas = document.createElement('canvas');
+      var width = imgElement.naturalWidth || imgElement.width;
+      var height = imgElement.naturalHeight || imgElement.height;
+
+      var widthLimit = Number(maxWidth.value);
+      if (widthLimit && width > widthLimit) {
+        height = Math.round(height * (widthLimit / width));
+        width = widthLimit;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      var ctx = canvas.getContext('2d');
+
+      // If output is JPEG or PDF, fill transparent background with white
+      if (targetFormat === 'image/jpeg' || targetFormat === 'application/pdf') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      ctx.drawImage(imgElement, 0, 0, width, height);
+      item.progress = 80;
+      renderQueueRow(item);
+
+      // Handle PDF generation separately
+      if (targetFormat === 'application/pdf') {
+        if (window.jspdf && window.jspdf.jsPDF) {
+          var doc = new window.jspdf.jsPDF({
+            orientation: width > height ? 'landscape' : 'portrait',
+            unit: 'px',
+            format: [width, height]
+          });
+          // Add standard JPEG representation to PDF
+          var dataUrl = canvas.toDataURL('image/jpeg', Number(quality.value) / 100);
+          doc.addImage(dataUrl, 'JPEG', 0, 0, width, height);
+          var pdfBlob = doc.output('blob');
+          
+          handleBlobResult(pdfBlob);
+        } else {
+          // Fallback to PNG if jspdf isn't loaded
+          canvas.toBlob(handleBlobResult, 'image/png');
+        }
+      } else {
+        canvas.toBlob(handleBlobResult, targetFormat, Number(quality.value) / 100);
+      }
+
+      function handleBlobResult(blob) {
+        if (!blob) {
+          item.status = 'error';
+          item.errorMsg = 'Blob encoding failed';
+          item.progress = 100;
+          renderQueueRow(item);
+          if (callback) callback();
+          return;
+        }
+
+        item.status = 'done';
+        item.progress = 100;
+        item.compressedSize = blob.size;
+        item.compressedBlob = blob;
+        if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
+        item.compressedUrl = URL.createObjectURL(blob);
+        item.compressedName = fileBaseName(item.file.name) + '-converted.' + extension(blob.type || targetFormat);
+
+        renderQueueRow(item);
+        updateSummary();
+        event('processing_success', { output_type: blob.type || targetFormat, output_size: blob.size });
+        if (callback) callback();
+      }
+
+    } catch (err) {
+      item.status = 'error';
+      item.errorMsg = 'Canvas draw failed';
+      item.progress = 100;
+      renderQueueRow(item);
+      if (callback) callback();
+    }
+  }
+
   function compressItem(item, callback) {
     if (item.status === 'compressing') {
       if (callback) callback();
@@ -211,74 +317,60 @@
     item.progress = 20;
     renderQueueRow(item);
 
-    var img = new Image();
-    img.onload = function () {
-      item.progress = 50;
-      renderQueueRow(item);
-
-      try {
-        var canvas = document.createElement('canvas');
-        var width = img.naturalWidth;
-        var height = img.naturalHeight;
-
-        var widthLimit = Number(maxWidth.value);
-        if (widthLimit && width > widthLimit) {
-          height = Math.round(height * (widthLimit / width));
-          width = widthLimit;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        var ctx = canvas.getContext('2d');
-
-        var mimeType = outputFormat.value;
-        if (mimeType === 'auto') {
-          // smart mapping: transparent images become WebP, standard images become JPEG
-          mimeType = (item.file.type === 'image/png' || item.file.type === 'image/svg+xml') ? 'image/webp' : 'image/jpeg';
-        }
-
-        if (mimeType === 'image/jpeg') {
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, width, height);
-        }
-
-        ctx.drawImage(img, 0, 0, width, height);
-        item.progress = 80;
+    // HEIC/HEIF Decoder support
+    if (item.isHeic) {
+      if (window.heic2any) {
+        item.errorMsg = 'Decoding HEIC...';
         renderQueueRow(item);
 
-        canvas.toBlob(function (blob) {
-          if (!blob) {
+        window.heic2any({
+          blob: item.file,
+          toType: 'image/jpeg',
+          quality: 0.85
+        }).then(function (convertedBlob) {
+          var jpegUrl = URL.createObjectURL(convertedBlob);
+          item.previewUrl = jpegUrl;
+          item.progress = 40;
+          item.errorMsg = 'Loading converted image...';
+          renderQueueRow(item);
+
+          var img = new Image();
+          img.onload = function () {
+            item.progress = 60;
+            renderQueueRow(item);
+            processImageConversion(item, img, callback);
+          };
+          img.onerror = function () {
             item.status = 'error';
-            item.errorMsg = 'Blob encoding failed';
+            item.errorMsg = 'Decoded load failed';
             item.progress = 100;
             renderQueueRow(item);
             if (callback) callback();
-            return;
-          }
-
-          item.status = 'done';
+          };
+          img.src = jpegUrl;
+        }).catch(function (err) {
+          item.status = 'error';
+          item.errorMsg = 'HEIC decode failed';
           item.progress = 100;
-          item.compressedSize = blob.size;
-          item.compressedBlob = blob;
-          if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
-          item.compressedUrl = URL.createObjectURL(blob);
-          
-          var finalMime = blob.type || mimeType;
-          item.compressedName = fileBaseName(item.file.name) + '-compressed.' + extension(finalMime);
-
           renderQueueRow(item);
-          updateSummary();
-          event('processing_success', { output_type: finalMime, output_size: blob.size });
           if (callback) callback();
-        }, mimeType, Number(quality.value) / 100);
-      } catch (err) {
+        });
+      } else {
         item.status = 'error';
-        item.errorMsg = 'Compression failed';
+        item.errorMsg = 'HEIC decoder missing';
         item.progress = 100;
         renderQueueRow(item);
         if (callback) callback();
       }
+      return;
+    }
+
+    // Standard format processing
+    var img = new Image();
+    img.onload = function () {
+      item.progress = 50;
+      renderQueueRow(item);
+      processImageConversion(item, img, callback);
     };
 
     img.onerror = function () {
@@ -292,7 +384,7 @@
     img.src = item.previewUrl;
   }
 
-  function compressPending() {
+  function convertPending() {
     var pendingItems = [];
     for (var i = 0; i < fileQueue.length; i++) {
       if (fileQueue[i].status === 'pending') {
@@ -313,13 +405,15 @@
     next();
   }
 
-  function compressAll() {
+  function convertAll() {
     if (fileQueue.length === 0) return;
 
     var index = 0;
     function next() {
-      if (index >= fileQueue.length) return;
-      // Mark as pending first if it was already processed to force re-compressing
+      if (index >= fileQueue.length) {
+        updateSummary();
+        return;
+      }
       var item = fileQueue[index];
       item.status = 'pending';
       item.progress = 0;
@@ -345,15 +439,10 @@
       }
     }
 
-    summaryCount.textContent = doneCount;
+    summaryProgressCount.textContent = doneCount + ' of ' + fileQueue.length;
     var saved = totalOriginal - totalCompressed;
     summarySavedBytes.textContent = bytes(saved >= 0 ? saved : 0);
-
-    var pct = 0;
-    if (totalOriginal > 0) {
-      pct = Math.round((saved / totalOriginal) * 100);
-    }
-    summaryPercentage.textContent = Math.max(0, pct) + '%';
+    summaryTargetFormat.textContent = formatLabel(targetFormat);
 
     downloadAllBtn.disabled = (doneCount === 0);
   }
@@ -381,7 +470,7 @@
       var url = URL.createObjectURL(content);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'scanapp-images-compressed.zip';
+      a.download = 'scanapp-images-converted.zip';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -412,23 +501,36 @@
     qualityValue.textContent = quality.value + '%';
   });
 
-  // Re-compress automatically when settings change if queue is present
+  // Re-convert automatically when settings change if queue is present
   quality.addEventListener('change', function () {
     event('quality_changed', { value: parseInt(quality.value, 10) });
-    compressAll();
+    convertAll();
   });
   maxWidth.addEventListener('change', function () {
     event('max_width_changed', { value: maxWidth.value ? parseInt(maxWidth.value, 10) : 'original' });
-    compressAll();
-  });
-  outputFormat.addEventListener('change', function () {
-    event('output_format_changed', { format: outputFormat.value });
-    compressAll();
+    convertAll();
   });
 
-  compressAllBtn.addEventListener('click', function () {
-    event('compress_all_clicked', { queue_size: fileQueue.length });
-    compressAll();
+  // Format selector tab actions
+  var pills = document.querySelectorAll('#format-selectors .format-pill');
+  for (var i = 0; i < pills.length; i++) {
+    (function (pill) {
+      pill.addEventListener('click', function () {
+        for (var j = 0; j < pills.length; j++) {
+          pills[j].classList.remove('active');
+        }
+        pill.classList.add('active');
+        targetFormat = pill.getAttribute('data-format');
+        event('format_pill_selected', { format: targetFormat });
+        updateSummary();
+        convertAll(); // re-convert everything to the newly chosen format!
+      });
+    })(pills[i]);
+  }
+
+  convertAllBtn.addEventListener('click', function () {
+    event('convert_all_clicked', { queue_size: fileQueue.length });
+    convertAll();
   });
   downloadAllBtn.addEventListener('click', downloadAllZip);
 
@@ -490,5 +592,5 @@
   });
 
   // Log load event
-  event('tool_page_view', { tool: 'image_compressor' });
+  event('tool_page_view', { tool: 'image_converter' });
 }());

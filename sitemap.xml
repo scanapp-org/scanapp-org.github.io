@@ -99,6 +99,12 @@ layout: null
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://scanapp.org/image-converter/</loc>
+    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 {%- comment -%}
   Localized landing pages. Each entry includes xhtml:link alternates per
   Google's sitemap hreflang specification — this is the most explicit signal

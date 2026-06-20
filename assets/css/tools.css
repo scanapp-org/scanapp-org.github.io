@@ -171,6 +171,40 @@ a:hover {
   flex: 1;
 }
 
+/* Format selector pills */
+.format-selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+
+.format-pill {
+  background: var(--sa-surface-elevated);
+  border: 1px solid var(--sa-border);
+  color: var(--sa-muted);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.format-pill:hover {
+  background: rgba(var(--sa-primary-rgb), 0.08);
+  color: var(--sa-primary);
+  border-color: rgba(var(--sa-primary-rgb), 0.2);
+}
+
+.format-pill.active {
+  background: var(--sa-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--sa-primary) !important;
+  box-shadow: 0 4px 10px rgba(var(--sa-primary-rgb), 0.2);
+}
+
 .quality-label-row {
   display: flex;
   justify-content: space-between;

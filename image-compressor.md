@@ -17,7 +17,7 @@ permalink: /image-compressor/
   <section class="compressor-card" aria-label="Image compressor">
     <!-- Drop Zone -->
     <div class="drop-zone" id="drop-zone">
-      <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/bmp,image/avif" multiple hidden>
+      <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/bmp,image/avif,.png,.jpg,.jpeg,.webp,.gif,.svg,.bmp,.avif" multiple hidden>
       <div class="drop-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
