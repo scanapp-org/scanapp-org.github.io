@@ -10,13 +10,13 @@ tool_js:
   - /assets/js/image-converter.js
 ---
 
-<section class="tool-hero" aria-labelledby="converter-title">
-  <div class="hero-badge">Free • In your browser • No signup</div>
-  <h1 id="converter-title">Convert images <span class="text-gradient">to any format.</span></h1>
+<section class="tool-hero converter-mobile-hero" aria-labelledby="converter-title">
+  <div class="hero-badge"><span class="desktop-only">Free • In your browser • No signup</span><span class="mobile-only">⚡ HEIC · WebP · AVIF &amp; more</span></div>
+  <h1 id="converter-title"><span class="desktop-only">Convert images <span class="text-gradient">to any format.</span></span><span class="mobile-only">Convert images to <span class="text-gradient">any format.</span></span></h1>
   <p class="hero-copy">Turn PNG, JPG, WebP, AVIF, HEIC and SVG into whatever you need. Batch convert in your browser — nothing is uploaded.</p>
 </section>
 
-<div class="compressor-wrapper">
+<div class="compressor-wrapper image-converter-page">
   <!-- Main Converter Card -->
   <section class="compressor-card" aria-label="Image converter">
     <!-- Drop Zone -->
@@ -27,8 +27,8 @@ tool_js:
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
         </svg>
       </div>
-      <h2>Drop images here, or <span class="upload-trigger">click to upload</span></h2>
-      <p>PNG, JPG, WebP, AVIF, HEIC, SVG up to 50 MB each — batch up to 100 files</p>
+      <h2><span class="desktop-only">Drop images here, or <span class="upload-trigger">click to upload</span></span><span class="mobile-only">Tap to add images</span></h2>
+      <p><span class="desktop-only">PNG, JPG, WebP, AVIF, HEIC, SVG up to 50 MB each — batch up to 100 files</span><span class="mobile-only">PNG, JPG, WebP, AVIF, HEIC, SVG</span></p>
     </div>
 
     <!-- Global Controls -->
@@ -81,6 +81,10 @@ tool_js:
 
     <!-- Conversion Queue List -->
     <div id="queue-container" class="queue-container" hidden>
+      <div class="mobile-queue-heading mobile-only">
+        <span><strong id="mobile-queue-count">0</strong> images</span>
+        <button id="clear-all-btn" type="button">Clear</button>
+      </div>
       <div id="compress-queue" class="compress-queue">
         <!-- Rows will be injected here dynamically -->
       </div>
@@ -88,11 +92,12 @@ tool_js:
       <!-- Footer Summary Bar inside the card -->
       <div id="queue-summary-bar" class="queue-summary-bar">
         <div class="summary-text" id="summary-text">
-          <span id="summary-progress-count">0 of 0</span> converted — <strong id="summary-saved-bytes">0 B</strong> saved in <span id="summary-target-format">WEBP</span>
+          <span class="desktop-only"><span id="summary-progress-count">0 of 0</span> converted — <strong id="summary-saved-bytes">0 B</strong> saved in <span id="summary-target-format">WEBP</span></span>
+          <span class="mobile-only mobile-summary-copy"><strong><span id="mobile-summary-progress-count">0 of 0</span> converted</strong><span>to <span id="mobile-summary-target-format">WEBP</span> · <span id="mobile-summary-saved-bytes">0 B</span> saved</span></span>
         </div>
         <button id="download-all-btn" class="button button-primary" type="button">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-          Download all (ZIP)
+          <span class="desktop-only">Download all (ZIP)</span><span class="mobile-only">Save all</span>
         </button>
       </div>
     </div>

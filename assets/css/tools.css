@@ -790,6 +790,279 @@ a:hover {
   }
 }
 
+/* Converter app-like mobile workspace. This deliberately mirrors the mobile
+   compressor while remaining scoped away from desktop and the shared chrome. */
+@media (max-width: 768px) {
+  .converter-mobile-hero {
+    padding: 26px 18px 18px;
+    text-align: left;
+  }
+
+  .converter-mobile-hero .desktop-only,
+  .image-converter-page .desktop-only {
+    display: none !important;
+  }
+
+  .converter-mobile-hero .mobile-only,
+  .image-converter-page .mobile-only {
+    display: inline;
+  }
+
+  .converter-mobile-hero .hero-badge {
+    margin: 0 0 16px;
+    padding: 6px 12px;
+    border: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.78rem;
+  }
+
+  .converter-mobile-hero h1 {
+    margin: 0;
+    font-size: clamp(2rem, 9.5vw, 2.8rem);
+    line-height: 1.02;
+  }
+
+  .converter-mobile-hero .hero-copy {
+    display: none;
+  }
+
+  .image-converter-page {
+    max-width: none;
+    padding: 0 14px calc(190px + env(safe-area-inset-bottom));
+  }
+
+  .image-converter-page .compressor-card {
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .image-converter-page .drop-zone {
+    min-height: 210px;
+    margin-bottom: 18px;
+    padding: 26px 18px;
+    background: rgba(var(--sa-primary-rgb), 0.09);
+    border-color: rgba(var(--sa-primary-rgb), 0.38);
+    border-radius: 20px;
+  }
+
+  .image-converter-page .drop-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+    border-radius: 18px;
+    background: var(--sa-surface);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .image-converter-page .drop-zone h2 {
+    margin-bottom: 8px;
+    font-size: 1.12rem;
+  }
+
+  .image-converter-page .drop-zone p {
+    font-size: 0.82rem;
+  }
+
+  .image-converter-page .compressor-controls {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0;
+    border: 0;
+  }
+
+  .image-converter-page .quality-label-row {
+    margin: 0 4px 8px;
+    color: var(--sa-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .image-converter-page .format-selectors {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 5px;
+    background: var(--sa-surface-elevated);
+    border-radius: 16px;
+  }
+
+  .image-converter-page .format-pill {
+    min-width: 0;
+    padding: 12px 2px;
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    font-size: clamp(0.68rem, 3.2vw, 0.82rem);
+  }
+
+  .image-converter-page .format-pill.active {
+    color: var(--sa-primary) !important;
+    background: var(--sa-surface) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.13);
+  }
+
+  .image-converter-page .format-pill[data-format="image/gif"] {
+    display: none;
+  }
+
+  .image-converter-page .control-actions {
+    display: none;
+  }
+
+  .image-converter-page .extra-settings-row {
+    margin-bottom: 18px;
+  }
+
+  .image-converter-page .extra-settings-details {
+    background: var(--sa-surface);
+  }
+
+  .image-converter-page .queue-container {
+    padding-top: 0;
+    border: 0;
+  }
+
+  .image-converter-page .mobile-queue-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 4px 10px;
+    color: var(--sa-muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .image-converter-page .mobile-queue-heading button {
+    padding: 6px;
+    color: var(--sa-primary);
+    background: transparent;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .image-converter-page .compress-queue {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .image-converter-page .queue-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 8px 12px;
+    padding: 12px;
+    background: var(--sa-surface);
+    border-radius: 16px;
+  }
+
+  .image-converter-page .queue-thumb-container {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .image-converter-page .queue-thumb,
+  .image-converter-page .queue-format-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+  }
+
+  .image-converter-page .queue-filename {
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+  }
+
+  .image-converter-page .queue-sizes {
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 0.76rem;
+  }
+
+  .image-converter-page .queue-savings-badge {
+    padding: 2px 7px !important;
+    border-radius: 7px;
+  }
+
+  .image-converter-page .queue-progress-container {
+    display: none;
+  }
+
+  .image-converter-page .queue-actions {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+  }
+
+  .image-converter-page .queue-actions .icon-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .image-converter-page .queue-actions button.icon-btn {
+    display: none;
+  }
+
+  .image-converter-page .queue-summary-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(94px + env(safe-area-inset-bottom));
+    z-index: 9;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 12px 14px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--sa-glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.24);
+  }
+
+  .image-converter-page .summary-text {
+    max-width: 58%;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .image-converter-page .mobile-summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .image-converter-page .mobile-summary-copy strong {
+    color: var(--sa-ink);
+    font-size: 0.9rem;
+  }
+
+  .image-converter-page #download-all-btn {
+    min-width: 106px;
+    min-height: 46px;
+    border-radius: 14px;
+  }
+
+  .image-converter-page .supported-formats-row,
+  .image-converter-page .how-it-works-section,
+  .image-converter-page .faq-section {
+    display: none;
+  }
+}
+
 /* The shared scanner styles size mobile tabs for three entries. Tool pages
    have five, so override the fixed 90px minimum to keep the bar in-viewport. */
 @media (max-width: 768px) {

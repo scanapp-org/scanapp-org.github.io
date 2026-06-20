@@ -20,6 +20,11 @@
   var summarySavedBytes = document.getElementById('summary-saved-bytes');
   var summaryProgressCount = document.getElementById('summary-progress-count');
   var summaryTargetFormat = document.getElementById('summary-target-format');
+  var mobileQueueCount = document.getElementById('mobile-queue-count');
+  var clearAllBtn = document.getElementById('clear-all-btn');
+  var mobileSummaryProgressCount = document.getElementById('mobile-summary-progress-count');
+  var mobileSummarySavedBytes = document.getElementById('mobile-summary-saved-bytes');
+  var mobileSummaryTargetFormat = document.getElementById('mobile-summary-target-format');
 
   function event(name, params) {
     if (window.scanappToolEvent) window.scanappToolEvent(name, params);
@@ -104,7 +109,8 @@
         compressedName: null,
         previewUrl: previewUrl,
         errorMsg: null,
-        isHeic: isHeic
+        isHeic: isHeic,
+        removed: false
       };
 
       fileQueue.push(item);
@@ -117,12 +123,14 @@
 
     if (addedCount > 0) {
       queueContainer.hidden = false;
+      updateQueueCount();
       // Auto convert the newly added files
       convertPending();
     }
   }
 
   function renderQueueRow(item) {
+    if (item.removed) return;
     var row = document.getElementById('row-' + item.id);
     if (!row) {
       row = document.createElement('div');
@@ -209,6 +217,7 @@
     if (index === -1) return;
 
     var item = fileQueue[index];
+    item.removed = true;
     event('remove_item_clicked', { filename: item.file.name, status: item.status });
     if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
     if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
@@ -217,6 +226,7 @@
     if (row) row.parentNode.removeChild(row);
 
     fileQueue.splice(index, 1);
+    updateQueueCount();
 
     if (fileQueue.length === 0) {
       queueContainer.hidden = true;
@@ -225,7 +235,29 @@
     }
   }
 
+  function updateQueueCount() {
+    if (mobileQueueCount) mobileQueueCount.textContent = fileQueue.length;
+  }
+
+  function clearAll() {
+    for (var i = 0; i < fileQueue.length; i++) {
+      fileQueue[i].removed = true;
+      if (fileQueue[i].previewUrl) URL.revokeObjectURL(fileQueue[i].previewUrl);
+      if (fileQueue[i].compressedUrl) URL.revokeObjectURL(fileQueue[i].compressedUrl);
+    }
+    fileQueue = [];
+    compressQueue.innerHTML = '';
+    queueContainer.hidden = true;
+    updateQueueCount();
+    updateSummary();
+    event('clear_all_clicked', { tool: 'image_converter' });
+  }
+
   function processImageConversion(item, imgElement, callback) {
+    if (item.removed) {
+      if (callback) callback();
+      return;
+    }
     try {
       var canvas = document.createElement('canvas');
       var width = imgElement.naturalWidth || imgElement.width;
@@ -275,6 +307,10 @@
       }
 
       function handleBlobResult(blob) {
+        if (item.removed) {
+          if (callback) callback();
+          return;
+        }
         if (!blob) {
           item.status = 'error';
           item.errorMsg = 'Blob encoding failed';
@@ -328,6 +364,10 @@
           toType: 'image/jpeg',
           quality: 0.85
         }).then(function (convertedBlob) {
+          if (item.removed) {
+            if (callback) callback();
+            return;
+          }
           var jpegUrl = URL.createObjectURL(convertedBlob);
           item.previewUrl = jpegUrl;
           item.progress = 40;
@@ -336,6 +376,10 @@
 
           var img = new Image();
           img.onload = function () {
+            if (item.removed) {
+              if (callback) callback();
+              return;
+            }
             item.progress = 60;
             renderQueueRow(item);
             processImageConversion(item, img, callback);
@@ -368,6 +412,10 @@
     // Standard format processing
     var img = new Image();
     img.onload = function () {
+      if (item.removed) {
+        if (callback) callback();
+        return;
+      }
       item.progress = 50;
       renderQueueRow(item);
       processImageConversion(item, img, callback);
@@ -440,9 +488,12 @@
     }
 
     summaryProgressCount.textContent = doneCount + ' of ' + fileQueue.length;
+    if (mobileSummaryProgressCount) mobileSummaryProgressCount.textContent = doneCount + ' of ' + fileQueue.length;
     var saved = totalOriginal - totalCompressed;
     summarySavedBytes.textContent = bytes(saved >= 0 ? saved : 0);
+    if (mobileSummarySavedBytes) mobileSummarySavedBytes.textContent = bytes(saved >= 0 ? saved : 0);
     summaryTargetFormat.textContent = formatLabel(targetFormat);
+    if (mobileSummaryTargetFormat) mobileSummaryTargetFormat.textContent = formatLabel(targetFormat);
 
     downloadAllBtn.disabled = (doneCount === 0);
   }
@@ -533,6 +584,7 @@
     convertAll();
   });
   downloadAllBtn.addEventListener('click', downloadAllZip);
+  if (clearAllBtn) clearAllBtn.addEventListener('click', clearAll);
 
   // Drag and Drop
   ['dragenter', 'dragover'].forEach(function (type) {
