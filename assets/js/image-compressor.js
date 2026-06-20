@@ -20,6 +20,11 @@
   var summarySavedBytes = document.getElementById('summary-saved-bytes');
   var summaryCount = document.getElementById('summary-count');
   var summaryPercentage = document.getElementById('summary-percentage');
+  var mobileQueueCount = document.getElementById('mobile-queue-count');
+  var clearAllBtn = document.getElementById('clear-all-btn');
+  var mobileSummarySavedBytes = document.getElementById('mobile-summary-saved-bytes');
+  var mobileSummaryPercentage = document.getElementById('mobile-summary-percentage');
+  var mobileSummaryCount = document.getElementById('mobile-summary-count');
 
   function event(name, params) {
     if (window.scanappToolEvent) window.scanappToolEvent(name, params);
@@ -83,7 +88,8 @@
         compressedUrl: null,
         compressedName: null,
         previewUrl: previewUrl,
-        errorMsg: null
+        errorMsg: null,
+        removed: false
       };
 
       fileQueue.push(item);
@@ -96,12 +102,14 @@
 
     if (addedCount > 0) {
       queueContainer.hidden = false;
+      updateQueueCount();
       // Auto compress the newly added files
       compressPending();
     }
   }
 
   function renderQueueRow(item) {
+    if (item.removed) return;
     var row = document.getElementById('row-' + item.id);
     if (!row) {
       row = document.createElement('div');
@@ -185,6 +193,7 @@
     if (index === -1) return;
 
     var item = fileQueue[index];
+    item.removed = true;
     event('remove_item_clicked', { filename: item.file.name, status: item.status });
     if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
     if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
@@ -193,12 +202,31 @@
     if (row) row.parentNode.removeChild(row);
 
     fileQueue.splice(index, 1);
+    updateQueueCount();
 
     if (fileQueue.length === 0) {
       queueContainer.hidden = true;
     } else {
       updateSummary();
     }
+  }
+
+  function updateQueueCount() {
+    if (mobileQueueCount) mobileQueueCount.textContent = fileQueue.length;
+  }
+
+  function clearAll() {
+    for (var i = 0; i < fileQueue.length; i++) {
+      fileQueue[i].removed = true;
+      if (fileQueue[i].previewUrl) URL.revokeObjectURL(fileQueue[i].previewUrl);
+      if (fileQueue[i].compressedUrl) URL.revokeObjectURL(fileQueue[i].compressedUrl);
+    }
+    fileQueue = [];
+    compressQueue.innerHTML = '';
+    queueContainer.hidden = true;
+    updateQueueCount();
+    updateSummary();
+    event('clear_all_clicked', { tool: 'image_compressor' });
   }
 
   function compressItem(item, callback) {
@@ -213,6 +241,10 @@
 
     var img = new Image();
     img.onload = function () {
+      if (item.removed) {
+        if (callback) callback();
+        return;
+      }
       item.progress = 50;
       renderQueueRow(item);
 
@@ -248,6 +280,10 @@
         renderQueueRow(item);
 
         canvas.toBlob(function (blob) {
+          if (item.removed) {
+            if (callback) callback();
+            return;
+          }
           if (!blob) {
             item.status = 'error';
             item.errorMsg = 'Blob encoding failed';
@@ -282,6 +318,10 @@
     };
 
     img.onerror = function () {
+      if (item.removed) {
+        if (callback) callback();
+        return;
+      }
       item.status = 'error';
       item.errorMsg = 'Load failed';
       item.progress = 100;
@@ -346,14 +386,17 @@
     }
 
     summaryCount.textContent = doneCount;
+    if (mobileSummaryCount) mobileSummaryCount.textContent = doneCount;
     var saved = totalOriginal - totalCompressed;
     summarySavedBytes.textContent = bytes(saved >= 0 ? saved : 0);
+    if (mobileSummarySavedBytes) mobileSummarySavedBytes.textContent = bytes(saved >= 0 ? saved : 0);
 
     var pct = 0;
     if (totalOriginal > 0) {
       pct = Math.round((saved / totalOriginal) * 100);
     }
     summaryPercentage.textContent = Math.max(0, pct) + '%';
+    if (mobileSummaryPercentage) mobileSummaryPercentage.textContent = Math.max(0, pct) + '%';
 
     downloadAllBtn.disabled = (doneCount === 0);
   }
@@ -431,6 +474,7 @@
     compressAll();
   });
   downloadAllBtn.addEventListener('click', downloadAllZip);
+  if (clearAllBtn) clearAllBtn.addEventListener('click', clearAll);
 
   // Drag and Drop
   ['dragenter', 'dragover'].forEach(function (type) {

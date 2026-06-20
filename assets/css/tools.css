@@ -14,6 +14,10 @@
   display: none !important;
 }
 
+.mobile-only {
+  display: none;
+}
+
 body {
   margin: 0;
   color: var(--sa-ink);
@@ -821,5 +825,259 @@ a:hover {
   .mobile-tab-bar .mobile-tab-item {
     flex-basis: 25%;
     font-size: 0.62rem;
+  }
+}
+
+/* Compressor app-like mobile workspace. Scoped to the compressor so the
+   converter and all desktop layouts retain their current presentation. */
+@media (max-width: 768px) {
+  .compressor-mobile-hero {
+    padding: 26px 18px 18px;
+    text-align: left;
+  }
+
+  .compressor-mobile-hero .desktop-only,
+  .image-compressor-page .desktop-only {
+    display: none !important;
+  }
+
+  .compressor-mobile-hero .mobile-only,
+  .image-compressor-page .mobile-only {
+    display: inline;
+  }
+
+  .compressor-mobile-hero .hero-badge {
+    margin: 0 0 16px;
+    padding: 6px 12px;
+    border: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.78rem;
+  }
+
+  .compressor-mobile-hero h1 {
+    margin: 0;
+    font-size: clamp(2rem, 9.5vw, 2.8rem);
+    line-height: 1.02;
+  }
+
+  .compressor-mobile-hero .hero-copy {
+    display: none;
+  }
+
+  .image-compressor-page {
+    max-width: none;
+    padding: 0 14px calc(190px + env(safe-area-inset-bottom));
+  }
+
+  .image-compressor-page .compressor-card {
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .image-compressor-page .drop-zone {
+    min-height: 210px;
+    margin-bottom: 16px;
+    padding: 26px 18px;
+    background: rgba(var(--sa-primary-rgb), 0.09);
+    border-color: rgba(var(--sa-primary-rgb), 0.38);
+    border-radius: 20px;
+  }
+
+  .image-compressor-page .drop-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+    border-radius: 18px;
+    background: var(--sa-surface);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .image-compressor-page .drop-zone h2 {
+    margin-bottom: 8px;
+    font-size: 1.12rem;
+  }
+
+  .image-compressor-page .drop-zone p {
+    max-width: 290px;
+    font-size: 0.82rem;
+  }
+
+  .image-compressor-page .compressor-controls {
+    display: block;
+    margin: 0 0 14px;
+    padding: 18px;
+    background: var(--sa-surface);
+    border: 1px solid var(--sa-border);
+    border-radius: 18px;
+  }
+
+  .image-compressor-page .quality-label-row {
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+
+  .image-compressor-page .control-group input[type="range"] {
+    height: 8px;
+    margin: 6px 0;
+  }
+
+  .image-compressor-page .quality-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: var(--sa-muted);
+    font-size: 0.76rem;
+  }
+
+  .image-compressor-page .control-actions {
+    display: none;
+  }
+
+  .image-compressor-page .extra-settings-row {
+    margin-bottom: 18px;
+  }
+
+  .image-compressor-page .extra-settings-details {
+    background: var(--sa-surface);
+  }
+
+  .image-compressor-page .queue-container {
+    padding-top: 0;
+    border: 0;
+  }
+
+  .image-compressor-page .mobile-queue-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 4px 10px;
+    color: var(--sa-muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .image-compressor-page .mobile-queue-heading button {
+    padding: 6px;
+    color: var(--sa-primary);
+    background: transparent;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .image-compressor-page .compress-queue {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .image-compressor-page .queue-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 8px 12px;
+    padding: 12px;
+    background: var(--sa-surface);
+    border-radius: 16px;
+  }
+
+  .image-compressor-page .queue-thumb-container {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .image-compressor-page .queue-thumb,
+  .image-compressor-page .queue-format-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+  }
+
+  .image-compressor-page .queue-filename {
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+  }
+
+  .image-compressor-page .queue-sizes {
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 0.76rem;
+  }
+
+  .image-compressor-page .queue-progress-container {
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 64px;
+  }
+
+  .image-compressor-page .queue-actions {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: end;
+  }
+
+  .image-compressor-page .queue-actions .icon-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .image-compressor-page .queue-actions button.icon-btn {
+    display: none;
+  }
+
+  .image-compressor-page .queue-summary-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(94px + env(safe-area-inset-bottom));
+    z-index: 9;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 12px 14px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--sa-glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.24);
+  }
+
+  .image-compressor-page .summary-text {
+    max-width: 58%;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .image-compressor-page .mobile-summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .image-compressor-page .mobile-summary-copy strong {
+    color: var(--sa-ink);
+    font-size: 0.9rem;
+  }
+
+  .image-compressor-page #download-all-btn {
+    min-width: 106px;
+    min-height: 46px;
+    border-radius: 14px;
+  }
+
+  .image-compressor-page .supported-formats-row,
+  .image-compressor-page .how-it-works-section,
+  .image-compressor-page .faq-section {
+    display: none;
   }
 }

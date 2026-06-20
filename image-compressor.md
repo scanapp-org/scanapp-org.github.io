@@ -6,13 +6,13 @@ meta_description: "Compress JPG, PNG, and WebP images privately in your browser.
 permalink: /image-compressor/
 ---
 
-<section class="tool-hero" aria-labelledby="compressor-title">
-  <div class="hero-badge">Free • In your browser • No signup</div>
-  <h1 id="compressor-title">Compress images <span class="text-gradient">without losing quality.</span></h1>
+<section class="tool-hero compressor-mobile-hero" aria-labelledby="compressor-title">
+  <div class="hero-badge"><span class="desktop-only">Free • In your browser • No signup</span><span class="mobile-only">⚡ Runs on your phone · no upload</span></div>
+  <h1 id="compressor-title"><span class="desktop-only">Compress images <span class="text-gradient">without losing quality.</span></span><span class="mobile-only">Compress images <span class="text-gradient">on the go.</span></span></h1>
   <p class="hero-copy">Shrink JPG, PNG, WebP, AVIF, GIF, SVG and BMP files by up to 80%. Drag them in, pick a quality, and download — all on your device.</p>
 </section>
 
-<div class="compressor-wrapper">
+<div class="compressor-wrapper image-compressor-page">
   <!-- Main Compressor Card -->
   <section class="compressor-card" aria-label="Image compressor">
     <!-- Drop Zone -->
@@ -23,8 +23,8 @@ permalink: /image-compressor/
           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
         </svg>
       </div>
-      <h2>Drop images here, or <span class="upload-trigger">click to upload</span></h2>
-      <p>JPG, PNG, WebP, AVIF, GIF, SVG, BMP up to 50 MB each — batch up to 100 files</p>
+      <h2><span class="desktop-only">Drop images here, or <span class="upload-trigger">click to upload</span></span><span class="mobile-only">Tap to add photos</span></h2>
+      <p><span class="desktop-only">JPG, PNG, WebP, AVIF, GIF, SVG, BMP up to 50 MB each — batch up to 100 files</span><span class="mobile-only">JPG, PNG, WebP, AVIF · pick up to 100</span></p>
     </div>
 
     <!-- Global Controls -->
@@ -35,6 +35,7 @@ permalink: /image-compressor/
           <span id="quality-value">72%</span>
         </div>
         <input id="quality" type="range" min="30" max="95" value="72" step="1">
+        <div class="quality-scale mobile-only"><span>Smaller file</span><span>Best quality</span></div>
       </div>
       
       <div class="control-actions">
@@ -76,6 +77,10 @@ permalink: /image-compressor/
 
     <!-- Compression Queue List -->
     <div id="queue-container" class="queue-container" hidden>
+      <div class="mobile-queue-heading mobile-only">
+        <span><strong id="mobile-queue-count">0</strong> images</span>
+        <button id="clear-all-btn" type="button">Clear</button>
+      </div>
       <div id="compress-queue" class="compress-queue">
         <!-- Rows will be injected here dynamically -->
       </div>
@@ -83,11 +88,12 @@ permalink: /image-compressor/
       <!-- Footer Summary Bar inside the card -->
       <div id="queue-summary-bar" class="queue-summary-bar">
         <div class="summary-text" id="summary-text">
-          Saved <strong id="summary-saved-bytes">0 B</strong> across <span id="summary-count">0</span> images — <strong id="summary-percentage">0%</strong> smaller
+          <span class="desktop-only">Saved <strong id="summary-saved-bytes">0 B</strong> across <span id="summary-count">0</span> images — <strong id="summary-percentage">0%</strong> smaller</span>
+          <span class="mobile-only mobile-summary-copy"><strong>Saved <span id="mobile-summary-saved-bytes">0 B</span></strong><span><span id="mobile-summary-percentage">0%</span> smaller · <span id="mobile-summary-count">0</span> images</span></span>
         </div>
         <button id="download-all-btn" class="button button-primary" type="button">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-          Download all (ZIP)
+          <span class="desktop-only">Download all (ZIP)</span><span class="mobile-only">Save all</span>
         </button>
       </div>
     </div>
@@ -170,4 +176,3 @@ permalink: /image-compressor/
     </div>
   </section>
 </div>
-
