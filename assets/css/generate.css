@@ -1294,11 +1294,14 @@ body, html {
     display: flex !important;
     position: fixed;
     bottom: calc(16px + env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
+    left: 12px;
+    right: 12px;
+    transform: none;
     height: 64px;
-    width: fit-content;
-    padding: 0 12px;
+    width: auto;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 6px;
     background-color: var(--sa-glass-bg);
     backdrop-filter: blur(20px) saturate(190%);
     -webkit-backdrop-filter: blur(20px) saturate(190%);
@@ -1308,7 +1311,7 @@ body, html {
     z-index: 100;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 0;
   }
 
   .mobile-tab-item {
@@ -1323,8 +1326,11 @@ body, html {
     cursor: pointer;
     gap: 4px;
     height: 100%;
-    min-width: 90px;
-    padding: 0 12px;
+    flex: 1 1 20%;
+    min-width: 0;
+    padding: 0 3px;
+    font-size: clamp(0.58rem, 2.6vw, 0.7rem);
+    white-space: nowrap;
     background: transparent;
     border: none;
     outline: none;

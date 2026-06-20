@@ -785,3 +785,41 @@ a:hover {
     padding-top: 38px;
   }
 }
+
+/* The shared scanner styles size mobile tabs for three entries. Tool pages
+   have five, so override the fixed 90px minimum to keep the bar in-viewport. */
+@media (max-width: 768px) {
+  .mobile-tab-bar {
+    left: 12px;
+    right: 12px;
+    transform: none;
+    width: auto;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-left: 6px;
+    padding-right: 6px;
+    gap: 0;
+  }
+
+  .mobile-tab-bar .mobile-tab-item {
+    flex: 1 1 20%;
+    min-width: 0;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: clamp(0.58rem, 2.6vw, 0.7rem);
+    white-space: nowrap;
+  }
+}
+
+/* On unusually narrow viewports, retain the current tool and hide only the
+   inactive sibling tool. Scan, Generate, current tool, and Settings remain. */
+@media (max-width: 339px) {
+  .mobile-tab-bar .optional-tool-link:not(.active) {
+    display: none;
+  }
+
+  .mobile-tab-bar .mobile-tab-item {
+    flex-basis: 25%;
+    font-size: 0.62rem;
+  }
+}
