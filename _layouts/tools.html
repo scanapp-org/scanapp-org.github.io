@@ -70,6 +70,12 @@
           <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg>
           <span>Convert Image</span>
         </a>
+
+        <!-- Video Tools Link -->
+        <a class="sidebar-item {% if page.utility_kind == 'video' %}active{% endif %}" href="/video-to-gif/" {% if page.utility_kind == 'video' %}aria-current="page"{% endif %}>
+          <svg viewBox="0 0 24 24"><path d="M17 10.5V6c0-1.1-.9-2-2-2H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2v-4.5l5 5v-13l-5 5z"/></svg>
+          <span>Video Tools</span>
+        </a>
         
         <a class="sidebar-item" href="/blog/">
           <svg viewBox="0 0 24 24">
@@ -319,12 +325,16 @@
   analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH';
   document.head.appendChild(analyticsScript);
 </script>
-<script src="/assets/js/jszip.min.js" defer></script>
-{% if page.utility_kind == "converter" %}
+{% if page.utility_kind == "video" %}
+  {% if page.video_mode == "gif" %}<script src="/assets/js/gif.js" defer></script>{% endif %}
+  <script src="/assets/js/video-converter.js" defer></script>
+{% elsif page.utility_kind == "converter" %}
+  <script src="/assets/js/jszip.min.js" defer></script>
   <script src="/assets/js/jspdf.umd.min.js" defer></script>
   <script src="/assets/js/heic2any.min.js" defer></script>
   <script src="/assets/js/image-converter.js" defer></script>
 {% else %}
+  <script src="/assets/js/jszip.min.js" defer></script>
   <script src="/assets/js/image-compressor.js" defer></script>
 {% endif %}
 </body>

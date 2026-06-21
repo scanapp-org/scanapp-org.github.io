@@ -1,0 +1,98 @@
+---
+layout: tools
+---
+{% assign mode = page.video_mode | default: "frame" %}
+{% assign heading = page.tool_heading | default: "Turn video" %}
+{% assign heading_accent = page.tool_heading_accent | default: "into images." %}
+{% assign default_time = page.default_time | default: 0 %}
+{% assign default_width = page.default_width | default: 640 %}
+
+<script>
+window.scanappToolConfig = {
+  utilityKind: "video",
+  variant: {{ page.utility_slug | default: "video-to-image" | jsonify }},
+  mode: {{ mode | jsonify }},
+  defaultOutput: {{ page.default_output | default: "image/jpeg" | jsonify }},
+  defaultTime: {{ default_time | jsonify }},
+  defaultWidth: {{ default_width | jsonify }},
+  defaultFps: {{ page.default_fps | default: 8 | jsonify }},
+  defaultQuality: {{ page.default_quality | default: 82 | jsonify }},
+  maxGifDuration: {{ page.max_gif_duration | default: 12 | jsonify }}
+};
+</script>
+
+<section class="tool-hero video-mobile-hero" aria-labelledby="video-tool-title">
+  <div class="hero-badge"><span class="desktop-only">{{ page.hero_badge | default: "Private video tools • No upload" }}</span><span class="mobile-only">{{ page.mobile_badge | default: "⚡ Runs on your device" }}</span></div>
+  <h1 id="video-tool-title">{{ heading }} <span class="text-gradient">{{ heading_accent }}</span></h1>
+  <p class="hero-copy">{{ page.hero_copy | default: page.meta_description }}</p>
+</section>
+
+<div class="compressor-wrapper video-converter-page" data-mode="{{ mode }}">
+  <section class="video-tool-card" aria-label="{{ page.tool_aria_label | default: 'Video converter' }}">
+    <div class="drop-zone video-drop-zone" id="video-drop-zone">
+      <input id="video-input" type="file" accept="{{ page.input_accept | default: 'video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov' }}" hidden>
+      <div class="drop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M17 10.5V6c0-1.1-.9-2-2-2H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2v-4.5l5 5v-13l-5 5z"/></svg></div>
+      <h2><span class="desktop-only">{{ page.drop_title | default: "Drop a video here, or" }} <span class="upload-trigger">choose a file</span></span><span class="mobile-only">{{ page.mobile_drop_title | default: "Tap to add a video" }}</span></h2>
+      <p>{{ page.drop_copy | default: "MP4, WebM or MOV • processed locally on your device" }}</p>
+    </div>
+
+    <div id="video-workspace" class="video-workspace" hidden>
+      <div class="video-stage">
+        <video id="video-preview" controls playsinline preload="metadata"></video>
+        <div class="video-file-row">
+          <div><strong id="video-file-name">Video</strong><span id="video-metadata">Reading video…</span></div>
+          <button id="replace-video-btn" class="button button-secondary" type="button">Replace</button>
+        </div>
+      </div>
+
+      <div class="video-controls-panel">
+        <div class="video-control-block">
+          <div class="quality-label-row"><label for="frame-time">Frame position</label><output id="frame-time-label" for="frame-time">00:00.00</output></div>
+          <input id="frame-time" type="range" min="0" max="1" value="0" step="0.01">
+          <div class="timeline-scale"><span>Start</span><span id="timeline-duration">00:00</span></div>
+        </div>
+
+        {% if mode == "gif" %}
+        <div class="gif-trim-grid">
+          <label>Start time<input id="gif-start" type="number" min="0" value="0" step="0.1" inputmode="decimal"><span>seconds</span></label>
+          <label>End time<input id="gif-end" type="number" min="0" value="{{ page.max_gif_duration | default: 12 }}" step="0.1" inputmode="decimal"><span>seconds</span></label>
+        </div>
+        <p class="control-hint">For reliable in-browser encoding, clips are limited to {{ page.max_gif_duration | default: 12 }} seconds.</p>
+        <div class="video-settings-grid">
+          <label>Frames per second<select id="gif-fps"><option value="5">5 · smaller</option><option value="8" selected>8 · balanced</option><option value="12">12 · smoother</option></select></label>
+          <label>GIF width<select id="output-width"><option value="320">320 px</option><option value="480" selected>480 px</option><option value="640">640 px</option><option value="720">720 px</option></select></label>
+          <label>Color quality<select id="gif-quality"><option value="15">Smaller file</option><option value="10" selected>Balanced</option><option value="5">Best quality</option></select></label>
+        </div>
+        {% else %}
+        <div class="video-settings-grid frame-settings-grid">
+          <label>Image format<select id="frame-format"><option value="image/jpeg"{% if page.default_output != 'image/png' %} selected{% endif %}>JPG</option><option value="image/png"{% if page.default_output == 'image/png' %} selected{% endif %}>PNG</option></select></label>
+          <label>Output width<select id="output-width"><option value="0">Original</option><option value="640"{% if default_width == 640 %} selected{% endif %}>640 px</option><option value="1280"{% if default_width == 1280 %} selected{% endif %}>1280 px</option><option value="1920"{% if default_width == 1920 %} selected{% endif %}>1920 px</option></select></label>
+          <label>JPG quality<input id="frame-quality" type="range" min="50" max="100" value="{{ page.default_quality | default: 90 }}"><output id="frame-quality-label">{{ page.default_quality | default: 90 }}%</output></label>
+        </div>
+        {% endif %}
+
+        <button id="process-video-btn" class="button button-primary video-process-btn" type="button">
+          {% if mode == "gif" %}Create GIF{% elsif mode == "thumbnail" %}Create thumbnail{% else %}Capture frame{% endif %}
+        </button>
+        <div id="video-status" class="video-status" role="status" aria-live="polite"></div>
+        <div id="video-progress-wrap" class="video-progress-wrap" hidden><div id="video-progress" class="video-progress"></div></div>
+      </div>
+    </div>
+
+    <div id="video-result" class="video-result" hidden>
+      <div class="video-result-preview"><img id="result-image" alt="Generated output preview"></div>
+      <div class="video-result-copy"><span>Ready to save</span><strong id="result-summary">Your output is ready</strong></div>
+      <a id="download-video-result" class="button button-primary" href="#" download>Download</a>
+    </div>
+  </section>
+
+  <p class="video-privacy-note"><strong>Your video stays private.</strong> Decoding, frame selection and export happen in this browser. Nothing is uploaded.</p>
+
+  <section class="how-it-works-section"><h2>{{ page.steps_heading | default: "How it works" }}</h2><div class="steps-grid">{% for step in page.steps %}<div class="step-card"><div class="step-number">{{ forloop.index }}</div><h3>{{ step.title }}</h3><p>{{ step.text }}</p></div>{% endfor %}</div></section>
+  <section class="faq-section"><h2>Frequently asked questions</h2><div class="faq-accordion">{% for item in page.faq %}<details class="faq-item"><summary class="faq-question"><span>{{ item.question }}</span><span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{{ item.answer }}</p></div></details>{% endfor %}</div></section>
+  {% include utility_links.html %}
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{% for item in page.faq %}{"@type":"Question","name":{{ item.question | jsonify }},"acceptedAnswer":{"@type":"Answer","text":{{ item.answer | jsonify }}}}{% unless forloop.last %},{% endunless %}{% endfor %}]}
+</script>

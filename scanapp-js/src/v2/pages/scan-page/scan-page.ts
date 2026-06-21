@@ -67,6 +67,10 @@ export class ScanPage implements Page {
 
   public async onMount(): Promise<void> {
     this.resultPanel.hide();
+    if (sessionStorage.getItem("scanapp_ads_removed") === "true") {
+      const ad = this.element.querySelector(".mobile-ad-placement");
+      if (ad) (ad as HTMLElement).style.display = "none";
+    }
     await this.startScanSequence();
   }
 
@@ -310,6 +314,8 @@ export class ScanPage implements Page {
       }
     });
 
+    const adPlacement = this.createMobileAdPlacement();
+
     this.viewportWrapper = h("div", { class: "scanner-viewport-wrapper" },
       this.cameraReader,
       this.viewfinderOverlay,
@@ -318,6 +324,10 @@ export class ScanPage implements Page {
       this.floatingControlsRight,
       this.cameraPopover
     );
+
+    if (adPlacement) {
+      this.viewportWrapper.appendChild(adPlacement);
+    }
 
     // Build Fallback UI
     this.fileInputHelper = h("input", {
@@ -403,6 +413,78 @@ export class ScanPage implements Page {
       this.permissionArrow,
       this.dropOverlay
     );
+  }
+
+  private createMobileAdPlacement(): HTMLElement | null {
+    if (!isMobile()) {
+      return null;
+    }
+
+    if (sessionStorage.getItem("scanapp_ads_removed") === "true") {
+      return null;
+    }
+
+    const ins = h("ins", {
+      class: "adsbygoogle",
+      style: {
+        display: "block",
+        width: "360px",
+        height: "60px",
+        margin: "0 auto"
+      },
+      "data-ad-client": "ca-pub-1311871960161162",
+      "data-ad-slot": "2155631873"
+    });
+
+    const footerText = h("span", {}, "Ads keep scanapp free");
+    const removeBtn = h("button", {
+      class: "mock-ad-remove-btn",
+      onClick: (e: Event) => {
+        e.stopPropagation();
+        adContainer.style.display = "none";
+        sessionStorage.setItem("scanapp_ads_removed", "true");
+        appShell.showSupportPanel("mobile_ad_remove");
+      }
+    }, "Remove");
+    const separatorText = h("span", {}, " • ");
+
+    const footer = h("div", { class: "mobile-ad-footer" }, 
+      footerText,
+      separatorText,
+      removeBtn
+    );
+
+    const adContainer = h("div", { class: "mobile-ad-placement" },
+      ins,
+      footer
+    );
+
+    // Initial check and push script setup
+    setTimeout(() => {
+      try {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("AdSense push failed:", e);
+      }
+
+      let checkCount = 0;
+      const interval = setInterval(() => {
+        checkCount++;
+        const insElement = adContainer.querySelector("ins.adsbygoogle");
+        if (insElement) {
+          const isFilled = insElement.getAttribute("data-ad-status") === "filled" || insElement.querySelector("iframe") !== null;
+          if (isFilled) {
+            adContainer.classList.add("ad-filled");
+            clearInterval(interval);
+          }
+        }
+        if (checkCount > 30) {
+          clearInterval(interval);
+        }
+      }, 500);
+    }, 100);
+
+    return adContainer;
   }
 
   private handleToggleTorch(): void {

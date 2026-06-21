@@ -39,6 +39,7 @@ export declare class ScanPage implements Page {
     private saveActiveCamera;
     private showFallback;
     private createPageStructure;
+    private createMobileAdPlacement;
     private handleToggleTorch;
     private handleToggleFitMode;
     private handleToggleCameraPopover;

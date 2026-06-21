@@ -6,6 +6,332 @@
   --sa-success: var(--sa-primary);
 }
 
+/* Video utility family */
+.video-converter-page {
+  max-width: 1080px;
+  padding-bottom: 64px;
+}
+
+.video-tool-card {
+  overflow: hidden;
+  padding: 24px;
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 24px;
+  box-shadow: var(--sa-shadow);
+}
+
+.video-drop-zone {
+  min-height: 260px;
+  margin: 0;
+}
+
+.video-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: 22px;
+}
+
+.video-stage,
+.video-controls-panel {
+  min-width: 0;
+}
+
+.video-stage video {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  background: #000;
+  border-radius: 18px;
+  object-fit: contain;
+}
+
+.video-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.video-file-row > div {
+  min-width: 0;
+}
+
+.video-file-row strong,
+.video-file-row span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video-file-row span,
+.control-hint,
+.timeline-scale {
+  color: var(--sa-muted);
+  font-size: 0.78rem;
+}
+
+.video-controls-panel {
+  padding: 20px;
+  background: var(--sa-bg);
+  border: 1px solid var(--sa-border);
+  border-radius: 18px;
+}
+
+.video-control-block {
+  margin-bottom: 20px;
+}
+
+.video-controls-panel input[type="range"] {
+  width: 100%;
+  accent-color: var(--sa-primary);
+}
+
+.timeline-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.gif-trim-grid,
+.video-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.video-settings-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.video-settings-grid label,
+.gif-trim-grid label {
+  color: var(--sa-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.video-settings-grid select,
+.gif-trim-grid input {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  color: var(--sa-ink);
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 10px;
+}
+
+.gif-trim-grid label {
+  position: relative;
+}
+
+.gif-trim-grid label span {
+  position: absolute;
+  right: 10px;
+  bottom: 14px;
+  color: var(--sa-muted);
+  font-size: 0.68rem;
+}
+
+.frame-settings-grid label:last-child {
+  grid-column: span 3;
+}
+
+.frame-settings-grid output {
+  float: right;
+  margin-top: 7px;
+  color: var(--sa-primary);
+}
+
+.video-process-btn {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 8px;
+}
+
+.video-status {
+  min-height: 22px;
+  margin-top: 12px;
+  color: var(--sa-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.video-status.error {
+  color: #ef4444;
+}
+
+.video-progress-wrap {
+  overflow: hidden;
+  height: 6px;
+  margin-top: 8px;
+  background: var(--sa-border);
+  border-radius: 999px;
+}
+
+.video-progress {
+  width: 0;
+  height: 100%;
+  background: var(--sa-primary);
+  border-radius: inherit;
+  transition: width 160ms ease;
+}
+
+.video-result {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--sa-bg);
+  border: 1px solid var(--sa-border);
+  border-radius: 16px;
+}
+
+.video-result-preview {
+  overflow: hidden;
+  width: 96px;
+  height: 64px;
+  background: #000;
+  border-radius: 10px;
+}
+
+.video-result-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-result-copy span,
+.video-result-copy strong {
+  display: block;
+}
+
+.video-result-copy span {
+  color: var(--sa-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.video-privacy-note {
+  margin: 16px 0 34px;
+  color: var(--sa-muted);
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .video-mobile-hero {
+    padding: 26px 18px 20px;
+    text-align: left;
+  }
+
+  .video-mobile-hero h1 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .video-mobile-hero .hero-copy {
+    display: none;
+  }
+
+  .video-converter-page {
+    max-width: none;
+    padding: 0 14px calc(110px + env(safe-area-inset-bottom));
+  }
+
+  .video-tool-card {
+    overflow: visible;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .video-drop-zone {
+    min-height: 230px;
+    padding: 28px 18px;
+    background: rgba(var(--sa-primary-rgb), 0.09);
+    border-color: rgba(var(--sa-primary-rgb), 0.38);
+    border-radius: 20px;
+  }
+
+  .video-drop-zone .drop-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--sa-surface);
+  }
+
+  .video-workspace {
+    display: block;
+  }
+
+  .video-stage,
+  .video-controls-panel,
+  .video-result {
+    background: var(--sa-surface);
+    border: 1px solid var(--sa-border);
+    border-radius: 18px;
+  }
+
+  .video-stage {
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .video-stage video {
+    max-height: 44vh;
+    border-radius: 0;
+  }
+
+  .video-file-row {
+    padding: 12px;
+  }
+
+  .video-controls-panel {
+    padding: 16px;
+  }
+
+  .video-settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .video-settings-grid label:last-child,
+  .frame-settings-grid label:last-child {
+    grid-column: span 2;
+  }
+
+  .video-result {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .video-result-preview {
+    width: 72px;
+    height: 56px;
+  }
+
+  .video-result .button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .video-converter-page .how-it-works-section,
+  .video-converter-page .faq-section {
+    display: none;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -1450,5 +1776,43 @@ a:hover {
   .image-compressor-page .how-it-works-section,
   .image-compressor-page .faq-section {
     display: none;
+  }
+}
+
+/* Cascade guards for the video family, declared after shared tool rules. */
+.compressor-wrapper.video-converter-page {
+  max-width: 1080px;
+  padding-bottom: 64px;
+}
+
+.video-converter-page .video-drop-zone {
+  min-height: 260px;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .tool-hero.video-mobile-hero {
+    padding: 26px 18px 20px;
+    text-align: left;
+  }
+
+  .tool-hero.video-mobile-hero h1 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .video-mobile-hero .hero-copy {
+    display: none;
+  }
+
+  .compressor-wrapper.video-converter-page {
+    max-width: none;
+    padding: 0 14px calc(110px + env(safe-area-inset-bottom));
+  }
+
+  .video-converter-page .video-drop-zone {
+    min-height: 230px;
+    margin: 0;
+    padding: 28px 18px;
   }
 }
