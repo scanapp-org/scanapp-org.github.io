@@ -67,10 +67,6 @@ export class ScanPage implements Page {
 
   public async onMount(): Promise<void> {
     this.resultPanel.hide();
-    if (sessionStorage.getItem("scanapp_ads_removed") === "true") {
-      const ad = this.element.querySelector(".mobile-ad-placement");
-      if (ad) (ad as HTMLElement).style.display = "none";
-    }
     await this.startScanSequence();
   }
 
@@ -420,10 +416,6 @@ export class ScanPage implements Page {
       return null;
     }
 
-    if (sessionStorage.getItem("scanapp_ads_removed") === "true") {
-      return null;
-    }
-
     const ins = h("ins", {
       class: "adsbygoogle",
       style: {
@@ -436,23 +428,7 @@ export class ScanPage implements Page {
       "data-ad-slot": "2155631873"
     });
 
-    const footerText = h("span", {}, "Ads keep scanapp free");
-    const removeBtn = h("button", {
-      class: "mock-ad-remove-btn",
-      onClick: (e: Event) => {
-        e.stopPropagation();
-        adContainer.style.display = "none";
-        sessionStorage.setItem("scanapp_ads_removed", "true");
-        appShell.showSupportPanel("mobile_ad_remove");
-      }
-    }, "Remove");
-    const separatorText = h("span", {}, " • ");
-
-    const footer = h("div", { class: "mobile-ad-footer" }, 
-      footerText,
-      separatorText,
-      removeBtn
-    );
+    const footer = h("div", { class: "mobile-ad-footer" }, "Ads keep scanapp free");
 
     const adContainer = h("div", { class: "mobile-ad-placement" },
       ins,

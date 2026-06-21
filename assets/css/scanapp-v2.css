@@ -2408,20 +2408,3 @@ body, html {
   text-align: center;
   width: 100%;
 }
-
-/* Remove button/link: Green text, tap target */
-.mobile-ad-placement .mock-ad-remove-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  color: #10b981;
-  font-weight: 600;
-  cursor: pointer;
-  outline: none;
-  font-size: 0.68rem;
-}
-
-.mobile-ad-placement .mock-ad-remove-btn:hover {
-  text-decoration: underline;
-}
