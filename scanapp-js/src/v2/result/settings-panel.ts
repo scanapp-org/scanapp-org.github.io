@@ -126,8 +126,8 @@ export class SettingsPanel {
 
     const body = h("div", { class: "settings-body-v2" },
       themeOptionRow,
-      privacyCard,
-      supportBanner
+      privacyCard
+      // supportBanner
     );
 
     const footer = h("div", { class: "settings-footer-v2" },
