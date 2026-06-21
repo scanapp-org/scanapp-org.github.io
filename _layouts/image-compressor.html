@@ -1,0 +1,129 @@
+---
+layout: tools
+---
+{% assign heading = page.tool_heading | default: "Compress images" %}
+{% assign heading_accent = page.tool_heading_accent | default: "without losing quality." %}
+{% assign mobile_heading = page.mobile_heading | default: heading %}
+{% assign mobile_heading_accent = page.mobile_heading_accent | default: heading_accent %}
+{% assign hero_badge = page.hero_badge | default: "Free • In your browser • No signup" %}
+{% assign mobile_badge = page.mobile_badge | default: "⚡ Runs on your phone · no upload" %}
+{% assign hero_copy = page.hero_copy | default: page.meta_description %}
+{% assign input_accept = page.input_accept | default: "image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/bmp,image/avif,.png,.jpg,.jpeg,.webp,.gif,.svg,.bmp,.avif" %}
+{% assign default_quality = page.default_quality | default: 72 %}
+{% assign default_output = page.default_output | default: "auto" %}
+{% assign drop_title = page.drop_title | default: "Drop images here, or" %}
+{% assign mobile_drop_title = page.mobile_drop_title | default: "Tap to add photos" %}
+{% assign drop_copy = page.drop_copy | default: "JPG, PNG, WebP, AVIF, GIF, SVG, BMP up to 50 MB each — batch up to 100 files" %}
+{% assign mobile_drop_copy = page.mobile_drop_copy | default: "JPG, PNG, WebP, AVIF · pick up to 100" %}
+
+<script>
+window.scanappToolConfig = {
+  utilityKind: "compressor",
+  variant: {{ page.utility_slug | default: "image-compressor" | jsonify }},
+  inputFormat: {{ page.input_format | default: "" | jsonify }},
+  defaultOutput: {{ default_output | jsonify }},
+  defaultQuality: {{ default_quality | jsonify }},
+  targetKb: {{ page.target_kb | default: 0 | jsonify }}
+};
+</script>
+
+<section class="tool-hero compressor-mobile-hero" aria-labelledby="compressor-title">
+  <div class="hero-badge"><span class="desktop-only">{{ hero_badge }}</span><span class="mobile-only">{{ mobile_badge }}</span></div>
+  <h1 id="compressor-title"><span class="desktop-only">{{ heading }} <span class="text-gradient">{{ heading_accent }}</span></span><span class="mobile-only">{{ mobile_heading }} <span class="text-gradient">{{ mobile_heading_accent }}</span></span></h1>
+  <p class="hero-copy">{{ hero_copy }}</p>
+</section>
+
+<div class="compressor-wrapper image-compressor-page">
+  <section class="compressor-card" aria-label="{{ page.tool_aria_label | default: 'Image compressor' }}">
+    <div class="drop-zone" id="drop-zone">
+      <input id="image-input" type="file" accept="{{ input_accept }}" multiple hidden>
+      <div class="drop-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+      </div>
+      <h2><span class="desktop-only">{{ drop_title }} <span class="upload-trigger">click to upload</span></span><span class="mobile-only">{{ mobile_drop_title }}</span></h2>
+      <p><span class="desktop-only">{{ drop_copy }}</span><span class="mobile-only">{{ mobile_drop_copy }}</span></p>
+    </div>
+
+    <div class="compressor-controls">
+      <div class="control-group">
+        <div class="quality-label-row"><label for="quality">{{ page.quality_label | default: "Quality" }}</label><span id="quality-value">{{ default_quality }}%</span></div>
+        <input id="quality" type="range" min="30" max="95" value="{{ default_quality }}" step="1">
+        <div class="quality-scale mobile-only"><span>Smaller file</span><span>Best quality</span></div>
+        {% if page.target_kb %}
+        <p class="target-size-note">Targets approximately <strong>{{ page.target_kb }} KB</strong> using local quality optimization.</p>
+        {% endif %}
+      </div>
+      <div class="control-actions">
+        <button id="add-images-btn" class="button button-secondary" type="button"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add images</button>
+        <button id="compress-all-btn" class="button button-primary" type="button"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>{{ page.action_label | default: "Compress all" }}</button>
+      </div>
+    </div>
+
+    <div class="extra-settings-row">
+      <details class="extra-settings-details">
+        <summary>Advanced settings (Max Width / Output Format)</summary>
+        <div class="settings-grid">
+          <div class="settings-item"><label for="max-width">Maximum width <span class="optional">(optional)</span></label><input id="max-width" type="number" min="1" max="10000" placeholder="Keep original size" inputmode="numeric"></div>
+          <div class="settings-item">
+            <label for="output-format">Output format</label>
+            <select id="output-format">
+              <option value="auto"{% if default_output == "auto" %} selected{% endif %}>Smart (keeps transparency)</option>
+              <option value="image/jpeg"{% if default_output == "image/jpeg" %} selected{% endif %}>JPG — best for photos</option>
+              <option value="image/webp"{% if default_output == "image/webp" %} selected{% endif %}>WebP — smaller, modern</option>
+              <option value="image/png"{% if default_output == "image/png" %} selected{% endif %}>PNG — lossless</option>
+              <option value="image/avif"{% if default_output == "image/avif" %} selected{% endif %}>AVIF — next-gen</option>
+              <option value="image/gif"{% if default_output == "image/gif" %} selected{% endif %}>GIF — graphics</option>
+              <option value="image/bmp"{% if default_output == "image/bmp" %} selected{% endif %}>BMP — bitmap</option>
+            </select>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div id="queue-container" class="queue-container" hidden>
+      <div class="mobile-queue-heading mobile-only"><span><strong id="mobile-queue-count">0</strong> images</span><button id="clear-all-btn" type="button">Clear</button></div>
+      <div id="compress-queue" class="compress-queue"></div>
+      <div id="queue-summary-bar" class="queue-summary-bar">
+        <div class="summary-text" id="summary-text">
+          <span class="desktop-only">Saved <strong id="summary-saved-bytes">0 B</strong> across <span id="summary-count">0</span> images — <strong id="summary-percentage">0%</strong> smaller</span>
+          <span class="mobile-only mobile-summary-copy"><strong>Saved <span id="mobile-summary-saved-bytes">0 B</span></strong><span><span id="mobile-summary-percentage">0%</span> smaller · <span id="mobile-summary-count">0</span> images</span></span>
+        </div>
+        <button id="download-all-btn" class="button button-primary" type="button"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg><span class="desktop-only">Download all (ZIP)</span><span class="mobile-only">Save all</span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="supported-formats-row"><span>Supports</span>{% for format in page.supported_formats %}<span class="format-badge">{{ format }}</span>{% else %}<span class="format-badge">JPG</span><span class="format-badge">PNG</span><span class="format-badge">WebP</span><span class="format-badge">AVIF</span>{% endfor %}</div>
+
+  <section class="how-it-works-section">
+    <h2>{{ page.steps_heading | default: "How it works" }}</h2>
+    <div class="steps-grid">
+      {% for step in page.steps %}
+      <div class="step-card"><div class="step-number">{{ forloop.index }}</div><h3>{{ step.title }}</h3><p>{{ step.text }}</p></div>
+      {% else %}
+      <div class="step-card"><div class="step-number">1</div><h3>Add your images</h3><p>Drop files onto the page or click to upload.</p></div>
+      <div class="step-card"><div class="step-number">2</div><h3>Choose quality</h3><p>Tune quality and optional dimensions.</p></div>
+      <div class="step-card"><div class="step-number">3</div><h3>Download</h3><p>Save one file or the whole batch.</p></div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently asked questions</h2>
+    <div class="faq-accordion">
+      {% for item in page.faq %}
+      <details class="faq-item"><summary class="faq-question"><span>{{ item.question }}</span><span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{{ item.answer }}</p></div></details>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="related-tools-section" aria-labelledby="related-tools-title">
+    <h2 id="related-tools-title">Related private image tools</h2>
+    <div class="related-tools-grid">{% for slug in page.related_tools %}<a href="/{{ slug }}/">{{ slug | replace: "-", " " | capitalize }}</a>{% endfor %}</div>
+  </section>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{% for item in page.faq %}{"@type":"Question","name":{{ item.question | jsonify }},"acceptedAnswer":{"@type":"Answer","text":{{ item.answer | jsonify }}}}{% unless forloop.last %},{% endunless %}{% endfor %}]}
+</script>
+

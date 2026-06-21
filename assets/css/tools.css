@@ -574,6 +574,16 @@ a:hover {
   color: var(--sa-primary);
 }
 
+.target-size-note {
+  margin: 8px 0 0;
+  color: var(--sa-muted);
+  font-size: 0.82rem;
+}
+
+.target-size-note strong {
+  color: var(--sa-primary);
+}
+
 /* Supported formats row */
 .supported-formats-row {
   display: flex;
@@ -733,6 +743,46 @@ a:hover {
 
 .faq-answer p {
   margin: 0;
+}
+
+.related-tools-section {
+  margin: 0 0 54px;
+}
+
+.related-tools-section h2 {
+  margin: 0 0 18px;
+  color: var(--sa-ink);
+  font-size: 1.35rem;
+  text-align: center;
+}
+
+.related-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.related-tools-grid a {
+  padding: 12px 14px;
+  color: var(--sa-ink);
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.related-tools-grid a:hover {
+  color: var(--sa-primary);
+  border-color: rgba(var(--sa-primary-rgb), 0.35);
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .related-tools-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Mobile top navigation overrides */

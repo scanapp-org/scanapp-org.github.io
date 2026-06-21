@@ -2,6 +2,7 @@
   'use strict';
 
   var MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+  var toolConfig = window.scanappToolConfig || {};
   var fileQueue = [];
   var lastTriggerSource = 'unknown';
 
@@ -37,6 +38,14 @@
     return (value / (1024 * 1024)).toFixed(2) + ' MB';
   }
 
+  function sizeBucket(value) {
+    if (value < 500 * 1024) return 'under_500kb';
+    if (value < 1024 * 1024) return '500kb_to_1mb';
+    if (value < 5 * 1024 * 1024) return '1mb_to_5mb';
+    if (value < 20 * 1024 * 1024) return '5mb_to_20mb';
+    return '20mb_to_50mb';
+  }
+
   function fileBaseName(name) {
     return name.replace(/\.[^/.]+$/, '') || 'image';
   }
@@ -51,7 +60,50 @@
   }
 
   function validImage(file) {
-    return file && file.type && file.type.indexOf('image/') === 0;
+    if (!file || !file.name) return false;
+    var ext = file.name.split('.').pop().toLowerCase();
+    if (toolConfig.inputFormat === 'jpeg') return ext === 'jpg' || ext === 'jpeg' || file.type === 'image/jpeg';
+    if (toolConfig.inputFormat === 'png') return ext === 'png' || file.type === 'image/png';
+    return file.type && file.type.indexOf('image/') === 0;
+  }
+
+  function encodeCanvas(canvas, mimeType, initialQuality, callback) {
+    var targetBytes = Number(toolConfig.targetKb || 0) * 1024;
+    var supportsQualitySearch = mimeType === 'image/jpeg' || mimeType === 'image/webp' || mimeType === 'image/avif';
+    if (!targetBytes || !supportsQualitySearch) {
+      canvas.toBlob(callback, mimeType, initialQuality);
+      return;
+    }
+
+    var low = 0.08;
+    var high = Math.min(0.95, Math.max(0.12, initialQuality));
+    var attempts = 0;
+    var bestBlob = null;
+    var lastBlob = null;
+
+    function search() {
+      var candidateQuality = (low + high) / 2;
+      canvas.toBlob(function (blob) {
+        if (!blob) {
+          callback(lastBlob);
+          return;
+        }
+        lastBlob = blob;
+        if (blob.size <= targetBytes) {
+          bestBlob = blob;
+          low = candidateQuality;
+        } else {
+          high = candidateQuality;
+        }
+        attempts++;
+        if (attempts >= 8 || high - low < 0.015) {
+          callback(bestBlob || lastBlob);
+          return;
+        }
+        search();
+      }, mimeType, candidateQuality);
+    }
+    search();
   }
 
   // Handle files adding
@@ -62,10 +114,12 @@
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       if (!validImage(file)) {
+        event('processing_failed', { reason: 'unsupported_input' });
         alert('File "' + file.name + '" is not a valid image.');
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {
+        event('processing_failed', { reason: 'file_too_large' });
         alert('Image "' + file.name + '" exceeds the 50 MB file size limit.');
         continue;
       }
@@ -96,7 +150,7 @@
       renderQueueRow(item);
       addedCount++;
       
-      event('file_selected', { file_type: file.type, size: file.size, source: lastTriggerSource });
+      event('file_selected', { file_type: file.type, file_size_bucket: sizeBucket(file.size), source: lastTriggerSource });
     }
     lastTriggerSource = 'unknown';
 
@@ -177,7 +231,7 @@
     var dl = document.getElementById('download-btn-' + item.id);
     if (dl && item.status === 'done') {
       dl.addEventListener('click', function() {
-        event('download_clicked', { tool: 'image_compressor', filename: item.compressedName });
+        event('download_clicked', { tool: 'image_compressor', output_type: item.compressedBlob && item.compressedBlob.type });
       });
     }
   }
@@ -194,7 +248,7 @@
 
     var item = fileQueue[index];
     item.removed = true;
-    event('remove_item_clicked', { filename: item.file.name, status: item.status });
+    event('remove_item_clicked', { file_type: item.file.type, status: item.status });
     if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
     if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
 
@@ -238,6 +292,7 @@
     item.status = 'compressing';
     item.progress = 20;
     renderQueueRow(item);
+    event('processing_started', { file_type: item.file.type, target_kb: Number(toolConfig.targetKb || 0) });
 
     var img = new Image();
     img.onload = function () {
@@ -279,7 +334,7 @@
         item.progress = 80;
         renderQueueRow(item);
 
-        canvas.toBlob(function (blob) {
+        encodeCanvas(canvas, mimeType, Number(quality.value) / 100, function (blob) {
           if (item.removed) {
             if (callback) callback();
             return;
@@ -287,6 +342,7 @@
           if (!blob) {
             item.status = 'error';
             item.errorMsg = 'Blob encoding failed';
+            event('processing_failed', { reason: 'encode_failed' });
             item.progress = 100;
             renderQueueRow(item);
             if (callback) callback();
@@ -305,12 +361,13 @@
 
           renderQueueRow(item);
           updateSummary();
-          event('processing_success', { output_type: finalMime, output_size: blob.size });
+          event('processing_success', { output_type: finalMime, output_size_bucket: sizeBucket(blob.size), target_kb: Number(toolConfig.targetKb || 0) });
           if (callback) callback();
-        }, mimeType, Number(quality.value) / 100);
+        });
       } catch (err) {
         item.status = 'error';
         item.errorMsg = 'Compression failed';
+        event('processing_failed', { reason: 'compression_exception' });
         item.progress = 100;
         renderQueueRow(item);
         if (callback) callback();
@@ -324,6 +381,7 @@
       }
       item.status = 'error';
       item.errorMsg = 'Load failed';
+      event('processing_failed', { reason: 'decode_failed' });
       item.progress = 100;
       renderQueueRow(item);
       if (callback) callback();

@@ -2,8 +2,9 @@
   'use strict';
 
   var MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+  var toolConfig = window.scanappToolConfig || {};
   var fileQueue = [];
-  var targetFormat = 'image/webp'; // default
+  var targetFormat = toolConfig.defaultOutput || 'image/webp';
   var lastTriggerSource = 'unknown';
 
   // DOM Elements
@@ -37,6 +38,14 @@
     return (value / (1024 * 1024)).toFixed(2) + ' MB';
   }
 
+  function sizeBucket(value) {
+    if (value < 500 * 1024) return 'under_500kb';
+    if (value < 1024 * 1024) return '500kb_to_1mb';
+    if (value < 5 * 1024 * 1024) return '1mb_to_5mb';
+    if (value < 20 * 1024 * 1024) return '5mb_to_20mb';
+    return '20mb_to_50mb';
+  }
+
   function fileBaseName(name) {
     return name.replace(/\.[^/.]+$/, '') || 'image';
   }
@@ -64,7 +73,9 @@
   function validImage(file) {
     if (!file || !file.name) return false;
     var ext = file.name.split('.').pop().toLowerCase();
-    var validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
+    var validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'svg', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
+    if (toolConfig.inputFormat === 'jpeg') return ext === 'jpg' || ext === 'jpeg';
+    if (toolConfig.inputFormat) return ext === toolConfig.inputFormat || (toolConfig.inputFormat === 'heic' && ext === 'heif');
     return (file.type && file.type.indexOf('image/') === 0) || validExtensions.indexOf(ext) !== -1;
   }
 
@@ -76,10 +87,12 @@
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       if (!validImage(file)) {
+        event('processing_failed', { reason: 'unsupported_input' });
         alert('File "' + file.name + '" is not a supported format.');
         continue;
       }
       if (file.size > MAX_FILE_SIZE) {
+        event('processing_failed', { reason: 'file_too_large' });
         alert('Image "' + file.name + '" exceeds the 50 MB file size limit.');
         continue;
       }
@@ -117,7 +130,7 @@
       renderQueueRow(item);
       addedCount++;
       
-      event('file_selected', { file_type: file.type || 'image/heic', size: file.size, source: lastTriggerSource });
+      event('file_selected', { file_type: file.type || 'image/heic', file_size_bucket: sizeBucket(file.size), source: lastTriggerSource });
     }
     lastTriggerSource = 'unknown';
 
@@ -201,7 +214,7 @@
     var dl = document.getElementById('download-btn-' + item.id);
     if (dl && item.status === 'done') {
       dl.addEventListener('click', function() {
-        event('download_clicked', { tool: 'image_converter', filename: item.compressedName });
+        event('download_clicked', { tool: 'image_converter', output_type: item.compressedBlob && item.compressedBlob.type });
       });
     }
   }
@@ -218,7 +231,7 @@
 
     var item = fileQueue[index];
     item.removed = true;
-    event('remove_item_clicked', { filename: item.file.name, status: item.status });
+    event('remove_item_clicked', { file_type: item.file.type || 'image/heic', status: item.status });
     if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
     if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
 
@@ -314,6 +327,7 @@
         if (!blob) {
           item.status = 'error';
           item.errorMsg = 'Blob encoding failed';
+          event('processing_failed', { reason: 'encode_failed' });
           item.progress = 100;
           renderQueueRow(item);
           if (callback) callback();
@@ -330,13 +344,14 @@
 
         renderQueueRow(item);
         updateSummary();
-        event('processing_success', { output_type: blob.type || targetFormat, output_size: blob.size });
+        event('processing_success', { output_type: blob.type || targetFormat, output_size_bucket: sizeBucket(blob.size) });
         if (callback) callback();
       }
 
     } catch (err) {
       item.status = 'error';
       item.errorMsg = 'Canvas draw failed';
+      event('processing_failed', { reason: 'conversion_exception' });
       item.progress = 100;
       renderQueueRow(item);
       if (callback) callback();
@@ -352,6 +367,7 @@
     item.status = 'compressing';
     item.progress = 20;
     renderQueueRow(item);
+    event('processing_started', { file_type: item.file.type || 'image/heic', output_type: targetFormat });
 
     // HEIC/HEIF Decoder support
     if (item.isHeic) {
@@ -387,6 +403,7 @@
           img.onerror = function () {
             item.status = 'error';
             item.errorMsg = 'Decoded load failed';
+            event('processing_failed', { reason: 'decoded_load_failed' });
             item.progress = 100;
             renderQueueRow(item);
             if (callback) callback();
@@ -395,6 +412,7 @@
         }).catch(function (err) {
           item.status = 'error';
           item.errorMsg = 'HEIC decode failed';
+          event('processing_failed', { reason: 'heic_decode_failed' });
           item.progress = 100;
           renderQueueRow(item);
           if (callback) callback();
@@ -402,6 +420,7 @@
       } else {
         item.status = 'error';
         item.errorMsg = 'HEIC decoder missing';
+        event('processing_failed', { reason: 'heic_decoder_missing' });
         item.progress = 100;
         renderQueueRow(item);
         if (callback) callback();
@@ -424,6 +443,7 @@
     img.onerror = function () {
       item.status = 'error';
       item.errorMsg = 'Load failed';
+      event('processing_failed', { reason: 'decode_failed' });
       item.progress = 100;
       renderQueueRow(item);
       if (callback) callback();
@@ -498,6 +518,70 @@
     downloadAllBtn.disabled = (doneCount === 0);
   }
 
+  function downloadCombinedPdf(doneItems) {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('PDF generation is unavailable in this browser.');
+      downloadAllBtn.disabled = false;
+      event('processing_failed', { reason: 'pdf_library_missing' });
+      return;
+    }
+
+    var doc = null;
+    var index = 0;
+
+    function addNextPage() {
+      if (index >= doneItems.length) {
+        if (!doc) {
+          downloadAllBtn.disabled = false;
+          event('processing_failed', { reason: 'combined_pdf_no_pages' });
+          return;
+        }
+        var pdfBlob = doc.output('blob');
+        var url = URL.createObjectURL(pdfBlob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'scanapp-combined-images.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        downloadAllBtn.disabled = false;
+        event('combined_pdf_download_success', { count: doneItems.length, output_size_bucket: sizeBucket(pdfBlob.size) });
+        return;
+      }
+
+      var item = doneItems[index];
+      var image = new Image();
+      image.onload = function () {
+        var width = image.naturalWidth || image.width;
+        var height = image.naturalHeight || image.height;
+        var canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        var context = canvas.getContext('2d');
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+        var orientation = width > height ? 'landscape' : 'portrait';
+        if (!doc) {
+          doc = new window.jspdf.jsPDF({ orientation: orientation, unit: 'px', format: [width, height] });
+        } else {
+          doc.addPage([width, height], orientation);
+        }
+        doc.addImage(canvas.toDataURL('image/jpeg', Number(quality.value) / 100), 'JPEG', 0, 0, width, height);
+        index++;
+        addNextPage();
+      };
+      image.onerror = function () {
+        index++;
+        addNextPage();
+      };
+      image.src = item.previewUrl;
+    }
+
+    addNextPage();
+  }
+
   function downloadAllZip() {
     var doneItems = [];
     for (var i = 0; i < fileQueue.length; i++) {
@@ -510,6 +594,12 @@
 
     event('download_all_clicked', { count: doneItems.length });
     downloadAllBtn.disabled = true;
+
+    if (toolConfig.combinePdf && targetFormat === 'application/pdf') {
+      downloadCombinedPdf(doneItems);
+      return;
+    }
+
     var zip = new JSZip();
 
     for (var i = 0; i < doneItems.length; i++) {
