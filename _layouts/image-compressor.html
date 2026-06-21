@@ -117,13 +117,9 @@ window.scanappToolConfig = {
     </div>
   </section>
 
-  <section class="related-tools-section" aria-labelledby="related-tools-title">
-    <h2 id="related-tools-title">Related private image tools</h2>
-    <div class="related-tools-grid">{% for slug in page.related_tools %}<a href="/{{ slug }}/">{{ slug | replace: "-", " " | capitalize }}</a>{% endfor %}</div>
-  </section>
+  {% include utility_links.html %}
 </div>
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{% for item in page.faq %}{"@type":"Question","name":{{ item.question | jsonify }},"acceptedAnswer":{"@type":"Answer","text":{{ item.answer | jsonify }}}}{% unless forloop.last %},{% endunless %}{% endfor %}]}
 </script>
-

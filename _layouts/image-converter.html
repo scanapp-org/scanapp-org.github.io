@@ -74,7 +74,7 @@ window.scanappToolConfig = {
 
   <section class="faq-section"><h2>Frequently asked questions</h2><div class="faq-accordion">{% for item in page.faq %}<details class="faq-item"><summary class="faq-question"><span>{{ item.question }}</span><span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{{ item.answer }}</p></div></details>{% endfor %}</div></section>
 
-  <section class="related-tools-section" aria-labelledby="related-tools-title"><h2 id="related-tools-title">Related private image tools</h2><div class="related-tools-grid">{% for slug in page.related_tools %}<a href="/{{ slug }}/">{{ slug | replace: "-", " " | capitalize }}</a>{% endfor %}</div></section>
+  {% include utility_links.html %}
 </div>
 
 <script type="application/ld+json">

@@ -747,30 +747,56 @@ a:hover {
 
 .related-tools-section {
   margin: 0 0 54px;
+  padding: 24px;
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: 20px;
 }
 
 .related-tools-section h2 {
-  margin: 0 0 18px;
+  margin: 0 0 4px;
   color: var(--sa-ink);
   font-size: 1.35rem;
-  text-align: center;
+  text-align: left;
+}
+
+.related-tools-intro {
+  margin: 0 0 20px;
+  color: var(--sa-muted);
+  font-size: 0.88rem;
 }
 
 .related-tools-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+  width: 100%;
 }
 
 .related-tools-grid a {
-  padding: 12px 14px;
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 46px;
+  align-items: center;
+  padding: 10px 32px 10px 12px;
   color: var(--sa-ink);
-  background: var(--sa-surface);
+  background: var(--sa-surface-elevated);
   border: 1px solid var(--sa-border);
-  border-radius: 12px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  text-transform: capitalize;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  text-transform: none;
+}
+
+.related-tools-grid a::after {
+  position: absolute;
+  right: 12px;
+  color: var(--sa-muted);
+  content: "›";
+  font-size: 1.1rem;
 }
 
 .related-tools-grid a:hover {
@@ -779,9 +805,31 @@ a:hover {
   text-decoration: none;
 }
 
-@media (max-width: 480px) {
+.related-tools-grid a.active {
+  color: var(--sa-primary);
+  background: rgba(var(--sa-primary-rgb), 0.08);
+  border-color: rgba(var(--sa-primary-rgb), 0.4);
+}
+
+@media (max-width: 768px) {
+  .related-tools-section {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
   .related-tools-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .related-tools-grid a {
+    min-height: 44px;
+    padding: 9px 26px 9px 10px;
+    font-size: 0.76rem;
+  }
+
+  .related-tools-grid a::after {
+    right: 9px;
   }
 }
 
