@@ -416,10 +416,12 @@ export class ScanPage implements Page {
       return null;
     }
 
+    // ADS CONTAINER: This is where mobile top ads should be placed.
+    // The ad container is kept in the DOM but is hidden (display: none) per request.
     const ins = h("ins", {
       class: "adsbygoogle",
       style: {
-        display: "block",
+        display: "none", // Hidden
         width: "360px",
         height: "60px",
         margin: "0 auto"
@@ -428,37 +430,27 @@ export class ScanPage implements Page {
       "data-ad-slot": "2155631873"
     });
 
-    const footer = h("div", { class: "mobile-ad-footer" }, "Ads keep scanapp free");
+    const footer = h("div", {
+      class: "mobile-ad-footer",
+      style: { display: "none" } // Hidden
+    }, "Ads keep scanapp free");
 
-    const adContainer = h("div", { class: "mobile-ad-placement" },
+    const adContainer = h("div", {
+      class: "mobile-ad-placement",
+      style: { display: "none" } // Hidden
+    },
       ins,
       footer
     );
 
-    // Initial check and push script setup
-    setTimeout(() => {
-      try {
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-      } catch (e) {
-        console.warn("AdSense push failed:", e);
-      }
-
-      let checkCount = 0;
-      const interval = setInterval(() => {
-        checkCount++;
-        const insElement = adContainer.querySelector("ins.adsbygoogle");
-        if (insElement) {
-          const isFilled = insElement.getAttribute("data-ad-status") === "filled" || insElement.querySelector("iframe") !== null;
-          if (isFilled) {
-            adContainer.classList.add("ad-filled");
-            clearInterval(interval);
-          }
-        }
-        if (checkCount > 30) {
-          clearInterval(interval);
-        }
-      }, 500);
-    }, 100);
+    // Ad logic (Google AdSense script loading/pushing and ad-filled visibility toggles) has been removed.
+    // To restore ad serving logic, remove the 'display: none' styles above and restore:
+    // try {
+    //   ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+    // } catch (e) {
+    //   console.warn("AdSense push failed:", e);
+    // }
+    // Followed by checking if the ad has loaded (data-ad-status === "filled") and adding "ad-filled" class.
 
     return adContainer;
   }

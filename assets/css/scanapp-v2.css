@@ -2361,7 +2361,7 @@ body, html {
   margin-bottom: 24px !important;
 }
 
-/* Mobile Ad Placement Container */
+/* Mobile Ad Placement Container (This is where the top ads should come, currently hidden) */
 .mobile-ad-placement {
   position: absolute;
   top: calc(12px + env(safe-area-inset-top, 0px));

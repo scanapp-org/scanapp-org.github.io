@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Warm up the connection to the asset CDN early: render-blocking CSS and
+       images are served from this origin, so pre-resolving DNS + TLS here
+       shortens the critical path without changing any behavior. -->
+  <link rel="preconnect" href="https://scanapp.pages.dev">
+  <link rel="dns-prefetch" href="https://scanapp.pages.dev">
 {% include icon_links.html %}
   <!-- Primary Meta Tags -->
   <title>{{ page.title }}</title>
