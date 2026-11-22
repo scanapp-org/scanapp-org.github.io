@@ -14,7 +14,8 @@ permalink: /contact/
   <meta name="theme-color" content="#f7f9fa">
   {% include icon_links.html %}
   {% include contact_head.html %}
-  <link rel="stylesheet" href="{{ "/assets/css/contact.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/contact.css?v=20261122-copy' | relative_url }}">
+  <script src="{{ '/assets/js/contact-page.js?v=20261122-copy' | relative_url }}" defer></script>
 </head>
 <body class="contact-page">
   <header class="contact-page-header">
@@ -42,7 +43,11 @@ permalink: /contact/
         <h2 id="email-title">Get in touch</h2>
         <p>For bug reports, feature requests, and product feedback, email me directly.</p>
         <a class="contact-page-address" href="mailto:hector.sorost@gmail.com">hector.sorost@gmail.com</a>
-        <a class="contact-page-email-button" href="mailto:hector.sorost@gmail.com?subject=ScanApp%20feedback">Email Hector <span aria-hidden="true">&nbsp;↗</span></a>
+        <div class="contact-page-actions">
+          <a class="contact-page-email-button" href="mailto:hector.sorost@gmail.com?subject=ScanApp%20feedback">Email Hector <span aria-hidden="true">&nbsp;↗</span></a>
+          <button class="contact-page-copy-button" type="button" hidden>Copy email</button>
+        </div>
+        <p class="contact-page-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
       </section>
     </div>
     <div class="contact-page-guidance">

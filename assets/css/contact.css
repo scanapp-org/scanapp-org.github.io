@@ -23,6 +23,12 @@
 .contact-page-address { display: block; font-size: 18px; font-weight: 650; overflow-wrap: anywhere; margin: 0 0 24px; }
 .contact-page-email-button { display: inline-flex; min-height: 48px; padding: 10px 22px; align-items: center; justify-content: center; border-radius: 8px; background: #08715c; color: #fff !important; font-weight: 650; text-decoration: none; }
 .contact-page-email-button:hover { background: #075a4a; }
+.contact-page-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.contact-page-copy-button { min-height: 48px; padding: 10px 18px; border: 1px solid #08715c; border-radius: 8px; background: #fff; color: #08715c; font: inherit; font-weight: 650; cursor: pointer; }
+.contact-page-copy-button:hover { background: #eff8f5; }
+.contact-page-copy-button:focus-visible { outline: 3px solid #10b981; outline-offset: 4px; }
+.contact-page-copy-button:disabled { cursor: wait; opacity: .7; }
+.contact-page-email-card .contact-page-copy-status { min-height: 1.5em; margin: 12px 0 0; font-size: 13px; }
 .contact-page-guidance { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 64px 0 0; border-top: 1px solid #dbe5e6; padding-top: 34px; }
 .contact-page-guidance h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: -.02em; }
 .contact-page-guidance p, .contact-page-guidance ul { margin: 0; color: #53616c; }
@@ -37,6 +43,6 @@
   .contact-page-grid, .contact-page-guidance { grid-template-columns: 1fr; gap: 28px; }
   .contact-page-intro { font-size: 19px; }
   .contact-page-email-card { padding: 24px; }
-  .contact-page-email-button { width: 100%; }
+  .contact-page-email-button, .contact-page-copy-button { width: 100%; }
   .contact-page-guidance { margin-top: 36px; padding-top: 28px; }
 }
