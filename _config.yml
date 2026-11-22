@@ -53,6 +53,15 @@ collections:
   supports:
     output: true
 
+# Local operating records contain private analytics and must never be published.
+exclude:
+  - _reports
+  - _operations
+  - _backups
+  - AGENTS.md
+  - scripts/backup-scanapp.py
+  - scripts/test-blog-analytics.js
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

@@ -20,4 +20,7 @@ assets/.DS_Store
 assets/.DS_Store
 assets/_headers
 strategy/
+/_reports/
+/_operations/
+/_backups/
 apps/ios/ScanApp/ScanApp.xcodeproj/project.xcworkspace/xcuserdata/hector.xcuserdatad/UserInterfaceState.xcuserstate

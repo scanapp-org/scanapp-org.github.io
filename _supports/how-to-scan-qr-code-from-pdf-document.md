@@ -70,7 +70,7 @@ If ScanApp fails to decode the QR code from your PDF screenshot, try these adjus
 
 * [How to Scan a QR Code from an Image, Photo, or Screenshot](/supports/how-to-scan-qr-code-from-image-or-photo/)
 * [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
-* [How to Scan a QR Code on Laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac/)
+* [How to Scan a QR Code on Laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac)
 
 <script type="application/ld+json">
 {

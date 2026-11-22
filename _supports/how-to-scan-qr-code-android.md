@@ -98,7 +98,7 @@ Yes — Samsung phones support three methods: the stock Camera, Bixby Vision, an
 
 - [Scan a QR code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
 - [Scan a QR code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
-- [Scan a QR code on a laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac/)
+- [Scan a QR code on a laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac)
 - [Scan a QR code from an image or photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
 
 <script type="application/ld+json">
