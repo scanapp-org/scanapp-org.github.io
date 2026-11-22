@@ -16,6 +16,12 @@ layout: null
     <xhtml:link rel="alternate" hreflang="x-default" href="https://scanapp.org/" />
   </url>
   <url>
+    <loc>https://scanapp.org/contact/</loc>
+    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://scanapp.org/barcode/</loc>
     <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>

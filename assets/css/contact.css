@@ -1,0 +1,42 @@
+/* Contact page: clear, light, responsive, with no dependency on the scanner UI. */
+.contact-page { margin: 0; background: #f7f9fa; color: #172b37; font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.contact-page * { box-sizing: border-box; }
+.contact-page a { color: #08715c; text-underline-offset: 4px; }
+.contact-page a:focus-visible { outline: 3px solid #10b981; outline-offset: 4px; }
+.contact-page-header { background: #fff; border-bottom: 1px solid #e0e7e9; }
+.contact-page-nav { max-width: 1120px; margin: auto; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.contact-page-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; color: #172b37 !important; text-decoration: none; }
+.contact-page-brand img { width: 28px; height: 28px; }
+.contact-page-nav-links { display: flex; gap: 24px; align-items: center; font-size: 14px; }
+.contact-page-nav-links a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: #53616c; }
+.contact-page-nav-links a:hover { color: #08715c; }
+.contact-page-main { max-width: 1120px; min-height: calc(100vh - 133px); margin: auto; padding: 76px 24px 72px; }
+.contact-page-eyebrow { color: #08715c; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 16px; }
+.contact-page-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 72px; align-items: start; }
+.contact-page h1 { margin: 0 0 22px; font-size: clamp(36px, 4.5vw, 52px); line-height: 1.15; letter-spacing: -.04em; }
+.contact-page-intro { margin: 0 0 18px; font-size: 21px; line-height: 1.55; color: #405764; max-width: 550px; }
+.contact-page-copy { max-width: 550px; color: #53616c; margin: 0 0 22px; }
+.contact-page-signature { margin: 24px 0 0; font-size: 14px; font-weight: 650; }
+.contact-page-email-card { background: #fff; border: 1px solid #dbe5e6; border-radius: 16px; padding: 30px; box-shadow: 0 8px 24px #1c3d4810; }
+.contact-page-email-card h2 { margin: 0 0 10px; font-size: 22px; letter-spacing: -.02em; }
+.contact-page-email-card p { color: #53616c; margin: 0 0 20px; }
+.contact-page-address { display: block; font-size: 18px; font-weight: 650; overflow-wrap: anywhere; margin: 0 0 24px; }
+.contact-page-email-button { display: inline-flex; min-height: 48px; padding: 10px 22px; align-items: center; justify-content: center; border-radius: 8px; background: #08715c; color: #fff !important; font-weight: 650; text-decoration: none; }
+.contact-page-email-button:hover { background: #075a4a; }
+.contact-page-guidance { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 64px 0 0; border-top: 1px solid #dbe5e6; padding-top: 34px; }
+.contact-page-guidance h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: -.02em; }
+.contact-page-guidance p, .contact-page-guidance ul { margin: 0; color: #53616c; }
+.contact-page-guidance ul { padding-left: 20px; }
+.contact-page-guidance li + li { margin-top: 6px; }
+.contact-page-privacy { font-size: 13px; color: #647581; margin: 32px 0 0; }
+@media (max-width: 700px) {
+  .contact-page-nav { padding: 10px 20px; gap: 16px; }
+  .contact-page-nav-links { gap: 18px; }
+  .contact-page-nav-links .contact-secondary-nav { display: none; }
+  .contact-page-main { padding: 40px 20px 44px; min-height: calc(100vh - 109px); }
+  .contact-page-grid, .contact-page-guidance { grid-template-columns: 1fr; gap: 28px; }
+  .contact-page-intro { font-size: 19px; }
+  .contact-page-email-card { padding: 24px; }
+  .contact-page-email-button { width: 100%; }
+  .contact-page-guidance { margin-top: 36px; padding-top: 28px; }
+}

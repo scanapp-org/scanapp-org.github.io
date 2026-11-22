@@ -56,8 +56,9 @@
   
   <base target="_parent">
   <link rel="canonical" href="https://scanapp.org/generate"/>
+  {% include contact_head.html %}
 </head>
-<body>
+<body class="scanapp-with-contact-footer scanapp-tool-with-contact-footer">
 
 <div class="app-wrapper">
   <!-- Desktop Navigation Sidebar -->
@@ -1162,5 +1163,6 @@
   }
 </script>
 
+  {% include contact_footer.html app=true %}
 </body>
 </html>

@@ -30,8 +30,9 @@
     "isAccessibleForFree": true
   }
   </script>
+  {% include contact_head.html %}
 </head>
-<body>
+<body class="scanapp-with-contact-footer scanapp-tool-with-contact-footer">
 
 <div id="scanapp-root">
   <!-- Desktop Navigation Sidebar -->
@@ -337,5 +338,6 @@
   <script src="/assets/js/jszip.min.js" defer></script>
   <script src="/assets/js/image-compressor.js" defer></script>
 {% endif %}
+  {% include contact_footer.html app=true %}
 </body>
 </html>

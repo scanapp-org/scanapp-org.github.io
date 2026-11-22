@@ -38,6 +38,7 @@
   <link rel="preload" href={{ "/assets/main.css" | relative_url }} as="style">
   <link rel="stylesheet" href={{ "/assets/main.css" | relative_url }}>
   <link rel="stylesheet" href={{ "/assets/demo.css" | relative_url }}>
+  {% include contact_head.html %}
 </head>
 
   <body data-instant-allow-query-string data-instant-allow-external-links>
@@ -63,6 +64,7 @@
       <div>{{ content }}</div>
     </div>
 
-  </body>
+    {% include contact_footer.html %}
+</body>
   
 </html>

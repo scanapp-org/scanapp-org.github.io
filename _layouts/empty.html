@@ -66,8 +66,9 @@
 
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://www.google-analytics.com">
+  {% include contact_head.html %}
 </head>
-<body data-instant-allow-query-string data-instant-allow-external-links>
+<body class="scanapp-with-contact-footer" data-instant-allow-query-string data-instant-allow-external-links>
   <script>
     (function() {
       var lockStyle = function(el) {
@@ -99,6 +100,7 @@
     })();
   </script>
   {{ content }}
+  {% include contact_footer.html app=true %}
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

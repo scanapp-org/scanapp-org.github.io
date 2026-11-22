@@ -1,0 +1,62 @@
+/* Shared contact navigation, isolated from scanner and tool controls. */
+.scanapp-contact-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 8px;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
+.scanapp-contact-link:hover { text-decoration: underline; }
+.blog-footer-links .scanapp-contact-link { color: var(--blog-text, #172b37) !important; }
+.scanapp-contact-link:focus-visible { outline: 2px solid #10b981; outline-offset: -2px; border-radius: 4px; }
+.scanapp-contact-footer {
+  box-sizing: border-box;
+  color: var(--sa-text-secondary, #53616c);
+  background: var(--sa-bg, #fff);
+  border-top: 1px solid var(--sa-border, #e0e7e9);
+  font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.scanapp-contact-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.scanapp-contact-footer .scanapp-contact-link { color: var(--sa-text, #172b37); }
+.scanapp-with-contact-footer { --scanapp-contact-height: calc(45px + env(safe-area-inset-bottom, 0px)); }
+.scanapp-with-contact-footer #scanapp-root,
+.scanapp-with-contact-footer .app-wrapper {
+  height: calc(100vh - var(--scanapp-contact-height)) !important;
+  height: calc(100dvh - var(--scanapp-contact-height)) !important;
+}
+.scanapp-with-contact-footer .scanapp-static-loader { min-height: 0; height: 100%; }
+.scanapp-with-contact-footer .desktop-sidebar { overflow-y: auto; scrollbar-width: thin; }
+.scanapp-contact-footer--app {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 11;
+  height: var(--scanapp-contact-height);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+/* The legacy scanner has a viewport-anchored mobile bar rather than an app root. */
+.scanapp-with-contact-footer .mobile-bottom-navbar { bottom: var(--scanapp-contact-height); }
+@media (max-width: 768px) {
+  .scanapp-tool-with-contact-footer .app-content {
+    height: calc(100vh - 56px - var(--scanapp-contact-height));
+    height: calc(100dvh - 56px - var(--scanapp-contact-height));
+  }
+  .scanapp-tool-with-contact-footer .mobile-tab-bar {
+    position: fixed;
+    bottom: calc(var(--scanapp-contact-height) + 16px);
+  }
+}

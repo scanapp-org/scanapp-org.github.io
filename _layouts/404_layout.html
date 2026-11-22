@@ -26,7 +26,9 @@
     }
 
     .body-404 {
-        height: 100vh;
+        box-sizing: border-box;
+        height: calc(100vh - 44px);
+        height: calc(100dvh - 44px);
         width: calc(100% - 40px);
         display: flex;
         justify-content: center;
@@ -42,11 +44,13 @@
         margin: auto;
     }
   </style>
+  {% include contact_head.html %}
 </head>
 <body data-instant-allow-query-string data-instant-allow-external-links>
     <div class="body-404">
         <div>Sorry this page does not exist redirecting you to ScanApp Home in 7 seconds...</div>
     </div>
+  {% include contact_footer.html %}
 </body>
 </html>
 
