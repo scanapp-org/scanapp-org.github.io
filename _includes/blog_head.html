@@ -148,4 +148,8 @@
   <meta name="theme-color" content="#0a0a0c">
   <script src="/assets/js/blog-analytics.js" defer></script>
   {% include contact_head.html %}
+  {% if page.contact_sidebar %}
+  <link rel="stylesheet" href="{{ '/assets/css/support-contact.css?v=20261122' | relative_url }}">
+  <script src="{{ '/assets/js/contact-page.js?v=20261122-support' | relative_url }}" defer></script>
+  {% endif %}
 </head>

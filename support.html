@@ -3,8 +3,10 @@ layout: support_default
 title: ScanApp Support - QR Code Scanner Support
 description: "Find answers to common questions about QR code scanning on web, Android, iOS, Windows, and Mac. ScanApp support articles and guides."
 permalink: /support/
+contact_sidebar: true
 ---
 
+<div class="support-content-layout">
 <section aria-label="Support articles">
   <div class="posts">
     {% for support in site.supports %}
@@ -27,3 +29,5 @@ permalink: /support/
     {% endfor %}
   </div>
 </section>
+{% include support_contact_card.html %}
+</div>

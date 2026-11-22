@@ -78,7 +78,7 @@
       </header>
 
       <!-- ─── Main Content ───────────────────────────────────────────────────── -->
-      <main class="container content" id="main-content" role="main">
+      <main class="container content{% if page.contact_sidebar %} support-with-contact{% endif %}" id="main-content" role="main">
         {{ content }}
       </main>
 

@@ -6,6 +6,21 @@
   var status = document.querySelector('.contact-page-copy-status');
   if (!button || !address || !status) return;
 
+  var pagePath = window.location.pathname;
+  var isSidebar = button.getAttribute('data-contact-placement') === 'sidebar';
+  var contentGroup = isSidebar ? 'support' : 'contact';
+  function track(name, extra) {
+    if (window.location.hostname !== 'scanapp.org' || typeof window.gtag !== 'function') return;
+    var params = { page_path: pagePath, content_group: contentGroup };
+    if (isSidebar) params.link_placement = 'sidebar';
+    if (extra) params.link_type = extra;
+    try { window.gtag('event', name, params); } catch (error) { /* Preserve the action result. */ }
+  }
+  if (isSidebar) {
+    var emailButton = document.querySelector('.support-contact-card .contact-page-email-button');
+    if (emailButton) emailButton.addEventListener('click', function () { track('contact_email_click', 'button'); });
+    address.addEventListener('click', function () { track('contact_email_click', 'address'); });
+  }
   button.hidden = false;
   var resetTimer;
   button.addEventListener('click', async function () {
@@ -21,11 +36,7 @@
       await navigator.clipboard.writeText(address.textContent.trim());
       button.textContent = 'Copied!';
       status.textContent = 'Email address copied.';
-      if (window.location.hostname === 'scanapp.org' && typeof window.gtag === 'function') {
-        try {
-          window.gtag('event', 'contact_email_copy', { page_path: '/contact/', content_group: 'contact' });
-        } catch (error) { /* Measurement must not change the copy result. */ }
-      }
+      track('contact_email_copy');
       resetTimer = window.setTimeout(function () { button.textContent = 'Copy email'; }, 2500);
     } catch (error) {
       status.textContent = 'Couldn’t copy. Select the email address above to copy it.';
