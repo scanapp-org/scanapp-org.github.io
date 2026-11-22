@@ -121,7 +121,7 @@ layout: null
       <div class="sidebar-extra-footer">
         <div class="sidebar-footer-links">
           <a href="https://github.com/scanapp-org" target="_blank" rel="noopener">GitHub</a> &bull; 
-          <a href="/support/">Contact</a>
+          {% include contact_link.html placement="sidebar" %}
         </div>
         <div class="sidebar-footer-credits">
           &copy; <span id="current-year">2026</span> ScanApp
@@ -286,6 +286,7 @@ layout: null
     </div>
   </div>
   <div class="settings-footer-v2">
+    {% include contact_link.html placement="settings" %}
     <div class="settings-footer-links">
       <a href="/blog/" class="settings-footer-link">Blog</a>
       <span class="settings-footer-separator">•</span>

@@ -54,11 +54,12 @@
     if (link.classList.contains('scanapp-contact-link') &&
         destination.origin === window.location.origin &&
         /^\/contact\/?$/.test(destination.pathname)) {
+      var placement = link.getAttribute('data-contact-placement');
       window.gtag('event', 'contact_link_click', {
         page_location: pageLocation,
         page_path: pagePath,
         destination_path: '/contact/',
-        link_placement: 'footer'
+        link_placement: placement === 'settings' || placement === 'sidebar' ? placement : 'footer'
       });
       return;
     }

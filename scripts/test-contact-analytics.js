@@ -26,7 +26,8 @@ function fixture(url, options = {}) {
     window, scripts, listeners, existingGtag, run,
     calls() { return options.existingGtag ? calls : Array.from(window.dataLayer || [], x => Array.from(x)); },
     click(href, classes = [], options = {}) {
-      const anchor = { href, classList: { contains: value => classes.includes(value) } };
+      const anchor = { href, classList: { contains: value => classes.includes(value) },
+        getAttribute: name => { assert.equal(name, 'data-contact-placement'); return options.placement || null; } };
       const element = { closest: selector => { assert.equal(selector, 'a[href]'); return options.noAnchor ? null : anchor; } };
       const target = options.textNode ? { nodeType: 3, parentElement: element } : element;
       const event = { target, defaultPrevented: !!options.prevented,
@@ -61,6 +62,12 @@ for (const pagePath of ['/', '/generate/', '/id/', '/image-compressor/', '/suppo
 }
 
 // A page without a tag queues a safe event without introducing another loader.
+for (const placement of ['sidebar', 'settings', 'untrusted-private-value']) {
+  const f = fixture('https://scanapp.org/');
+  f.click('/contact/', ['scanapp-contact-link'], { placement });
+  assert.equal(f.calls()[0][2].link_placement, placement === 'untrusted-private-value' ? 'footer' : placement);
+}
+
 const queued = fixture('https://scanapp.org/demo/example');
 queued.click('/contact/', ['scanapp-contact-link']);
 assert.equal(queued.scripts.length, 0);

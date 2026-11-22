@@ -1,1 +1,1 @@
-<a class="scanapp-contact-link" href="{{ '/contact/' | relative_url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact me</a>
+<a class="scanapp-contact-link" data-contact-placement="{{ include.placement | default: 'footer' }}" href="{{ '/contact/' | relative_url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact me</a>

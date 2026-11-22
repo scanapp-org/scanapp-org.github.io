@@ -51,12 +51,20 @@
 /* The legacy scanner has a viewport-anchored mobile bar rather than an app root. */
 .scanapp-with-contact-footer .mobile-bottom-navbar { bottom: var(--scanapp-contact-height); }
 @media (max-width: 768px) {
+  .scanapp-with-contact-footer { --scanapp-contact-height: 0px; }
+  .scanapp-contact-footer--app { display: none; }
   .scanapp-tool-with-contact-footer .app-content {
     height: calc(100vh - 56px - var(--scanapp-contact-height));
     height: calc(100dvh - 56px - var(--scanapp-contact-height));
   }
   .scanapp-tool-with-contact-footer .mobile-tab-bar {
     position: fixed;
-    bottom: calc(var(--scanapp-contact-height) + 16px);
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }
+}
+
+/* The legacy scanner switches to desktop navigation at 600px. */
+@media (min-width: 600px) and (max-width: 768px) {
+  .scanapp-legacy-contact { --scanapp-contact-height: calc(45px + env(safe-area-inset-bottom, 0px)); }
+  .scanapp-legacy-contact .scanapp-contact-footer--app { display: block; }
 }

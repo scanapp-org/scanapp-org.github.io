@@ -131,6 +131,7 @@ export class SettingsPanel {
     );
 
     const footer = h("div", { class: "settings-footer-v2" },
+      h("a", { href: "/contact/", class: "settings-footer-link scanapp-contact-link", "data-contact-placement": "settings" }, "Contact me"),
       h("div", { class: "settings-footer-links" },
         h("a", { href: "/blog/", target: "_blank", class: "settings-footer-link" }, "Blog"),
         h("span", { class: "settings-footer-separator" }, "•"),

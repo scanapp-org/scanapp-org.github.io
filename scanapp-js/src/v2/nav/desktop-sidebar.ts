@@ -177,6 +177,9 @@ export class DesktopSidebar {
 
     // Extra footer credits
     const sidebarExtraFooter = h("div", { class: "sidebar-extra-footer" },
+      h("div", { class: "sidebar-footer-links" },
+        h("a", { href: "/contact/", class: "scanapp-contact-link", "data-contact-placement": "sidebar" }, "Contact me")
+      ),
       h("div", { class: "sidebar-footer-credits" }, "Built with ❤️ by ScanApp")
     );
 
