@@ -1,0 +1,91 @@
+---
+layout: tools
+---
+<div class="pdf-qr-page">
+  <section class="tool-hero pdf-qr-hero" aria-labelledby="pdf-tool-title">
+    <div class="hero-badge">PDF to QR &middot; On your device</div>
+    <h1 id="pdf-tool-title">Read QR codes <span class="text-gradient">from a PDF.</span></h1>
+    <p class="hero-copy">Choose a PDF, select a page, and read its QR code. No screenshot, camera, or account needed.</p>
+  </section>
+
+  <div class="compressor-wrapper pdf-qr-content">
+    <section class="pdf-tool-card" aria-label="PDF QR code reader">
+      <div id="pdf-drop-zone" class="pdf-drop-zone">
+        <input id="pdf-file-input" type="file" accept="application/pdf,.pdf" aria-label="Choose a PDF file" hidden>
+        <div class="pdf-drop-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" width="38" height="38"><path d="M9 3h10l7 7v18H6V3h3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 3v8h7M11 17h10M11 22h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Choose a PDF to get started</h2>
+        <p>Drop it here or select a file from your device.</p>
+        <div class="pdf-file-actions">
+          <button id="pdf-select-button" class="button button-primary" type="button">Choose PDF</button>
+          <button id="pdf-sample-button" class="button button-secondary" type="button">Try sample PDF</button>
+        </div>
+        <p class="pdf-file-limits">Up to 20 MB &middot; Up to 200 pages &middot; Unprotected PDFs</p>
+      </div>
+
+      <p id="pdf-status" class="pdf-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div id="pdf-workspace" class="pdf-workspace" role="region" aria-label="PDF page reader" tabindex="-1" hidden>
+        <div class="pdf-file-heading">
+          <div class="pdf-file-details"><span class="pdf-eyebrow">Your document</span><strong id="pdf-file-label">Selected PDF</strong></div>
+          <button id="pdf-reset-button" class="button button-secondary pdf-reset-button" type="button">Choose another</button>
+        </div>
+
+        <div class="pdf-page-toolbar" role="group" aria-label="Choose PDF page">
+          <button id="pdf-prev-page" class="pdf-page-button" type="button" aria-label="Previous page" disabled><span aria-hidden="true">&larr;</span></button>
+          <div class="pdf-page-picker"><label for="pdf-page-number">Page</label><input id="pdf-page-number" type="number" min="1" value="1" inputmode="numeric"><span>of <span id="pdf-page-count">0</span></span></div>
+          <button id="pdf-next-page" class="pdf-page-button" type="button" aria-label="Next page" disabled><span aria-hidden="true">&rarr;</span></button>
+        </div>
+
+        <div class="pdf-workspace-grid">
+          <section class="pdf-preview-section" aria-label="Page preview">
+            <div class="pdf-preview-label"><span>Selected page</span><span>Preview</span></div>
+            <div class="pdf-preview-surface"><canvas id="pdf-preview" role="img" aria-label="Preview of the selected PDF page"></canvas></div>
+          </section>
+
+          <div class="pdf-read-panel">
+            <h2>Read this page</h2>
+            <p class="pdf-read-help">Select the page containing your QR code, then read its contents below.</p>
+            <button id="pdf-scan-button" class="button button-primary pdf-read-button" type="button">Read QR code</button>
+            <p class="pdf-scan-scope">Reads one QR code per selected page. Other barcode formats are not supported here.</p>
+
+            <div id="pdf-no-result" class="pdf-no-result" hidden>
+              <h3>No QR code found on this page</h3>
+              <p>Try another page. If the code is small or unclear, take a close-up screenshot and use the <a href="/">image scanner</a>.</p>
+            </div>
+
+            <section id="pdf-result-section" class="pdf-result-section" aria-labelledby="pdf-result-heading" hidden>
+              <div class="pdf-result-heading"><span class="pdf-result-dot" aria-hidden="true"></span><h3 id="pdf-result-heading">QR code contents</h3></div>
+              <label class="pdf-result-label" for="pdf-result-text">Decoded text</label>
+              <textarea id="pdf-result-text" rows="5" readonly spellcheck="false" autocomplete="off"></textarea>
+              <div class="pdf-result-actions">
+                <button id="pdf-copy-button" class="button button-secondary" type="button">Copy result</button>
+                <button id="pdf-open-link" class="button button-primary" type="button" hidden>Open website <span aria-hidden="true">&nearr;</span></button>
+              </div>
+              <p id="pdf-result-status" class="pdf-result-status" role="status" aria-live="polite" aria-atomic="true"></p>
+              <p class="pdf-link-note">Check the address before opening a link. Reading a code does not verify its destination.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+      <noscript><p class="pdf-noscript">This PDF reader needs JavaScript. You can also take a screenshot of the code and use the <a href="/">image scanner</a>.</p></noscript>
+    </section>
+
+    <div class="pdf-trust-note"><svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true"><path d="m12 3 8 3v6c0 4-4 7-8 9-4-2-8-5-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8 12 3 3 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><p><strong>Your document stays on your device.</strong> PDF pages and QR contents are processed in this browser and are not uploaded.</p></div>
+
+    <section class="how-it-works-section" aria-labelledby="pdf-steps-title">
+      <h2 id="pdf-steps-title">From PDF to QR contents in three steps</h2>
+      <div class="steps-grid">{% for step in page.steps %}<div class="step-card"><div class="step-number">{{ forloop.index }}</div><h3>{{ step.title }}</h3><p>{{ step.text }}</p></div>{% endfor %}</div>
+    </section>
+
+    <section class="pdf-limits-note" aria-labelledby="pdf-limits-title">
+      <h2 id="pdf-limits-title">What this reader supports</h2>
+      <p>Use an unprotected PDF up to 20 MB and 200 pages. Select and scan one page at a time; this tool reads one QR code from that page. Password-protected or damaged PDFs cannot be opened here. Very small, blurred, or obscured QR codes may not be readable.</p>
+      <p>For multiple codes on one page, crop a screenshot around each code and use the <a href="/">image scanner</a>. For help, see the <a href="/supports/how-to-scan-qr-code-from-pdf-document">PDF scanning guide</a>.</p>
+    </section>
+
+    <section class="faq-section" aria-labelledby="pdf-faq-title"><h2 id="pdf-faq-title">Frequently asked questions</h2><div class="faq-accordion">{% for item in page.faq %}<details class="faq-item"><summary class="faq-question"><span>{{ item.question }}</span><span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-answer"><p>{{ item.answer }}</p></div></details>{% endfor %}</div></section>
+    {% include utility_links.html %}
+  </div>
+</div>

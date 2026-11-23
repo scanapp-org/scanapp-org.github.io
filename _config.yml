@@ -62,6 +62,7 @@ exclude:
   - scripts/backup-scanapp.py
   - scripts/test-blog-analytics.js
   - scripts/test-contact-analytics.js
+  - scripts/test-pdf-qr.js
 
 # Exclude from processing.
 # The following items will not be processed, by default.

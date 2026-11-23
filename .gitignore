@@ -3,7 +3,7 @@ _site/*
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
-vendor
+/vendor/
 node_modules/
 assets/.DS_Store
 scanapp-js/.DS_Store

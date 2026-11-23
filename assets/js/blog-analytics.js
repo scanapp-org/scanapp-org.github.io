@@ -25,7 +25,7 @@
     var destination;
     try { destination = new URL(link.href, window.location.href); } catch (e) { return; }
     if (destination.origin !== window.location.origin) return;
-    if (!/^\/(?:$|(?:generate|image-compressor|image-converter|barcode|isbn)\/?$)/.test(destination.pathname)) {
+    if (!/^\/(?:$|(?:generate|image-compressor|image-converter|barcode|isbn|scan-qr-code-from-pdf)\/?$)/.test(destination.pathname)) {
       return;
     }
     window.gtag('event', 'content_tool_click', {

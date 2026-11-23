@@ -1,70 +1,73 @@
 ---
 layout: support_page
 title: "How to Scan a QR Code from a PDF Document"
-description: "Learn how to easily read and decode a QR code embedded inside a digital PDF document (such as tickets, bills, or ebooks) without using a camera."
+description: "Read a QR code directly from a PDF on your device, or use a screenshot when needed. Step-by-step help for phones and computers."
 toc: true
 ---
 
-Many organizations send tickets, boarding passes, invoices, or guides as digital PDF documents. Often, these PDFs contain a QR code that you need to scan. But if the PDF is on the screen of the device you are currently using, you cannot point your camera at it.
+Tickets, invoices, and guides often contain QR codes inside a PDF. When the PDF is already on your phone or computer, you do not need another device to read it.
 
-Fortunately, you don't need a second device or camera. You can extract and scan a QR code from a PDF document using **ScanApp.org**. 
+**[Open the PDF QR code scanner](/scan-qr-code-from-pdf/)** to choose your document and scan a selected page directly. Your PDF is processed on your device, without a document upload or account.
 
-Here is the complete step-by-step workflow for mobile and desktop devices.
+## Method 1: Read the QR Code Directly from the PDF
 
----
+Use the [ScanApp PDF QR code scanner](/scan-qr-code-from-pdf/) for an unencrypted PDF of up to **20 MB and 200 pages**. The tool looks for **one QR code on the selected page at a time**. It does not automatically scan every page or guarantee that it will find every code on a page. Other barcode types are not supported by this PDF tool.
 
-## Method 1: The Screenshot and Upload Trick (Desktop & Mobile)
+<h3 id="choose-pdf">1. Choose your PDF</h3>
 
-The easiest way to scan a QR code from a PDF is to capture a screenshot of the code and upload it directly to ScanApp.
+Open the tool and choose a PDF from your device. You can also try the sample PDF before selecting your own file. Password-protected PDFs are not supported; use the screenshot method below if you can view the document in your PDF reader.
+
+<h3 id="select-page">2. Select the page containing the QR code</h3>
+
+Use the page controls to locate the code. Check the page preview, then scan the selected page. If a page has more than one QR code, use a screenshot of the individual code you want to read instead.
+
+<h3 id="read-result">3. Read or copy the result</h3>
+
+When a QR code is found, check the decoded text before opening a link. You can copy the result. If no code is found, check that you selected the right page or try the screenshot method with a larger, clearer view of the code.
+
+## Method 2: Save a Screenshot and Scan the Image
+
+A screenshot is useful when the PDF cannot be opened by the tool, a page has several QR codes, or a small code needs a closer crop. Include the white margin around the code.
 
 ### On Windows 10 & Windows 11
-1. Open the PDF on your screen and scroll to the page containing the QR code.
-2. Press the **Windows Key + Shift + S** to launch the Snipping Tool.
-3. Click and drag a rectangle over the QR code to take a snapshot of it. (The image is copied to your clipboard).
-4. Navigate to [ScanApp.org](https://scanapp.org) in Chrome, Edge, or Firefox.
-5. Click on the scan area and press **Ctrl + V** to paste the screenshot. ScanApp will decode it instantly.
+
+1. Open the PDF and display the page containing the QR code.
+2. Press **Windows + Shift + S** and select the area around the code.
+3. Open the capture in **Snipping Tool** and save it as an image file.
+4. Open the [ScanApp image scanner](/).
+5. Choose **Upload image** and select the saved screenshot, or drag the image file into the scanner.
 
 ### On macOS
-1. Open the PDF on your screen.
-2. Press **Command + Shift + 4** to turn your cursor into a crosshair.
-3. Click and drag to capture a box around the QR code. The screenshot will save to your Desktop.
-4. Go to [ScanApp.org](https://scanapp.org) in your browser.
-5. Click the **Upload File** icon and drag the screenshot file from your Desktop into the scanner area.
+
+1. Open the PDF and display the QR code.
+2. Press **Command + Shift + 4** and select the area around the code. The screenshot normally saves to your Desktop.
+3. Open the [ScanApp image scanner](/).
+4. Choose **Upload image** and select the screenshot, or drag the saved image file into the scanner.
 
 ### On iPhone & Android
-1. Open the PDF on your phone's screen and locate the QR code.
-2. Take a screenshot (usually by pressing the **Power + Volume Down** buttons on Android, or **Power + Volume Up** on iPhone).
-3. Navigate to [ScanApp.org](https://scanapp.org) in your mobile browser.
-4. Tap the **Scan Image File** button (folder icon).
-5. Select the screenshot from your photo library.
 
----
+1. Open the PDF and display the QR code.
+2. Take a screenshot using your phone's screenshot controls.
+3. Open the [ScanApp image scanner](/) in your browser.
+4. Tap **Upload image** and select the screenshot from your photos or files.
 
-## Method 2: Extracting the Image from the PDF
-If you are using a PDF reader (like Adobe Acrobat or Google Chrome's PDF viewer) on a computer:
-1. Right-click the QR code image within the PDF document.
-2. Select **Save Image As...** or **Copy Image**.
-3. If copied, paste it directly into [ScanApp.org](https://scanapp.org). If saved, upload the saved image file.
+## Method 3: Export an Embedded QR Image
 
----
+Some PDF editors can save an embedded image as a separate file. If your reader offers this option, save the QR image and select it using **Upload image** in the [ScanApp image scanner](/). If image export is unavailable, use a screenshot instead.
 
-## Why ScanApp is Safe for Financial & Invoice PDFs
+## Document Privacy and Result Safety
 
-Because invoices, tickets, and official documents contain sensitive personal information, security is critical.
-* Unlike other online PDF scanner websites, ScanApp **never uploads your documents or images to a server**.
-* The image decoding script runs entirely client-side using JavaScript WebAssembly.
-* Your data remains private, local, and secure in your browser.
+PDF rendering and QR reading in the PDF tool run locally in your browser. The selected document and decoded QR contents are not uploaded for processing. This is separate from normal website requests for page assets and analytics.
 
----
+A successfully decoded QR code does not establish that a link, payment request, ticket, or document is trustworthy. Review the result and its destination before acting on it.
 
-## Troubleshooting Failed Screenshot Scans
+## Troubleshooting a Code That Is Not Found
 
-If ScanApp fails to decode the QR code from your PDF screenshot, try these adjustments:
-* **Avoid Tight Cropping**: Ensure you capture the white margin (the "quiet zone") surrounding the black squares of the QR code. If the crop is too close to the borders, the scanner won't recognize it.
-* **Increase Zoom Level**: Before taking the screenshot, zoom in on the PDF to make the QR code larger and higher resolution.
-* **Check Screen Glare**: If you are taking a photo of a screen instead of a direct screenshot, glare or moiré patterns can disrupt decoding. Always use screenshots when possible.
-
----
+* **Check the page:** The direct PDF tool scans the page you selected, not the entire document.
+* **Keep the white margin:** A screenshot cropped against the black squares can be harder to read.
+* **Use a clearer view:** Zoom in within your PDF reader before taking a screenshot. Enlarging a blurry source cannot restore missing detail.
+* **Isolate one code:** For pages containing several codes, save a screenshot of the individual QR code you need.
+* **Check the code type:** The direct PDF tool reads QR codes. For a different supported barcode type, use a screenshot with the main [QR and barcode scanner](/).
 
 ## Related Guides
 
@@ -77,25 +80,25 @@ If ScanApp fails to decode the QR code from your PDF screenshot, try these adjus
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to Scan a QR Code from a PDF Document",
-  "description": "Step-by-step instructions to take a screenshot of a QR code in a PDF and scan it online without a camera.",
+  "description": "Choose a supported PDF, select a page, and read one QR code locally in your browser. A saved screenshot is an alternative when needed.",
   "step": [
     {
       "@type": "HowToStep",
-      "name": "Locate the QR code",
-      "text": "Open your PDF file and scroll to the section containing the QR code.",
-      "url": "https://scanapp.org/supports/how-to-scan-qr-code-from-pdf-document/#locate"
+      "name": "Choose your PDF",
+      "text": "Open the ScanApp PDF QR code scanner and choose an unencrypted PDF of up to 20 MB and 200 pages.",
+      "url": "https://scanapp.org{{ page.url }}#choose-pdf"
     },
     {
       "@type": "HowToStep",
-      "name": "Take a screenshot",
-      "text": "Use your device shortcuts (e.g. Win+Shift+S on Windows, Cmd+Shift+4 on Mac, or physical button shortcuts on mobile) to capture the QR code.",
-      "url": "https://scanapp.org/supports/how-to-scan-qr-code-from-pdf-document/#screenshot"
+      "name": "Select the page",
+      "text": "Select the page containing the QR code, check its preview, and scan the selected page. The tool looks for one QR code at a time.",
+      "url": "https://scanapp.org{{ page.url }}#select-page"
     },
     {
       "@type": "HowToStep",
-      "name": "Paste or upload to ScanApp",
-      "text": "Go to scanapp.org. Click the upload button and select your screenshot, or paste it directly using Ctrl+V or Cmd+V.",
-      "url": "https://scanapp.org/supports/how-to-scan-qr-code-from-pdf-document/#upload"
+      "name": "Read or copy the result",
+      "text": "Review the decoded text before opening a link, or copy the result. If no code is found, check the selected page or use a screenshot of the individual QR code.",
+      "url": "https://scanapp.org{{ page.url }}#read-result"
     }
   ]
 }

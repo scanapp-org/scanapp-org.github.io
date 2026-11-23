@@ -18,6 +18,7 @@
   <meta name="theme-color" content="#10b981">
   <link rel="stylesheet" href="/assets/css/scanapp-v2.min.css">
   <link rel="stylesheet" href="/assets/css/tools.css">
+  {% if page.utility_kind == "pdf" %}<link rel="stylesheet" href="/assets/css/pdf-qr-scanner.css?v=20261122">{% endif %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -72,6 +73,11 @@
           <span>Convert Image</span>
         </a>
 
+        <a class="sidebar-item {% if page.utility_kind == 'pdf' %}active{% endif %}" href="/scan-qr-code-from-pdf/" {% if page.utility_kind == 'pdf' %}aria-current="page"{% endif %}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l6 6v14H4V2h2zm7 2v5h5l-5-5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg>
+          <span>Scan QR from PDF</span>
+        </a>
+
         <!-- Video Tools Link -->
         <a class="sidebar-item {% if page.utility_kind == 'video' %}active{% endif %}" href="/video-to-gif/" {% if page.utility_kind == 'video' %}aria-current="page"{% endif %}>
           <svg viewBox="0 0 24 24"><path d="M17 10.5V6c0-1.1-.9-2-2-2H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2v-4.5l5 5v-13l-5 5z"/></svg>
@@ -102,7 +108,7 @@
         </div>
         <div class="sidebar-privacy-content">
           <div class="sidebar-privacy-title">100% Local & Free</div>
-          <div class="sidebar-privacy-desc">No sign-ups or accounts. Offline processing, no data leaves your device.</div>
+          <div class="sidebar-privacy-desc">Files are processed on your device. No upload or account needed.</div>
         </div>
       </div>
 
@@ -300,6 +306,8 @@
 </script>
 
 <script>
+  (function () {
+  if (window.location.hostname !== 'scanapp.org') return;
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
   window.gtag('js', new Date());
@@ -326,8 +334,12 @@
   analyticsScript.async = true;
   analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-2KZEP7DPYH';
   document.head.appendChild(analyticsScript);
+  })();
 </script>
-{% if page.utility_kind == "video" %}
+{% if page.utility_kind == "pdf" %}
+  <script src="/assets/js/pdf-qr-core.js?v=20261122" defer></script>
+  <script src="/assets/js/pdf-qr-scanner.js?v=20261122" defer></script>
+{% elsif page.utility_kind == "video" %}
   {% if page.video_mode == "gif" %}<script src="/assets/js/gif.js" defer></script>{% endif %}
   <script src="/assets/js/video-converter.js" defer></script>
 {% elsif page.utility_kind == "converter" %}

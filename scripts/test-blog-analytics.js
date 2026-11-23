@@ -44,4 +44,10 @@ for (const url of ['http://localhost:4000/blog/', 'https://copied.example/blog/'
   assert.equal(other.scripts.length, 0);
   assert.equal(other.window.dataLayer, undefined);
 }
+const pdfGuide = fixture('https://scanapp.org/supports/how-to-scan-qr-code-from-pdf-document');
+pdfGuide.click('https://scanapp.org/scan-qr-code-from-pdf/?private=hidden#secret');
+assert.equal(pdfGuide.window.dataLayer[2][1], 'content_tool_click');
+assert.equal(pdfGuide.window.dataLayer[2][2].destination_path, '/scan-qr-code-from-pdf/');
+assert.equal(pdfGuide.window.dataLayer[2][2].content_group, 'support');
+assert.ok(!JSON.stringify(pdfGuide.window.dataLayer).includes('hidden'));
 console.log('PASS: first-party blog measurement, safe destinations, idempotency, local/copied-host exclusion');
