@@ -3,6 +3,7 @@ import { h, s } from "../utils/dom";
 import { isMobile } from "../utils/detect";
 import { appShell } from "../app-shell";
 import { Logger } from "../../scanapp/logger";
+import { getWebUrl, getEmailUri } from "./result-parser";
 
 export interface InstallBannerOptions {
   shouldShow: () => boolean;
@@ -24,6 +25,7 @@ export class ResultPanel {
   private formatVal!: HTMLElement;
   private timeVal!: HTMLElement;
   private actionOpenBtn!: HTMLButtonElement;
+  private actionOpenLabel!: HTMLElement;
   private actionShareBtn!: HTMLButtonElement;
   private actionPaymentBtn!: HTMLButtonElement;
   private installBannerElement!: HTMLElement;
@@ -84,17 +86,15 @@ export class ResultPanel {
 
     // Set content body
     this.contentCard.innerHTML = "";
-    if (result.category === CodeCategory.URL) {
-      // Ensure proper link prefix
-      let url = result.text;
-      if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "https://" + url;
-      }
+    const url = result.category === CodeCategory.URL ? getWebUrl(result.text) : null;
+    const email = result.category === CodeCategory.EMAIL ? getEmailUri(result.text) : null;
+    this.actionOpenLabel.textContent = email ? "Email" : "Open";
+    if (url) {
       this.contentCard.appendChild(h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, result.text));
       this.actionOpenBtn.style.display = "flex";
     } else {
       this.contentCard.textContent = result.text;
-      this.actionOpenBtn.style.display = "none";
+      this.actionOpenBtn.style.display = email ? "flex" : "none";
     }
     this.actionPaymentBtn.style.display = result.category === CodeCategory.UPI ? "flex" : "none";
     this.refreshInstallBanner();
@@ -177,10 +177,11 @@ export class ResultPanel {
     this.formatVal = h("span", { class: "result-meta-val" }, "QR_CODE");
     this.timeVal = h("span", { class: "result-meta-val" }, "12:00:00 PM");
 
+    this.actionOpenLabel = h("span", {}, "Open");
     this.actionOpenBtn = h("button", {
       class: "action-strip-btn",
       onClick: () => this.handleOpen()
-    }, openIcon, h("span", {}, "Open"));
+    }, openIcon, this.actionOpenLabel);
 
     this.actionShareBtn = h("button", {
       class: "action-strip-btn",
@@ -395,11 +396,10 @@ export class ResultPanel {
   }
 
   private handleOpen(): void {
-    if (!this.currentResult || this.currentResult.category !== CodeCategory.URL) return;
-    let url = this.currentResult.text;
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-      url = "https://" + url;
-    }
+    if (!this.currentResult) return;
+    const url = this.currentResult.category === CodeCategory.URL ? getWebUrl(this.currentResult.text)
+      : this.currentResult.category === CodeCategory.EMAIL ? getEmailUri(this.currentResult.text) : null;
+    if (!url) return;
     Logger.logUrlAction(() => {
       window.open(url, "_blank", "noopener,noreferrer");
     });
@@ -431,11 +431,8 @@ export class ResultPanel {
         text: this.currentResult.text
       };
       if (this.currentResult.category === CodeCategory.URL) {
-        let url = this.currentResult.text;
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-          url = "https://" + url;
-        }
-        shareData.url = url;
+        const url = getWebUrl(this.currentResult.text);
+        if (url) shareData.url = url;
       }
       await navigator.share(shareData);
     } catch (e) {
@@ -487,15 +484,18 @@ export class ResultPanel {
       pathD = "M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z";
       titleStr = "LINK / URL";
       try {
-        const host = new URL(text.startsWith("http") ? text : `https://${text}`).hostname;
+        const host = new URL(getWebUrl(text) || "").hostname;
         descStr = host || "Website URL";
       } catch (e) {
         descStr = "Website URL";
       }
+    } else if (category === CodeCategory.EMAIL) {
+      titleStr = "EMAIL";
+      descStr = "Email address";
     } else if (category === CodeCategory.PHONE) {
       pathD = "M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z";
       titleStr = "PHONE NUMBER";
-      descStr = text.replace("tel:", "");
+      descStr = text.replace(/^tel:/i, "");
     } else if (category === CodeCategory.WIFI) {
       pathD = "M12 3C7.31 3 3.07 4.9 0 8l1.41 1.41C4.01 6.8 7.84 5 12 5s7.99 1.8 10.59 4.41L24 8c-3.07-3.1-7.31-5-12-5zm0 8c-2.69 0-5.12 1.1-6.89 2.87L6.5 15.3c1.41-1.41 3.35-2.3 5.5-2.3s4.09.89 5.5 2.3l1.41-1.41C17.12 12.1 14.69 11 12 11zm0 4c-1.34 0-2.56.55-3.44 1.44l1.41 1.41C10.5 17.3 11.22 17 12 17s1.5.3 2.03.88l1.41-1.41C14.56 15.55 13.34 15 12 15z";
       titleStr = "WI-FI CONFIG";

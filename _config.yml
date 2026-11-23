@@ -63,6 +63,7 @@ exclude:
   - scripts/test-blog-analytics.js
   - scripts/test-contact-analytics.js
   - scripts/test-pdf-qr.js
+  - scripts/test-scan-results.js
 
 # Exclude from processing.
 # The following items will not be processed, by default.

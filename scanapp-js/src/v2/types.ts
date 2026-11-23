@@ -7,6 +7,7 @@ export enum PageId {
 
 export enum CodeCategory {
   URL = "url",
+  EMAIL = "email",
   TEXT = "text",
   WIFI = "wifi",
   UPI = "upi",
