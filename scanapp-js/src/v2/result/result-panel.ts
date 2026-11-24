@@ -400,9 +400,9 @@ export class ResultPanel {
     const url = this.currentResult.category === CodeCategory.URL ? getWebUrl(this.currentResult.text)
       : this.currentResult.category === CodeCategory.EMAIL ? getEmailUri(this.currentResult.text) : null;
     if (!url) return;
-    Logger.logUrlAction(() => {
-      window.open(url, "_blank", "noopener,noreferrer");
-    });
+    // Keep navigation in the user gesture even when analytics is blocked.
+    window.open(url, "_blank", "noopener,noreferrer");
+    Logger.logUrlAction(() => {});
   }
 
   private async handleCopy(): Promise<void> {

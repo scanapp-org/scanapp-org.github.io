@@ -16,7 +16,7 @@ function generatorPayload(contentType, values) {
   return state.qrData;
 }
 
-function harness(width) {
+function harness(width, deliverAnalyticsCallback = true) {
   const dom = new JSDOM('<main id="scanapp-root"></main>', {url: 'https://scanapp.org/'});
   const { window } = dom;
   Object.defineProperty(window, 'innerWidth', {value: width});
@@ -33,7 +33,7 @@ function harness(width) {
     const compiled = ts.transpileModule(fs.readFileSync(filename, 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2018}}).outputText;
     function localRequire(spec) {
       if (spec.endsWith('/app-shell')) return {appShell: {showToast: text => effects.toasts.push(text)}};
-      if (spec.endsWith('/scanapp/logger')) return {Logger: new Proxy({}, {get: (_, name) => (...args) => {if (name === 'logUrlAction') args[0]();}})};
+      if (spec.endsWith('/scanapp/logger')) return {Logger: new Proxy({}, {get: (_, name) => (...args) => {if (name === 'logUrlAction' && deliverAnalyticsCallback) args[0]();}})};
       assert.ok(spec.startsWith('.'), spec);
       return load(path.resolve(path.dirname(filename), spec));
     }
@@ -128,5 +128,13 @@ const fixtures = [
     await h.panel.handleCopy(); assert.equal(h.effects.toasts.at(-1), 'Failed to copy.');
     h.dom.window.close();
   }
-  console.log(`Passed ${count} parser/panel cases, actual generator email/Wi-Fi/phone payload compilation, intended open/share/copy actions and hidden-result guards. Browser decoding/native clipboard are separate checks.`);
+  const blockedAnalytics = harness(390, false);
+  for (const text of [email, 'HTTPS://example.org/path']) {
+    blockedAnalytics.panel.show(blockedAnalytics.parser.parseScanResult(text, 'QR_CODE'));
+    const before = blockedAnalytics.effects.opened.length;
+    blockedAnalytics.panel.actionOpenBtn.click();
+    assert.equal(blockedAnalytics.effects.opened.length, before + 1, 'Open must work when analytics never invokes its callback');
+  }
+  blockedAnalytics.dom.window.close();
+  console.log(`Passed ${count} parser/panel cases plus two blocked-analytics action checks, actual generator email/Wi-Fi/phone payload compilation, intended open/share/copy actions and hidden-result guards. Browser decoding/native clipboard are separate checks.`);
 })().catch(error => {console.error(error); process.exitCode = 1;});
