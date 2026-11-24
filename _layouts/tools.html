@@ -313,6 +313,7 @@
   window.gtag('js', new Date());
   window.gtag('config', 'G-2KZEP7DPYH', {
     page_path: {{ page.url | jsonify }},
+    {% if page.analytics_content_group %}content_group: {{ page.analytics_content_group | jsonify }},{% endif %}
     page_title: {{ page.title | jsonify }}
   });
   window.scanappToolEvent = function(name, params) {

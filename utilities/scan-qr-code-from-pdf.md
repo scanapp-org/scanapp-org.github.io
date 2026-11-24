@@ -3,6 +3,7 @@ layout: pdf-qr-scanner
 utility: true
 utility_kind: pdf
 utility_slug: scan-qr-code-from-pdf
+analytics_content_group: pdf_tools
 title: "Scan QR Codes from PDF"
 meta_title: "Scan QR Code from PDF — Free, No Upload | ScanApp"
 meta_description: "Read a QR code directly from a PDF in your browser. Choose a page, read the code and copy its contents. Your document stays on your device. No signup."
