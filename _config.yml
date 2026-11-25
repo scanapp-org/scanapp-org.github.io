@@ -64,6 +64,7 @@ exclude:
   - scripts/test-contact-analytics.js
   - scripts/test-pdf-qr.js
   - scripts/test-scan-results.js
+  - scripts/test-file-scan.js
 
 # Exclude from processing.
 # The following items will not be processed, by default.

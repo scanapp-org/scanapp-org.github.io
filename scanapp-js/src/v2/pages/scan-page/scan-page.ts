@@ -8,6 +8,7 @@ import { appShell } from "../../app-shell";
 import { Logger } from "../../../scanapp/logger";
 import { isMobile } from "../../utils/detect";
 import { PwaPromptManager } from "../../../scanapp/pwa";
+import { FileScanAttempt, optionalTelemetry } from "../../file-scan-telemetry";
 
 export class ScanPage implements Page {
   public id = PageId.SCAN;
@@ -42,6 +43,8 @@ export class ScanPage implements Page {
   private isTorchOn: boolean = false;
   private availableCameras: CameraDevice[] = [];
   private popoverOpen: boolean = false;
+  private fileScanInProgress: boolean = false;
+  private fileViewVersion: number = 0;
 
   constructor() {
     const savedCoverMode = localStorage.getItem("scanapp_cover_mode");
@@ -71,6 +74,7 @@ export class ScanPage implements Page {
   }
 
   public async onUnmount(): Promise<void> {
+    this.fileViewVersion++;
     this.closePopover();
     this.isTorchOn = false;
     this.torchBtn.classList.remove("active");
@@ -92,13 +96,13 @@ export class ScanPage implements Page {
 
   private initResultPanel(): void {
     this.resultPanel = new ResultPanel(() => {
-      Logger.logScanRestart();
+      optionalTelemetry(() => Logger.logScanRestart());
 
       // Resume camera when panel is closed
       this.cameraManager.resume();
     }, {
       shouldShow: () => this.pwaPromptManager.canShowPrompt(),
-      onShown: () => this.pwaPromptManager.logInstallBannerShown("beta_result_sheet"),
+      onShown: () => optionalTelemetry(() => this.pwaPromptManager.logInstallBannerShown("beta_result_sheet")),
       onClick: () => {
         this.pwaPromptManager.logInstallBannerClicked("beta_result_sheet");
         this.pwaPromptManager.optionallyShowPrompt("beta_result_sheet", 0);
@@ -573,7 +577,7 @@ export class ScanPage implements Page {
   }
 
   private triggerFileSelect(source: string): void {
-    Logger.logBetaFilePickerOpen(source);
+    optionalTelemetry(() => Logger.logBetaFilePickerOpen(source));
     this.fileInputHelper.value = "";
     this.fileInputHelper.click();
   }
@@ -586,15 +590,48 @@ export class ScanPage implements Page {
   }
 
   private async processImageFile(file: File): Promise<void> {
-    appShell.showToast("Processing image...");
+    const attempt = new FileScanAttempt();
+    if (!this.element.isConnected || !this.element.classList.contains("active")) {
+      attempt.finish("view_left");
+      return;
+    }
+    if (this.fileScanInProgress) {
+      attempt.finish("busy");
+      appShell.showToast("Please wait for the current image to finish processing.");
+      return;
+    }
+    this.fileScanInProgress = true;
+    const viewVersion = this.fileViewVersion;
     try {
-      const result = await this.cameraManager.scanFile(file);
-      this.cameraManager.pause();
-      Logger.logScanSuccess("file", result.category);
-      this.resultPanel.show(result);
-    } catch (err) {
-      console.warn("Scan file failed:", err);
-      appShell.showToast("No QR / Barcode detected in image.");
+      appShell.showToast("Processing image...");
+      let result: ScanResult;
+      try {
+        result = await this.cameraManager.scanFile(file);
+      } catch (err) {
+        attempt.finish("decode_failed");
+        console.warn("Scan file failed:", err);
+        if (viewVersion === this.fileViewVersion && this.element.classList.contains("active")) {
+          appShell.showToast("No QR / Barcode detected in image.");
+        }
+        return;
+      }
+      if (viewVersion !== this.fileViewVersion || !this.element.isConnected || !this.element.classList.contains("active")) {
+        attempt.finish("view_left");
+        return;
+      }
+      try {
+        this.cameraManager.pause();
+        this.resultPanel.show(result);
+      } catch (err) {
+        attempt.finish("presentation_failed");
+        console.warn("Could not display scan result:", err);
+        appShell.showToast("Could not display this result. Please try the image again.");
+        return;
+      }
+      attempt.finish("presented");
+      optionalTelemetry(() => Logger.logScanSuccess("file", result.category));
+    } finally {
+      this.fileScanInProgress = false;
     }
   }
 
@@ -617,7 +654,7 @@ export class ScanPage implements Page {
       dragCounter++;
       if (dragCounter === 1) {
         this.dropOverlay.classList.add("active");
-        Logger.logBetaDragDropOverlayShown();
+        optionalTelemetry(() => Logger.logBetaDragDropOverlayShown());
       }
     });
 
@@ -645,7 +682,7 @@ export class ScanPage implements Page {
 
       const files = e.dataTransfer?.files;
       if (files && files.length > 0) {
-        Logger.logBetaDragDropFileDropped("window");
+        optionalTelemetry(() => Logger.logBetaDragDropFileDropped("window"));
         await this.processImageFile(files[0]);
       }
     });
@@ -665,7 +702,7 @@ export class ScanPage implements Page {
       this.dragZone.classList.remove("dragover");
       const files = e.dataTransfer?.files;
       if (files && files.length > 0) {
-        Logger.logBetaDragDropFileDropped("fallback_drag_zone");
+        optionalTelemetry(() => Logger.logBetaDragDropFileDropped("fallback_drag_zone"));
         await this.processImageFile(files[0]);
       }
     });
