@@ -32,7 +32,7 @@ self.addEventListener('activate', (event) => {
     event.waitUntil((function(e) {
         return caches.keys().then(function(cacheNames) {
             return Promise.all(cacheNames.map(function(cacheName) {
-                if (self.cacheName !== cacheName) {
+                if (self.cacheName !== cacheName && /^v[\d.]+:static$/.test(cacheName)) {
                     return caches.delete(cacheName);
                 }
             }))

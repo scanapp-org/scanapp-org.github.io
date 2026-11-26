@@ -65,6 +65,7 @@ exclude:
   - scripts/test-pdf-qr.js
   - scripts/test-scan-results.js
   - scripts/test-file-scan.js
+  - scripts/test-pdf-workspace.js
 
 # Exclude from processing.
 # The following items will not be processed, by default.

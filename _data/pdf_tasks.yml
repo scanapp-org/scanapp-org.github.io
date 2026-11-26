@@ -1,0 +1,12 @@
+- name: "PDF editor and offline tools"
+  url: /pdf-tools/
+- name: "Merge PDFs"
+  url: /pdf-tools/merge/
+- name: "Split and extract PDF pages"
+  url: /pdf-tools/split/
+- name: "Organize PDF pages"
+  url: /pdf-tools/organize/
+- name: "PDF to JPG and PNG"
+  url: /pdf-tools/to-image/
+- name: "Fill PDF forms and draw signatures"
+  url: /pdf-tools/fill/
