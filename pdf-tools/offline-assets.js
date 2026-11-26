@@ -1,6 +1,10 @@
 /* App assets only; never document bytes. */
 self.PDF_OFFLINE_ASSETS = [
   "/assets/css/pdf-workspace.css",
+  "/assets/css/scanapp-v2.min.css",
+  "/assets/css/tools.css",
+  "/assets/css/contact-footer.css",
+  "/assets/js/contact-analytics.js",
   "/assets/icons/pwa-192x192.png",
   "/assets/js/pdf-workspace-core.js",
   "/assets/js/pdf-workspace.js",

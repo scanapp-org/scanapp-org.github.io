@@ -4,8 +4,8 @@
   "start_url": "/pdf-tools/",
   "scope": "/pdf-tools/",
   "display": "standalone",
-  "background_color": "#f3f5ef",
-  "theme_color": "#174b41",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
   "icons": [
     {
       "src": "/assets/icons/pwa-192x192.png",

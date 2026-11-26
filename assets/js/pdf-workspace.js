@@ -147,7 +147,7 @@ let offlineRegistration, offlineChecks=0;
 $('enable-offline').onclick=async()=>{
   if(!('serviceWorker' in navigator)){ $('offline-status').textContent='Offline installation is unavailable in this browser. Editing still works while this page is open.';return; }
   offlineChecks=0;$('enable-offline').disabled=true;$('offline-status').textContent='Preparing offline files. Keep this tab open…';
-  try { offlineRegistration=await navigator.serviceWorker.register('/pdf-tools/sw.js',{scope:'/pdf-tools/'});await checkOffline(); }
+  try { offlineRegistration=await navigator.serviceWorker.register('/pdf-tools/sw.js',{scope:'/pdf-tools/',updateViaCache:'none'});await checkOffline(); }
   catch(_){$('offline-status').textContent='Offline setup failed. Check your connection and available storage, then retry.';$('enable-offline').disabled=false;}
 };
 async function checkOffline(){
@@ -157,7 +157,7 @@ async function checkOffline(){
   else setTimeout(checkOffline,1000);
 }
 $('workspace-loading').hidden=true;message('Ready. Open PDFs or try the sample.');
-if('serviceWorker' in navigator) navigator.serviceWorker.getRegistration('/pdf-tools/').then(r=>{if(r&&r.scope.endsWith('/pdf-tools/')){offlineRegistration=r;checkOffline();}}).catch(()=>{});
+if('serviceWorker' in navigator) navigator.serviceWorker.getRegistration('/pdf-tools/').then(r=>{if(r&&r.scope.endsWith('/pdf-tools/')){offlineRegistration=r;checkOffline();if(navigator.onLine)navigator.serviceWorker.register('/pdf-tools/sw.js',{scope:'/pdf-tools/',updateViaCache:'none'}).catch(()=>{});}}).catch(()=>{});
 // Optional aggregate measurement; no documents, names or content in event fields.
 if(location.hostname==='scanapp.org' && navigator.onLine){
   window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};

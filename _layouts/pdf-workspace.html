@@ -1,22 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{{ page.meta_title | escape }}</title>
-  <meta name="description" content="{{ page.meta_description | escape }}">
-  <link rel="canonical" href="https://scanapp.org{{ page.url }}">
-  <meta property="og:title" content="{{ page.meta_title | escape }}"><meta property="og:description" content="{{ page.meta_description | escape }}"><meta property="og:type" content="website"><meta property="og:url" content="https://scanapp.org{{ page.url }}">
-  <meta name="theme-color" content="#174b41"><link rel="manifest" href="/pdf-tools/manifest.webmanifest">
-  <link rel="icon" href="/assets/icons/pwa-192x192.png"><link rel="stylesheet" href="/assets/css/pdf-workspace.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":{{ page.title | jsonify }},"description":{{ page.meta_description | jsonify }},"url":"https://scanapp.org{{ page.url }}","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true}</script>
-  <script defer src="/assets/vendor/pdf-lib/pdf-lib.min.js"></script>
-  <script defer src="/assets/js/pdf-workspace-core.js"></script>
-  <script type="module" src="/assets/js/pdf-workspace.js"></script>
-</head>
-<body>
-  <header class="pdf-header"><a class="brand" href="/">Scan<span>App</span></a><nav aria-label="Main"><a href="/pdf-tools/">PDF tools</a><a href="/">QR scanner</a><a href="/contact/">Contact</a></nav><span class="local-badge">Processed on your device</span></header>
-  <main>
-    <section class="editor-intro"><p class="eyebrow">YOUR DOCUMENTS. YOUR DEVICE.</p><h1>{{ page.heading }}</h1><p>{{ page.intro }}</p><div class="intro-actions"><button class="primary" id="open-pdfs" type="button">Open PDFs</button><button id="try-pdf" type="button">Try a sample</button><span>40 MB combined · 200 pages · unprotected PDFs</span></div><input type="file" id="pdf-input" accept="application/pdf,.pdf" multiple hidden></section>
+---
+layout: tools
+---
+<div class="pdf-workspace-page">
+    <section class="editor-intro tool-hero"><div class="hero-badge">PDF tools · On your device</div><h1>{{ page.heading }}</h1><p class="hero-copy">{{ page.intro }}</p></section><div class="pdf-workspace-content"><section class="pdf-start-card" aria-label="Open documents"><div class="intro-actions"><button class="primary" id="open-pdfs" type="button">Open PDFs</button><button id="try-pdf" type="button">Try a sample</button><span>40 MB combined · 200 pages · unprotected PDFs</span></div><input type="file" id="pdf-input" accept="application/pdf,.pdf" multiple hidden></section>
     <section class="offline-strip" aria-label="Offline availability"><button id="enable-offline" type="button">Enable offline use</button><span id="offline-status" role="status">One online setup. Then open, edit and export without a connection. No documents are stored.</span></section>
     <p id="workspace-loading" role="status">Loading the local PDF engine…</p><p id="workspace-status" class="status" role="status" aria-live="polite">JavaScript is required to edit PDFs.</p>
     <section id="editor-workspace" hidden aria-label="PDF editing workspace">
@@ -25,7 +11,7 @@
         <aside class="page-sidebar"><h2>Pages</h2><div id="page-list" aria-label="Select page"></div><details {% if page.editor_mode == 'forms' %}open{% endif %}><summary>Fill document form fields</summary><p>Fields belong to the selected source document. Export flattens their appearance. Added text supports Western European characters.</p><div id="form-fields"></div></details></aside>
         <section class="canvas-area" aria-label="Page preview and editing">
           <div class="page-actions"><label>Page <input id="page-number" type="number" min="1" value="1" aria-label="Page number"></label><button id="move-before" type="button">Move earlier</button><button id="move-after" type="button">Move later</button><button id="rotate-page" type="button">Rotate 90°</button><button id="delete-page" type="button">Delete page</button></div>
-          <div class="edit-toolbar"><label>Tool<select id="edit-mode"><option value="select">View / scroll</option><option value="text">Add text</option><option value="highlight">Highlight</option><option value="draw">Draw</option><option value="signature">Draw signature</option><option value="image">Place image</option></select></label><label>Color<input id="edit-color" type="color" value="#174b41"></label><label>Text size<input id="text-size" type="number" min="8" max="72" value="16"></label><label>Image / highlight width<input id="edit-width" type="number" min="10" max="500" value="180"></label><label class="image-picker">Add image<input id="image-input" type="file" accept="image/png,image/jpeg,image/webp"></label><label class="text-entry">Text to add<textarea id="edit-text" rows="2" maxlength="2000" placeholder="Enter a note, then click the page"></textarea></label></div>
+          <div class="edit-toolbar"><label>Tool<select id="edit-mode"><option value="select">View / scroll</option><option value="text">Add text</option><option value="highlight">Highlight</option><option value="draw">Draw</option><option value="signature">Draw signature</option><option value="image">Place image</option></select></label><label>Color<input id="edit-color" type="color" value="#10b981"></label><label>Text size<input id="text-size" type="number" min="8" max="72" value="16"></label><label>Image / highlight width<input id="edit-width" type="number" min="10" max="500" value="180"></label><label class="image-picker">Add image<input id="image-input" type="file" accept="image/png,image/jpeg,image/webp"></label><label class="text-entry">Text to add<textarea id="edit-text" rows="2" maxlength="2000" placeholder="Enter a note, then click the page"></textarea></label></div>
           <div class="edit-toolbar placement"><label>Left position %<input id="position-x" type="number" min="0" max="100" value="10"></label><label>Top position %<input id="position-y" type="number" min="0" max="100" value="15"></label><button id="place-edit" type="button">Place text / highlight / image</button></div>
           <p class="edit-hint">Choose a tool and click or draw on the page, or use positions and Place. Text and images are added over the document; existing text is not replaced. Drawn signatures are visual marks, not certificate signatures.</p>
           <div class="page-stage"><div class="canvas-stack"><canvas id="pdf-page" aria-label="Rendered selected PDF page"></canvas><canvas id="edit-layer" aria-label="Click to place an edit or draw on the page"></canvas></div></div><p id="page-caption"></p>
@@ -36,6 +22,5 @@
     </section>
     <noscript><p>This editor needs JavaScript. Files are processed on your device; no server upload is available.</p></noscript>
     <article class="tool-guide">{{ content }}<h2>Supported documents and limits</h2><p>Use unprotected PDFs up to 40 MB and 200 pages combined. Password-protected PDFs, XFA forms and documents with digital-signature fields are rejected. Complex documents may have unsupported features; keep the original and inspect your exported copy.</p><p>This editor adds content and changes pages. It does not rewrite existing embedded text, perform OCR, securely redact information, or provide certificate signing. Highlights and added images never remove underlying information.</p><h2>Does it really work offline?</h2><p>Select Enable offline use while connected and wait for Ready offline. Then reopen a bookmarked PDF tool page without a connection. Editing, form filling and exporting use local code. The first setup needs the internet, and clearing browser storage can remove the offline installation. Documents are not uploaded or automatically saved.</p><h2>More PDF tasks</h2><nav class="pdf-task-links" aria-label="PDF tasks">{% for item in site.data.pdf_tasks %}<a href="{{ item.url }}">{{ item.name }}</a>{% endfor %}<a href="/scan-qr-code-from-pdf/">Read QR codes from PDFs</a><a href="/image-to-pdf/">Images to PDF</a></nav></article>
-  </main><footer>ScanApp · Free local document tools · <a href="/contact/">Get help / report a problem</a></footer>
-</body>
-</html>
+
+</div></div>

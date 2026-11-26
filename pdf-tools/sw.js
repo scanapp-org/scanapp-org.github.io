@@ -1,6 +1,6 @@
 /* Scope: /pdf-tools/ only. Store app resources, never documents. */
 importScripts('/pdf-tools/offline-assets.js');
-const CACHE = 'scanapp-pdf-workspace-v1';
+const CACHE = 'scanapp-pdf-workspace-v2';
 self.addEventListener('install', event => event.waitUntil((async()=>{
   const cache=await caches.open(CACHE);
   try { await cache.addAll(self.PDF_OFFLINE_ASSETS); await self.skipWaiting(); }

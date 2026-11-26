@@ -4,7 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  {% include icon_links.html %}
+  {% if page.utility_kind == "pdf_editor" %}
+  <link rel="icon" href="/assets/icons/pwa-192x192.png">
+  <link rel="manifest" href="/pdf-tools/manifest.webmanifest">
+  {% else %}{% include icon_links.html %}{% endif %}
   <title>{{ page.title }} - ScanApp</title>
   <meta name="title" content="{{ page.meta_title | default: page.title }}">
   <meta name="description" content="{{ page.meta_description }}">
@@ -19,6 +22,7 @@
   <link rel="stylesheet" href="/assets/css/scanapp-v2.min.css">
   <link rel="stylesheet" href="/assets/css/tools.css">
   {% if page.utility_kind == "pdf" %}<link rel="stylesheet" href="/assets/css/pdf-qr-scanner.css?v=20261122">{% endif %}
+  {% if page.utility_kind == "pdf_editor" %}<link rel="stylesheet" href="/assets/css/pdf-workspace.css">{% endif %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,7 +49,7 @@
       </a>
 
       <nav class="sidebar-menu" aria-label="Desktop Navigation">
-        <a class="sidebar-item" href="/pdf-tools/"><span>PDF editor &amp; tools</span></a>
+        <a class="sidebar-item {% if page.utility_kind == 'pdf_editor' %}active{% endif %}" href="/pdf-tools/" {% if page.utility_kind == 'pdf_editor' %}aria-current="page"{% endif %}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l6 6v14H4V2h2zm7 2v5h5l-5-5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg><span>PDF editor &amp; tools</span></a>
         <!-- Back Link to Scanner -->
         <a class="sidebar-item" href="/" aria-label="Back to QR Code Scanner">
           <svg viewBox="0 0 24 24">
@@ -306,6 +310,7 @@
 })();
 </script>
 
+{% unless page.utility_kind == "pdf_editor" %}
 <script>
   (function () {
   if (window.location.hostname !== 'scanapp.org') return;
@@ -338,7 +343,12 @@
   document.head.appendChild(analyticsScript);
   })();
 </script>
-{% if page.utility_kind == "pdf" %}
+{% endunless %}
+{% if page.utility_kind == "pdf_editor" %}
+  <script defer src="/assets/vendor/pdf-lib/pdf-lib.min.js"></script>
+  <script defer src="/assets/js/pdf-workspace-core.js"></script>
+  <script type="module" src="/assets/js/pdf-workspace.js"></script>
+{% elsif page.utility_kind == "pdf" %}
   <script src="/assets/js/pdf-qr-core.js?v=20261122" defer></script>
   <script src="/assets/js/pdf-qr-scanner.js?v=20261122" defer></script>
 {% elsif page.utility_kind == "video" %}
