@@ -2,11 +2,14 @@
 layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
+{% comment %}
+Modification dates describe known content edits, not the time of a site build.
+Omit optional lastmod where no maintained content date is available.
+{% endcomment %}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://scanapp.org/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://scanapp.org/" />
@@ -17,85 +20,71 @@ layout: null
   </url>
   <url>
     <loc>https://scanapp.org/contact/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://scanapp.org/barcode/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://scanapp.org/code128/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/pdf417/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/datamatrix/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/upc/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/ean/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/aztec/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/whatsapp-qr-code-scanner/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/wifi-qr-code-scanner/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/wechat-qr-code-scanner/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/blog/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/support/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://scanapp.org/generate/</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -103,7 +92,7 @@ layout: null
 {% for utility_page in utility_pages %}
   <url>
     <loc>https://scanapp.org{{ utility_page.url }}</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
+    {% if utility_page.last_modified_at %}<lastmod>{{ utility_page.last_modified_at | date: "%Y-%m-%d" }}</lastmod>{% endif %}
     <changefreq>weekly</changefreq>
     <priority>{{ utility_page.sitemap_priority | default: 0.8 }}</priority>
   </url>
@@ -119,7 +108,6 @@ layout: null
   {%- assign loc_data = entry[1] -%}
   <url>
     <loc>https://scanapp.org{{ loc_data._url_path }}</loc>
-    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://scanapp.org/" />
@@ -132,13 +120,15 @@ layout: null
 {% for post in site.supports %}
   <url>
     <loc>{{ site.url }}{{ post.url }}</loc>
-    <lastmod>{{ post.date | date: "%Y-%m-%d" }}</lastmod>
+    {% assign modified = post.last_modified_at | default: post.date %}
+    {% if modified %}<lastmod>{{ modified | date: "%Y-%m-%d" }}</lastmod>{% endif %}
   </url>
 {% endfor %}
 {% for post in site.posts %}
   <url>
     <loc>{{ site.url }}{{ post.url }}</loc>
-    <lastmod>{{ post.date | date: "%Y-%m-%d" }}</lastmod>
+    {% assign modified = post.last_modified_at | default: post.date %}
+    {% if modified %}<lastmod>{{ modified | date: "%Y-%m-%d" }}</lastmod>{% endif %}
   </url>
 {% endfor %}
 </urlset>

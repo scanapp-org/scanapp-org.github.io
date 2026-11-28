@@ -1,0 +1,23 @@
+ScanApp synthetic work-order PDF example
+All records are fictional. No customer information is included.
+
+Source files
+demo-job-1001.pdf: 2 pages
+demo-job-1002.pdf: 1 page
+
+Expected merged packet: reference-merged.pdf, 3 pages
+1. DEMO-JOB-1001 - Work order - overview - page 1 of 2
+2. DEMO-JOB-1001 - Inspection notes - page 2 of 2
+3. DEMO-JOB-1002 - Work order - overview - page 1 of 1
+
+QR contents in the merged packet
+Page 1: DEMO-JOB-1001
+Page 2: no QR code
+Page 3: DEMO-JOB-1002
+
+Expected extraction using range 1-2: reference-job-1001.pdf, 2 pages
+1. DEMO-JOB-1001 - Work order - overview - page 1 of 2
+2. DEMO-JOB-1001 - Inspection notes - page 2 of 2
+
+Compare content, identifiers and page order rather than PDF file hashes.
+The example does not demonstrate automatic sorting, naming or CSV extraction.
