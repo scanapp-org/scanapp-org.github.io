@@ -14,7 +14,7 @@ _url_path: /in/
 
 meta:
   title: "QR Code Scanner Online India — मुफ़्त (Free) QR & Barcode Reader"
-  description: "भारत के लिए मुफ़्त online QR code scanner। Camera या gallery/photo से QR code scan करें। कोई download या signup नहीं। UPI, PhonePe, Paytm, Google Pay, Aadhaar, और PAN QR codes सपोर्ट करता है।"
+  description: "भारत के लिए मुफ़्त online QR code scanner। Camera या gallery/photo से QR code scan करें। कोई download या signup नहीं। UPI, PhonePe, Paytm और Google Pay के QR codes पढ़ता है।"
   page_visible_description: "मुफ़्त QR code scanner और barcode reader जो सीधे browser में काम करता है। Camera से scan करें या अपने phone की gallery/photo/screenshot upload करें। बिना किसी download या signup के!"
 
 h1: "मुफ़्त QR Code Scanner Online — भारत के लिए"
@@ -63,7 +63,6 @@ use_cases:
   - "WhatsApp Web को computer पर खोलें"
   - "WiFi QR से network से connect हों"
   - "Business card से contact import करें"
-  - "Aadhaar या PAN के QR codes verify करें"
 
 faq:
   - q: "क्या ScanApp सच में मुफ़्त है?"
