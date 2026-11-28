@@ -78,9 +78,9 @@ For receiving money from friends or family:
 4. The app displays your personal QR code linked to your default bank account. Save or share the image.
 
 ### 2. Generating Custom/Dynamic QR Codes (For Websites & Invoices)
-If you are a developer, freelancer, or store owner wanting to create a QR code for a specific billing amount, you can construct a UPI URL and encode it into a QR code using [ScanApp's Create QR page](https://scanapp.org/generate):
+If you are a developer, freelancer, or store owner wanting to create a QR code for a specific billing amount, you can construct a UPI URL and encode it into a QR code using [ScanApp's Create QR page](https://scanapp.org/generate/):
 1. Construct the raw text link: `upi://pay?pa=yourUPIid@bank&pn=YourName&am=150&cu=INR` (replace values accordingly).
-2. Go to the generator page at [ScanApp.org/generate](https://scanapp.org/generate).
+2. Go to the generator page at [ScanApp.org/generate](https://scanapp.org/generate/).
 3. Choose **Website / URL** as the QR type.
 4. Paste your constructed `upi://` link into the input field.
 5. Download the generated QR code as PNG or SVG to place on your PDF invoice.
