@@ -92,10 +92,10 @@ Scan it at [scanapp.org](https://scanapp.org) to reveal the SSID and password, t
 
 ## Try ScanApp on Other Platforms
 
-- [Scan a QR code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
-- [Scan a QR code on Android](/supports/how-to-scan-qr-code-android/)
+- [Scan a QR code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
+- [Scan a QR code on Android](/supports/how-to-scan-qr-code-android)
 - [Scan a QR code on a laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac)
-- [Scan a QR code from an image or photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
+- [Scan a QR code from an image or photo](/supports/how-to-scan-qr-code-from-image-or-photo)
 
 <script type="application/ld+json">
 {

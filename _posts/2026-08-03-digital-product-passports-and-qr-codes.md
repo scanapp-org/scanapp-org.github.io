@@ -66,8 +66,8 @@ You can use browser-based scanners like [ScanApp.org](https://scanapp.org) to ve
 
 ## Related Reading
 
-* [The Evolution of Barcodes and QR Codes](/2023/03/22/the-evolution-of-barcodes-and-qr-codes.html)
-* [How to Scan and Read Barcodes Online with a Webcam](/2026/05/24/how-to-scan-and-read-barcodes-online-with-a-webcam.html)
+* [The Evolution of Barcodes and QR Codes](/blog/2023/03/22/the-evolution-of-barcodes-and-qr-codes.html)
+* [How to Scan and Read Barcodes Online with a Webcam](/blog/2026/05/24/how-to-scan-and-read-barcodes-online-with-a-webcam.html)
 * [Barcode Scanner Online](/barcode/)
 
 <script type="application/ld+json">

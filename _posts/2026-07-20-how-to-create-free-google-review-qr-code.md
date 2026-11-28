@@ -37,7 +37,7 @@ To make the process as seamless as possible, you must link directly to the revie
 
 Once you have copied the review link, you can create the visual QR code:
 
-1. Open **[scanapp.org/generator](/generate.html)** (or navigate to the generator section) in your browser.
+1. Open **[scanapp.org/generator](/generate/)** (or navigate to the generator section) in your browser.
 2. Paste the copied review URL into the input field.
 3. Customize the design:
    * **Color**: Choose high-contrast colors (classic black-on-white is best for scanning reliability under dim lighting).
@@ -71,9 +71,9 @@ ScanApp generates **static, direct QR codes**. The code points directly to your 
 
 ## Related Reading
 
-* [How to Scan a QR Code from an Image, Photo, or Screenshot](/supports/how-to-scan-qr-code-from-image-or-photo/)
-* [The Evolution of Barcodes and QR Codes](/2023/03/22/the-evolution-of-barcodes-and-qr-codes.html)
-* [How to Connect to WiFi by Scanning a QR Code](/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code.html)
+* [How to Scan a QR Code from an Image, Photo, or Screenshot](/supports/how-to-scan-qr-code-from-image-or-photo)
+* [The Evolution of Barcodes and QR Codes](/blog/2023/03/22/the-evolution-of-barcodes-and-qr-codes.html)
+* [How to Connect to WiFi by Scanning a QR Code](/blog/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code.html)
 
 <script type="application/ld+json">
 {

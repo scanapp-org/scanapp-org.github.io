@@ -64,9 +64,9 @@ Web-based scanners like ScanApp execute all calculations **locally on your devic
 
 ## Related Reading
 
-* [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
-* [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
-* [How to Scan a QR Code from an Image, Photo, or Screenshot](/supports/how-to-scan-qr-code-from-image-or-photo/)
+* [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+* [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11)
+* [How to Scan a QR Code from an Image, Photo, or Screenshot](/supports/how-to-scan-qr-code-from-image-or-photo)
 
 <script type="application/ld+json">
 {

@@ -108,7 +108,7 @@ You don't need to. Reading the password doesn't change it. The password stays va
 
 ## Related Reading
 
-- [How to Connect to WiFi by Scanning a QR Code](/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code/)
-- [NFC vs QR Codes: Which Should You Use?](/2026/06/08/nfc-vs-qr-codes-which-should-you-use/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
+- [How to Connect to WiFi by Scanning a QR Code](/blog/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code.html)
+- [NFC vs QR Codes: Which Should You Use?](/blog/2026/06/08/nfc-vs-qr-codes-which-should-you-use.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11)

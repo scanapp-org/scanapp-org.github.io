@@ -114,10 +114,10 @@ No. A laptop webcam or phone camera and [scanapp.org/barcode](/barcode/) handle 
 
 ## Related Reading
 
-- [How to Scan a Barcode to Check Price](/2026/06/29/how-to-scan-a-barcode-to-check-price/)
+- [How to Scan a Barcode to Check Price](/blog/2026/06/29/how-to-scan-a-barcode-to-check-price.html)
 - [ISBN Scanner & Book Lookup](/isbn/)
 - [Barcode Scanner Online](/barcode/)
-- [How to Scan a QR Code on a Laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac/)
+- [How to Scan a QR Code on a Laptop, PC, or Mac](/supports/how-to-scan-qr-code-on-laptop-pc-or-mac)
 
 <script type="application/ld+json">
 {

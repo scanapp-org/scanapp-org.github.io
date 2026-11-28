@@ -131,6 +131,6 @@ Yes. Use the dedicated [ISBN scanner at scanapp.org/isbn](/isbn/) — it links d
 ## Related Reading
 
 - [ISBN Scanner & Book Lookup](/isbn/)
-- [How to Scan an ISBN Barcode to Find Cheaper Textbooks](/2026/07/06/how-to-scan-an-isbn-barcode-to-find-cheaper-textbooks/)
+- [How to Scan an ISBN Barcode to Find Cheaper Textbooks](/blog/2026/07/06/how-to-scan-an-isbn-barcode-to-find-cheaper-textbooks.html)
 - [Barcode Scanner Online](/barcode/)
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)

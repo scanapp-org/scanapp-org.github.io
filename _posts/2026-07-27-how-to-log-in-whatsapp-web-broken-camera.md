@@ -57,9 +57,9 @@ You can use browser utilities like [ScanApp.org](https://scanapp.org). By loadin
 
 ## Related Reading
 
-* [WhatsApp QR Code Scanner Online](/whatsapp-qr-code-scanner.md)
-* [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-* [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
+* [WhatsApp QR Code Scanner Online](/whatsapp-qr-code-scanner/)
+* [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+* [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
 
 <script type="application/ld+json">
 {

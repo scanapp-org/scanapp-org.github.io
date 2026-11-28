@@ -120,7 +120,7 @@ The Play Store has plenty of QR scanner apps with millions of downloads. We do n
 - **Aggressive tracking:** Location, contacts, IMEI, and ad ID collection that has nothing to do with scanning.
 - **Data exfiltration:** Several apps in the category have been found uploading decoded scan content to ad networks.
 
-Read [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/) for the full breakdown.
+Read [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html) for the full breakdown.
 
 You do not need any of these apps. Android has had a native scanner for seven years. Browser scanners cover the gaps.
 
@@ -175,6 +175,6 @@ Yes. Open the image in Google Photos and tap the Lens icon, or upload the image 
 
 ## Related Reading
 
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Connect to WiFi by Scanning a QR Code](/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code/)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Connect to WiFi by Scanning a QR Code](/blog/2026/06/01/how-to-connect-to-wifi-by-scanning-a-qr-code.html)

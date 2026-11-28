@@ -121,9 +121,9 @@ Yes. Photomatica, Snappic, Photogram, and Simbooth all use similar QR-to-gallery
 
 ## Related Reading
 
-- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
-- [Extracting Plain Text and Contact Info from QR Codes](/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes/)
-- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
+- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo)
+- [Extracting Plain Text and Contact Info from QR Codes](/blog/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes.html)
+- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
 
 <script type="application/ld+json">
 {

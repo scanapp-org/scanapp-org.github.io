@@ -133,9 +133,9 @@ Yes. Offline scanning has zero network calls, so no data about what you scanned 
 
 ## Related Reading
 
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
 
 <script type="application/ld+json">
 {

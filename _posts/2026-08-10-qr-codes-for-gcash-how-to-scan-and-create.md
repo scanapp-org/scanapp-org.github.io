@@ -92,8 +92,8 @@ If the app crashes when you tap "Upload from Gallery," it is usually a cache iss
 ---
 
 ## Related Articles
-* [Why You Should Avoid Downloading Dedicated QR Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
-* [How to Scan QR Codes Completely Offline](/2026/05/24/how-to-scan-qr-codes-completely-offline.html)
+* [Why You Should Avoid Downloading Dedicated QR Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+* [How to Scan QR Codes Completely Offline](/blog/2026/05/24/how-to-scan-qr-codes-completely-offline.html)
 * [Barcode Scanner Online](/barcode/)
 
 <script type="application/ld+json">

@@ -111,10 +111,10 @@ No — verify with the teacher first. Real school links use recognizable distric
 
 ## Related Reading
 
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
-- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
+- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo)
 
 <script type="application/ld+json">
 {

@@ -126,9 +126,9 @@ Usually on the payment slip section at the bottom of paper invoices, or in the t
 
 ## Related Reading
 
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [Extracting Plain Text and Contact Info from QR Codes](/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes/)
-- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [Extracting Plain Text and Contact Info from QR Codes](/blog/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes.html)
+- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo)
 
 <script type="application/ld+json">
 {

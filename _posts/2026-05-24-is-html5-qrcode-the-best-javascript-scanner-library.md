@@ -174,8 +174,8 @@ Format breadth, iOS Safari handling, active maintenance, and open-source licensi
 
 ## Related Reading
 
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Scan QR Codes Completely Offline](/2026/05/24/how-to-scan-qr-codes-completely-offline/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Scan QR Codes Completely Offline](/blog/2026/05/24/how-to-scan-qr-codes-completely-offline.html)
 - [ScanApp Barcode Scanner](/barcode/)
 
 <script type="application/ld+json">

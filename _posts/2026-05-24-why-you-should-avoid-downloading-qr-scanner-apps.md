@@ -119,10 +119,10 @@ Yes. Many app-store scanners log decoded URLs and associate them with your adver
 
 ## Related Reading
 
-- [Best Free QR Code Scanners for Android in 2026](/2026/06/22/best-free-qr-code-scanners-for-android-2026/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
-- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
+- [Best Free QR Code Scanners for Android in 2026](/blog/2026/06/22/best-free-qr-code-scanners-for-android-2026.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
+- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11)
 
 <script type="application/ld+json">
 {

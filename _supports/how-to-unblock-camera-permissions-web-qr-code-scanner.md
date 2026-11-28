@@ -87,10 +87,10 @@ If camera permissions are granted but you still see a black screen:
 
 ## Related Guides
 
-* [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
-* [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone/)
-* [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-* [Can a Webcam Scan a QR Code?](/supports/can-a-webcam-scan-a-qr-code/)
+* [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11)
+* [How to Scan a QR Code on iPhone](/supports/how-do-I-scan-a-qr-code-on-my-iphone)
+* [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+* [Can a Webcam Scan a QR Code?](/supports/can-a-webcam-scan-a-qr-code)
 
 <script type="application/ld+json">
 {

@@ -127,9 +127,9 @@ Open the URL decoded from the QR (or search the style code on `nike.com`). The p
 
 ## Related Reading
 
-- [How to Scan a Barcode to Check Price](/2026/06/29/how-to-scan-a-barcode-to-check-price/)
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
+- [How to Scan a Barcode to Check Price](/blog/2026/06/29/how-to-scan-a-barcode-to-check-price.html)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo)
 
 <script type="application/ld+json">
 {

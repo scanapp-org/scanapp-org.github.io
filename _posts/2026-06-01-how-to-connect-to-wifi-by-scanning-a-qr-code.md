@@ -108,7 +108,7 @@ Make sure the QR code uses the correct `WIFI:` prefix format. If it's a plain te
 
 ## Related Reading
 
-- [How to Find Your WiFi Password Using a QR Code](/2026/06/15/how-to-find-your-wifi-password-using-a-qr-code/)
-- [NFC vs QR Codes: Which Should You Use?](/2026/06/08/nfc-vs-qr-codes-which-should-you-use/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11/)
+- [How to Find Your WiFi Password Using a QR Code](/blog/2026/06/15/how-to-find-your-wifi-password-using-a-qr-code.html)
+- [NFC vs QR Codes: Which Should You Use?](/blog/2026/06/08/nfc-vs-qr-codes-which-should-you-use.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code on Windows 11](/supports/how-to-scan-qr-code-windows-11)

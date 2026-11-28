@@ -31,7 +31,7 @@ QR codes are becoming increasingly popular and can be found almost anywhere from
 
 ## Option 3: Use the ScanApp Native iOS App (Coming Soon)
 
-ScanApp is launching a free, privacy-first native iOS app with full camera scanning, scan history, and smart result detection — no ads, no subscription traps. The app uses Apple's Vision framework for fast on-device decoding and supports widgets, Shortcuts, the Action Button, and Control Center. [Join the waitlist →](https://scanapp.org/beta/)
+A free native ScanApp iOS app is planned. Until it is available, you can [scan QR codes in your browser](https://scanapp.org/).
 
 ## Option 4: Use a QR code scanning website
 

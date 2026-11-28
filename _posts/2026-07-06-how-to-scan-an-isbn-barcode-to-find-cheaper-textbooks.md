@@ -131,5 +131,5 @@ Scan the ISBN at [scanapp.org/isbn](/isbn/) and compare offers on **BookScouter*
 ## Related Reading
 
 - [ISBN Scanner & Book Lookup](/isbn/)
-- [How to Scan a Barcode to Check Price](/2026/06/29/how-to-scan-a-barcode-to-check-price/)
+- [How to Scan a Barcode to Check Price](/blog/2026/06/29/how-to-scan-a-barcode-to-check-price.html)
 - [Barcode Scanner Online](/barcode/)

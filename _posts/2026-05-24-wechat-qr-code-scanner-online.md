@@ -105,10 +105,10 @@ Stock cameras read standard QR codes fine, but circular mini-program codes use a
 
 ## Related Reading
 
-- [Why You Should Avoid Downloading QR Code Scanner Apps](/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps/)
-- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android/)
-- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo/)
-- [Extracting Plain Text and Contact Info from QR Codes](/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes/)
+- [Why You Should Avoid Downloading QR Code Scanner Apps](/blog/2026/05/24/why-you-should-avoid-downloading-qr-scanner-apps.html)
+- [How to Scan a QR Code on Android](/supports/how-to-scan-qr-code-android)
+- [How to Scan a QR Code from an Image or Photo](/supports/how-to-scan-qr-code-from-image-or-photo)
+- [Extracting Plain Text and Contact Info from QR Codes](/blog/2026/05/24/extracting-plain-text-and-contact-info-from-qr-codes.html)
 
 <script type="application/ld+json">
 {
